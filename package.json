@@ -4,7 +4,8 @@
   "description": "Easy Deployment",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --progress --inline --hot"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,19 @@
   "homepage": "https://github.com/PeopleDoingThings/oneclickdeploy#readme",
   "dependencies": {
     "express": "^4.13.4",
-    "ovh": "^1.1.3"
+    "ovh": "^1.1.3",
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-react": "^6.1.18",
+    //hot refresh, delete before production
+    "babel-preset-react-hmre": "^1.1.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0",
+    "babel-preset-stage-1": "^6.1.18",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4"
   }
 }
