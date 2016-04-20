@@ -1,15 +1,15 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 
-var User = require('../models/user');
-var config = require('../_config');
+var User = require('../models/gituser.js');
+var gitKey = require('../_config');
 var init = require('./init');
 
 
 passport.use(new GitHubStrategy({
-  clientID: config.github.clientID,
-  clientSecret: config.github.clientSecret,
-  callbackURL: config.github.callbackURL
+  clientID: gitKey.clientID,
+  clientSecret: gitKey.clientSecret,
+  callbackURL: gitKey.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
 
