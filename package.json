@@ -1,0 +1,23 @@
+{
+  "name": "oneclickdeploy",
+  "version": "1.0.0",
+  "description": "Easy Deployment",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeopleDoingThings/oneclickdeploy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PeopleDoingThings/oneclickdeploy/issues"
+  },
+  "homepage": "https://github.com/PeopleDoingThings/oneclickdeploy#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "ovh": "^1.1.3"
+  }
+}
