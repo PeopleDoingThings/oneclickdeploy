@@ -24,8 +24,11 @@ request.get('/getloggedinuserrepos', function() {
 });
 
 request.get('/deploymentstatus', function() {
+	// Make decision here to show dashboard or reposlist based on if anything is deployed
 	// Returns a list of repos that are either deployed or pending deployment.
-	// Returns also a repo id if deployed
+	// Returns also a repo id if deployed else go to reposlist of their github acc and make api call.
+
+	// Sending back deployment log which is checked on frontend x seconds.
 });
 
 request.get('/deploymentdata', function() {
@@ -51,12 +54,16 @@ request.get('/nodeserverstatus', function() {
 
 request.get('/instancemonitors', function() {
 	// req.query.instanceid
-	// PINGS DATA / uptimemonitors/pings.js
+	// PINGS DATA / uptimemonitors / pings.js
 	// Regular ping every 5 mins
 	// curl get port 80 for server
 	// check ssh port responds.
 })
 
+request.get('/showbackupsavaliable', function() {
+	// MAYBE
+	// req.query.instanceid
+})
 
 
 
