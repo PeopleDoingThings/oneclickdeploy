@@ -32,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Requests for files & pages go to express static. Handle to rest seperately on new Routers.
-app.use('/login/', LoginRoutes);
+// app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', OVHRoutes);
-app.use('/api/openstack/', OpenStackRoutes);
-app.use('/api/github/', GitHubRoutes);
+// app.use('/api/openstack/', OpenStackRoutes);
+// app.use('/api/github/', GitHubRoutes);
