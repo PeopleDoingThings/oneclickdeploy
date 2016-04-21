@@ -1,4 +1,4 @@
-var OVH = require('../ovh.js');
+var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
 
 // This maps each service to a list of its information

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var OVH = require('../ovh.js');
-var Logic = require('../logic/logic.js');
+var Logic = require('../logic/ovh/logic.js');
 
 // These routes are relative to the mounted router. Therefore '/' here is actually '/api/ovh'. 
 
