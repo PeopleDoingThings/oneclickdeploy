@@ -10,9 +10,9 @@ import reducers from './reducers'
 
 import App from './components/app';
 import MainBoard from './components/mainBoard';
-import DashBoard from './components/dashBoard';
+import DashBoard from './containers/dashBoard';
 import Login from './components/login';
-import RepoList from './components/repoList';
+import RepoList from './containers/repoList';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
