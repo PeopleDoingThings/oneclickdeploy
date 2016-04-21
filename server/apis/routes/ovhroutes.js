@@ -13,7 +13,6 @@ router.get('/usagestatistics', function(req, res) {
 		res.send(resp);
 	})
 	.catch(function(err) {
-		console.log('ovhroutes 21 err = ', err);
 		res.send(err);
 	})
 })
@@ -29,7 +28,9 @@ router.get('/listservices', function(req, res) {
 	})
 })
 
-router.get('/vpsimageid/:version', function(req, res) {
+
+// Returns the flavor id & the image id
+router.get('/vpsimageflavor/:version', function(req, res) {
   Logic.imageData(req.params.version).then(function(data) {
     res.send(data);
   })

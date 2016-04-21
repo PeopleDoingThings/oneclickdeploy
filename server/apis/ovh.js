@@ -57,3 +57,17 @@ exports.getImageIDs = function() {
     })
   })
 }
+
+exports.getFlavorIDs = function() {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/flavor?region=BHS1', function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    })
+  })
+}
+

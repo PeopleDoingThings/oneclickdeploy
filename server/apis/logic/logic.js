@@ -1,4 +1,5 @@
 var OVH = require('../ovh.js');
+var Helper = require('./helpers.js');
 
 // This maps each service to a list of its information
 exports.instanceList = function() {
@@ -14,21 +15,27 @@ exports.instanceList = function() {
 }
 
 exports.imageData = function(version) {
-  return OVH.getImageIDs(version).then(function(data) {
-    var result = '';
+var obj = {
+  imageid: undefined,
+  flavorid: undefined
+}
 
-    data.forEach(function(val) {
-      if(val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase()) {
-        // result = val.id;
-        console.log('hi')
-      }
-    })
-
-    if(result.length > 0) {
-      return result;
-    }
-    else {
-      return Promise.reject( new Error('OS Name Not Found!') );
-    }
+  return OVH.getImageIDs(version)
+  .then(function(data) {
+    return Helper.checkListImage(data, version);
+  })
+  .then(function(data) {
+    obj.imageid = data;
+    return OVH.getFlavorIDs();
+  })
+  .then(function(data) {
+    obj.flavorid = Helper.checkFlavorData(data)[0];
+    return obj;
+  })
+  .catch(function(err) {
+    console.log('imgflavor err 38: ', err)
+    return err;
   })
 }
+
+
