@@ -86,7 +86,7 @@ exports.createNewInstance = function(obj) {
 
 exports.getSSHKey = function(serviceid) {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + serviceid + '/sshkey', function(err, resp) {
+    ovh.request('GET', '/cloud/project/' + serviceid + '/sshkey?region=BHS1', function(err, resp) {
       if(err) {
         reject(err);
         return;

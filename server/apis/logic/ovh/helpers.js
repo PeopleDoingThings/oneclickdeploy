@@ -16,13 +16,18 @@ exports.checkFlavorData = function(data) {
     .filter(val => val.name === "vps-ssd-1")[0].id;
 }
 
-exports.createInstanceObj = function(flavor, img, name) {
+exports.createInstanceObj = function(flavor, img, name, password) {
   var obj = {
     flavorId: flavor,
     'imageId': img,
     'monthlyBilling': false,
     'name': name,
-    'region': 'BHS1'
+    'region': 'BHS1',
+    'userData': {
+      password: password,
+      chpasswd: { expire: false },
+      ssh_pwauth: true
+    }
   }
 
   return Promise.resolve(obj);
