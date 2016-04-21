@@ -23,6 +23,7 @@ router.get('/usagestatistics', function(req, res) {
 	})
 })
 
+
 // Retrieve a list of all active instances & information for each in an Array.
 router.get('/listservices', function(req, res) {
 	Logic.instanceList().then(function(data) {
