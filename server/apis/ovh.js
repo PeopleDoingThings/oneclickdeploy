@@ -43,31 +43,3 @@ exports.getServiceInformation = function(serviceid) {
     });
   })
 }
-
-// Hard coding here as we are only interested in the minimum instance size.
-exports.getImageIDs = function() {
-  return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/image?flavorType=vps-ssd-1&osType=linux&region=BHS1', function(err, resp) {
-      if(err) {
-        reject(err);
-        return;
-      }
-
-      resolve(resp);
-    })
-  })
-}
-
-exports.getFlavorIDs = function() {
-  return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/flavor?region=BHS1', function(err, resp) {
-      if(err) {
-        reject(err);
-        return;
-      }
-
-      resolve(resp);
-    })
-  })
-}
-

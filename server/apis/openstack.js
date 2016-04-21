@@ -1,10 +1,38 @@
 var req = require('request');
-var Helpers = require('./logic/openstack/helpers.js');
+
+var computeEndpoint = 'https://compute.bhs1.cloud.ovh.net/v2/';
+var imageEndpoint = 'https://image.compute.bhs1.cloud.ovh.net/';
+var identityEndpoint = 'https://auth.cloud.ovh.net/v2.0';
+
+var tenant_id = process.env.OPENSTACK_TENANTID;
+var createOpts = function(url) {
+  var opt = {
+    url: url,
+    headers: {
+      'X-Auth-Token': process.env.OPENSTACK_X_AUTH
+    }
+  };
+
+  return opt;
+}
+
 
 exports.getNewToken = function() {
   return new Promise(function(resolve, reject) {
+    var opts = {
+      url: identityEndpoint + '/tokens',
+      json: {
+        auth: {
+          tenantName: process.env.OPENSTACK_TENANTNAME,
+          passwordCredentials: {
+            username: process.env.OPENSTACK_USERNAME,
+            password: process.env.OPENSTACK_PASSWORD
+          }
+        }
+      }
+    }
 
-    req.post(Helpers.tokenOpts, function(err, res) {
+    req.post(opts, function(err, res) {
       if(err) {
         reject(err);
         return;
@@ -21,7 +49,7 @@ exports.getNewToken = function() {
 
 exports.getFlavors = function() {
   return new Promise(function(resolve, reject) {
-    req.get(Helpers.createOpts(Helpers.computeEndpoint + Helpers.tenant_id + '/flavors'), function(err, res) {
+    req.get(createOpts(computeEndpoint + tenant_id + '/flavors'), function(err, res) {
       if(err) {
         reject(err);
         return;
