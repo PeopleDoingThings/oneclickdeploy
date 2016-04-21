@@ -25,7 +25,7 @@ var obj = {
     return Helper.checkListImage(data, version);
   })
   .then(function(data) {
-    obj.imageid = data;
+    obj.imageid = data[0];
     return OVH.getFlavorIDs();
   })
   .then(function(data) {

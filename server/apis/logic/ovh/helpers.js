@@ -1,11 +1,7 @@
 exports.checkListImage = function(data, version) {
-  var result = '';
-
-  data.forEach(function(val) {
-    if(val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase()) {
-      result = val.id;
-    }
-  })
+  var result = data
+    .filter(val => val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase())
+    .map(val => val.id);
 
   if(result.length > 0) {
     return Promise.resolve(result);
