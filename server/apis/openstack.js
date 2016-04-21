@@ -18,44 +18,44 @@ var createOpts = function(url) {
 
 
 exports.getNewToken = function() {
-	return new Promise(function(resolve, reject) {
-		var opts = {
-			url: identityEndpoint + '/tokens',
-			json: {
-				auth: {
-					tenantName: process.env.OPENSTACK_TENANTNAME,
-					passwordCredentials: {
-						username: process.env.OPENSTACK_USERNAME,
-						password: process.env.OPENSTACK_PASSWORD
-					}
-				}
-			}
-		}
+  return new Promise(function(resolve, reject) {
+    var opts = {
+      url: identityEndpoint + '/tokens',
+      json: {
+        auth: {
+          tenantName: process.env.OPENSTACK_TENANTNAME,
+          passwordCredentials: {
+            username: process.env.OPENSTACK_USERNAME,
+            password: process.env.OPENSTACK_PASSWORD
+          }
+        }
+      }
+    }
 
-		req.post(opts, function(err, res) {
-			if(err) {
-				reject(err);
-				return;
-			} 
-			else if(res.statusCode !== 200) {
-				reject(res.statusMessage);
-				return;
-			}
+    req.post(opts, function(err, res) {
+      if(err) {
+        reject(err);
+        return;
+      } 
+      else if(res.statusCode !== 200) {
+        reject(res.statusMessage);
+        return;
+      }
 
-			resolve(res);
-		})
-	})
+      resolve(res);
+    })
+  })
 }
 
 exports.getFlavors = function() {
-	return new Promise(function(resolve, reject) {
-		req.get(createOpts(computeEndpoint + tenant_id + '/flavors'), function(err, res) {
-			if(err) {
-				reject(err);
-				return;
-			}
+  return new Promise(function(resolve, reject) {
+    req.get(createOpts(computeEndpoint + tenant_id + '/flavors'), function(err, res) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
-			resolve(res);
-		})
-	})
+      resolve(res);
+    })
+  })
 }
