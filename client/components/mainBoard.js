@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Aside from './sideBar'
+import Aside from '../containers/sideBar'
 
 export default class MainBoard extends Component {
   render() {
