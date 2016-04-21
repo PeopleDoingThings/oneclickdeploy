@@ -7,6 +7,11 @@ module.exports = {
     publicPath: '/',
     filename: './client/bundle.js'
   },
+  //to redirect users back to index page for React to route pages and bypass the browser making http request for such page
+  // historyApiFallback: {
+  // index: '/'
+  // },
+
   module: {
     loaders: [{
       exclude: /node_modules/,
@@ -21,6 +26,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
   devServer: {
-    contentBase: './client'
+    contentBase: './client',
+    historyApiFallback: true
   }
 };
