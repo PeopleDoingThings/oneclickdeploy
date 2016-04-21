@@ -5,9 +5,9 @@ var ovh = require('ovh')({
   consumerKey: process.env.OVH_CONSUMERKEY
 });
 
-exports.getMemUsage = function(iid, projectid) {
+exports.getInstanceUsage = function(inst, proj, time, type) {
 	return new Promise(function(resolve, reject) {
-		ovh.request('GET', '/cloud/project/' + projectid + '/instance/' + iid + '/monitoring?period=lastday&type=mem:used', function (err, resp) {
+		ovh.request('GET', '/cloud/project/' + proj + '/instance/' + inst + '/monitoring?period=' + time + '&type=' + type, function (err, resp) {
   		if(err) {
   			reject(err);
   			return;
@@ -15,5 +15,31 @@ exports.getMemUsage = function(iid, projectid) {
 
   		resolve(resp);
 	  });
+  })
+}
+
+exports.listServices = function() {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project', function (err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    });
+  })
+}
+
+exports.getServiceInformation = function(serviceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + serviceid, function (err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    });
   })
 }
