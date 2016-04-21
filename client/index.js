@@ -6,12 +6,13 @@ import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import reducers from './reducers'
-
+//import {App, MainBoard, DashBoard, Login} from './components'
 
 import App from './components/app';
 import MainBoard from './components/mainBoard';
 import DashBoard from './components/dashBoard';
-// import reducers from './reducers';
+import Login from './components/login';
+import RepoList from './components/repoList';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -30,19 +31,13 @@ ReactDOM.render(
     <div>
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route path="dashboard" component={DashBoard} />
-        
+        <IndexRoute component={Login} />
+        <Route path="main-panel" component={MainBoard}>
+          <Route path="/repos" component={RepoList} />
+          <Route path="/dashboard" component={DashBoard} />
+        </Route>
       </Route>
     </Router>
     </div>
    </Provider>
   , document.getElementById('mount'));
-
-// <Route path="/" component={App}>
-//         <Route path="dashboard" component={MainBoard} />
-// </Route>
-
-// <Route path="/" component={App} />
-//       <Route component={MainBoard}>
-//         <Route path="dashboard" component={DashBoard} />
-//       </Route> 
