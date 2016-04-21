@@ -30,5 +30,7 @@ exports.createInstanceObj = function(flavor, img, name, password) {
     }
   }
 
+  console.log('creating instance obj!')
+
   return Promise.resolve(obj);
 }
