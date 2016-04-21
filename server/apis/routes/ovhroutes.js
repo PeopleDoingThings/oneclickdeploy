@@ -18,6 +18,7 @@ router.get('/usagestatistics', function(req, res) {
 		res.send(resp);
 	})
 	.catch(function(err) {
+		console.log('ovhroutes 21 err = ', err);
 		res.send(err);
 	})
 })
@@ -28,7 +29,7 @@ router.get('/listservices', function(req, res) {
 		res.send(data);
 	})
 	.catch(function(err) {
-		console.log('ovhroutes 31: err = ', err)
+		console.log('ovhroutes 31: err = ', err);
 		res.send(err);
 	})
 })
