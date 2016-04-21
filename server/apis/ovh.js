@@ -20,7 +20,20 @@ exports.getInstanceUsage = function(inst, proj, time, type) {
 
 exports.listServices = function() {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud', function (err, resp) {
+    ovh.request('GET', '/cloud/project', function (err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    });
+  })
+}
+
+exports.getServiceInformation = function(serviceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + serviceid, function (err, resp) {
       if(err) {
         reject(err);
         return;

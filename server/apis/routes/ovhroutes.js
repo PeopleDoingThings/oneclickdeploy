@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var OVH = require('../ovh.js');
+var Logic = require('../logic/logic.js');
 
 // These routes are relative to the mounted router. Therefore '/' here is actually '/api/ovh'. 
 
@@ -21,12 +22,13 @@ router.get('/usagestatistics', function(req, res) {
 	})
 })
 
+// Retrieve a list of all active instances & information for each in an Array.
 router.get('/listservices', function(req, res) {
-	// List avaliable instances/cloud projects
-	OVH.listServices().then(function(resp) {
-		res.send(resp);
+	Logic.instanceList().then(function(data) {
+		res.send(data);
 	})
 	.catch(function(err) {
+		console.log('ovhroutes 31: err = ', err)
 		res.send(err);
 	})
 })
