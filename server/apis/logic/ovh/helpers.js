@@ -27,5 +27,7 @@ exports.createInstanceObj = function(flavor, img, name, password) {
     'userData': '#cloud-config\npassword: ' + password + '\nchpasswd: { expire: False }\nssh_pwauth: True'
   }
 
+  console.log('creating instance obj!')
+
   return Promise.resolve(obj);
 }

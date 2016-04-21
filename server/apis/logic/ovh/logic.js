@@ -42,6 +42,7 @@ var obj = {
 // We get back an obj that has an 'id' as prop of the obj. We can use this to check for deployment & retrieve ssh keys.
 exports.createInstance = function(flav, img, name, pass) {
   return Helper.createInstanceObj(flav, img, name, pass).then(function(reqObj) {
+    console.log('instance req obj = ', reqObj)
     return OVH.createNewInstance(reqObj);
   })
 }
