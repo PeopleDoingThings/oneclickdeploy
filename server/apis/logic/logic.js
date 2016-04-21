@@ -9,5 +9,4 @@ exports.instanceList = function() {
       return OVH.getServiceInformation(val);
     }));
   })
-  
 }
