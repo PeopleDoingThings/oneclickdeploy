@@ -8,17 +8,15 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <h1>App</h1>
         <div>
           <header>
-            Links:
+            <h1>One Click Deploy</h1>
             {' '}
             <Link to="/">Home</Link>
             {' '}
-            <Link to="/dashboard">dashboard</Link>
+            <Link to="/main-panel">Main Panel</Link>
             {' '}
           </header>
-          
           <div style={{ marginTop: '1.5em' }}>{this.props.children}</div>
         </div>
       </div>
