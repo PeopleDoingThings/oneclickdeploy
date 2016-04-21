@@ -63,5 +63,24 @@ router.get('/getsshkey/:instanceid', function(req, res) {
     })
 })
 
+// Need to customize this to user. Send 'name' as querystring!
+router.get('/createinstance/:flavor/:image', function(req, res) {
+  Logic.createInstance(req.params.flavor, req.params.image, req.query.name).then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    res.send(err);
+  })
+})
+
+router.get('/getsshkey/:instanceid', function(req, res) {
+  OVH.getSSHKey(req.params.instanceid).then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    res.send(err);
+  })
+})
+
 
 module.exports = router;
