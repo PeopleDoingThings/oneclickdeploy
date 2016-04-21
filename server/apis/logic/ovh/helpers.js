@@ -15,3 +15,15 @@ exports.checkFlavorData = function(data) {
   return data
     .filter(val => val.name === "vps-ssd-1")[0].id;
 }
+
+exports.createInstanceObj = function(flavor, img, name) {
+  var obj = {
+    flavorId: flavor,
+    'imageId': img,
+    'monthlyBilling': false,
+    'name': name,
+    'region': 'BHS1'
+  }
+
+  return Promise.resolve(obj);
+}

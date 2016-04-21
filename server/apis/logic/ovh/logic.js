@@ -38,4 +38,11 @@ var obj = {
   })
 }
 
+// Helper is a syncronous function but we return a promise for consistency.
+// We get back an obj that has an 'id' as prop of the obj. We can use this to check for deployment & retrieve ssh keys.
+exports.createInstance = function(flav, img, name) {
+  return Helper.createInstanceObj(flav, img, name).then(function(reqObj) {
+    return OVH.createNewInstance(reqObj);
+  })
+}
 

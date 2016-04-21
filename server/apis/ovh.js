@@ -71,3 +71,36 @@ exports.getFlavorIDs = function() {
   })
 }
 
+exports.createNewInstance = function(obj) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance', obj, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    })
+  })
+}
+
+exports.getSSHKey = function(serviceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + serviceid + '/sshkey', function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    })
+  })
+}
+
+
+
+
+
+
+
+

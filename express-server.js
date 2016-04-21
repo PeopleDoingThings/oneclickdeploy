@@ -35,7 +35,7 @@ app.use(passport.session());
 
 app.use('/', express.static('./client'));
 
-app.use('/login/', LoginRoutes);
+//app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', OVHRoutes);
 app.use('/api/openstack/', OpenStackRoutes);
 // app.use('/api/github/', GitHubRoutes);
