@@ -1,7 +1,6 @@
 exports.checkListImage = function(data, version) {
   var result = data
-    .filter(val => val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase())
-    .map(val => val.id);
+    .filter(val => val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase())[0].id;
 
   if(result.length > 0) {
     return Promise.resolve(result);
@@ -11,8 +10,8 @@ exports.checkListImage = function(data, version) {
   }
 }
 
+// We can modify 'vps-ssd-1' here to look for different flavors or add a parameter.
 exports.checkFlavorData = function(data) {
   return data
-    .filter(val => val.name === "vps-ssd-1")
-    .map(val => val.id);
+    .filter(val => val.name === "vps-ssd-1")[0].id;
 }

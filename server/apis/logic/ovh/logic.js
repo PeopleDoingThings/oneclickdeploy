@@ -25,11 +25,11 @@ var obj = {
     return Helper.checkListImage(data, version);
   })
   .then(function(data) {
-    obj.imageid = data[0];
+    obj.imageid = data;
     return OVH.getFlavorIDs();
   })
   .then(function(data) {
-    obj.flavorid = Helper.checkFlavorData(data)[0];
+    obj.flavorid = Helper.checkFlavorData(data);
     return obj;
   })
   .catch(function(err) {
