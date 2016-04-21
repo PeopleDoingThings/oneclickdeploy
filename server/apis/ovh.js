@@ -14,6 +14,6 @@ exports.getMemUsage = function(iid, projectid) {
   		}
 
   		resolve(resp);
-		});
-	})
+	  });
+  })
 }
