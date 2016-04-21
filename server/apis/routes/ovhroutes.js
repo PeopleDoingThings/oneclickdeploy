@@ -5,11 +5,6 @@ var Logic = require('../logic/logic.js');
 
 // These routes are relative to the mounted router. Therefore '/' here is actually '/api/ovh'. 
 
-//example ids.
-var projectid = '614a903725ef470e8784b48758da23ad';
-var insid = '5dd13a9d-9d45-48d8-9a9a-04ab739d7623';
-
-
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
 router.get('/usagestatistics', function(req, res) {
@@ -30,9 +25,17 @@ router.get('/listservices', function(req, res) {
 		res.send(data);
 	})
 	.catch(function(err) {
-		console.log('ovhroutes 31: err = ', err);
 		res.send(err);
 	})
+})
+
+router.get('/vpsimageid/:version', function(req, res) {
+  Logic.imageData(req.params.version).then(function(data) {
+    res.send(data);
+  })
+  .catch(function(err) {
+    res.send(err.message);
+  })
 })
 
 
