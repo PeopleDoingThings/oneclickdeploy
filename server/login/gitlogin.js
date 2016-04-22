@@ -10,11 +10,6 @@ var passportGithub = require('./auth/githubstrategy.js');
 router.get('/github', passportGithub.authenticate('github', { scope: [ 'user:email' ] }));
 
 router.get('/github/callback',
-  passportGithub.authenticate('github', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication
-    res.json(req.user);
-  });
+  passportGithub.authenticate('github', { failureRedirect: '/login', successRedirect: '/dashboard' }));
 
-module.exports = router;
-*/
+module.exports = router;*/

@@ -47,3 +47,9 @@ exports.createInstance = function(flav, img, name, pass) {
   })
 }
 
+// Hard coded our custom snapshot id.
+exports.reinstallInstance = function(instanceid) {
+  var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };
+  return OVH.reinstallInstance(instanceid, imgObj);
+}
+

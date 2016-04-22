@@ -84,5 +84,35 @@ router.get('/getsshkey/:instanceid', function(req, res) {
     })
 })
 
+router.get('/reboot/:instanceid', function(req, res) {
+  OVH.rebootInstance(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/getsnapshots', function(req, res) {
+  OVH.getSnapshots()
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/reinstall/:instanceid', function(req, res) {
+  Logic.reinstallInstance(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
 
 module.exports = router;
