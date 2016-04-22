@@ -21,7 +21,7 @@ router.get('/isauthenticated', function(req, res) {
 router.get('/github', passportGithub.authenticate('github', { scope: [ 'user:email' ] }));
 
 router.get('/github/callback',
-  passportGithub.authenticate('github', { failureRedirect: '/login', successRedirect: '/dashboard' }));
+  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:8080/', successRedirect: 'http://localhost:8080/main-panel' }));
 
 
 

@@ -5,11 +5,9 @@ export default class MainBoard extends Component {
   render() {
     return (
       <div>
-        <div className="row fluid">
-          <div className='col-md-4'>
-            <Aside />
-          </div>
-          <div className='col-md-8'>{this.props.children}</div>
+        <div className="row">
+          <div className='col-md-3'><Aside /></div>
+          <div className='col-md-9'>{this.props.children}</div>
 
         </div>
       </div>

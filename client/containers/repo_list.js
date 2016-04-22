@@ -1,15 +1,26 @@
 import React, { Component } from 'react';
-import RepoList from '../components/repo_list_item'; 
+import RepoItem from '../components/repo_list_item'; 
 import { connect } from 'react-redux';
 
 
-class Repo extends Component {
+class RepoList extends Component {
+
+  renderList() {
+    return (this.props.repos.map((repo) => {
+      return (
+        <RepoItem key={repo.name}  repoItem={repo} />
+      )
+      })
+    );
+  } 
 
   render() {
     return (
-		 	<div className="list-group col-sm-4">
+		 	<div>
 		 		<h3>Repo list is working</h3>
-				<Repo />
+				<ul className="list-group">
+         {this.renderList()}
+        </ul>
 		 	</div> 
     );
   }
@@ -19,7 +30,7 @@ class Repo extends Component {
 function mapStateToProps(state) {
 	//whatever gets returned here will show up
 	//as props inside RepoList
-	console.log('state: ',state)
+	console.log('state: ', state.reducers.repos)
 	return {
 		repos: state.reducers.repos
 	};
@@ -27,3 +38,5 @@ function mapStateToProps(state) {
 
 //take this component/mapStateToProps and return a container
 export default connect(mapStateToProps)(RepoList);
+
+//<Repo repos={state.reducers.repos}/>
