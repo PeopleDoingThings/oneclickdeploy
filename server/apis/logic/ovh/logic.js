@@ -53,3 +53,15 @@ exports.reinstallInstance = function(instanceid) {
   return OVH.reinstallInstance(instanceid, imgObj);
 }
 
+exports.checkReady = function(instanceid) {
+  return OVH.getInstance(instanceid).then(function(data) {
+    return Helper.checkInstanceState(data);
+  })
+  .then(function(data) {
+    return data;
+  })
+  .catch(function(err) {
+    console.log('ovh logic 64 err: ', err)
+    return err;
+  })
+}

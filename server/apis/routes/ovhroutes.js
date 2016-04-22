@@ -114,5 +114,14 @@ router.get('/reinstall/:instanceid', function(req, res) {
     })
 })
 
+router.get('/checkinstanceready/:instanceid', function(req, res) {
+  Logic.checkReady(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
 
 module.exports = router;

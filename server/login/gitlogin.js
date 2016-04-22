@@ -23,4 +23,7 @@ router.get('/github', passportGithub.authenticate('github', { scope: [ 'user:ema
 router.get('/github/callback',
   passportGithub.authenticate('github', { failureRedirect: '/login', successRedirect: '/dashboard' }));
 
+
+
+
 module.exports = router;
