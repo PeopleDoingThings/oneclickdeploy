@@ -4,6 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+import reduxPromise from 'redux-promise'
 
 import reducers from './reducers/index'
 //import {App, MainBoard, DashBoard, Login} from './components'
@@ -12,7 +13,10 @@ import App from './components/app';
 import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
 import Login from './components/login';
-import RepoList from './containers/repo_list';
+
+import RepoList from './components/repoList';
+console.log('reducer:', reducers)
+
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
