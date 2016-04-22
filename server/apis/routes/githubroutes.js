@@ -5,34 +5,16 @@ var GITHUB = require('../github.js');
 // These routes are relative to the mounted router. Therefore '/' here is actaully '/api/github'. 
 
 router.get('/repos', function(req, res) {
+  var username = req.user || 'makersquare'
 
-  var testUser = "chppr"
-
-  GITHUB.getUserRepos(testUser)
+  GITHUB.getUserRepos(username)
   .then(function(resp) {
-
-    var data = JSON.parse(resp.body)
-
-    var filtered = data.map(function(repo) {
-      var condensed = {};
-
-        condensed.id = repo.id;
-        condensed.name = repo.name;
-        condensed.clone_url = repo.clone_url;
-        condensed.contents_url = repo.contents_url;
-        condensed.procfile_url = condensed.contents_url.replace("{+path}", "Procfile")
-
-      return condensed;
-    });
-
-    res.send(filtered);
+    res.send(resp);
   })
   .catch(function(err) {
-    console.log('Error finding github repos for user:', err);
     res.send(err);
   })
-
-
 })
 
+router.get('/validate')
 module.exports = router;
