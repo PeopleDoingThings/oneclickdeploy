@@ -63,5 +63,56 @@ router.get('/getsshkey/:instanceid', function(req, res) {
     })
 })
 
+// Need to customize this to user. Send 'name' & 'password' as querystring!
+router.get('/createinstance/:flavor/:image', function(req, res) {
+  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/getsshkey/:instanceid', function(req, res) {
+  OVH.getSSHKey(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/reboot/:instanceid', function(req, res) {
+  OVH.rebootInstance(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/getsnapshots', function(req, res) {
+  OVH.getSnapshots()
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/reinstall/:instanceid', function(req, res) {
+  Logic.reinstallInstance(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
 
 module.exports = router;

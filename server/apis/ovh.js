@@ -75,9 +75,13 @@ exports.createNewInstance = function(obj) {
   return new Promise(function(resolve, reject) {
     ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance', obj, function(err, resp) {
       if(err) {
+
+        console.log('ovh createNewInstance err = ', err)
         reject(err);
         return;
       }
+
+      console.log('ovh createNewInstance resp = ', resp);
 
       resolve(resp);
     })
@@ -97,10 +101,42 @@ exports.getSSHKey = function(serviceid) {
   })
 }
 
+exports.rebootInstance = function(instanceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance/' + instanceid + '/reboot', function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
+      resolve(resp);
+    })
+  })
+}
 
+exports.getSnapshots = function() {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/snapshot', function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
+      resolve(resp);
+    })
+  })
+}
 
+exports.reinstallInstance = function(instanceid, imgObj) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance/' + instanceid + '/reinstall', imgObj, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
-
+      resolve(resp);
+    })
+  })
+}
 
