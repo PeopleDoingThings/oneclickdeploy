@@ -1,25 +1,16 @@
 import React, { Component } from 'react';
-// import Repo from '../components/repo_list_item';  <Repo />
+import RepoList from '../components/repo_list_item'; 
 import { connect } from 'react-redux';
 
 
-class RepoList extends Component {
-  renderList(){
-  	console.log("this.props: ", this.props)
-  	
-  	return this.props.repos.map((repo) => {
-  		return (
-  			<li key={repo.name} className="list-group-item">{repo.name}</li>
-  			);
-  	});
-  }
+class Repo extends Component {
 
   render() {
     return (
-      <ul className="list-group col-sm-4">
-        <h3>Repo list is working</h3>
-		{this.renderList()}        
-      </ul>  
+		 	<div className="list-group col-sm-4">
+		 		<h3>Repo list is working</h3>
+				<Repo />
+		 	</div> 
     );
   }
 }
@@ -31,7 +22,6 @@ function mapStateToProps(state) {
 	console.log('state: ',state)
 	return {
 		repos: state.reducers.repos
-		//repos: 'xyz'
 	};
 }
 
