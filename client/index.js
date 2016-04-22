@@ -14,7 +14,7 @@ import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
 import Login from './components/login';
 
-import RepoList from './components/repoList';
+import RepoList from './containers/repo_list';
 console.log('reducer:', reducers)
 
 

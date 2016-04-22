@@ -9,13 +9,10 @@ export default class App extends Component {
     return (
       <div>
         <div>
-          <header>
-            <h1>One Click Deploy</h1>
-            {' '}
+          <header className="header">
+            <h1>App name</h1>
             <Link to="/">Home</Link>
-            {' '}
             <Link to="/main-panel">Main Panel</Link>
-            {' '}
           </header>
           <div style={{ marginTop: '1.5em' }}>{this.props.children}</div>
         </div>
