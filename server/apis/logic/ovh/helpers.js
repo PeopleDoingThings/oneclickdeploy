@@ -29,3 +29,29 @@ exports.createInstanceObj = function(flavor, img, name, password) {
 
   return Promise.resolve(obj);
 }
+
+// Hard coding our expecatation here. Would want pass as arg in future.
+exports.checkInstanceState = function(data) {
+  var state = {};
+  state.isReady = false;
+  state.created = data.created;
+  state.status = data.status;
+  state.flavorid = data.flavor.id;
+  state.imageid = data.image.id
+  state.imagename = data.image.name;
+  state.ip = {
+    ip: data.ipAddresses[0].ip,
+    type: data.ipAddresses[0].type
+  }
+
+  if( data.status === 'ACTIVE' && 
+      data.flavor.id === '550757b3-36c2-4027-b6fe-d70f45304b9c' && 
+      data.image.id === process.env.OVH_CUSTOMSNAPSHOT ) 
+  {
+    state.isReady = true;
+  }
+
+  console.log('state = ', state)
+
+  return state;
+}

@@ -140,3 +140,20 @@ exports.reinstallInstance = function(instanceid, imgObj) {
   })
 }
 
+exports.getInstance = function(instanceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}`, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(resp);
+    })
+  })
+}
+
+
+
+
+
