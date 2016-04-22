@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router'
 
 import Login from './login';
-import RepoList from '../containers/repoList';
+import RepoList from '../containers/repo_list';
 
 export default class App extends Component {
   render() {
