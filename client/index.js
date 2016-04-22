@@ -5,22 +5,23 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
-import reducers from './reducers'
+import reducers from './reducers/index'
 //import {App, MainBoard, DashBoard, Login} from './components'
 
 import App from './components/app';
-import MainBoard from './components/mainBoard';
+import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
 import Login from './components/login';
-import RepoList from './containers/repoList';
+import RepoList from './containers/repo_list';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
   combineReducers({
-    ...reducers,
+    reducers,
     routing: routerReducer
   })
 )
+console.log('store:',store.getState())
 
 // Create an enhanced history that syncs navigation events with the store
 const history = syncHistoryWithStore(browserHistory, store)
