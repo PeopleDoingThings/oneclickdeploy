@@ -1,4 +1,5 @@
 var Promise = require('bluebird');
+var Helper = require('./logic/github/helpers.js');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 
@@ -14,18 +15,7 @@ exports.getUserRepos = function(user) {
     .then(function(resp){
       var condensed = JSON.parse(resp.body)
         .map(function(repo) {
-          var abbreviated = {};
-            abbreviated.id = repo.id;
-            abbreviated.name = repo.name;
-            abbreviated.clone_url = repo.clone_url;
-            abbreviated.procfile_url = 
-              "https://raw.githubusercontent.com/{user}/{name}/master/Procfile"
-                .replace("{user}", user)
-                .replace("{name}", abbreviated.name)
-
-            //console.log("Validating procfile: ", Promise.resolve(exports.validateProcfile(abbreviated.procfile_url)));
-
-          return abbreviated;
+          return Helper.processRepo(repo, user);
         });
 
       // console.log("--------------------------------------------------------");
