@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+/*
 
 var passportGithub = require('./auth/githubstrategy.js');
 
@@ -16,3 +17,4 @@ router.get('/github/callback',
   });
 
 module.exports = router;
+*/
