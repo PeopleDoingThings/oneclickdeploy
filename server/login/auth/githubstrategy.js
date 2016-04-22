@@ -5,7 +5,7 @@ var User = require('../models/gituser.js');
 var init = require('./init');
 var User = require('../../database/users.js');
 
-/*
+
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_CLIENTID,
   clientSecret: process.env.GITHUB_CLIENTSECRET,
@@ -42,4 +42,3 @@ init();
 
 module.exports = passport;
 
-*/
