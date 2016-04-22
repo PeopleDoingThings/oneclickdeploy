@@ -73,7 +73,7 @@ exports.getFlavorIDs = function() {
 
 exports.createNewInstance = function(obj) {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance', obj, function(err, resp) {
+    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance', obj, function(err, resp) {
       if(err) {
         reject(err);
         return;

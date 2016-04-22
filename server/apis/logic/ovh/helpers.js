@@ -16,6 +16,7 @@ exports.checkFlavorData = function(data) {
     .filter(val => val.name === "vps-ssd-1")[0].id;
 }
 
+// Need this string in userdata as its a cloudinit config allow us to set an ssh password.
 exports.createInstanceObj = function(flavor, img, name, password) {
   var obj = {
     flavorId: flavor,
@@ -23,11 +24,7 @@ exports.createInstanceObj = function(flavor, img, name, password) {
     'monthlyBilling': false,
     'name': name,
     'region': 'BHS1',
-    'userData': {
-      password: password,
-      chpasswd: { expire: false },
-      ssh_pwauth: true
-    }
+    'userData': '#cloud-config\npassword: ' + password + '\nchpasswd: { expire: False }\nssh_pwauth: True'
   }
 
   console.log('creating instance obj!')
