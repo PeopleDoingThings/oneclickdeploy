@@ -11,10 +11,14 @@ export default class App extends Component {
     return (
       <div>
         <div>
-          <Header />
-          <div className="main-panel">
-            <div>{this.props.children}</div>
-          </div>
+
+          <header className="header">
+            <h1>App name</h1>
+            <Link to="/">Home</Link>
+            <Link to="/main-panel">Main Panel</Link>
+          </header>
+          <div style={{ marginTop: '1.5em' }}>{this.props.children}</div>
+
         </div>
       </div>
     );
@@ -24,3 +28,7 @@ export default class App extends Component {
 // <div>
 //   <button onClick={() => browserHistory.push('/foo')}>Go to /foo</button>
 // </div>
+ // <Header />
+ //          <div className="main-panel">
+ //            <div>{this.props.children}</div>
+ //          </div>
