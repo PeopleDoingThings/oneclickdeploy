@@ -9,6 +9,8 @@ var passportGithub = require('./auth/githubstrategy.js');
 
 //req.isAuthenticated() will return true or false. Then returns the user obj if they are authed.
 router.get('/isauthenticated', function(req, res) {
+  console.log('req.user === ', req.user)
+
   if (req.isAuthenticated()) {
     res.send(req.user);
   } 
@@ -18,10 +20,10 @@ router.get('/isauthenticated', function(req, res) {
 
 });
 
-router.get('/github', passportGithub.authenticate('github', { scope: [ 'user:email' ] }));
+router.get('/github', passportGithub.authenticate('github'));
 
 router.get('/github/callback',
-  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:8080/', successRedirect: 'http://localhost:8080/main-panel' }));
+  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:9001/failed', successRedirect: 'http://localhost:9001/login/isauthenticated' }));
 
 
 

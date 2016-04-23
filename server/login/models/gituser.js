@@ -5,7 +5,16 @@ var Schema = mongoose.Schema;
 // create User Schema
 var User = new Schema({
   name: String,
-  id: String
+  login: String,
+  gitid: String,
+  profile_url: String,
+  avatar_url: String,
+  repos_url: String,
+  public_repos: String,
+  followers: String,
+  following: String,
+  created_at: String,
+  updated_at: String
 });
 
 

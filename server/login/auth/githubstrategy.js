@@ -13,32 +13,29 @@ passport.use(new GitHubStrategy({
   },
   function(accessToken, refreshToken, profile, done) {
 
-    var searchQuery = {
-      name: profile.displayName
-    };
+    // We update our user if found in regard to followers & profile picture as these can change often.
+    User.findByGitId(profile.id)
+      .then(function(data) {
+        return User.updateEntry(data);
+      })
+      .then(function(data) {
+        return done(null, data);
+      })
+      .catch(function(err) {
+        User.saveUser(profile._json)
+          .then(function(data) {
+            return done(null, data);
+          })
+          .catch(function(err) {
+            return done(err);
+          })
+      })
 
-    var updates = {
-      name: profile.displayName,
-      someID: profile.id
-    };
 
-    var options = {
-      upsert: true
-    };
-
-    // update the user if s/he exists or add a new user
-    User.findOneAndUpdate(searchQuery, updates, options, function(err, user) {
-      if(err) {
-        return done(err);
-      } else {
-        return done(null, user);
-      }
-    });
   }));
 
-// serialize user into the session
-init();
 
+init();
 
 module.exports = passport;
 
