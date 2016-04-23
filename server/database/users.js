@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var User = require('../login/models/gituser.js');
+var User = require('./models/gituser.js');
 // Set mongoose to use bluebirds promises.
 mongoose.Promise = require('bluebird'); 
 

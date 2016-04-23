@@ -1,7 +1,7 @@
 var passport = require('passport');
 var GitHubStrategy = require('passport-github2').Strategy;
 
-var User = require('../models/gituser.js');
+var User = require('../../database/models/gituser.js');
 var init = require('./init');
 var User = require('../../database/users.js');
 
