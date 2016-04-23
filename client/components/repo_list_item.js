@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 
-export default class Repo extends Component {
+export default class RepoItem extends Component {
 
   handleClick(event) {
     console.log('clicking works!', event);
   }
-  renderList(){
-  	console.log("this.props: ", this.props)
-  	
-  	return this.props.repos.map((repo) => {
+
+  render(){ 
   		return (
-  				<li key={repo.name} className="list-group-item">{repo.name}
-  				<div><button onClick={ this.handleClick }>deploy</button></div>
+  				<li className="list-group-item">{this.props.repoItem.name}
+  				<div><button className="btn btn-primary" onClick={ this.handleClick }>deploy</button></div>
   				</li>
+   
   			);
-  	});
+
   }
 
-  render() {
-    return (
-      <ul className="list-group col-sm-4">
-        <h3>Repo list is working</h3>
-		{this.renderList()}        
-      </ul>  
-    );
-  }
+  
 }

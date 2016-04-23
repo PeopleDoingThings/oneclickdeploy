@@ -10,7 +10,6 @@ var LoginRoutes = require('./server/login/gitlogin.js');
 var OVHRoutes = require('./server/apis/routes/ovhroutes.js');
 var OpenStackRoutes = require('./server/apis/routes/openstackroutes.js');
 var GitHubRoutes = require('./server/apis/routes/githubroutes.js');
-var SSH2Routes = require('./server/apis/routes/ssh2routes.js')
 
 // MongoDB
 mongoose.connect('mongodb://localhost/oneclickdb');
@@ -38,6 +37,5 @@ app.use('/', express.static('./client'));
 
 app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', OVHRoutes);
-app.use('/api/ssh2/', SSH2Routes);
 app.use('/api/openstack/', OpenStackRoutes);
 app.use('/api/github/', GitHubRoutes);

@@ -4,13 +4,16 @@ import { Link, browserHistory } from 'react-router';
 export default class Aside extends Component {
   render() {
     return (
-      <div>
-        <h1>Aside Content</h1>
-         {' '}
-          <Link to='/repos'>Repos List</Link>
-          {' '}
-          <Link to='/dashboard'>dashboard</Link>
-      </div>
+      <aside>
+        <section className="pull-left">
+          <nav>
+            <ul className="nav nav-pills">
+              <li className="icon-bar"><Link to='/repos'>Repos List</Link></li>
+              <li classNave="icon-bar"><Link to='/dashboard'>dashboard</Link></li>
+            </ul>
+          </nav>
+          </section>
+      </aside>
 
     );
   }
