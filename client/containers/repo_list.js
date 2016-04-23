@@ -9,10 +9,12 @@ import { fetchRepos } from '../actions/index';
 class RepoList extends Component {
   constructor(props) {
     super(props);
+    this.props.fetchRepos()
+    console.log('props in repoList: ', this.props)
   }
 
+
   renderList() {
-    fetchRepos()
     return (this.props.repos.map((repo) => {
       return (
         <RepoItem key={repo.name}  repoItem={repo} />
@@ -22,6 +24,7 @@ class RepoList extends Component {
   } 
 
   render() {
+    
     return (
 		 	<div>
 		 		<h3>Repo list is working</h3>
@@ -47,6 +50,4 @@ function mapStateToProps(state) {
 }
 
 //take this component/mapStateToProps and return a container
-export default connect(mapStateToProps)(RepoList);
-
-//<Repo repos={state.reducers.repos}/>
+export default connect(mapStateToProps, mapDispatchToProps)(RepoList);

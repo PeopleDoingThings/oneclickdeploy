@@ -1,17 +1,16 @@
 //return repos
-
+//state is state this reducer is responsible for
 import { FETCH_REPOS } from '../actions/index';
 
 export default function(state = [], action) {
-    
+    console.log('action in index', action)
   switch (action.type) {
-    case FETCH_REPOS:
-      return [ action.payload.data, ...state ];
+    case FETCH_REPOS: 
+        return action.payload.data === undefined ? state : action.payload.data;
+    default: return state;
   }
-
-  return state;
+ 
 }
-
     // return [{
     //     "id": 53447724,
     //     "name": "backbone-starter",
