@@ -7,7 +7,7 @@ var ovh = require('ovh')({
 
 exports.getInstanceUsage = function(inst, proj, time, type) {
 	return new Promise(function(resolve, reject) {
-		ovh.request('GET', '/cloud/project/' + proj + '/instance/' + inst + '/monitoring?period=' + time + '&type=' + type, function (err, resp) {
+		ovh.request('GET', `/cloud/project/${proj}/instance/${inst}/monitoring?period=${time}&type=${type}`, function (err, resp) {
   		if(err) {
   			reject(err);
   			return;
@@ -129,7 +129,7 @@ exports.getSnapshots = function() {
 
 exports.reinstallInstance = function(instanceid, imgObj) {
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance/' + instanceid + '/reinstall', imgObj, function(err, resp) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reinstall`, imgObj, function(err, resp) {
       if(err) {
         reject(err);
         return;

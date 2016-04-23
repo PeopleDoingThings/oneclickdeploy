@@ -7,9 +7,9 @@ var Logic = require('../logic/ovh/logic.js');
 
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
-router.get('/usagestatistics', function(req, res) {
+router.get('/usagestatistics/:instanceid/:projectid', function(req, res) {
 	// Likely want to add req.query insid & proj id etc.
-	OVH.getInstanceUsage(insid, projectid, req.query.time, req.query.type)
+	OVH.getInstanceUsage(req.params.instanceid, req.params.projectid, req.query.time, req.query.type)
     .then(function(resp) {
   		res.send(resp);
   	})
@@ -116,6 +116,16 @@ router.get('/reinstall/:instanceid', function(req, res) {
 
 router.get('/checkinstanceready/:instanceid', function(req, res) {
   Logic.checkReady(req.params.instanceid)
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err);
+    })
+})
+
+router.get('/getconsoleoutput/:instanceid', function(req, res) {
+  Logic.getConsoleOutput(req.params.instanceid)
     .then(function(data) {
       res.send(data);
     })

@@ -24,7 +24,7 @@ exports.createInstanceObj = function(flavor, img, name, password) {
     'monthlyBilling': false,
     'name': name,
     'region': 'BHS1',
-    'userData': '#cloud-config\npassword: ' + password + '\nchpasswd: { expire: False }\nssh_pwauth: True'
+    'userData': `#cloud-config\npassword: ${password}\nchpasswd: { expire: False }\nssh_pwauth: True`
   }
 
   return Promise.resolve(obj);

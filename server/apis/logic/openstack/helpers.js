@@ -27,3 +27,20 @@ exports.tokenOpts = {
     }
   }
 }
+
+//ADD BACK process.evn
+exports.createConsoleOpts = function(serverid) {
+  var opt = {
+    url: `${exports.computeEndpoint}${exports.tenant_id}/servers/${serverid}/action`,
+    json: {
+      'os-getConsoleOutput': {
+        'length': 50 
+      }
+    },
+    headers: {
+      'X-Auth-Token': '69b7e4deee234dfc94734123916aab6d'
+    }
+  };
+
+  return opt;
+}
