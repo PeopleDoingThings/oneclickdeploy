@@ -5,7 +5,7 @@ Promise.promisifyAll(request);
 
 exports.getUserRepos = function(user) {
   var repo_options = {
-    url: 'https://api.github.com/users/' + user + '/repos?sort=updated',
+    url: `https://api.github.com/users/${user}/repos?sort=updated`,
     headers: {
       'User-Agent': 'peopleDoingThings/oneclickdeploy'
     }

@@ -16,7 +16,7 @@ exports.createOpts = function(url) {
 }
 
 exports.tokenOpts = {
-  url: exports.identityEndpoint + '/tokens',
+  url: `${exports.identityEndpoint}/tokens`,
   json: {
     auth: {
       tenantName: process.env.OPENSTACK_TENANTNAME,

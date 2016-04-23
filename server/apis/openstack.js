@@ -21,7 +21,7 @@ exports.getNewToken = function() {
 
 exports.getFlavors = function() {
   return new Promise(function(resolve, reject) {
-    req.get(Helpers.createOpts(Helpers.computeEndpoint + Helpers.tenant_id + '/flavors'), function(err, res) {
+    req.get(Helpers.createOpts(`${Helpers.computeEndpoint}${Helpers.tenant_id}/flavors`), function(err, res) {
       if(err) {
         reject(err);
         return;
