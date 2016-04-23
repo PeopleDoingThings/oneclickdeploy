@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import RepoItem from '../components/repo_list_item'; 
+import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
+
+import RepoItem from '../components/repo_list_item'; 
+import { fetchRepos } from '../actions/index';
 
 
 class RepoList extends Component {
+  constructor(props) {
+    super(props);
+  }
 
   renderList() {
+    fetchRepos()
     return (this.props.repos.map((repo) => {
       return (
         <RepoItem key={repo.name}  repoItem={repo} />
@@ -26,11 +33,14 @@ class RepoList extends Component {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchRepos }, dispatch);
+}
 
 function mapStateToProps(state) {
 	//whatever gets returned here will show up
 	//as props inside RepoList
-	console.log('state: ', state.reducers.repos)
+	console.log('state: ', state)
 	return {
 		repos: state.reducers.repos
 	};

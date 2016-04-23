@@ -3,9 +3,9 @@ module.exports = {
     './client/index.js'
   ],
   output: {
-    path: __dirname,
+    path: __dirname + '/dist',
     publicPath: '/',
-    filename: './client/bundle.js'
+    filename: './bundle.js'
   },
   //to redirect users back to index page for React to route pages and bypass the browser making http request for such page
   // historyApiFallback: {
@@ -18,15 +18,23 @@ module.exports = {
       loader: 'babel',
       include: __dirname,
       query: {
-        presets: [ 'es2015', 'react', 'react-hmre' ]
+        presets: [ 'es2015', 'react']
       }
     }]
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
+
   },
-  devServer: {
-    contentBase: './client',
-    historyApiFallback: true
+
+   devServer: {
+    host: 'localhost',
+    port: 8080,
+    contentBase:'./client/',
+    historyApiFallback: true,
+    proxy: [{
+      path: '/api/*',
+      target: 'http://localhost:9001'
+    }]
   }
 };

@@ -33,7 +33,7 @@ app.use(passport.session());
 
 // Requests for files & pages go to express static. Handle to rest seperately on new Routers.
 
-app.use('/', express.static('./client'));
+app.use('/', express.static('./dist'));
 
 app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', OVHRoutes);
