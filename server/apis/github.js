@@ -19,12 +19,12 @@ exports.getUserRepos = function(user) {
           return Helper.processRepo(repo, user);
         });
 
-      // console.log("--------------------------------------------------------");
-      // console.log("--------------------------------------------------------");
-      // console.log("Condensed list of repos: ")
-      // console.log("--------------------------------------------------------");
-      // console.log("--------------------------------------------------------");
-      // console.log(condensed)
+      console.log("--------------------------------------------------------");
+      console.log("--------------------------------------------------------");
+      console.log("Condensed list of repos: ")
+      console.log("--------------------------------------------------------");
+      console.log("--------------------------------------------------------");
+      console.log(condensed)
       return condensed;
     })
     .then(function(repo_list){
@@ -52,11 +52,11 @@ function validateProcfile(procfile_url) {
   return request(procfile_options)
     .then(function(resp){
       var validity = resp.body.match(/web: node/) !== null;
-      // console.log("--------------------------------------------------------");
-      // console.log("Procfile: ", procfile_url);
-      // console.log("Contents: ", resp.body);
-      // console.log("Is this valid? - ", validity);
-      // console.log("--------------------------------------------------------");
+      console.log("--------------------------------------------------------");
+      console.log("Procfile: ", procfile_url);
+      console.log("Contents: ", resp.body);
+      console.log("Is this valid? - ", validity);
+      console.log("--------------------------------------------------------");
       return validity;
     })
     .catch(function(err) {
