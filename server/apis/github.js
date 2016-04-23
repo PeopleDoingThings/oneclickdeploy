@@ -5,17 +5,15 @@ Promise.promisifyAll(request);
 
 exports.getUserRepos = function(user) {
   var repo_options = {
-    url: `https://api.github.com/users/${user}/repos?sort=updated`,
+    url: `https://api.github.com/users/${user}/repos?sort=updated&client_id=${process.env.GITHUB_QUERY_CLIENTID}&client_secret=${process.env.GITHUB_QUERY_CLIENTSECRET}`,
     headers: {
-      'User-Agent': 'peopleDoingThings/oneclickdeploy',
-      // 'Access-Control-Allow-Origin': '*', 
-      // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-      // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type'
+      'User-Agent': 'peopleDoingThings/oneclickdeploy'
     }
   };
 
   return request(repo_options)
     .then(function(resp){
+      console.log('Github Limit Remaining: ', resp.headers['x-ratelimit-remaining']);
       var condensed = JSON.parse(resp.body)
         .map(function(repo) {
           return Helper.processRepo(repo, user);
