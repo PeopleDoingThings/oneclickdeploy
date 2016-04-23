@@ -24,7 +24,7 @@ app.use(session({
 }));
 
 app.listen(process.env.PORT, function() {
-	console.log('Server Started on Port: ' + process.env.PORT + '!');
+	console.log(`Server Started on Port: ${process.env.PORT}!`);
 });
 
 //Run everything through passport before hitting our routes.

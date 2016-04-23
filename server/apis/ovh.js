@@ -33,7 +33,7 @@ exports.listServices = function() {
 
 exports.getServiceInformation = function(serviceid) {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + serviceid, function (err, resp) {
+    ovh.request('GET', `/cloud/project/${serviceid}`, function (err, resp) {
       if(err) {
         reject(err);
         return;
@@ -47,7 +47,7 @@ exports.getServiceInformation = function(serviceid) {
 // Hard coding here as we are only interested in the minimum instance size.
 exports.getImageIDs = function() {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/image?flavorType=vps-ssd-1&osType=linux&region=BHS1', function(err, resp) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/image?flavorType=vps-ssd-1&osType=linux&region=BHS1`, function(err, resp) {
       if(err) {
         reject(err);
         return;
@@ -60,7 +60,7 @@ exports.getImageIDs = function() {
 
 exports.getFlavorIDs = function() {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/flavor?region=BHS1', function(err, resp) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/flavor?region=BHS1`, function(err, resp) {
       if(err) {
         reject(err);
         return;
@@ -73,7 +73,7 @@ exports.getFlavorIDs = function() {
 
 exports.createNewInstance = function(obj) {
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance', obj, function(err, resp) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance`, obj, function(err, resp) {
       if(err) {
 
         console.log('ovh createNewInstance err = ', err)
@@ -90,7 +90,7 @@ exports.createNewInstance = function(obj) {
 
 exports.getSSHKey = function(serviceid) {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + serviceid + '/sshkey?region=BHS1', function(err, resp) {
+    ovh.request('GET', `/cloud/project/${serviceid}/sshkey?region=BHS1`, function(err, resp) {
       if(err) {
         reject(err);
         return;
@@ -103,7 +103,7 @@ exports.getSSHKey = function(serviceid) {
 
 exports.rebootInstance = function(instanceid) {
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', '/cloud/project/' + process.env.OVH_SERVICEID + '/instance/' + instanceid + '/reboot', function(err, resp) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, function(err, resp) {
       if(err) {
         reject(err);
         return;
@@ -116,7 +116,7 @@ exports.rebootInstance = function(instanceid) {
 
 exports.getSnapshots = function() {
   return new Promise(function(resolve, reject) {
-    ovh.request('GET', '/cloud/project/' + process.env.OVH_SERVICEID + '/snapshot', function(err, resp) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot`, function(err, resp) {
       if(err) {
         reject(err);
         return;
