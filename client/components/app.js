@@ -24,3 +24,7 @@ export default class App extends Component {
 // <div>
 //   <button onClick={() => browserHistory.push('/foo')}>Go to /foo</button>
 // </div>
+ // <Header />
+ //          <div className="main-panel">
+ //            <div>{this.props.children}</div>
+ //          </div>

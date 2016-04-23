@@ -7,19 +7,24 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import reduxPromise from 'redux-promise'
 
 import reducers from './reducers/index'
-//import {App, MainBoard, DashBoard, Login} from './components'
-
 import App from './components/app';
 import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
 import Login from './components/login';
 
 import RepoList from './containers/repo_list';
-console.log('reducer:', reducers)
 
+const createStoreWithMiddleware = applyMiddleware()(createStore);
+
+// ReactDOM.render(
+//   <provider store={createStoreWithMiddleware(reducers)}>
+//     <App />
+//   </provider>
+//   , document.querySelect('.container')
+// );
 
 // Add the reducer to your store on the `routing` key
-const store = createStore(
+const store = createStoreWithMiddleware(
   combineReducers({
     reducers,
     routing: routerReducer

@@ -7,7 +7,10 @@ exports.getUserRepos = function(user) {
   var repo_options = {
     url: `https://api.github.com/users/${user}/repos?sort=updated`,
     headers: {
-      'User-Agent': 'peopleDoingThings/oneclickdeploy'
+      'User-Agent': 'peopleDoingThings/oneclickdeploy',
+      // 'Access-Control-Allow-Origin': '*', 
+      // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+      // 'Access-Control-Allow-Headers': 'X-Requested-With,content-type'
     }
   };
 
