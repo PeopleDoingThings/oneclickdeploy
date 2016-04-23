@@ -4,7 +4,6 @@ var User = require('./models/gituser.js');
 mongoose.Promise = require('bluebird'); 
 
 exports.saveUser = function(obj) {
-  console.log('obj id = ', obj.id, typeof obj.id)
   var userObj = new User({
     name: obj.name,
     login: obj.login,
