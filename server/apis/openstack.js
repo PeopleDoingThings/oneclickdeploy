@@ -31,3 +31,20 @@ exports.getFlavors = function() {
     })
   })
 }
+
+exports.getConsoleOutput = function(serverid) {
+  return new Promise(function(resolve, reject) {
+    req.post(Helpers.createConsoleOpts(serverid), function(err, res) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(res.body);
+    })
+  })
+};
+
+
+
+
