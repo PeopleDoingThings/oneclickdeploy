@@ -1,17 +1,21 @@
 var passport = require('passport');
-var User = require('../models/gituser');
+var User = require('../../database/users.js');
 
 
 module.exports = function() {
 
   passport.serializeUser(function(user, done) {
-    done(null, user.id);
+    done(null, user.gitid);
   });
 
-  passport.deserializeUser(function(id, done) {
-    User.findById(id, function (err, user) {
-      done(err, user);
-    });
+  passport.deserializeUser(function(gitid, done) {
+    User.findByGitId(gitid)
+      .then(function(user) {
+        done(null, user);
+      })
+      .catch(function(err) {
+        done(err);
+      })
   });
 
 };
