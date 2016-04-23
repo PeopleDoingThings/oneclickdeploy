@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
-import reduxPromise from 'redux-promise'
+import ReduxPromise from 'redux-promise'
 
 import reducers from './reducers/index'
 import App from './components/app';
@@ -14,22 +14,9 @@ import Login from './components/login';
 
 import RepoList from './containers/repo_list';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+let reducer = combineReducers({reducers,routing: routerReducer}) 
+const store = createStore(reducer, applyMiddleware(ReduxPromise))
 
-// ReactDOM.render(
-//   <provider store={createStoreWithMiddleware(reducers)}>
-//     <App />
-//   </provider>
-//   , document.querySelect('.container')
-// );
-
-// Add the reducer to your store on the `routing` key
-const store = createStoreWithMiddleware(
-  combineReducers({
-    reducers,
-    routing: routerReducer
-  })
-)
 console.log('store:',store.getState())
 
 // Create an enhanced history that syncs navigation events with the store
