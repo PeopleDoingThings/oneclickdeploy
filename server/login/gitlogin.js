@@ -24,12 +24,10 @@ router.get('/github', passportGithub.authenticate('github'));
 
 router.get('/github/callback',
 
-  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:9001/failed', successRedirect: 'http://localhost:9001/main-panel' }));
+  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:9001/failed', successRedirect: '/#/main-panel' }));
 
 
 
 
 
 module.exports = router;
-
-//'http://localhost:9001/login/isauthenticated'
