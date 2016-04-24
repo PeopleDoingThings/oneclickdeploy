@@ -6,7 +6,7 @@ var Github = require('../github.js');
 
 router.get('/repos', function(req, res) {
   console.log('Logged In GitHub User: ', req.user && req.user.login)
-  var username = req.user && req.user.login || 'chppr';
+  var username = req.user && req.user.login || 'febtek';
 
   Github.getUserRepos(username)
     .then(function(resp) {
