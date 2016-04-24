@@ -19,7 +19,7 @@
   min-height: 300px;
 }
 
-.list-group-item:nth-child(even)  {
+.list-group-item .repoItem:nth-child(even)  {
   background-color: lightgrey;
 }
 
@@ -34,5 +34,27 @@ aside {
   background-color: lightgrey;
   min-height: 300px;
   border-radius: 30px;
+  text-align: center;
 }
+
+.git-handle {
+  color: #0099ff;
+  display:inline-block;
+}
+
+h5 {
+ display:inline-block;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 40%; 
+  height: auto;
+}
+
+.logout {
+  color: white !important;
+}
+
+
 
