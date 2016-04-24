@@ -48,9 +48,8 @@ export function logout() {
 
 export const CREATEINST = 'CREATEINST'
 export function createInst() {
-  let url = `/api/openstack/createinstance`;
+  let url = `/api/openstack/createinstance/`;
   let request = axios.get(url);
-
 
   return {
     type: CREATEINST,
@@ -83,9 +82,13 @@ export function isDeployed() {
 }
 
 export const SSHPOSTINSTALL = 'SSHPOSTINSTALL'
-export function sshPostInstall() {
+export function sshPostInstall(repoID) {
   let url = `/api/ssh2/startsshpostinstall`;
-  let request = axios.get(url);
+  let request = axios.get(url, {
+    params: {
+      repoid: repoID
+    }
+  });
 
 
   return {
@@ -143,4 +146,13 @@ export function usageRX() {
     payload: request
   }
 
+}
+
+export const SETREPOID = 'SETREPOID'
+export function setRepoID(repoID) {
+ 
+  return {
+    type: SETREPOID,
+    payload: repoID
+  }
 }

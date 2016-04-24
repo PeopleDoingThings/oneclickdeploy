@@ -1,4 +1,3 @@
-
 import { combineReducers } from 'redux';
 import ReposReducer from './reducer_repos';
 import IsAuth from './reducer_auth';
@@ -10,6 +9,8 @@ import memUsage from './reducer_memUsage';
 import cpuUsage from './reducer_cpuUsage';
 import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
+import SetRepoId from './reducer_setRepoId';
+
 
 const rootReducer = combineReducers({
   repos: ReposReducer,
@@ -17,11 +18,12 @@ const rootReducer = combineReducers({
   install: CreatInstance,
   instReady: InstReady,
   isDeployed: IsDeployed,
-  logOutput: LogOutput,
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,
   rxUsage: rxUsage
+  logOutput: LogOutput,
+  selRepoId: SetRepoId
 });
 
 
