@@ -21,7 +21,8 @@ var Instance = new Schema({
   openstackid: String,
   ownergitid: String,
   state: {
-    built: Boolean,
+    complete: Boolean,
+    status: String,
     customimage: Boolean,
     postinstall: Boolean,
     repos: { type : Array, "default" : [] }
@@ -30,8 +31,15 @@ var Instance = new Schema({
   publicip: String,
   image: {
     flavorid: String,
-    imageid: String,
-    osname: String
+    imageid: String
+  },
+  system: {
+    disk: Number,
+    region: String,
+    type: String,
+    inboundbandwidth: Number,
+    vcpus: Number,
+    ram: Number
   },
   ssh: {
     user: String,
@@ -42,3 +50,6 @@ var Instance = new Schema({
 
 
 module.exports = mongoose.model('Instance', Instance);
+
+
+
