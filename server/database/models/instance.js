@@ -31,8 +31,11 @@ var Instance = new Schema({
   image: {
     flavorid: String,
     imageid: String,
-    osname: String,
-    defaultuser: String
+    osname: String
+  },
+  ssh: {
+    user: String,
+    pass: String
   },
   region: String
 });
