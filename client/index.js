@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
+import { createHashHistory } from 'history'
+import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
+
 import ReduxPromise from 'redux-promise'
 
 import reducers from './reducers/index'
@@ -14,13 +16,12 @@ import Login from './components/login';
 
 import RepoList from './containers/repo_list';
 
-let reducer = combineReducers({reducers,routing: routerReducer}) 
+const reducer = combineReducers({reducers,routing: routerReducer}) 
 const store = createStore(reducer, applyMiddleware(ReduxPromise))
+const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+const history = syncHistoryWithStore(appHistory, store)
 
-console.log('store:',store.getState())
 
-// Create an enhanced history that syncs navigation events with the store
-const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
    <Provider store={store}>

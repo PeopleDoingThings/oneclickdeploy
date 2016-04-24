@@ -1,17 +1,44 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux'; 
+import { connect } from 'react-redux';
 
-export default function DashBoard() {
-  return <div>And I am Dashboard!</div>
+import { instanceReady } from '../actions/index';
+
+class DashBoard extends Component {
+  constructor(props) {
+    super(props);
+    this.props.instanceReady();
+    
+  }
+
+  
+  render() {
+    return (
+      <div>
+      <h3>test: Dashboard</h3>
+      <ul>
+        
+        </ul>
+        </div>
+    )
+  };
+
 }
 
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ instanceReady }, dispatch);
+}
+
+function mapStateToProps(state) {
+  
+  console.log('state: ', state.reducers)
+  return {
+    instance: state.reducers.deployed
+  };
+}
+
+//take this component/mapStateToProps and return a container
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
 
 
-// export default class DashBoard extends Component {
-//   render() {
-//     return (
-//       <div>
-//         This is dashboard component
-//       </div>
-//     );
-//   }
-// }
+

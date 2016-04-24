@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router'
 
-import Header from '../containers/header'
+import Header from '../containers/header';
 import Login from './login';
-import RepoList from '../containers/repo_list';
+//import RepoList from '../containers/repo_list';
+
 
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    //uncomment below when isAuthenticated function on the backend starts working
+  }
+
   render() {
     return (
       <div>
@@ -20,6 +25,7 @@ export default class App extends Component {
     );
   }
 }
+
 
 // <div>
 //   <button onClick={() => browserHistory.push('/foo')}>Go to /foo</button>

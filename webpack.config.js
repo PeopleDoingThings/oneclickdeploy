@@ -11,7 +11,7 @@ module.exports = {
   // historyApiFallback: {
   // index: '/'
   // },
-
+  historyApiFallback: true,
   module: {
     loaders: [{
       exclude: /node_modules/,
@@ -31,7 +31,6 @@ module.exports = {
     host: 'localhost',
     port: 8080,
     contentBase:'./client/',
-    historyApiFallback: true,
     proxy: [{
       path: '/api/*',
       target: 'http://localhost:9001'

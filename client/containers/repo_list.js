@@ -10,24 +10,28 @@ class RepoList extends Component {
   constructor(props) {
     super(props);
     this.props.fetchRepos()
-    console.log('props in repoList: ', this.props)
+    console.log('props in repoList: ', this.props);
   }
 
 
   renderList() {
-    return (this.props.repos.map((repo) => {
-      return (
-        <RepoItem key={repo.name}  repoItem={repo} />
-      )
-      })
-    );
+    if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
+      return "Sorry, no repos are available for deploy"
+    } else {
+      return (this.props.repos.map((repo) => {
+        return (
+          <RepoItem key={repo.name}  repoItem={repo} />
+        )
+        })
+      );
+    }
   } 
 
   render() {
     
     return (
 		 	<div>
-		 		<h3>Repo list is working</h3>
+		 		<h3>Repo list</h3>
 				<ul className="list-group">
          {this.renderList()}
         </ul>

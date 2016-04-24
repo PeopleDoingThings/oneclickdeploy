@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
+import { Link, browserHistory } from 'react-router'
+import { bindActionCreators } from 'redux'; 
+import { connect } from 'react-redux';
 import Aside from '../containers/sideBar';
+import { isAuth } from '../actions/index';
 
-export default class MainBoard extends Component {
+
+class MainBoard extends Component {
+  constructor(props){
+    super(props);
+    this.props.isAuth(); 
+    
+  
+  }
+  
   render() {
+    authCheck(this.props.Auth);
     return (
+
       <div>
         <div className="row">
           <div className='col-md-3'><Aside /></div>
@@ -14,3 +28,25 @@ export default class MainBoard extends Component {
     );
   }
 }
+
+function authCheck (status) {
+  console.log('status', status)
+  if(status === 'Unauthorized') {
+    window.location.href = ('/');
+  } else {
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ isAuth }, dispatch);
+}
+
+function mapStateToProps(state) {
+  console.log('isAuth state: ', state.reducers.auth)
+  return {
+    Auth: state.reducers.auth
+  };
+}
+
+//take this component/mapStateToProps and return a container
+export default connect(mapStateToProps, mapDispatchToProps)(MainBoard);
