@@ -16,7 +16,7 @@ class RepoList extends Component {
 
   renderList() {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return "Sorry, no repos are available for deploy"
+      return "Loading....."
     } else {
       return (this.props.repos.map((repo) => {
         return (

@@ -62,6 +62,7 @@ exports.checkReady = function(userid) {
       if(!data || data.length === 0) return Promise.reject( new Error('User has No Instance to Check!') )
       mongoInstanceId = data[0]._id;
       console.log('mongoInstanceId = ', mongoInstanceId)
+      mongoInstanceId = data[0]._id;
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {

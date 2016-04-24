@@ -12,7 +12,8 @@ constructor(props){
 
   handleClick (id) {
      this.props.setRepoID(id);
-     console.log('click excecuted, this is the id', this.SelectedRepo)
+     window.localStorage.setItem('repoID', id);
+     //console.log('click excecuted, this is the id', this.SelectedRepo)
      this.props.createInst(); 
     };
 
