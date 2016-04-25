@@ -108,5 +108,5 @@ exports.getSSHKey = function(userid) {
   return Instance.getUserInstances(userid)
     .then(function(data) {
       return OVH.getSSHKey(data.openstackid);
-    }
+    })
 }
