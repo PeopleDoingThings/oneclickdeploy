@@ -10,7 +10,7 @@ class MainBoard extends Component {
   constructor(props){
     super(props);
     this.props.isAuth(); 
-    
+    console.log('props in mainboard constructor:' ,this.props);
   
   }
   
@@ -20,7 +20,7 @@ class MainBoard extends Component {
 
       <div>
         <div className="row">
-          <div className='col-md-3'><Aside /></div>
+          <div className='col-md-3'><Aside user={this.props.Auth}/></div>
           <div className='col-md-9'>{this.props.children}</div>
         </div>
       </div>
