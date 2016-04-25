@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-// export const ROOT_URL = 'http://localhost:9001/api/'
-//const ROOT_URL = 'https://api.github.com/users/febtek/repos'
-
 //fetch reposlist from Git Hub after user signs in
 export const FETCH_REPOS = 'FETCH_REPOS';
 export function fetchRepos() {
@@ -34,6 +31,32 @@ export function instanceReady() {
 
   return {
     type: INSTANCE_READY,
+    payload: request
+  }
+}
+
+export const LOGOUT = 'LOGOUT'
+export function logout() {
+  //let url = `/logout`;
+  let url = `/api/github/repos`; //test url until endpoint is ready
+  let request = axios.get(url);
+
+
+  return {
+    type: LOGOUT,
+    payload: request
+  }
+}
+
+export const DEPLOY = 'DEPLOY'
+export function deploy() {
+  //let url = `/logout`;
+  let url = `/api/github/repos`;//test url until endpoint is ready
+  let request = axios.get(url);
+
+
+  return {
+    type: DEPLOY,
     payload: request
   }
 }
