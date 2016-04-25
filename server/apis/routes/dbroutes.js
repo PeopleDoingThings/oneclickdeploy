@@ -12,7 +12,6 @@ router.get('/getuserinstances', function(req, res) {
     .catch(function(err) {
       res.send(err.message);
     })
-
 })
 
 
