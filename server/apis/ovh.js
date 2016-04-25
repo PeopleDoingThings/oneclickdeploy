@@ -7,7 +7,7 @@ var ovh = require('ovh')({
 
 exports.getInstanceUsage = function(inst, proj, time, type) {
 	return new Promise(function(resolve, reject) {
-		ovh.request('GET', `/cloud/project/${proj}/instance/${inst}/monitoring?period=${time}&type=${type}`, function (err, resp) {
+		ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${inst}/monitoring?period=${time}&type=${type}`, function (err, resp) {
   		if(err) {
   			reject(err);
   			return;
@@ -82,19 +82,6 @@ exports.createNewInstance = function(obj) {
       }
 
       console.log('ovh createNewInstance resp = ', resp);
-
-      resolve(resp);
-    })
-  })
-}
-
-exports.getSSHKey = function(serviceid) {
-  return new Promise(function(resolve, reject) {
-    ovh.request('GET', `/cloud/project/${serviceid}/sshkey?region=BHS1`, function(err, resp) {
-      if(err) {
-        reject(err);
-        return;
-      }
 
       resolve(resp);
     })

@@ -8,8 +8,7 @@ var Logic = require('../logic/ovh/logic.js');
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
 router.get('/usagestatistics/:instanceid/:projectid', function(req, res) {
-	// Likely want to add req.query insid & proj id etc.
-	OVH.getInstanceUsage(req.params.instanceid, req.params.projectid, req.query.time, req.query.type)
+	OVH.getInstanceUsage(req.params.instanceid, req.query.time, req.query.type)
     .then(function(resp) {
   		res.send(resp);
   	})
@@ -44,7 +43,7 @@ router.get('/vpsimageflavor/:version', function(req, res) {
 
 // Need to customize this to user. Send 'name' & 'password' as querystring!
 router.get('/createinstance/:flavor/:image', function(req, res) {
-  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password)
+  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password, req.user)
     .then(function(data) {
       res.send(data);
     })

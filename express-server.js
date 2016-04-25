@@ -31,7 +31,7 @@ app.listen(process.env.PORT, function() {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Requests for files & pages go to express static. Handle to rest seperately on new Routers.
+// Requests for files & pages go to express static. Handle the rest seperately on new Routers.
 
 app.use('/', express.static('./dist'));
 
@@ -39,6 +39,12 @@ app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', OVHRoutes);
 app.use('/api/openstack/', OpenStackRoutes);
 app.use('/api/github/', GitHubRoutes);
+
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
 // app.use('*', function(req, res) {
 //   res.redirect("/");
 // });
