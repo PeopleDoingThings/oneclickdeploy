@@ -15,6 +15,7 @@ var DatabaseRoutes = require('./server/apis/routes/dbroutes.js');
 // MongoDB
 mongoose.connect('mongodb://localhost/oneclickdb');
 
+// Session Store
 var MongoDBStore = require('connect-mongodb-session')(session);
 var store = new MongoDBStore({
   uri: 'mongodb://localhost:27017/oneclickdb',
