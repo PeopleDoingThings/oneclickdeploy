@@ -3,6 +3,7 @@ var router = express.Router();
 var Instance = require('../../database/instances');
 
 
+// Protect with middleware later on.
 router.get('/getuserinstances', function(req, res) {
   return Instance.getUserInstances(req.user.gitid)
     .then(function(data) {
@@ -12,7 +13,7 @@ router.get('/getuserinstances', function(req, res) {
       res.send(err.message);
     })
 
-}
+})
 
 
 
