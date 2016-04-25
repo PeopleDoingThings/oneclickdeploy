@@ -40,8 +40,8 @@ router.get('/vpsimageflavor/:version', function(req, res) {
 })
 
 // Need to customize this to user. Send 'name' & 'password' as querystring!
-router.get('/createinstance/:flavor/:image', function(req, res) {
-  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password, String(req.user.gitid))
+router.get('/createinstance/:name', function(req, res) {
+  Logic.createInstance(req.params.name, String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
