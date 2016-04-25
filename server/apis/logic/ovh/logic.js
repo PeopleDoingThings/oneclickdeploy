@@ -1,6 +1,7 @@
 var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
 var Instance = require('../../../database/instances.js');
+var OpenStack = require('../../openstack.js');
 
 
 // This maps each service to a list of its information
@@ -70,28 +71,42 @@ exports.reinstallInstance = function(instanceid) {
     })
 }
 
-exports.checkReady = function(instanceid) {
-  return OVH.getInstance(instanceid).then(function(data) {
-    return Helper.checkInstanceState(data);
-  })
-  .then(function(data) {
-    return data;
-  })
+exports.checkReady = function(userid) {
+  return Instance.getUserInstances(userid)
+    .then(function(data) {
+      return OVH.getInstance(data.openstackid);
+    })
+    .then(function(data) {
+      return Helper.checkInstanceState(data);
+    })
 }
 
-exports.rebootInstance = function(user) {
-  Instance.getUserInstances(user.gitid)
+// Can Refactor these four when time permits.
+exports.rebootInstance = function(userid) {
+  return Instance.getUserInstances(userid)
     .then(function(data) {
       console.log('rebooting ins: ', data.openstackid)
       return OVH.rebootInstance(data.openstackid);
     })
 }
 
-exports.getInstanceUsage = function(user, time, type) {
-  Instance.getUserInstances(user.gitid)
+exports.getInstanceUsage = function(userid, time, type) {
+  return Instance.getUserInstances(userid)
     .then(function(data) {
       return OVH.getInstanceUsage(data.openstackid, time, type);
     })
 }
 
+exports.getConsoleOutput = function(userid) {
+  return Instance.getUserInstances(userid)
+    .then(function(data) {
+      return OpenStack.getConsoleOutput(data.openstackid);
+    })
+}
 
+exports.getSSHKey = function(userid) {
+  return Instance.getUserInstances(userid)
+    .then(function(data) {
+      return OVH.getSSHKey(data.openstackid);
+    })
+}

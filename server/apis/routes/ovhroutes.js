@@ -50,8 +50,8 @@ router.get('/createinstance/:name', function(req, res) {
     })
 })
 
-router.get('/getsshkey/:instanceid', function(req, res) {
-  OVH.getSSHKey(req.params.instanceid)
+router.get('/getsshkey', function(req, res) {
+  Logic.getSSHKey(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
@@ -61,7 +61,7 @@ router.get('/getsshkey/:instanceid', function(req, res) {
 })
 
 router.get('/reboot', function(req, res) {
-  Logic.rebootInstance(String(req.user))
+  Logic.rebootInstance(String(req.user.gitid))
     .then(function(data) {
       res.send(data)
     })
@@ -81,7 +81,7 @@ router.get('/getsnapshots', function(req, res) {
 })
 
 router.get('/reinstall', function(req, res) {
-  Logic.reinstallInstance(req.user)
+  Logic.reinstallInstance(req.user.gitid)
     .then(function(data) {
       res.send(data);
     })
@@ -90,8 +90,8 @@ router.get('/reinstall', function(req, res) {
     })
 })
 
-router.get('/checkinstanceready/:instanceid', function(req, res) {
-  Logic.checkReady(req.params.instanceid)
+router.get('/checkinstanceready', function(req, res) {
+  Logic.checkReady(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
@@ -100,8 +100,8 @@ router.get('/checkinstanceready/:instanceid', function(req, res) {
     })
 })
 
-router.get('/getconsoleoutput/:instanceid', function(req, res) {
-  Logic.getConsoleOutput(req.params.instanceid)
+router.get('/getconsoleoutput', function(req, res) {
+  Logic.getConsoleOutput(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
