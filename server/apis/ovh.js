@@ -5,7 +5,7 @@ var ovh = require('ovh')({
   consumerKey: process.env.OVH_CONSUMERKEY
 });
 
-exports.getInstanceUsage = function(inst, proj, time, type) {
+exports.getInstanceUsage = function(inst, time, type) {
 	return new Promise(function(resolve, reject) {
 		ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${inst}/monitoring?period=${time}&type=${type}`, function (err, resp) {
   		if(err) {

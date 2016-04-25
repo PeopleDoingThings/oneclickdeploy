@@ -21,7 +21,15 @@ router.get('/validate', function(req, res) {
   
 })
 
-
+router.post('/deploy', function(req, res) {
+  Logic.save(resp, String(req.user.gitid))
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err.message);
+    })
+})
 
 
 module.exports = router;
