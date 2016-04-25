@@ -22,7 +22,7 @@ router.get('/validate', function(req, res) {
 })
 
 router.post('/deploy', function(req, res) {
-  Logic.save(resp, String(req.user.gitid))
+  Logic.save(String(req.user.gitid), req.body)
     .then(function(data) {
       res.send(data);
     })

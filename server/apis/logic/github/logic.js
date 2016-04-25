@@ -1,6 +1,7 @@
 var Repos = require('../../../database/models/deployedrepos.js');
 
-exports.save = function(data, gitid) {
+exports.save = function(gitid, data) {
+  console.log('saving repo! in github logic js: ', data);
   var repoObj = {
     deployed: true,
     repoid: data.id,
