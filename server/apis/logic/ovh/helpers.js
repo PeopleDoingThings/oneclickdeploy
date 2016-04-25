@@ -1,3 +1,6 @@
+var InstanceLogin = require('../../../database/models/instancelogin.js');
+var Hat = require('hat');
+
 exports.checkListImage = function(data, version) {
   var result = data
     .filter(val => val.name.toLowerCase().replace(/ /g,'') === version.toLowerCase())[0].id;
@@ -17,17 +20,30 @@ exports.checkFlavorData = function(data) {
 }
 
 // Need this string in userdata as its a cloudinit config allow us to set an ssh password.
-exports.createInstanceObj = function(flavor, img, name, password) {
+exports.createInstanceObj = function(name, id) {
+  var password = Hat().slice(0, 10);
+  var daemonkey = Hat();
+  console.log('generated: pw & daemonkey = ', password, daemonkey)
   var obj = {
-    flavorId: flavor,
-    'imageId': img,
+    flavorId: process.env.OVH_FLAVOR,
+    'imageId': process.env.OVH_FLAVOR,
     'monthlyBilling': false,
     'name': name,
     'region': 'BHS1',
     'userData': `#cloud-config\npassword: ${password}\nchpasswd: { expire: False }\nssh_pwauth: True`
   }
 
-  return Promise.resolve(obj);
+  var inlogin = new InstanceLogin({
+    ownergitid: id,
+    user: name,
+    password: password,
+    daemonkey: daemonkey
+  })
+
+  return InstanceLogin.save(inlogin).then(function(data) {
+    console.log('saved instance login data = ', data);
+    return obj;
+  })
 }
 
 // Hard coding our expecatation here. Would want pass as arg in future.

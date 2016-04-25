@@ -25,8 +25,8 @@ router.get('/getnewtoken', function(req, res) {
     })
 })
 
-router.get('/getconsoleoutput/:serverid', function(req, res) {
-  OpenStack.getConsoleOutput(req.params.serverid)
+router.get('/getconsoleoutput/:instanceid', function(req, res) {
+  OpenStack.getConsoleOutput(req.params.instanceid)
     .then(function(data) {
       res.send(data);
     })

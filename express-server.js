@@ -15,13 +15,26 @@ var DatabaseRoutes = require('./server/apis/routes/dbroutes.js');
 // MongoDB
 mongoose.connect('mongodb://localhost/oneclickdb');
 
+// Session Store
+var MongoDBStore = require('connect-mongodb-session')(session);
+var store = new MongoDBStore({
+  uri: 'mongodb://localhost:27017/oneclickdb',
+  collection: 'sessions'
+});
+
+store.on('error', function(error) {
+  console.log('mstore error!', error);
+});
+
 // Add sessions for passport to serialize & let us use get params with urlencoded.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
+  name: 'ghv',
   secret: 'supersecretprojectsecret',
-  resave: true,
-  saveUninitialized: true
+  store: store,
+  resave: false,
+  saveUninitialized: false
 }));
 
 app.listen(process.env.PORT, function() {
