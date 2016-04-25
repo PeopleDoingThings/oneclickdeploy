@@ -17,7 +17,6 @@ router.get('/usagestatistics/:instanceid/:projectid', function(req, res) {
   	})
 })
 
-
 // Retrieve a list of all active instances & information for each in an Array.
 router.get('/listservices', function(req, res) {
 	Logic.instanceList()
@@ -28,7 +27,6 @@ router.get('/listservices', function(req, res) {
   		res.send(err);
   	})
 })
-
 
 // Returns the flavor id & the image id
 router.get('/vpsimageflavor/:version', function(req, res) {
