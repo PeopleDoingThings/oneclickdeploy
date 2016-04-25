@@ -12,13 +12,13 @@ exports.getAllInstances = function() {
   return Instance.find({});
 }
 
-exports.getInstaceById = function(instanceid) {
+exports.getInstanceById = function(instanceid) {
   return Instance.find({ openstackid: instanceid });
 }
 
 // Here if instance doesn't exist it will be from the OVH api (createnew) so its obj.id instead of obj.openstackid
 exports.insertUpdateUserInstance = function(obj, gitid) {
-  return Helper.findByInstaceId(obj.openstackid)
+  return Helper.findByInstanceId(obj.openstackid)
     .then(function(data) {
       return Helper.updateInstanceEntry(data);
     })
@@ -26,15 +26,11 @@ exports.insertUpdateUserInstance = function(obj, gitid) {
       return data;
     })
     .catch(function(err) {
-      Helper.saveInstance(obj.id, gitid)
+      Helper.saveInstance(obj, gitid)
         .then(function(data) {
           return data;
         })
-        .catch(function(err) {
-          return data;
-        })
     })
-
 }
 
 

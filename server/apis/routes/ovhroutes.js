@@ -43,33 +43,12 @@ router.get('/vpsimageflavor/:version', function(req, res) {
 
 // Need to customize this to user. Send 'name' & 'password' as querystring!
 router.get('/createinstance/:flavor/:image', function(req, res) {
-  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password, req.user)
+  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password, String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
     .catch(function(err) {
-      res.send(err);
-    })
-})
-
-router.get('/getsshkey/:instanceid', function(req, res) {
-  OVH.getSSHKey(req.params.instanceid)
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      res.send(err);
-    })
-})
-
-// Need to customize this to user. Send 'name' & 'password' as querystring!
-router.get('/createinstance/:flavor/:image', function(req, res) {
-  Logic.createInstance(req.params.flavor, req.params.image, req.query.name, req.query.password)
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      res.send(err);
+      res.send(err.message);
     })
 })
 
@@ -132,5 +111,7 @@ router.get('/getconsoleoutput/:instanceid', function(req, res) {
       res.send(err);
     })
 })
+
+
 
 module.exports = router;

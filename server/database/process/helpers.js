@@ -4,43 +4,42 @@ mongoose.Promise = require('bluebird');
 
 
 exports.saveInstance = function(obj, gitid) {
+
   var instanceObj = new Instance({
     name: obj.name,
     openstackid: obj.id,
     ownergitid: gitid,
+    region: obj.image.region,
     state: {
       complete: false,
       status: obj.status,
       customimage: false,
-      postinstall: false,
-      deployedrepos: [],
+      postinstall: false
     },
     creationdate: obj.created,
-    publicip: obj.ipAddresses,
+    publicip: 'none',
     image: {
       flavorid: obj.flavor.id,
       imageid: obj.image.id
     },
     system: {
       disk: obj.flavor.disk,
-      region: obj.flavor.region,
       type: obj.flavor.name,
-      inboundbandwidth: obj.flavor.inboundBandwidth,
+      bandwidth: obj.flavor.inboundBandwidth,
       vcpus: obj.flavor.vcpus,
       ram: obj.flavor.ram
     },
     ssh: {
-      user: null,
-      pass: null
-    },
-    region: obj.image.region
+      user: 'none',
+      pass: 'none'
+    }
   });
 
   return instanceObj.save();
 }
 
 exports.findByInstanceId = function(id) {
-  return Instace.findOne( { 'openstackid': id } )
+  return Instance.findOne( { 'openstackid': id } )
     .then(function(data) {
       if(!data) {
         return Promise.reject( new Error('No User Instance Found!', id) );
@@ -52,16 +51,10 @@ exports.findByInstanceId = function(id) {
 
 exports.updateInstanceEntry = function(instance) {
   return Instance.findByIdAndUpdate(instance._id,
-    { 'state.status': instance.state.status,
-      'state.complete': instance.state.complete,
-      'state.customimage': instance.state.customimage,
-      'state.postinstall': instance.state.postinstall, 
-      'postinstall': instance.state.postinstall,
-       publicip: instance.publicip,
-      'ssh.user': instance.ssh.user,
-      'ssh.pass': instance.ssh.pass
+    {
+      state: instance.state,
+      publicip: instance.publicip,
+      ssh: instance.ssh
     });
 }
-
-
 

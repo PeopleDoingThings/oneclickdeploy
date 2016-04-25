@@ -7,7 +7,7 @@ var Commands = require('../ssh2/dblists/commands.js');
 
 
 exports.runSSHPostInstallSetup = function(instanceid, cmdArray) {
-  return Instance.getInstaceById(instanceid)
+  return Instance.getInstanceById(instanceid)
     .then(function(data) {
       return Methods.runCommandList(data, cmdArray);
     })
