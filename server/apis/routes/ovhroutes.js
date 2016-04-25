@@ -7,7 +7,7 @@ var Logic = require('../logic/ovh/logic.js');
 
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
-router.get('/usagestatistics/:instanceid/:projectid', function(req, res) {
+router.get('/usagestatistics/:instanceid', function(req, res) {
 	OVH.getInstanceUsage(req.params.instanceid, req.query.time, req.query.type)
     .then(function(resp) {
   		res.send(resp);
