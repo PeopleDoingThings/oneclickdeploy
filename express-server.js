@@ -44,7 +44,7 @@ app.use('/api/database', DatabaseRoutes)
 
 app.get('/logout', function(req, res) {
   req.logout();
-  res.redirect('/');
+  res.redirect('/#/');
 });
 
 // app.use('*', function(req, res) {

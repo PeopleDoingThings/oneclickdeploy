@@ -37,8 +37,7 @@ export function instanceReady() {
 
 export const LOGOUT = 'LOGOUT'
 export function logout() {
-  //let url = `/logout`;
-  let url = `/api/github/repos`; //test url until endpoint is ready
+  let url = `/logout`; //test url until endpoint is ready
   let request = axios.get(url);
 
 
@@ -50,7 +49,6 @@ export function logout() {
 
 export const DEPLOY = 'DEPLOY'
 export function deploy() {
-  //let url = `/logout`;
   let url = `/api/github/repos`;//test url until endpoint is ready
   let request = axios.get(url);
 
