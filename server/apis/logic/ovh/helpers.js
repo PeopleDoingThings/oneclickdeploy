@@ -51,7 +51,8 @@ exports.checkInstanceState = function(data) {
     state.isReady = true;
   }
 
-  console.log('state = ', state)
-
   return state;
 }
+
+
+

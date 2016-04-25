@@ -35,21 +35,24 @@ var obj = {
     obj.flavorid = Helper.checkFlavorData(data);
     return obj;
   })
-  .catch(function(err) {
-    console.log('imgflavor err 38: ', err)
-    return err;
-  })
 }
 
 // Helper is a syncronous function but we return a promise for consistency.
 // We get back an obj that has an 'id' as prop of the obj. We can use this to check for deployment & retrieve ssh keys.
-exports.createInstance = function(flav, img, name, pass, requser) {
-  return Helper.createInstanceObj(flav, img, name, pass)
+exports.createInstance = function(flav, img, name, pass, id) {
+  return Instance.getUserInstances(id)
+    .then(function(data) {
+      if(data) {
+        return Promise.reject( new Error('User Already Has An Instance!') );
+      }
+
+      return Helper.createInstanceObj(flav, img, name, pass);
+    })
     .then(function(reqObj) {
       return OVH.createNewInstance(reqObj);
     })
     .then(function(data) {
-      return Instance.insertUpdateUserInstance(data, requser.id);
+      return Instance.insertUpdateUserInstance(data, id);
     })
 }
 
@@ -66,8 +69,7 @@ exports.checkReady = function(instanceid) {
   .then(function(data) {
     return data;
   })
-  .catch(function(err) {
-    console.log('ovh logic 64 err: ', err)
-    return err;
-  })
 }
+
+
+

@@ -20,32 +20,13 @@ var Instance = new Schema({
   name: String,
   openstackid: String,
   ownergitid: String,
-  state: {
-    complete: Boolean,
-    status: String,
-    customimage: Boolean,
-    postinstall: Boolean,
-    repos: { type : Array, "default" : [] }
-  },
+  region: String,
+  state: Object,
   creationdate: String,
   publicip: String,
-  image: {
-    flavorid: String,
-    imageid: String
-  },
-  system: {
-    disk: Number,
-    region: String,
-    type: String,
-    inboundbandwidth: Number,
-    vcpus: Number,
-    ram: Number
-  },
-  ssh: {
-    user: String,
-    pass: String
-  },
-  region: String
+  image: Object,
+  system: Object,
+  ssh: Object
 });
 
 
