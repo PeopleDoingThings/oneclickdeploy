@@ -59,7 +59,12 @@ exports.createInstance = function(name, id) {
 // Hard coded our custom snapshot id.
 exports.reinstallInstance = function(instanceid) {
   var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };
-  return OVH.reinstallInstance(instanceid, imgObj)
+
+  return Instance.getUserInstances(id)
+    .then(function(data) {
+      console.log('found instance for reinstall! = ', data, 'ins id = ', data.openstackid);
+      return OVH.reinstallInstance(data.openstackid, imgObj);
+    })
     .then(function(data) {
       return Instance.insertUpdateUserInstance;
     })
@@ -74,5 +79,19 @@ exports.checkReady = function(instanceid) {
   })
 }
 
+exports.rebootInstance = function(user) {
+  Instance.getUserInstances(user.gitid)
+    .then(function(data) {
+      console.log('rebooting ins: ', data.openstackid)
+      return OVH.rebootInstance(data.openstackid);
+    })
+}
+
+exports.getInstanceUsage = function(user, time, type) {
+  Instance.getUserInstances(user.gitid)
+    .then(function(data) {
+      return OVH.getInstanceUsage(data.openstackid, time, type);
+    })
+}
 
 

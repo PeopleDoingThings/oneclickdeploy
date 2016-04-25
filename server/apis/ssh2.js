@@ -6,7 +6,7 @@ var Methods = require('./logic/ssh2/methods.js');
 var Commands = require('./logic/ssh2/commands.js');
 
 
-exports.runSSHPostInstallSetup = function(instanceid, cmdArray) {
+exports.runSSHPostInstallSetup = function(instanceid, startCommand) {
   return Instance.getInstanceById(instanceid)
     .then(function(data) {
       if(!data) {
@@ -16,7 +16,7 @@ exports.runSSHPostInstallSetup = function(instanceid, cmdArray) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Methods.runCommandList(data, Commands.postInstallSetup());
+      return Methods.runCommandList(data, Commands.postInstallSetup(repoURL, startCommand));
     })
     .then(function(data) {
       return data;

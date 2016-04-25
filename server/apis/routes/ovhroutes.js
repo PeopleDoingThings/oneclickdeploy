@@ -7,8 +7,8 @@ var Logic = require('../logic/ovh/logic.js');
 
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
-router.get('/usagestatistics/:instanceid', function(req, res) {
-	OVH.getInstanceUsage(req.params.instanceid, req.query.time, req.query.type)
+router.get('/usagestatistics', function(req, res) {
+	Logic.getInstanceUsage(String(req.user), req.query.time, req.query.type)
     .then(function(resp) {
   		res.send(resp);
   	})
@@ -60,13 +60,13 @@ router.get('/getsshkey/:instanceid', function(req, res) {
     })
 })
 
-router.get('/reboot/:instanceid', function(req, res) {
-  OVH.rebootInstance(req.params.instanceid)
+router.get('/reboot', function(req, res) {
+  Logic.rebootInstance(String(req.user))
     .then(function(data) {
-      res.send(data);
+      res.send(data)
     })
     .catch(function(err) {
-      res.send(err);
+      res.send(err.message)
     })
 })
 
@@ -80,8 +80,8 @@ router.get('/getsnapshots', function(req, res) {
     })
 })
 
-router.get('/reinstall/:instanceid', function(req, res) {
-  Logic.reinstallInstance(req.params.instanceid)
+router.get('/reinstall', function(req, res) {
+  Logic.reinstallInstance(req.user)
     .then(function(data) {
       res.send(data);
     })
