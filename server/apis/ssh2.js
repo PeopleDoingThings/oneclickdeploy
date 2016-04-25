@@ -2,20 +2,44 @@ var req = require('request');
 var Helpers = require('./logic/ssh2/helpers.js');
 var Instance = require('../database/instances.js')
 //This methods file includes our logic and isolates it from our API.
-var Methods = require('../ssh2/methods.js');
-var Commands = require('../ssh2/dblists/commands.js');
+var Methods = require('./logic/ssh2/methods.js');
+var Commands = require('./logic/ssh2/commands.js');
 
 
 exports.runSSHPostInstallSetup = function(instanceid, cmdArray) {
   return Instance.getInstanceById(instanceid)
     .then(function(data) {
+      if(!data) {
+        return Promise.reject( new Error('Instance not Found!') );
+      }
+      else if(data.state.status === 'BUILD') {
+        return Promise.reject( new Error('Instance not Ready!') );
+      }
+
+      return Methods.runCommandList(data, Commands.postInstallSetup());
+    })
+    .then(function(data) {
+      return data;
+    })
+}
+
+exports.runSSHCommands = function(instanceid, cmdArray) {
+  return Instance.getInstanceById(instanceid)
+    .then(function(data) {
+      if(!data) {
+        return Promise.reject( new Error('Instance not Found!') );
+      }
+      else if(data.state.status === 'BUILD') {
+        return Promise.reject( new Error('Instance not Ready!') );
+      }
+
       return Methods.runCommandList(data, cmdArray);
     })
     .then(function(data) {
       return data;
     })
-    .catch(function(err) {
-      return err;
-    })
-
 }
+
+
+
+
