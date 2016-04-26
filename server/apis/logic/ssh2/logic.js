@@ -19,32 +19,41 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
     },
     onCommandComplete: function( command, response, sshObj ) {
       // If there is no response from the command(because the file we grep doesn't exist) it sets false.
-      if(command === 'ls -a | grep -i bower.json' && response) {
-        console.log('response was = ', response)
-        console.log('adding bower to list!')
-        sshObj.commands.unshift('bower install');
-      }
-      else if(command === 'ls -a | grep -i webpack.config.js' && response) {
-        console.log('response was = ', response)
-        console.log('adding webpack to list!')
-        sshObj.commands.unshift('webpack');
-      }
-      else if(command === 'cat Procfile | grep -i web:\ node' && response) {
-        var nodejs = response.slice(9);
-        console.log('=============== STARTING FILE =============')
-        console.log('=============== ' + nodejs + ' =============')
+      if(command === 'cat bower.json') {
+        var find = response.split("\r\n");
+        console.log('SPLITTING NEW LINS bower = ', response.split("\r\n"))
+        console.log('splitting DONE!')
 
-        console.log('response was = ', response)
-        console.log('adding nodejs to list!')
-        sshObj.commands.unshift(`forever start ${nodejs}`);
+
+        if(find[1] !== 'cat: bower.json: No such file or directory') {
+          sshObj.commands.unshift('bower install');
+        }
+      }
+      else if(command === 'cat webpack.config.js') {
+        var find = response.split("\r\n");
+        console.log('SPLITTING NEW LINS webpack = ', response.split("\r\n"))
+        console.log('splitting DONE!')
+
+
+        if(find[1] !== 'cat: webpack.config.js: No such file or directory') {
+          sshObj.commands.unshift('webpack');
+        }
+      }
+      else if(command === 'cat Procfile') {
+        var find = response.split("\r\n")[1].slice(10);
+        console.log('SPLITTING NEW LINS Procfile = ', response.split("\r\n"))
+        console.log('splitting DONE!')
+        
+
+        sshObj.commands.unshift(`forever start ${find}`);
+        sshObj.commands.unshift('export PORT=1337');
       }
 
-      // console.log('command = ', command)
+      console.log('command = ', command)
       // console.log('onCommandComplete: ', response)
     },
     onEnd: function( sessionText, sshObj ) {
-      //email the session text instead of outputting it to the console
-      return Promise.resolve(sessionText);
+      console.log('ended ssh2 session!!!')
     }
   };
 
