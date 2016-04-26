@@ -1,15 +1,25 @@
-var Repos = require('../../../database/models/deployedrepos.js');
+var Repo = require('../../../database/models/deployedrepos.js');
 
-exports.save = function(gitid, data) {
-  console.log('saving repo! in github logic js: ', data);
-  var repoObj = {
-    deployed: true,
-    repoid: data.id,
-    ownerid: gitid,
-    name: data.name,
-    clone_url: data.clone_url,
-    procfile_url: data.procfile_url
-  }
+exports.save = function(gitid, resp) {
 
-  return Repos.save(repoObj);
+  var result = resp.map(function(data) {
+    var repoObj = new Repo({
+      deployed: false,
+      repoid: String(data.id),
+      ownerid: gitid,
+      name: data.name,
+      clone_url: data.clone_url,
+      procfile_url: data.procfile_url
+    });
+
+    return Repo.find({ repoid: String(data.id) })
+      .then(function(data) {
+        if(data.length === 0) {
+          return repoObj.save();
+        }
+      })
+  })
+
+  return Promise.all(result);
 }
+

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 
-var Repos = new Schema({
+var Repo = new Schema({
   deployed: Boolean,
   repoid: String,
   ownerid: String,
@@ -12,5 +12,5 @@ var Repos = new Schema({
 });
 
 
-module.exports = mongoose.model('Repos', Repos);
+module.exports = mongoose.model('Repo', Repo);
 

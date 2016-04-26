@@ -85,9 +85,9 @@ exports.createNewInstance = function(obj) {
   })
 }
 
-exports.rebootInstance = function(instanceid) {
+exports.rebootInstance = function(instanceid, type) {
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, function(err, resp) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, { type: type },function(err, resp) {
       if(err) {
         reject(err);
         return;

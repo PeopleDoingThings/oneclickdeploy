@@ -33,4 +33,16 @@ exports.insertUpdateUserInstance = function(obj, gitid) {
     })
 }
 
+exports.updateInstanceFromReinstall = function(obj, id) {
+  return Helper.updateInstanceEntryFromOVH(obj, id)
+    .then(function(data) {
+      return data;
+    })
+}
 
+exports.updateInstanceState = function(obj, id) {
+  return Helper.updateInstanceState(obj, id)
+    .then(function(data) {
+      return data;
+    })
+}

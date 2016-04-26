@@ -40,8 +40,8 @@ router.get('/vpsimageflavor/:version', function(req, res) {
 })
 
 // Need to customize this to user. Send 'name' & 'password' as querystring!
-router.get('/createinstance/:name', function(req, res) {
-  Logic.createInstance(req.params.name, String(req.user.gitid))
+router.get('/createinstance', function(req, res) {
+  Logic.createInstance(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
@@ -60,13 +60,14 @@ router.get('/getsshkey', function(req, res) {
     })
 })
 
+// Type 'hard' or 'soft' & sends back null
 router.get('/reboot', function(req, res) {
-  Logic.rebootInstance(String(req.user.gitid))
+  Logic.rebootInstance(String(req.user.gitid), req.query.type)
     .then(function(data) {
       res.send(data)
     })
     .catch(function(err) {
-      res.send(err.message)
+      res.send(err)
     })
 })
 

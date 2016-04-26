@@ -26,7 +26,7 @@ exports.createInstanceObj = function(name, id) {
   console.log('generated: pw & daemonkey = ', password, daemonkey)
   var obj = {
     flavorId: process.env.OVH_FLAVOR,
-    'imageId': process.env.OVH_FLAVOR,
+    'imageId': process.env.OVH_IMAGE,
     'monthlyBilling': false,
     'name': name,
     'region': 'BHS1',
@@ -37,6 +37,7 @@ exports.createInstanceObj = function(name, id) {
     ownergitid: id,
     user: name,
     password: password,
+    sshuser: 'admin',
     daemonkey: daemonkey
   })
 

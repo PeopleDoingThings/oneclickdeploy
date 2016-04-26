@@ -2,6 +2,7 @@ var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
 var Instance = require('../../../database/instances.js');
 var OpenStack = require('../../openstack.js');
+var Hat = require('hat');
 
 
 // This maps each service to a list of its information
@@ -40,14 +41,14 @@ var obj = {
 
 // Helper is a syncronous function but we return a promise for consistency.
 // We get back an obj that has an 'id' as prop of the obj. We can use this to check for deployment & retrieve ssh keys.
-exports.createInstance = function(name, id) {
+exports.createInstance = function(id) {
   return Instance.getUserInstances(id)
     .then(function(data) {
       if(data) {
         return Promise.reject( new Error('User Already Has An Instance!') );
       }
 
-      return Helper.createInstanceObj(name, id);
+      return Helper.createInstanceObj(Hat().slice(6), id);
     })
     .then(function(reqObj) {
       return OVH.createNewInstance(reqObj);
@@ -60,53 +61,66 @@ exports.createInstance = function(name, id) {
 // Hard coded our custom snapshot id.
 exports.reinstallInstance = function(instanceid) {
   var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };
+  var mongoInstanceId = ''
 
   return Instance.getUserInstances(id)
     .then(function(data) {
+      mongoInstanceId = data._id;
       console.log('found instance for reinstall! = ', data, 'ins id = ', data.openstackid);
       return OVH.reinstallInstance(data.openstackid, imgObj);
     })
     .then(function(data) {
-      return Instance.insertUpdateUserInstance;
+      return Instance.updateInstanceFromReinstall(data, mongoInstanceId);
     })
 }
 
 exports.checkReady = function(userid) {
-  return Instance.getUserInstances(userid)
+  var mongoInstanceId = '';
+  return Instance.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
-      return OVH.getInstance(data.openstackid);
+      mongoInstanceId = data[0]._id;
+      console.log('mongoInstanceId = ', mongoInstanceId)
+      return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {
       return Helper.checkInstanceState(data);
     })
+    .then(function(data) {
+      console.log('instance state = ', data)
+      Instance.updateInstanceState(data, mongoInstanceId).then(function(insert) {
+        console.log('updated instance state! logic.js/ovh' , insert)
+      })
+
+      return data;
+    })
 }
 
 // Can Refactor these four when time permits.
-exports.rebootInstance = function(userid) {
+exports.rebootInstance = function(userid, type) {
   return Instance.getUserInstances(userid)
     .then(function(data) {
-      console.log('rebooting ins: ', data.openstackid)
-      return OVH.rebootInstance(data.openstackid);
+      return OVH.rebootInstance(data[0].openstackid, type);
     })
 }
 
 exports.getInstanceUsage = function(userid, time, type) {
   return Instance.getUserInstances(userid)
     .then(function(data) {
-      return OVH.getInstanceUsage(data.openstackid, time, type);
+      return OVH.getInstanceUsage(data[0].openstackid, time, type);
     })
 }
 
 exports.getConsoleOutput = function(userid) {
   return Instance.getUserInstances(userid)
     .then(function(data) {
-      return OpenStack.getConsoleOutput(data.openstackid);
+      return OpenStack.getConsoleOutput(data[0].openstackid);
     })
 }
 
 exports.getSSHKey = function(userid) {
   return Instance.getUserInstances(userid)
     .then(function(data) {
-      return OVH.getSSHKey(data.openstackid);
+      return OVH.getSSHKey(data[0].openstackid);
     })
 }
+

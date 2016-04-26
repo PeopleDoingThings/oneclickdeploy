@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var OpenStack = require('../openstack.js');
+var Logic = require('../logic/openstack/logic.js');
 
 // These routes are relative to the mounted router. Therefore '/' here is actaully '/api/openstack'. 
 
@@ -25,13 +26,13 @@ router.get('/getnewtoken', function(req, res) {
     })
 })
 
-router.get('/getconsoleoutput/:instanceid', function(req, res) {
-  OpenStack.getConsoleOutput(req.params.instanceid)
+router.get('/getconsoleoutput', function(req, res) {
+  Logic.getConsoleOutput(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })
     .catch(function(err) {
-      res.send(err);
+      res.send(err.message);
     })
 })
 

@@ -11,7 +11,7 @@ exports.getUserRepos = function(user) {
     }
   };
 
-  return request(repo_options)
+  return request(repo_options) 
     .then(function(resp){
       console.log('Github Limit Remaining: ', resp.headers['x-ratelimit-remaining']);
       var condensed = JSON.parse(resp.body)
@@ -64,3 +64,5 @@ function validateProcfile(procfile_url) {
       return false;
     });
 }
+
+

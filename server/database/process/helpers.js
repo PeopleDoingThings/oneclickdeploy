@@ -58,3 +58,29 @@ exports.updateInstanceEntry = function(instance) {
     });
 }
 
+exports.updateInstanceEntryFromOVH = function(insObj, id) {
+  return Instance.findByIdAndUpdate(id,
+    {
+      'state.status': insObj.state.status,
+      publicip: insObj.ipAddresses.ip
+    });
+}
+
+exports.updateInstanceState = function(obj, id) {
+  var insert = {
+    state: null,
+    publicip: null
+  }
+
+  if(obj.isReady) {
+    insert.state = 'ACTIVE';
+    insert.publicip = obj.ip.ip;
+  }
+
+  return Instance.findByIdAndUpdate(id,
+    {
+      'state.status': insert.state,
+      publicip: insert.publicip,
+      'state.customimage': true
+    });
+}
