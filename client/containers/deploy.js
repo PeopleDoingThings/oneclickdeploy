@@ -1,21 +1,18 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
-import { createInst, reInstall } from '../actions/index';
+import { createInst } from '../actions/index';
+import { Link, browserHistory } from 'react-router';
 
 class Deploy extends Component {
 constructor(props){
     super(props);
     console.log('props in deploy constructor:' ,this.props);
-    //this.state = {instName: 'Please name your instance'}
-    //console.log('user input state',this.state.instName)
+
   }
-//on click bring up form () 
-//7need form input for name on click
-//on form submit
 
   render() {
-    console.log('props in deploy',this)
+    console.log('props in deploy',this.props)
     return (
       // <form id='deployForm' onSubmit={() => deploy(this.props.createInst, this.props.reInstall)}>
       //   <input required className="deployFrm" 
@@ -27,7 +24,7 @@ constructor(props){
       //      })
       //    }
       //    />
-       <div onClick={() => deploy(this.props.createInst, this.props.reInstall)}><button className="btn btn-primary deployBtn">Deploy</button></div> 
+       <Link to="/loading" onClick={() => this.props.createInst()}><button className="btn btn-primary deployBtn">Deploy</button></Link> 
     //  <button form='deployForm' value="Submit" className="btn btn-primary deployBtn">Deploy</button>
     // </form>
     );
@@ -35,20 +32,19 @@ constructor(props){
 }
 
 
-function deploy (createInstFct, reInstallFct){
-    createInstFct();
-    reInstallFct();
-}
-
-
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({createInst,reInstall}, dispatch);
+  return bindActionCreators({createInst}, dispatch);
 }
 
 function mapStateToProps(state) {
   //console.log('instance state: ', state.reducers.instance)
   return {
-    Instance: state.reducers.instance
+    Install: state.reducers.install
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Deploy);
+
+
+
+
+

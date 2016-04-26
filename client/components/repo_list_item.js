@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Deploy from './deploy';
+import Deploy from '../containers/deploy';
 
 export default class RepoItem extends Component {
 
