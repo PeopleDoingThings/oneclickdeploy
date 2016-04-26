@@ -20,24 +20,20 @@ exports.getInstanceById = function(instanceid) {
 exports.insertUpdateUserInstance = function(obj, gitid) {
   return Helper.findByInstanceId(obj.openstackid)
     .then(function(data) {
+      console.log('found instance instances.js/db 23 = ', data)
       return Helper.updateInstanceEntry(data);
     })
     .then(function(data) {
       return data;
     })
     .catch(function(err) {
-      Helper.saveInstance(obj, gitid)
-        .then(function(data) {
-          return data;
-        })
+      console.log('instance not found saving new/instances.js/30: ', err)
+      return Helper.saveInstance(obj, gitid);
     })
 }
 
 exports.updateInstanceFromReinstall = function(obj, id) {
-  return Helper.updateInstanceEntryFromOVH(obj, id)
-    .then(function(data) {
-      return data;
-    })
+  return Helper.updateInstanceEntryFromOVH(obj, id);
 }
 
 exports.updateInstanceState = function(obj, id) {

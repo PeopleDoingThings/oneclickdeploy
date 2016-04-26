@@ -59,11 +59,19 @@ exports.updateInstanceEntry = function(instance) {
 }
 
 exports.updateInstanceEntryFromOVH = function(insObj, id) {
+  console.log('updating instance db after reinstall/helpers.js db = ', insObj, id)
   return Instance.findByIdAndUpdate(id,
     {
-      'state.status': insObj.state.status,
-      publicip: insObj.ipAddresses.ip
-    });
+      'state.status': insObj.status,
+      publicip: insObj.ipAddresses[0].ip,
+      'image.imageid':insObj.image.id
+    })
+    .then(function(data) {
+      console.log('updated entry fromovh sucess helpresjs/68 = ', data);
+    })
+    .catch(function(err) {
+      console.log('updated entry from ovh resintall fail helerps/68 = ', err)
+    })
 }
 
 exports.updateInstanceState = function(obj, id) {
