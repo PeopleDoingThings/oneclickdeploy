@@ -66,13 +66,7 @@ exports.updateInstanceEntryFromOVH = function(insObj, id) {
       publicip: insObj.ipAddresses[0].ip,
       'image.imageid':insObj.image.id
     })
-    .then(function(data) {
-      console.log('updated entry fromovh sucess helpresjs/68 = ', data);
-    })
-    .catch(function(err) {
-      console.log('updated entry from ovh resintall fail helerps/68 = ', err)
-    })
-
+}
 
 exports.updateInstanceState = function(obj, id) {
   var insert = {
