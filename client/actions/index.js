@@ -25,7 +25,8 @@ export function isAuth() {
 
 export const INSTANCE_READY = 'INSTANCE_READY'
 export function instanceReady() {
-  let url = `http://localhost:9001/api/ovh/checkinstanceready/${process.env.TEST_INSTANCE_ID}`;
+  let url = `/checkinstanceready`;
+  //let url = `http://localhost:9001/api/ovh/checkinstanceready/${process.env.TEST_INSTANCE_ID}`;
   let request = axios.get(url);
 
 
@@ -67,6 +68,30 @@ export function reInstall() {
 
   return {
     type: REINSTALL,
+    payload: request
+  }
+}
+
+export const GETLOG = 'GETLOG'
+export function getLog() {
+  let url = `/getconsoleoutput`;
+  let request = axios.get(url);
+
+
+  return {
+    type: GETLOG,
+    payload: request
+  }
+}
+
+export const SSHPOSTINSTALL = 'SSHPOSTINSTALL'
+export function sshPostInstall() {
+  let url = `/api/github/repos`;//'/startsshpostinstall'
+  let request = axios.get(url);
+
+
+  return {
+    type: SSHPOSTINSTALL,
     payload: request
   }
 }
