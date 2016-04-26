@@ -85,9 +85,12 @@ router.get('/getsnapshots', function(req, res) {
 
 router.get('/reinstall', function(req, res) {
   Logic.reinstallInstance(String(req.user.gitid))
-    .then(function(data) {
-      console.log('instance resintall sucess = ', data)
-      res.send(data);
+    .then(function(data) { // This returns undefined on success. Check for this here otherwise its unclear.
+      if(!data) {
+        res.send('Instance Reinstall Successful!');
+      } else {
+        res.send(data);
+      }
     })
     .catch(function(err) {
       console.log('instance resintall fail = ', err)

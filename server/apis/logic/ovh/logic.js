@@ -88,8 +88,9 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      console.log('instance state = ', data)
-      Instance.updateInstanceState(data, mongoInstanceId).then(function(insert) {
+      
+      Instance.updateInstanceState(data, mongoInstanceId)
+      .then(function(insert) {
         console.log('updated instance state! logic.js/ovh' , insert)
       })
 
