@@ -19,17 +19,17 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
     },
     onCommandComplete: function( command, response, sshObj ) {
       // If there is no response from the command(because the file we grep doesn't exist) it sets false.
-      if(command === 'ls -a | grep -i bower.json' && response) {
+      if(command === 'ls -a | grep -i bower.json' && response !== command) {
         console.log('response was = ', response)
         console.log('adding bower to list!')
         sshObj.commands.unshift('bower install');
       }
-      else if(command === 'ls -a | grep -i webpack.config.js' && response) {
+      else if(command === 'ls -a | grep -i webpack.config.js' && response !== command) {
         console.log('response was = ', response)
         console.log('adding webpack to list!')
         sshObj.commands.unshift('webpack');
       }
-      else if(command === 'cat Procfile | grep -i web:\ node' && response) {
+      else if(command === 'cat Procfile | grep -i web:\ node' && response !== command) {
         var nodejs = response.slice(9);
         console.log('=============== STARTING FILE =============')
         console.log('=============== ' + nodejs + ' =============')
@@ -44,7 +44,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
     },
     onEnd: function( sessionText, sshObj ) {
       //email the session text instead of outputting it to the console
-      return Promise.resolve(sessionText);
+      console.log(sessionText, sshObj);
     }
   };
 
