@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
-import { instanceReady, getLog, sshPostInstall } from '../actions/index'
+import { instanceReady, getLog, isDeployed, sshPostInstall } from '../actions/index'
 
 class Loading extends Component {
   constructor(props){
@@ -10,25 +10,13 @@ class Loading extends Component {
     console.log('props in loading constructor:' ,this.props);
     console.log('loading constructor install data', this.props)
 
-   
-  //   componentWillReceiveProps(nextProps) {
-  //   const { state: { status: currStatus } } = this.props;
-  //   const { state: { status: nextStatus } } = nextProps;
 
-  //   if (currState === 'Stopped' && nextState === 'Running') {
-  //     this._startTimer();
-  //   } else if (currState === 'Running' && nextState === 'Stopped') {
-  //     this._stopTimer();
-  //   }
-
-
-// startInterval();
-// stopInterval();
+   startChckInstInterval();
 }
 
 
   render() {
-    //console.log('props in render:', this.props)
+    //console.log('props in render:', this.props)//log state.status later
     return (
       <div>
        <h1>Loading.....</h1>
@@ -40,41 +28,80 @@ class Loading extends Component {
     );
   }
 }
-//1.grab Install data ---> display flavor, cpu, ram
-//feben the openstack routes, during testing you must run the gettoken route each time you restart the server to reauth
-//getconsoleoutput--->set timeout
-//ssh postinstall cannot be run until checkready says isReady
-//the sshpostinstall thing now requires req.query.repoid 1 time only
 
+// // const setIntervalLog = function (getLogfct,params) {
+// //    setInterval(() => {
+// //       getLogfct(params);
+// //     }, 1000);
+// // }
 
-// const setIntervalLog = function (getLogfct,params) {
-//    setInterval(() => {
-//       getLogfct(params);
-//     }, 1000);
-// }
+// //set interval for load data
+//           // let logOuput0 ='';
+//           // function  startLogOutputInterval() {
+//           //     logOuput0 = setInterval(() => {
+//           //         console.log('working ckInstnace');
+//           //     }, 1000);
+//           //   }
 
-let id='';
-function  startInterval() {
-    id = setInterval(() => {
-        console.log('working');
+//           // function stopLogOutputInterval() {
+//           //   clearInterval(logOuput0);
+//           // }
+
+//set interval for check instance
+let cksInsID1 ='';
+function  startChckInstInterval() {
+    cksInsID1 = setInterval(() => {
+        if(this.props.isReady === true){
+         //stop set interval1 if it already started 
+         stopChckInstInterval();  
+         //postinstall endpoint
+         this.props.sshPostInstall();
+         //start set interval2/check deployed 
+         startChckDeployedInterval();
+        }
+        else if (this.props.isReady === false) {
+          checkinstance endpoint
+        }
     }, 1000);
-  }
+}
 
-// function stopInterval() {
-//   clearInterval(id);
-// }
+function stopChckInstInterval() {
+  clearInterval(cksInsID1);
+}
+
+// //set interval for checkdeployed
+            let ckDep2 ='';
+            function  startChckDeployedInterval() {
+                ckDep2 = setInterval(() => {
+                  if(this.props.isDeployed === true) {
+                    //stop interval2 log output
+                    //stopLogOutputInterval();
+                    //transition to DB
+                    //code for transiotn to DB
+                  }else if(this.props.isDeployed===false){
+                    this.props.isDeployed();
+                  }    
+                }, 1000);
+            }
+            
+            function stopChckDeployedInterval() {
+              clearInterval(ckDep2);
+            }
+
 
 function mapStateToProps(state) {
   console.log('load state: ', state.reducers.load)
   console.log('install data in loading state', state.reducers.install)
   return {
     Load: state.reducers.load,
-    InstData: state.reducers.install
+    InstData: state.reducers.install,
+    InstStatus: state.reducers.instReady,
+    isDeployed: state.reducers.isDeployed
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ instanceReady, getLog, sshPostInstall }, dispatch);
+  return bindActionCreators({ instanceReady, getLog, isDeployed, sshPostInstall }, dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Loading);

@@ -50,7 +50,7 @@ export function logout() {
 
 export const CREATEINST = 'CREATEINST'
 export function createInst() {
-  let url = `/api/github/repos`;//'/createinstance'
+  let url = `/api/github/repos`;//`/api/openstack/createinstance`
   let request = axios.get(url);
 
 
@@ -60,17 +60,17 @@ export function createInst() {
   }
 }
 
-export const REINSTALL = 'REINSTALL'
-export function reInstall() {
-  let url = `/api/github/repos`;//'/reinstall'
-  let request = axios.get(url);
+// export const REINSTALL = 'REINSTALL'
+// export function reInstall() {
+//   let url = `/api/github/repos`;//'/reinstall'
+//   let request = axios.get(url);
 
 
-  return {
-    type: REINSTALL,
-    payload: request
-  }
-}
+//   return {
+//     type: REINSTALL,
+//     payload: request
+//   }
+// }
 
 export const GETLOG = 'GETLOG'
 export function getLog() {
@@ -84,9 +84,21 @@ export function getLog() {
   }
 }
 
+export const ISDEPLOYED = 'ISDEPLOYED'
+export function isDeployed() {
+  let url = `/api/database/checkdeployed`;//'/api/database/checkdeployed'
+  let request = axios.get(url);
+
+
+  return {
+    type: ISDEPLOYED,
+    payload: request
+  }
+}
+
 export const SSHPOSTINSTALL = 'SSHPOSTINSTALL'
 export function sshPostInstall() {
-  let url = `/api/github/repos`;//'/startsshpostinstall'
+  let url = `/startsshpostinstall`;//'/startsshpostinstall'
   let request = axios.get(url);
 
 
