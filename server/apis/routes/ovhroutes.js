@@ -92,8 +92,6 @@ router.get('/reinstall', function(req, res) {
 })
 
 router.get('/checkinstanceready', function(req, res) {
-  req.user = { gitid: 13039425 }; // TESTING
-
   Logic.checkReady(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
