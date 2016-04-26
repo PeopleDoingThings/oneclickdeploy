@@ -1,4 +1,5 @@
 var SSH2Shell = require ('ssh2shell');
+var sequest = require('sequest');
 var Repo = require('../../../database/models/deployedrepos.js');
 
 exports.runCommandList = function(instanceData, cmdArray, data) {
@@ -19,6 +20,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
       }
     },
     onCommandComplete: function( command, response, sshObj ) {
+      // If there is no response from the command(because the file we grep doesn't exist) it sets false.
       if(command === 'ls -a | grep -i bower.json' && response) {
         sshObj.commands.unshift('bower install');
       }
