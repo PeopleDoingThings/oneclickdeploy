@@ -39,19 +39,6 @@ router.get('/vpsimageflavor/:version', function(req, res) {
     })
 })
 
-// Need to customize this to user. Send 'name' & 'password' as querystring!
-router.get('/createinstance', function(req, res) {
-  Logic.createInstance(String(req.user.gitid))
-    .then(function(data) {
-      console.log('createinstance sucess = ', data)
-      res.send(data);
-    })
-    .catch(function(err) {
-      console.log('createinstance fail! = ', err)
-      res.send(err.message);
-    })
-})
-
 router.get('/getsshkey', function(req, res) {
   Logic.getSSHKey(String(req.user.gitid))
     .then(function(data) {

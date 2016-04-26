@@ -39,26 +39,6 @@ var obj = {
   })
 }
 
-// Helper is a syncronous function but we return a promise for consistency.
-// We get back an obj that has an 'id' as prop of the obj. We can use this to check for deployment & retrieve ssh keys.
-exports.createInstance = function(id) {
-  return Instance.getUserInstances(id)
-    .then(function(data) {
-      console.log('user instances = ', data)
-      if(data.length > 0) {
-        return Promise.reject( new Error('User Already Has An Instance!') );
-      }
-
-      return Helper.createInstanceObj(Hat().slice(6), id);
-    })
-    .then(function(reqObj) {
-      return OVH.createNewInstance(reqObj);
-    })
-    .then(function(data) {
-      return Instance.insertUpdateUserInstance(data, id);
-    })
-}
-
 // Hard coded our custom snapshot id.
 exports.reinstallInstance = function(id) {
   var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };

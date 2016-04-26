@@ -25,6 +25,7 @@
     "babel-preset-react": "^6.1.18",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-1": "^6.1.18",
+    "base-64": "^0.1.0",
     "bluebird": "^3.3.5",
     "body-parser": "^1.15.0",
     "connect-mongodb-session": "^1.1.1",
