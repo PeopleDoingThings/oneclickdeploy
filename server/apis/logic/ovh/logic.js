@@ -44,7 +44,8 @@ var obj = {
 exports.createInstance = function(id) {
   return Instance.getUserInstances(id)
     .then(function(data) {
-      if(data) {
+      console.log('user instances = ', data)
+      if(data.length > 0) {
         return Promise.reject( new Error('User Already Has An Instance!') );
       }
 
@@ -59,17 +60,18 @@ exports.createInstance = function(id) {
 }
 
 // Hard coded our custom snapshot id.
-exports.reinstallInstance = function(instanceid) {
+exports.reinstallInstance = function(id) {
   var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };
-  var mongoInstanceId = ''
+  var mongoInstanceId = '';
 
   return Instance.getUserInstances(id)
     .then(function(data) {
-      mongoInstanceId = data._id;
-      console.log('found instance for reinstall! = ', data, 'ins id = ', data.openstackid);
-      return OVH.reinstallInstance(data.openstackid, imgObj);
+      mongoInstanceId = data[0]._id;
+      console.log('found instance for reinstall! = ', data, 'ins id = ', data[0].openstackid);
+      return OVH.reinstallInstance(data[0].openstackid, imgObj);
     })
     .then(function(data) {
+      console.log('reinstalled instance = ', data, mongoInstanceId)
       return Instance.updateInstanceFromReinstall(data, mongoInstanceId);
     })
 }
@@ -86,8 +88,9 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      console.log('instance state = ', data)
-      Instance.updateInstanceState(data, mongoInstanceId).then(function(insert) {
+      
+      Instance.updateInstanceState(data, mongoInstanceId)
+      .then(function(insert) {
         console.log('updated instance state! logic.js/ovh' , insert)
       })
 

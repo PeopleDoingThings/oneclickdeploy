@@ -27,6 +27,9 @@ store.on('error', function(error) {
   console.log('mstore error!', error);
 });
 
+// Auth Middleware - Make sure user is logged in before continuing.
+var AuthUser = require('./server/login/authuser.js');
+
 // Add sessions for passport to serialize & let us use get params with urlencoded.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

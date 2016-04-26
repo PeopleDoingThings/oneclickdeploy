@@ -24,9 +24,10 @@ exports.createInstanceObj = function(name, id) {
   var password = Hat().slice(0, 10);
   var daemonkey = Hat();
   console.log('generated: pw & daemonkey = ', password, daemonkey)
+  // imageid safe = process.env.OVH_IMAGE
   var obj = {
     flavorId: process.env.OVH_FLAVOR,
-    'imageId': process.env.OVH_IMAGE,
+    'imageId': process.env.OVH_CUSTOMSNAPSHOT,
     'monthlyBilling': false,
     'name': name,
     'region': 'BHS1',
@@ -41,7 +42,7 @@ exports.createInstanceObj = function(name, id) {
     daemonkey: daemonkey
   })
 
-  return InstanceLogin.save(inlogin).then(function(data) {
+  return inlogin.save(inlogin).then(function(data) {
     console.log('saved instance login data = ', data);
     return obj;
   })

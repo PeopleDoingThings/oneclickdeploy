@@ -1,19 +1,26 @@
 
 
 exports.postInstallSetup = function(repoURL) {
+  console.log('sshpostinstall repo url = ', repoURL)
+
   var array = [
     'ls -l',
-    'echo $(pwd)',
+    'sudo su',
+    'pwd',
     'yum update',
+    'npm install webpack -g',
+    'npm install bower -g',
     'cd /media/git',
-    'echo $(pwd)',
+    'pwd',
     `git clone ${repoURL}`,
+    'chown -R admin:admin *',
     'cd *',
+    'su admin',
     'git status',
     'npm install',
     'ls -a | grep -i bower.json',
     'ls -a | grep -i webpack.config.js',
-    'cat Procfile | grep -i web:\ node',
+    'cat Procfile | grep -i "web:\ node"',
     'ls'
   ];
   

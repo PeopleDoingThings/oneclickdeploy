@@ -3,7 +3,7 @@ var router = express.Router();
 var OpenStack = require('../openstack.js');
 var Logic = require('../logic/openstack/logic.js');
 
-// These routes are relative to the mounted router. Therefore '/' here is actaully '/api/openstack'. 
+// These routes are relative to the mounted router. Therefore '/' here is actaully '/api/openstack'.
 
 router.get('/getflavors', function(req, res) {
   OpenStack.getFlavors()
