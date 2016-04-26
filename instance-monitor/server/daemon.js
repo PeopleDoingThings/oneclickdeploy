@@ -6,12 +6,15 @@ var app = express()
 
 const exec = require('child_process').exec;
 
+// Parse incoming request bodies as JSON
+app.use( require('body-parser').json() )
+
 app.use(function(req, res, next) {
   var parentToken = req.headers['parent-server-token']
   var validity = tokenList.indexOf(parentToken) !== -1
 
     console.log("--------------------------------------------")
-    console.log("Request:")
+    console.log("Request")
     console.log("--------------------------------------------")
     console.log("tokenList: ", tokenList)
     console.log("--------------------------------------------")
@@ -53,30 +56,47 @@ app.get('/statistics/top', function(req, res){
   })
 })
 
-app.use(function(req, res, next) {
-  var parentToken = req.headers['parent-server-token']
-  var validity = tokenList.indexOf(parentToken) !== -1
+app.get('/statistics/forever', function(req, res){
 
-    console.log("--------------------------------------------")
-    console.log("Request:")
-    console.log("--------------------------------------------")
-    console.log("tokenList: ", tokenList)
-    console.log("--------------------------------------------")
-    console.log("parentToken: ", parentToken)
-    console.log("--------------------------------------------")
-    console.log("validity: ", validity)
-    console.log("--------------------------------------------")
+  command = 'forever list'
 
-  if (tokenList.indexOf(parentToken) === -1) {
-    res.sendStatus(403)
-  } else {
-    next()
-  }
+  exec(command, (err, stdout, stderr) => {
+    if (err) {
+      console.error('error running forever list', err);
+      res.send(err);
+    } else {
+      var response = stdout.split('\n').filter(line => line.length > 0)
+      console.log("---------------------------------------------------------")
+      console.log("- recieved request - /statistics/forever ; response:    -")
+      console.log("---------------------------------------------------------")
+      console.log(response);
+      console.log("---------------------------------------------------------")
+      res.json(response);
+    }
+  })
+})
+
+app.get('/statistics/uptime', function(req, res){
+
+  command = 'uptime'
+
+  exec(command, (err, stdout, stderr) => {
+    if (err) {
+      console.error('error running uptime', err);
+      res.send(err);
+    } else {
+      var response = stdout.split('\n').filter(line => line.length > 0)
+      console.log("---------------------------------------------------------")
+      console.log("- recieved request - /statistics/uptime ; response:    -")
+      console.log("---------------------------------------------------------")
+      console.log(response);
+      console.log("---------------------------------------------------------")
+      res.json(response);
+    }
+  })
 })
 
 
-// Parse incoming request bodies as JSON
-app.use( require('body-parser').json() )
 
 // Start the server!
 var port = process.env.MONITOR_PORT || 1492
