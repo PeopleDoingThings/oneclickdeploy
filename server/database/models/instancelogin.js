@@ -5,6 +5,7 @@ var InstanceLogin = new Schema({
   ownergitid: String,
   user: String,
   password: String,
+  sshuser: String,
   daemonkey: String
 });
 

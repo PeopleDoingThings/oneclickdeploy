@@ -1,13 +1,16 @@
 var SSH2Shell = require ('ssh2shell');
+var Repo = require('../../../database/models/deployedrepos.js');
 
-exports.runCommandList = function(data, cmdArray) {
+exports.runCommandList = function(instanceData, cmdArray, data) {
+  console.log('user repo data = ', data)
+  console.log('user instanceData = ', instanceData)
 
   var host = {
     server: {
-      host: data.publicip,
+      host: instanceData.publicip,
       port: 22,
-      userName: data.ssh.user,
-      password: data.ssh.pass
+      userName: data.sshuser,
+      password: data.password
     },
     commands: cmdArray,
     msg: {
@@ -16,16 +19,19 @@ exports.runCommandList = function(data, cmdArray) {
       }
     },
     onCommandComplete: function( command, response, sshObj ) {
-      //confirm it is the root home dir and change to root's .ssh folder
-      // if (command === "echo $(pwd)" && response.indexOf("/root") != -1 ) {
-      // //unshift will add the command as the next command, use push to add command as the last command
-      //   sshObj.commands.unshift("msg:The command and response check worked. Added another cd command.");
-      //   sshObj.commands.unshift("cd .ssh");
-      // }
-      // //we are listing the dir so output it to the msg handler
-      // else if (command === "ls -l"){      
-      //   sshObj.msg.send(response);
-      // }
+      if(command === 'ls -a | grep -i bower.json' && response) {
+        sshObj.commands.unshift('bower install');
+      }
+      else if(command === 'ls -a | grep -i webpack.config.js' && response) {
+        sshObj.commands.unshift('webpack');
+      }
+      else if(command === 'cat Procfile | grep -i web:\ node' && response) {
+        var nodejs = response.slice(9);
+        sshObj.commands.push(`forever start ${nodejs}`);
+      }
+
+      console.log('==== sshOBJ =====', sshObj)
+      console.log('command = ', command)
       console.log('onCommandComplete: ', response)
     },
     onEnd: function( sessionText, sshObj ) {
@@ -34,18 +40,10 @@ exports.runCommandList = function(data, cmdArray) {
     }
   };
 
-  var SSH = new SSH2Shell(host);
+  var SSHClient = new SSH2Shell(host);
 
-  return SSH2.connect();
+  return SSHClient.connect();
 }
-
-
-
-
-
-
-
-
 
 // local & remote path are strings.
 exports.writeRemoteFile = function(user, ip, remotepath, localpath) {
@@ -56,7 +54,12 @@ exports.writeRemoteFile = function(user, ip, remotepath, localpath) {
   })
 }
 
-
+exports.setDeployed = function(repoData) {
+  return Repo.findByIdAndUpdate(repoData._id,
+    {
+      deployed: true
+    });
+}
 
 // Commands Examples! SSH2Shell
 // [

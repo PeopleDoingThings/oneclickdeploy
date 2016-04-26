@@ -37,6 +37,7 @@ exports.createInstanceObj = function(name, id) {
     ownergitid: id,
     user: name,
     password: password,
+    sshuser: 'admin',
     daemonkey: daemonkey
   })
 

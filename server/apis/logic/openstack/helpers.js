@@ -1,7 +1,6 @@
 exports.computeEndpoint = 'https://compute.bhs1.cloud.ovh.net/v2/';
 exports.imageEndpoint = 'https://image.compute.bhs1.cloud.ovh.net/';
 exports.identityEndpoint = 'https://auth.cloud.ovh.net/v2.0';
-exports.tenant_id = process.env.OPENSTACK_TENANTID;
 
 
 exports.createOpts = function(url) {
@@ -31,14 +30,14 @@ exports.tokenOpts = {
 //ADD BACK process.evn
 exports.createConsoleOpts = function(serverid) {
   var opt = {
-    url: `${exports.computeEndpoint}${exports.tenant_id}/servers/${serverid}/action`,
+    url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers/${serverid}/action`,
     json: {
       'os-getConsoleOutput': {
         'length': 50 
       }
     },
     headers: {
-      'X-Auth-Token': '69b7e4deee234dfc94734123916aab6d'
+      'X-Auth-Token': process.env.OPENSTACK_X_AUTH
     }
   };
 
