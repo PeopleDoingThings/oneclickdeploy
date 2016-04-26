@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
 import { createInst, reInstall } from '../actions/index';
+import { Link, browserHistory } from 'react-router';
 
 class Deploy extends Component {
  constructor(props){
@@ -12,7 +13,9 @@ class Deploy extends Component {
   render() {
     console.log('props in deploy',this)
     return (
-     <div onClick={() => deploy(this.props.createInst,this.props.reInstall)}><button className="btn btn-primary">Deploy</button></div> 
+       <Link to="/loading" onClick={() => deploy(this.props.createInst,this.props.reInstall)}>
+     	  <button className="btn btn-primary">Deploy</button>
+       </Link> 
     );
   }
 }

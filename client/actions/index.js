@@ -37,7 +37,7 @@ export function instanceReady() {
 
 export const LOGOUT = 'LOGOUT'
 export function logout() {
-  let url = `/logout`; //test url until endpoint is ready
+  let url = `/logout`;
   let request = axios.get(url);
 
 
