@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { createInst, reInstall } from '../actions/index';
 
 class Deploy extends Component {
-// constructor(props){
-//     super(props);
-//     console.log('props in deploy constructor:' ,this.props);
-//     this.state = {instName: 'Please name your instance'}
-//     console.log('user input state',this.state.instName)
-//   }
+constructor(props){
+    super(props);
+    console.log('props in deploy constructor:' ,this.props);
+    //this.state = {instName: 'Please name your instance'}
+    //console.log('user input state',this.state.instName)
+  }
 //on click bring up form () 
 //7need form input for name on click
 //on form submit
@@ -42,11 +42,11 @@ function deploy (createInstFct, reInstallFct){
 
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ createInst, reInstall }, dispatch);
+  return bindActionCreators({createInst,reInstall}, dispatch);
 }
 
 function mapStateToProps(state) {
-  console.log('instance state: ', state.reducers.instance)
+  //console.log('instance state: ', state.reducers.instance)
   return {
     Instance: state.reducers.instance
   };

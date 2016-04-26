@@ -47,14 +47,39 @@ export function logout() {
   }
 }
 
-export const DEPLOY = 'DEPLOY'
-export function deploy() {
+// export const DEPLOY = 'DEPLOY'
+// export function deploy() {
+//   let url = `/api/github/repos`;//test url until endpoint is ready
+//   let request = axios.get(url);
+
+
+//   return {
+//     type: DEPLOY,
+//     payload: request
+//   }
+// }
+
+
+export const CREATEINST = 'CREATEINST'
+export function createInst() {
   let url = `/api/github/repos`;//test url until endpoint is ready
   let request = axios.get(url);
 
 
   return {
-    type: DEPLOY,
+    type: CREATEINST,
+    payload: request
+  }
+}
+
+export const REINSTALL = 'REINSTALL'
+export function reInstall() {
+  let url = `/api/github/repos`;//test url until endpoint is ready
+  let request = axios.get(url);
+
+
+  return {
+    type: REINSTALL,
     payload: request
   }
 }
