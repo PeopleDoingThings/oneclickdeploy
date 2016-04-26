@@ -6,21 +6,21 @@ exports.postInstallSetup = function(repoURL) {
   var array = [
     'ls -l',
     'sudo su',
+    'unalias -a',
     'pwd',
     'yum update',
-    'npm install webpack -g',
-    'npm install bower -g',
     'cd /media/git',
     'pwd',
     `git clone ${repoURL}`,
     'chown -R admin:admin *',
     'cd *',
     'su admin',
+    'unalias -a',
     'git status',
     'npm install',
-    'ls -a | grep -i bower.json',
-    'ls -a | grep -i webpack.config.js',
-    'cat Procfile | grep -i "web:\ node"',
+    'cat bower.json',
+    'cat webpack.config.js',
+    'cat Procfile',
     'ls'
   ];
   
