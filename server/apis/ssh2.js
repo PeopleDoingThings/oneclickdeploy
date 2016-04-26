@@ -31,7 +31,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Repo.find({ ownerid: String(user.gitid) });
+      return Repo.find({ ownerid: String(user.gitid) }); //change pls
     })
     .then(function(data) {
       var repoData = data[0];
