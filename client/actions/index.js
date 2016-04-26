@@ -50,7 +50,7 @@ export function logout() {
 
 export const CREATEINST = 'CREATEINST'
 export function createInst() {
-  let url = `/api/github/repos`;//`/api/openstack/createinstance`
+  let url = `/api/openstack/createinstance`;//`/api/openstack/createinstance`
   let request = axios.get(url);
 
 
