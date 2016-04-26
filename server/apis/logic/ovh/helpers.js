@@ -19,35 +19,6 @@ exports.checkFlavorData = function(data) {
     .filter(val => val.name === "vps-ssd-1")[0].id;
 }
 
-// Need this string in userdata as its a cloudinit config allow us to set an ssh password.
-exports.createInstanceObj = function(name, id) {
-  var password = Hat().slice(0, 10);
-  var daemonkey = Hat();
-  console.log('generated: pw & daemonkey = ', password, daemonkey)
-  // imageid safe = process.env.OVH_IMAGE
-  var obj = {
-    flavorId: process.env.OVH_FLAVOR,
-    'imageId': process.env.OVH_CUSTOMSNAPSHOT,
-    'monthlyBilling': false,
-    'name': name,
-    'region': 'BHS1',
-    'userData': `#cloud-config\npassword: ${password}\nchpasswd: { expire: False }\nssh_pwauth: True`
-  }
-
-  var inlogin = new InstanceLogin({
-    ownergitid: id,
-    user: name,
-    password: password,
-    sshuser: 'admin',
-    daemonkey: daemonkey
-  })
-
-  return inlogin.save(inlogin).then(function(data) {
-    console.log('saved instance login data = ', data);
-    return obj;
-  })
-}
-
 // Hard coding our expecatation here. Would want pass as arg in future.
 exports.checkInstanceState = function(data) {
   var state = {};

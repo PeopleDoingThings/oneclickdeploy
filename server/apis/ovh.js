@@ -71,20 +71,6 @@ exports.getFlavorIDs = function() {
   })
 }
 
-exports.createNewInstance = function(obj) {
-  return new Promise(function(resolve, reject) {
-    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance`, obj, function(err, resp) {
-      if(err) {
-        console.log('ovh createNewInstance line 78 err = ', err)
-        reject(err);
-        return;
-      }
-
-      resolve(resp);
-    })
-  })
-}
-
 exports.rebootInstance = function(instanceid, type) {
   return new Promise(function(resolve, reject) {
     ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, { type: type },function(err, resp) {
@@ -132,6 +118,7 @@ exports.getInstance = function(instanceid) {
         return;
       }
 
+      console.log('got instance data from OVH = ', resp)
       resolve(resp);
     })
   })

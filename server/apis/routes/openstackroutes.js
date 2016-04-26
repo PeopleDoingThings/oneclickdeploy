@@ -36,5 +36,15 @@ router.get('/getconsoleoutput', function(req, res) {
     })
 })
 
+router.get('/createinstance', function(req, res) {
+  Logic.callCreateNewInstance(String(req.user.gitid))
+    .then(function(data) {
+      res.send(data);
+    })
+    .catch(function(err) {
+      res.send(err.message)
+    })
+})
+
 
 module.exports = router;

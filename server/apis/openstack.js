@@ -45,6 +45,18 @@ exports.getConsoleOutput = function(serverid) {
   })
 };
 
+exports.createNewInstance = function(name, id, pass) {
+  return new Promise(function(resolve, reject) {
+    req.post(Helpers.createInstanceOpts(name, id, pass), function(err, res) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      resolve(res.body);
+    })
+  })
+}
 
 
 
