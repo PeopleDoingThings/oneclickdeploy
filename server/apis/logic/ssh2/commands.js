@@ -9,6 +9,7 @@ exports.postInstallSetup = function(repoURL) {
     'unalias -a',
     'pwd',
     'yum update',
+    'mongod --fork --logpath /media/log',
     'cd /media/git',
     'pwd',
     `git clone ${repoURL}`,

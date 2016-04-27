@@ -57,8 +57,18 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
     })
 }
 
-exports.runSSHCommands = function(instanceid, cmdArray) {
-  return Instance.getInstanceById(instanceid)
+exports.runSSHCommands = function(userid, cmdArray) {
+  var instanceData = {};
+
+  return Instance.getUserInstances(userid)
+    .then(function(data) {
+      console.log('found user instance = ', data)
+      return data[0];
+    })
+    .then(function(data) {
+      console.log('ss2 66 found user instance = ', data)
+      return Instance.getInstanceById(data.openstackid);
+    })
     .then(function(data) {
       if(!data) {
         return Promise.reject( new Error('Instance not Found!') );
@@ -67,7 +77,11 @@ exports.runSSHCommands = function(instanceid, cmdArray) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Logic.runCommandList(data, cmdArray);
+      instanceData = data;
+      return InstanceLogin.find({ ownergitid: user.gitid});
+    })
+    .then(function(data) {
+      return Logic.runCommandList(instanceData, cmdArray, data[0]);
     })
     .then(function(data) {
       return data;
