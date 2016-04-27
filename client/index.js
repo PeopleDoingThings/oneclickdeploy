@@ -13,6 +13,7 @@ import App from './components/app';
 import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
 import Login from './components/login';
+import Loading from './containers/loadingInstance';
 
 import RepoList from './containers/repo_list';
 
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="main-panel" component={MainBoard}>
           <Route path="/repos" component={RepoList} />
           <Route path="/dashboard" component={DashBoard} />
+          <Route path="/loading" component={Loading} />
         </Route>
       </Route>
     </Router>

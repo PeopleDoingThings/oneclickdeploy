@@ -7,11 +7,15 @@ var Hat = require('hat');
 var base64 = require('base-64');
 
 exports.getConsoleOutput = function(id) {
+  console.log('id in get log output', id)
   return Instance.find({ ownergitid: id })
     .then(function(data) {
+      console.log('data in get log output 1st .then', data)
+
       return data[0].openstackid;
     })
     .then(function(data) {
+      console.log('data in get log output 2nd .then', data)
       return OpenStack.getConsoleOutput(data);
     })
 }

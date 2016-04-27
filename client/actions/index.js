@@ -25,7 +25,7 @@ export function isAuth() {
 
 export const INSTANCE_READY = 'INSTANCE_READY'
 export function instanceReady() {
-  let url = `http://localhost:9001/api/ovh/checkinstanceready/${process.env.TEST_INSTANCE_ID}`;
+  let url = `/api/ovh/checkinstanceready`;
   let request = axios.get(url);
 
 
@@ -37,7 +37,7 @@ export function instanceReady() {
 
 export const LOGOUT = 'LOGOUT'
 export function logout() {
-  let url = `/logout`; //test url until endpoint is ready
+  let url = `/logout`;
   let request = axios.get(url);
 
 
@@ -47,14 +47,50 @@ export function logout() {
   }
 }
 
-export const DEPLOY = 'DEPLOY'
-export function deploy() {
-  let url = `/api/github/repos`;//test url until endpoint is ready
+export const CREATEINST = 'CREATEINST'
+export function createInst() {
+  let url = `/api/openstack/createinstance`;
   let request = axios.get(url);
 
 
   return {
-    type: DEPLOY,
+    type: CREATEINST,
+    payload: request
+  }
+}
+
+export const GETLOG = 'GETLOG'
+export function getLog() {
+  let url = `/api/ovh/getconsoleoutput`;
+  let request = axios.get(url);
+
+
+  return {
+    type: GETLOG,
+    payload: request
+  }
+}
+
+export const ISDEPLOYED = 'ISDEPLOYED'
+export function isDeployed() {
+  let url = `/api/database/checkdeployed`;
+  let request = axios.get(url);
+
+
+  return {
+    type: ISDEPLOYED,
+    payload: request
+  }
+}
+
+export const SSHPOSTINSTALL = 'SSHPOSTINSTALL'
+export function sshPostInstall() {
+  let url = `/api/ssh2/startsshpostinstall`;
+  let request = axios.get(url);
+
+
+  return {
+    type: SSHPOSTINSTALL,
     payload: request
   }
 }

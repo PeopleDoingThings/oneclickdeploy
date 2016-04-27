@@ -33,7 +33,7 @@ function mapStateToProps(state) {
   
   console.log('state: ', state.reducers)
   return {
-    instance: state.reducers.deployed
+    instance: state.reducers.instReady
   };
 }
 
