@@ -12,12 +12,16 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
       password: data.password
     },
     commands: cmdArray,
+    idleTimeOut: 30000,  // 30 second idle timeout. We can deal with timeout events below
     msg: {
       send: function( message ) {
-        console.log(message);
+        console.log('SENDING MESSAGE = ', message);  //no idea what this is
       }
     },
     onCommandComplete: function( command, response, sshObj ) {
+      console.log('||| COMMAND START |||')
+      console.log('command ======= ', command)
+      console.log('||| COMMAND END |||')
       // If there is no response from the command(because the file we grep doesn't exist) it sets false.
       if(command === 'cat bower.json') {
         var find = response.split("\r\n");
@@ -26,6 +30,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
 
 
         if(find[1] !== 'cat: bower.json: No such file or directory') {
+          console.log('found bower file!')
           sshObj.commands.unshift('bower install');
         }
       }
@@ -36,26 +41,59 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
 
 
         if(find[1] !== 'cat: webpack.config.js: No such file or directory') {
-          sshObj.commands.unshift('webpack');
+          console.log('found webpack file!')
+          sshObj.commands.unshift('webpack --progress');
         }
       }
       else if(command === 'cat Procfile') {
         var find = response.split("\r\n")[1].slice(10);
-        console.log('SPLITTING NEW LINS Procfile = ', response.split("\r\n"))
+        console.log('SPLITTING NEW LINES Procfile = ', response.split("\r\n"))
         console.log('splitting DONE!')
         
 
         sshObj.commands.unshift(`forever start ${find}`);
         sshObj.commands.unshift('export PORT=1337');
       }
+      else if(command === 'cat knexfile.js | grep -i database') {
+        console.log('KNEX cat response = ')
+        console.log(response)
+        console.log('KNEX cat END')
+        var valid = response.split("\r\n");
+        var find = response.split("\n").map( val => val.split("'")[1][1] );
+        console.log('FIND after split = ', find)
+        console.log('valid[1] ==== ', valid[1]) //this checks if there is a knex file.
+        //We will want to change this logic in future in regard to updating repos from master.
+        //Deal with dropping the dbs & rerunning etc.
+        
 
-      console.log('command = ', command)
+        if(valid[1] !== 'cat: knexfile.js: No such file or directory') {
+          sshObj.commands.unshift('sudo -u admin knex seed:run');
+          sshObj.commands.unshift('sudo -u admin knex migrate:latest');
+          sshObj.commands.unshift(`sudo -u postgres createdb -O admin ${find}`);
+          sshObj.commands.unshift(`initdb ${find}`);
+        }
+      }
+
+
       // console.log('onCommandComplete: ', response)
+    },
+    onCommandTimeout:    function(command, response, sshObj, stream, connection) {
+      // Adding this section causes 'exit' events to be skipped and we can deal with timeouts here.
+      console.log('CONNECTION TIMED OUT!!!!')
+      console.log('TIMED OUT COMMAND = ', command)
+      console.log('CONNECTION TIMED OUT!!!!')
+
+      //optional code for responding to command timeout
+      //response is the text response from the command up to it timing out
+      //stream object used  to respond to the timeout without having to close the connection
+      //connection object gives access to close the shell using connection.end()
     },
     onEnd: function( sessionText, sshObj ) {
       console.log('ended ssh2 session!!!')
     }
   };
+
+  host.debug = true;
 
   var SSHClient = new SSH2Shell(host);
 
@@ -77,19 +115,3 @@ exports.setDeployed = function(repoData) {
       deployed: true
     });
 }
-
-// Commands Examples! SSH2Shell
-// [
-//   "`This is a message that will be added to the full sessionText`",
-//   "msg:This is a message that will be handled by the msg.send code",
-//   "echo $(pwd)",
-//   "sudo su",
-//   "msg:changing directory",
-//   "cd ~/",
-//   "ls -l",
-//   "msg:Confirming the current path",
-//   "echo $(pwd)",
-//   "msg:Getting the directory listing to confirm the extra command was added",
-//   "ls -l",
-//   "`All done!`"
-// ]

@@ -39,9 +39,11 @@ router.get('/getconsoleoutput', function(req, res) {
 router.get('/createinstance', function(req, res) {
   Logic.callCreateNewInstance(String(req.user.gitid))
     .then(function(data) {
+      console.log('OS create instance success = ', data)
       res.send(data);
     })
     .catch(function(err) {
+      console.log('OS create instance err = ', err)
       res.send(err.message)
     })
 })

@@ -65,10 +65,15 @@ exports.checkReady = function(userid) {
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {
+      console.log('got ovh ins data on check ready! = ', data)
+      if(!data) {
+        return Promise.reject( new Error('Instance Still Provisioning, Please Try Again!') )
+      }
+
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      
+      console.log('got ins state = ', data)
       Instance.updateInstanceState(data, mongoInstanceId)
       .then(function(insert) {
         console.log('updated instance state! logic.js/ovh' , insert)
