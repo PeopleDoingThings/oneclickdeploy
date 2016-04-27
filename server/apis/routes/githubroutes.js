@@ -28,9 +28,6 @@ router.get('/repos', function(req, res) {
     })
 })
 
-router.get('/validate', function(req, res) {
-  
-})
 
 
 module.exports = router;

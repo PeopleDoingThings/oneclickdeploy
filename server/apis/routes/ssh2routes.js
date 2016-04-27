@@ -17,8 +17,8 @@ router.get('/startsshpostinstall', function(req, res) {
     })
 })
 
-router.get('/reinstallrepo/:instanceid', function(req, res) {  // Need to remove the instance id here!
-  SSH2.runSSHCommands(req.params.instanceid, Commands.reinstallGitRepo())
+router.get('/reinstallrepo', function(req, res) {  // Need to remove the instance id here!
+  SSH2.runSSHCommands(String(req.user.gitid), Commands.reinstallGitRepo())
     .then(function(data) {
       res.send(data);
     })
