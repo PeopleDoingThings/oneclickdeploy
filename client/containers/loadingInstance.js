@@ -9,15 +9,15 @@ class Loading extends Component {
   super(props); 
   this.props.getLog();
   var component = this ;  
-  component.props.instanceReady()
-
+  component.props.instanceReady();
+  
 //set interval for logoutput
 var logOutput0 ='';
 function startLogOutputInterval() {     
     logOutput0 = setInterval(function () {
         component.props.getLog();
         console.log('what is logoutput in interval',component.props.LogOutput.output)
-      }, 1000);
+      }, 3000);
 }
 
 function stopLogOutputInterval() {
@@ -76,7 +76,7 @@ function startChckDeployedInterval() {
         stopLogOutputInterval();
         stopChckDeployedInterval(); 
         //transition to DB
-         window.location = 'http://localhost:9001/#/dashboard';
+         //window.location = 'http://localhost:9001/#/dashboard';
         }
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
