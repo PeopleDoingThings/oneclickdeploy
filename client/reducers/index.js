@@ -11,7 +11,6 @@ import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 
-
 const rootReducer = combineReducers({
   repos: ReposReducer,
   auth: IsAuth,
