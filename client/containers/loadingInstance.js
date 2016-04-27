@@ -10,17 +10,18 @@ class Loading extends Component {
   this.props.getLog();
   var component = this ;  
   component.props.instanceReady()
+
 //set interval for logoutput
-let logOutput0 ='';
+var logOutput0 ='';
 function startLogOutputInterval() {     
-    logOuput0 = setInterval(function () {
+    logOutput0 = setInterval(function () {
         component.props.getLog();
-        console.log('what is logoutput in interval',component.props.LogOutput)
-      }, 50);
+        console.log('what is logoutput in interval',component.props.LogOutput.output)
+      }, 1000);
 }
 
 function stopLogOutputInterval() {
-  clearInterval(logOuput0);
+  clearInterval(logOutput0);
   console.log('really stopped logoutput now')
 }
 
@@ -73,10 +74,9 @@ function startChckDeployedInterval() {
           console.log('about to stop Interval 2 checkdeployed')
          //stop interval2 log output
         stopLogOutputInterval();
+        stopChckDeployedInterval(); 
         //transition to DB
          window.location = 'http://localhost:9001/#/dashboard';
-         stopChckDeployedInterval(); 
-         //redirect to dashboard
         }
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
@@ -94,13 +94,13 @@ function stopChckDeployedInterval() {
 }
  
   render() {
-    console.log('props in render:', this.props)//log state.status later
+    console.log('props in render:', this.props.LogOutput.output)//log state.status later
     return (
       <div>
         <h1>Loading.....</h1>
         <div>Testing Log</div>
         <div>Instance info:</div><div> {this.props.InstData[0] ? this.props.InstData[0].id : null} )</div>   
-        <div>Log Output</div>{this.props.logOutput}   
+        <div>Log Output</div>{this.props.LogOutput.output}   
       </div>
     );
   }
