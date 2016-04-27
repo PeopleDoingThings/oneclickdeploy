@@ -17,16 +17,16 @@ class Loading extends Component {
           if(component.props.InstStatus=== undefined){
             console.log('inst status undefiend ')
           }
-          if(component.props.InstStatus === true){          
-           //postinstall endpoint
-           component.props.isDeployed();
+          if(component.props.InstStatus === true){        
             console.log('if statement InstStatus is true')
             console.log('about to stop Interval')
-          // component.props.sshPostInstall();
+           //call postinstall endpoint
+            component.props.sshPostInstall();
+            console.log('called postinstall')
            //start set interval2/check deployed 
-           //startChckDeployedInterval();
+            startChckDeployedInterval();
            //stop set interval1 if it already started 
-           stopChckInstInterval(); 
+            stopChckInstInterval(); 
           }
           else if (component.props.InstStatus === false) {
             //if still false call api again
@@ -40,7 +40,7 @@ class Loading extends Component {
   clearInterval(cksInsID1);
   console.log('really stopped now')
 } 
-startChckInstInterval();
+//startChckInstInterval();
 //set interval for checkdeployed
 let ckDep2 ='';
 function startChckDeployedInterval() {     
@@ -52,18 +52,20 @@ function startChckDeployedInterval() {
         if(component.props.DeployedStatus === true){           
           console.log('isDeployed statement is true')
           console.log('about to stop Interval 2 checkdeployed')
+
          //stop interval2 log output
                   //stopLogOutputInterval();
                   //transition to DB
                   //code for transiotn to DB
          stopChckDeployedInterval(); 
+         //redirect to dashboard
         }
         else if (component.props.DeployedStatus === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
           component.props.isDeployed();
         }
-    }, 1000);
+    }, 3000);
   }
 
   function stopChckDeployedInterval() {
