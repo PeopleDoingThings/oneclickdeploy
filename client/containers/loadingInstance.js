@@ -40,7 +40,7 @@ class Loading extends Component {
   clearInterval(cksInsID1);
   console.log('really stopped now')
 } 
-//startChckInstInterval();
+startChckInstInterval();
 //set interval for checkdeployed
 let ckDep2 ='';
 function startChckDeployedInterval() {     
@@ -60,12 +60,12 @@ function startChckDeployedInterval() {
          stopChckDeployedInterval(); 
          //redirect to dashboard
         }
-        else if (component.props.DeployedStatus === false) {
+        else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
           component.props.isDeployed();
         }
-    }, 3000);
+    }, 4000);
   }
 
   function stopChckDeployedInterval() {
