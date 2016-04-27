@@ -25,7 +25,7 @@ export function isAuth() {
 
 export const INSTANCE_READY = 'INSTANCE_READY'
 export function instanceReady() {
-  let url = `/checkinstanceready`;
+  let url = `/api/ovh/checkinstanceready`;
   //let url = `http://localhost:9001/api/ovh/checkinstanceready/${process.env.TEST_INSTANCE_ID}`;
   let request = axios.get(url);
 

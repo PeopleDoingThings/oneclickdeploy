@@ -23,8 +23,9 @@ constructor(props){
       //        instName: event.target.value
       //      })
       //    }
-      //    /> <Link to="/loading" onClick={() => this.props.createInst()}><button className="btn btn-primary deployBtn">Deploy</button></Link> 
-       <div onClick={() => this.props.createInst()}><button className="btn btn-primary deployBtn">Deploy</button></div> 
+      //    /> <div onClick={() => this.props.createInst()}><button className="btn btn-primary deployBtn">Deploy</button></div> 
+       <Link to="/loading" onClick={() => this.props.createInst()}><button className="btn btn-primary deployBtn">Deploy</button></Link> 
+      
     //  <button form='deployForm' value="Submit" className="btn btn-primary deployBtn">Deploy</button>
     // </form>
     );
