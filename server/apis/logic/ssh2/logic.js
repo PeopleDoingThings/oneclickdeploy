@@ -12,6 +12,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
       password: data.password
     },
     commands: cmdArray,
+    idleTimeOut: 30000,
     msg: {
       send: function( message ) {
         console.log(message);
@@ -19,6 +20,9 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
     },
     onCommandComplete: function( command, response, sshObj ) {
       // If there is no response from the command(because the file we grep doesn't exist) it sets false.
+      console.log('||| COMMAND START |||')
+     console.log('command ======= ', command)
+     console.log('||| COMMAND END |||')
       if(command === 'cat bower.json') {
         var find = response.split("\r\n");
         console.log('SPLITTING NEW LINS bower = ', response.split("\r\n"))
@@ -36,7 +40,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
 
 
         if(find[1] !== 'cat: webpack.config.js: No such file or directory') {
-          sshObj.commands.unshift('webpack');
+          sshObj.commands.unshift('webpack --progress');
         }
       }
       else if(command === 'cat Procfile') {
@@ -56,7 +60,7 @@ exports.runCommandList = function(instanceData, cmdArray, data) {
       console.log('ended ssh2 session!!!')
     }
   };
-
+  host.debug = true;
   var SSHClient = new SSH2Shell(host);
 
   return SSHClient.connect();

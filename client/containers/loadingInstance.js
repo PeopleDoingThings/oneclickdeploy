@@ -51,7 +51,7 @@ function startChckInstInterval() {
           console.log('check instance ready is still false')
           component.props.instanceReady();
         }
-    }, 5000);
+    }, 8000);
 }
 
 function stopChckInstInterval() {
@@ -83,7 +83,7 @@ function startChckDeployedInterval() {
           console.log('check isDeployed ready is still false')
           component.props.isDeployed();
         }
-    }, 10000);
+    }, 15000);
   }
 
 function stopChckDeployedInterval() {
@@ -94,13 +94,30 @@ function stopChckDeployedInterval() {
 }
  
   render() {
+    if(this.props.LogOutput.output){
+    var logItem = this.props.LogOutput.output;
+    var splitStr = logItem.split("\n");
+    console.log('test log output', splitStr)
+    var lines = splitStr.map(function(line){return line})
+    }
+
     console.log('props in render:', this.props.LogOutput.output)//log state.status later
+    console.log('inst dat', JSON.stringify(this.props.Data))
     return (
       <div>
-        <h1>Loading.....</h1>
-        <div>Testing Log</div>
-        <div>Instance info:</div><div> {this.props.InstData[0] ? this.props.InstData[0].id : null} )</div>   
-        <div>Log Output</div>{this.props.LogOutput.output}   
+        <h1>Loading.....</h1>{
+          //<h1>Instance info:</h1>
+        }
+        
+        <div> {this.props.InstData[0] ? this.props.InstData[0].id : null} </div> 
+        <div></div>  
+        <div className="log">
+        <h6>Log Output</h6>
+        {
+          //{this.props.LogOutput.output ? this.props.LogOutput.output : null}
+        }
+        {splitStr ?  splitStr.map(line => <div>{line}</div>) : null  } 
+        </div>
       </div>
     );
   }
@@ -114,6 +131,7 @@ function mapStateToProps(state) {
   return {
     Load: state.reducers.load,
     InstData: state.reducers.install,
+    Data: state.reducers.instReady,
     InstStatus: state.reducers.instReady.isReady,
     DeployedStatus: state.reducers.isDeployed[0] ? state.reducers.isDeployed[0].deployed : null,
     LogOutput: state.reducers.logOutput

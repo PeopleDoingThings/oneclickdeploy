@@ -56,5 +56,13 @@ h5 {
   color: white !important;
 }
 
-
+.log {
+    width: 700px;
+    padding: 10px;
+    color: #32CD32;
+    background-color: black;
+    border: 1px solid black;
+    box-sizing: border-box;
+    font-size: 12px;
+}
 
