@@ -9,18 +9,18 @@ class Loading extends Component {
 
   var component = this ;  
   component.props.instanceReady()
-  
+  //set interval for check instance
   let cksInsID1 ='';
   function startChckInstInterval() {     
       cksInsID1 = setInterval(function () {
-        console.log(' set timeout props', component.props.InstStatus)    
+        console.log(' set timeout props checkInst', component.props.InstStatus)    
           if(component.props.InstStatus=== undefined){
             console.log('inst status undefiend ')
           }
           if(component.props.InstStatus === true){          
            //postinstall endpoint
-           
-            console.log('if statement of true')
+           component.props.isDeployed();
+            console.log('if statement InstStatus is true')
             console.log('about to stop Interval')
           // component.props.sshPostInstall();
            //start set interval2/check deployed 
@@ -29,32 +29,62 @@ class Loading extends Component {
            stopChckInstInterval(); 
           }
           else if (component.props.InstStatus === false) {
+            //if still false call api again
             console.log('check instance ready is still false')
-           //component.props.instanceReady();
+           component.props.instanceReady();
           }
       }, 1000);
   }
 
-startChckInstInterval();
   function stopChckInstInterval() {
   clearInterval(cksInsID1);
   console.log('really stopped now')
 } 
+startChckInstInterval();
+//set interval for checkdeployed
+let ckDep2 ='';
+function startChckDeployedInterval() {     
+    ckDep2 = setInterval(function () {
+      console.log(' set timeout props deployed', component.props.DeployedStatus)    
+        if(component.props.DeployedStatus === undefined){
+          console.log('depl status undefiend ')
+        }
+        if(component.props.DeployedStatus === true){           
+          console.log('isDeployed statement is true')
+          console.log('about to stop Interval 2 checkdeployed')
+         //stop interval2 log output
+                  //stopLogOutputInterval();
+                  //transition to DB
+                  //code for transiotn to DB
+         stopChckDeployedInterval(); 
+        }
+        else if (component.props.DeployedStatus === false) {
+          //if still false call api again
+          console.log('check isDeployed ready is still false')
+          component.props.isDeployed();
+        }
+    }, 1000);
+  }
 
- }
+  function stopChckDeployedInterval() {
+  clearInterval(ckDep2);
+  console.log('really stopped now')
+}
+
+
+}
  
   render() {
     //console.log('props in render:', this.props)//log state.status later
     return (
       <div>
-       <h1>Loading.....</h1>
-       <div>Testing Log</div>
-       {
-        //console.log('in render logging this.props', this.props.InstStatus)
-       }
-       <div>Instance info (repo url for testing):</div><div> {this.props.InstData[0] ? this.props.InstData[0].id : null} )</div>      
+        <h1>Loading.....</h1>
+        <div>Testing Log</div>
+         {
+          //console.log('in render logging this.props', this.props.InstStatus)
+         }
+        <div>Instance info (repo url for testing):</div><div> {this.props.InstData[0] ? this.props.InstData[0].id : null} )</div>      
       </div>
-
     );
   }
 }
@@ -78,60 +108,15 @@ startChckInstInterval();
 // //           //   clearInterval(logOuput0);
 // //           // }
 
-// //set interval for check instance
-// let cksInsID1 ='';
-// function  startChckInstInterval() {
-//       console.log('startinterval being called')
-//     cksInsID1 = setTimeout(() => {
-//         if(this.props.InstStatus === true){
-//          //stop set interval1 if it already started 
-//          //stopChckInstInterval();  
-//          //postinstall endpoint
-//           console.log('if statement of strartint')
-//         // this.props.sshPostInstall();
-//          //start set interval2/check deployed 
-//          //startChckDeployedInterval();
-//         }
-//         else if (this.props.InstStatus === false) {
-//           console.log('else in interval')
-//          //this.props.instanceReady();
-//         }
-//     }, 1000);
-// }
-
-// function stopChckInstInterval() {
-//   clearInterval(cksInsID1);
-// }
-
-// // //set interval for checkdeployed
-//             let ckDep2 ='';
-//             function  startChckDeployedInterval() {
-//                 ckDep2 = setInterval(() => {
-//                   if(this.props.isDeployed === true) {
-//                     //stop interval2 log output
-//                     //stopLogOutputInterval();
-//                     //transition to DB
-//                     //code for transiotn to DB
-//                   }else if(this.props.isDeployed===false){
-//                     this.props.isDeployed();
-//                   }    
-//                 }, 1000);
-//             }
-            
-//             function stopChckDeployedInterval() {
-//               clearInterval(ckDep2);
-//             }
-
-
 function mapStateToProps(state) {
   console.log('load state: ', state.reducers.load)
   console.log('install data in loading state', state.reducers.install)
-  console.log('state of instReady', state.reducers.instReady.isReady)
+  console.log('state of deploy status reducers', state.reducers.isDeployed[0])
   return {
     Load: state.reducers.load,
     InstData: state.reducers.install,
     InstStatus: state.reducers.instReady.isReady,
-    isDeployed: state.reducers.isDeployed
+    DeployedStatus: state.reducers.isDeployed[0] ? state.reducers.isDeployed[0].deployed : null
   };
 }
 

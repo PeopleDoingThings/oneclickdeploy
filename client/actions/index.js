@@ -74,7 +74,7 @@ export function createInst() {
 
 export const GETLOG = 'GETLOG'
 export function getLog() {
-  let url = `/getconsoleoutput`;
+  let url = `/api/ovh/getconsoleoutput`;
   let request = axios.get(url);
 
 
@@ -98,7 +98,7 @@ export function isDeployed() {
 
 export const SSHPOSTINSTALL = 'SSHPOSTINSTALL'
 export function sshPostInstall() {
-  let url = `/startsshpostinstall`;//'/startsshpostinstall'
+  let url = `/api/ssh2/startsshpostinstall`;//'/startsshpostinstall'
   let request = axios.get(url);
 
 
