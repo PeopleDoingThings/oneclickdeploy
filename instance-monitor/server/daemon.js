@@ -23,7 +23,10 @@ app.use(function(req, res, next) {
     console.log("validity: ", validity)
     console.log("--------------------------------------------")
 
-  if (tokenList.indexOf(parentToken) === -1) {
+  if ( !tokenList ||
+       !parentToken ||
+       tokenList.length === 0 ||
+       tokenList.indexOf(parentToken) === -1) {
     res.sendStatus(403)
   } else {
     next()
@@ -33,8 +36,8 @@ app.use(function(req, res, next) {
 app.get('/statistics/top', function(req, res){
   // set this environment on each instance
   if (process.env.MONITOR_SYSTEM !== 'instance') {
-    // top on UNIX (OS X) is slightly different than top on Linux
-    // This will probably need to be changed to run on an image
+    // top params assume development on OS X, deployment on linux
+    // may need updated for deployment on a new os.
     topstring = 'top -l 1 -n 0'
   } else {
     topstring = 'top -n 1 -b | head -n 6' // get top of 'top' in centos
