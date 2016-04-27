@@ -13,9 +13,9 @@ router.get('/repos', function(req, res) {
   Github.getUserRepos(username)
     .then(function(resp) {
       console.log('got repos! = ', resp)
-      Logic.save(req.user.gitid, resp)  // replace string here with req.user.gitid
+      Logic.save(String(req.user.gitid), resp)  // replace string here with req.user.gitid
         .then(function(data) {
-          console.log('==== githubroutes data ==== ', data);
+          console.log('saved repo data githubroutes!')
         })
         .catch(function(err) {
           console.log('githubroutes err = ', err);

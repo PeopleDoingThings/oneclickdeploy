@@ -8,7 +8,6 @@ var Repo = require('../database/models/deployedrepos.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 
 
-
 // Body should contain start command / repo url & name of server file
 exports.runSSHPostInstallSetup = function(user, repoid) {
   var instanceData = {};
@@ -31,7 +30,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Repo.find({ ownerid: String(user.gitid) }); //change pls
+      return Repo.find({ ownerid: String(user.gitid) }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
     })
     .then(function(data) {
       var repoData = data[0];
@@ -46,7 +45,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         .then(function(data) {
           console.log('instancelogindata = ', data)
           if(data.length > 0) {
-            return Logic.runCommandList(instanceData, Commands.postInstallSetup(repoData.clone_url), data[0]);
+            return Logic.runCommandList(instanceData, Commands.postInstallSetup(repoData.clone_url, data[0].daemonkey), data[0]);
           }
           
           return Promise.reject( new Error('Instance Login Data not Found!') );

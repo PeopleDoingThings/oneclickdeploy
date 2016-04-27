@@ -8,7 +8,7 @@ var Logic = require('../logic/ovh/logic.js');
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
 router.get('/usagestatistics', function(req, res) {
-	Logic.getInstanceUsage(String(req.user), req.query.time, req.query.type)
+	Logic.getInstanceUsage(String(req.user.gitid), req.query.time, req.query.type)
     .then(function(resp) {
   		res.send(resp);
   	})
