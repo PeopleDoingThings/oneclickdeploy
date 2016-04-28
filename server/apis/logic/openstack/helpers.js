@@ -90,6 +90,7 @@ exports.insertInstanceLogin = function(data) {
     user: data.name,
     password: data.pass,
     sshuser: 'admin',
+    ip: 'pending',
     daemonkey: Hat()
   })
 

@@ -7,6 +7,7 @@ var Repo = new Schema({
   repoid: String,
   ownerid: String,
   name: String,
+  age: Date,
   clone_url: String,
   procfile_url: String
 });

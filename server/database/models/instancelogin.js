@@ -6,6 +6,7 @@ var InstanceLogin = new Schema({
   user: String,
   password: String,
   sshuser: String,
+  ip: String,
   daemonkey: String
 });
 

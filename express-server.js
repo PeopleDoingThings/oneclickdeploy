@@ -12,6 +12,7 @@ var OpenStackRoutes = require('./server/apis/routes/openstackroutes.js');
 var GitHubRoutes = require('./server/apis/routes/githubroutes.js');
 var DatabaseRoutes = require('./server/apis/routes/dbroutes.js');
 var SSH2Routes = require('./server/apis/routes/ssh2routes.js');
+var DaemonRoutes = require('./server/apis/routes/daemonroutes.js');
 
 // MongoDB
 mongoose.connect('mongodb://localhost/oneclickdb');
@@ -59,6 +60,7 @@ app.use('/api/openstack/', OpenStackRoutes);
 app.use('/api/github/', GitHubRoutes);
 app.use('/api/database', DatabaseRoutes);
 app.use('/api/ssh2', SSH2Routes);
+app.use('/api/daemon', DaemonRoutes);
 
 app.get('/logout', function(req, res) {
   req.logout();

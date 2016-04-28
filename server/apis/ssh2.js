@@ -4,7 +4,7 @@ var Instance = require('../database/instances.js')
 //This methods file includes our logic and isolates it from our API.
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
-var Repo = require('../database/models/deployedrepos.js');
+var Repo = require('../database/models/deployablerepos.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 
 
@@ -30,14 +30,14 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Repo.find({ ownerid: String(user.gitid) }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
+      return Repo.find({ ownerid: String(user.gitid), repoid: repoid }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
     })
     .then(function(data) {
-      var repoData = data[0];
-
       if(data.length === 0) {
         return Promise.reject( new Error('No Repo Found for User: !') )
       }
+
+      var repoData = data[0];
 
       console.log('gitid 41 ssh2.js = ', user)
 
@@ -45,13 +45,10 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         .then(function(data) {
           console.log('instancelogindata = ', data)
           if(data.length > 0) {
-            return Logic.runCommandList(instanceData, Commands.postInstallSetup(repoData.clone_url, data[0].daemonkey), data[0]);
+            return Logic.runSSHPostInstall(instanceData, Commands.postInstallSetup(repoData.clone_url, data[0].daemonkey), data[0], repoData);
           }
           
           return Promise.reject( new Error('Instance Login Data not Found!') );
-        })
-        .then(function(data) {
-          return Logic.setDeployed(repoData);
         })
     })
 }

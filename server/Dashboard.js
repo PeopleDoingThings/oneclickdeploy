@@ -50,5 +50,16 @@ Dashboard:
   - Key ?
 
 
+
   Show Console:
   - Console feed from same api as during build.
+
+
+
+
+
+
+
+
+
+  
