@@ -2,7 +2,6 @@ var req = require('request');
 var Helpers = require('./logic/ssh2/helpers.js');
 var InstanceDB = require('../database/instances.js');
 var Instance = require('../database/models/instance.js');
-//This methods file includes our logic and isolates it from our API.
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
 var Repo = require('../database/models/deployablerepos.js');
@@ -34,7 +33,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
     })
     .then(function(data) {
       if(data.length === 0) {
-        return Promise.reject( new Error('No Repo Found for User: !') )
+        return Promise.reject( new Error('No Repo Found for User!') )
       }
 
       var repoData = data[0];
