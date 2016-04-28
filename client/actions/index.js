@@ -15,7 +15,6 @@ export const IS_AUTH = 'IS_AUTH'
 export function isAuth() {
   let url = `login/isauthenticated`;
   let request = axios.get(url);
-  console.log('request', request)
 
   return {
     type: IS_AUTH,

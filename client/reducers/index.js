@@ -6,7 +6,6 @@ import InstReady from './reducer_instReady';
 import CreatInstance from './reducer_creatInst';
 import IsDeployed from './reducer_isDeployed';
 import LogOutput from './reducer_logOutput';
-import Deployed from './reducer_deployed';
 import memUsage from './reducer_memUsage';
 import cpuUsage from './reducer_cpuUsage';
 import txUsage from './reducer_txUsage';
@@ -18,8 +17,7 @@ const rootReducer = combineReducers({
   install: CreatInstance,
   instReady: InstReady,
   isDeployed: IsDeployed,
-  logOutput: LogOutput
-  deployed: Deployed,
+  logOutput: LogOutput,
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,

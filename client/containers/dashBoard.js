@@ -24,9 +24,15 @@ export default class DashBoard extends Component {
   //console.log('outside render', this.props.memUsage)
   render() {
 
-    if(this.props.memUsage.length !== 0 && this.props.cpuUsage.length !== 0) {
+    if(this.props.memUsage.length !== 0 && 
+        this.props.cpuUsage.length !== 0 && 
+        this.props.txUsage.length !== 0 && 
+        this.props.rxUsage.length !== 0
+      ) {
       return (
+
         <div>
+        {console.log('working')}
           <h3>test: Dashboard</h3>
             {
             // <ul>
@@ -53,8 +59,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state txUsage: ', state.reducers.txUsage)
-  console.log('state memUsage: ', state.reducers.rxUsage)
+  // console.log('state txUsage: ', state.reducers.txUsage)
+  // console.log('state memUsage: ', state.reducers.rxUsage)
   //console.log('state cpuUsage: ', state.reducers.cpuUsage)
  return {
     instance: state.reducers.deployed,

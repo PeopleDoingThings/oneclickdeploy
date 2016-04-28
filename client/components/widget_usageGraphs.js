@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import ReactFauxDOM from 'react-faux-dom';
 import ReactDom from 'react-dom';
-//import { util, Chart, DataSeries, BarChart, XAxis, YAxis } from 'diffract';
 
 const memGraph = new ReactFauxDOM.Element('div');
 const cpuGraph = new ReactFauxDOM.Element('div');
@@ -22,24 +21,16 @@ let data = [
     {date: '3-May-12', close: 28.13}
   ]
 
-function makeChart(data, container, y_Max) {
+function makeChart(data, container, y_Max, title) {
   //console.log('data', data)
   
-  let margin = {top: 10, right: 20, bottom: 10, left: 50},
-      width = 700 - margin.left - margin.right,
+  let margin = {top: 30, right: 20, bottom: 30, left: 50},
+      width = 600 - margin.left - margin.right,
       height = 170 - margin.top - margin.bottom
 
-  // for (var i = 0; i < data.length; i++) {
-  //           data[i].timestamp = parseDate(data[i].Date);
-  //       }
-
-  //console.log("data", data)      
-
-  let parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
-
-  // let x = d3.time.scale()
-  //       .domain([timeFormat.parse('2014-03-08T12:00:00'), timeFormat.parse('2014-03-10T00:00:00')])
-  //       .range([0, width]);
+  let duration = 1500;
+  let delay = 500;
+  let parseDate = d3.time.format("%I %p");
 
   let x = d3.time.scale().range([0, width]);
   let y = d3.scale.linear().range([height, 0]);
@@ -49,20 +40,31 @@ function makeChart(data, container, y_Max) {
   let xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom")
-      .ticks(24);
+      .ticks(12)
+      .tickFormat( function(d,i) {
+        // console.log('*********************')
+        // console.log('parsed d is:', d)
+        //return "" + i;
+        return "" + parseDate(d);
+      });
 
   let yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .ticks(24);
+      .ticks(8);
 
   let area = d3.svg.area()
-      .x(function(d) { return x(d.timestamp); })
+      .interpolate("basis")
+      .x(function(d) { //console.log('x axis:', d.timestamp); 
+        return x(d.timestamp); })
       .y0(height)
-      .y1(function(d) { return y(d.value); });
+      .y1(function(d) { //console.log('y axis:', d.value); 
+        return y(d.value); });
+
 
   let valueline = d3.svg.line()
-      .x(function(d) { console.log(+d.timestamp); return x(d.timestamp); })
+      .interpolate("basis")
+      .x(function(d) { return x(d.timestamp); })
       .y(function(d) { return y(d.value); });   
       
   let svg = d3.select(container)
@@ -79,7 +81,7 @@ function makeChart(data, container, y_Max) {
       return d3.svg.axis()
           .scale(x)
           .orient("bottom")
-          .ticks(24)
+          .ticks(12)
   }
 
   // function for the y grid lines
@@ -87,14 +89,12 @@ function makeChart(data, container, y_Max) {
     return d3.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(24)
+        .ticks(8)
   }
 
   // Get the data
       data.forEach(function(d) {
-          var date =  new Date(d.timestamp * 1000);
-          d.timestamp = date.getHours();
-          //parseDate( new Date("" + d.timestamp) )
+          d.timestamp = d.timestamp * 1000
           d.value = +d.value;
       });
 
@@ -170,15 +170,13 @@ function makeChart(data, container, y_Max) {
           .style("text-anchor", "end")
           .text(yRamLabel);
 
-      // Add the title
-      // svg.append("text")
-      //     .attr("x", (width / 2))     
-      //     .attr("y", 0 - (margin.top / 2))
-      //     .attr("text-anchor", "middle")
-      //     .style("font-size", "16px")
-      //     .style("text-decoration", "underline")
-      //     .text("RAM Graph: Last Day");
-      //     console.log('title working')
+      //Add the title
+      svg.append("text")
+          .attr("x", 0)     
+          .attr("y", 0 - (margin.top / 2))
+          .attr("class", "title")
+          .text(`${title} Graph: Last Day`);
+
 }
 
 
@@ -196,11 +194,15 @@ export default class MemUsage extends Component {
     const newTX = this.props.txUsage.values;
     const newRX = this.props.rxUsage.values;
 
-    makeChart(newMem, memGraph, 1000);
-    makeChart(newCPU, cpuGraph, 1);
-    makeChart(newTX, txGraph, 1000);
-    makeChart(newRX, rxGraph, 1000);
-
+    if( this.props.txUsage.values.length !== 0 && 
+        this.props.rxUsage.values.length !== 0
+      ) {
+        console.log('start making charts yo')
+        makeChart(newMem, memGraph, 4000, "RAM usage");
+        makeChart(newCPU, cpuGraph, 100, "CPU usage");
+        makeChart(newTX, txGraph, 4000, "outgoing");
+        makeChart(newRX, rxGraph, 4000, "incoming");
+      }
 
   }
 
@@ -208,7 +210,7 @@ export default class MemUsage extends Component {
         return (
         <div>
           <div>{memGraph.toReact()} </div>   
-          <div>{cpuGraph.toReact()} </div>   
+          <div>{cpuGraph.toReact()} </div> 
           <div>{txGraph.toReact()} </div> 
           <div>{rxGraph.toReact()} </div> 
         </div>     
