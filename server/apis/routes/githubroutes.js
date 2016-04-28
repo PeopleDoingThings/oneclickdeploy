@@ -7,11 +7,8 @@ var Logic = require('../logic/github/logic.js');
 
 router.get('/repos', function(req, res) {
   Github.getUserRepos(req.user)
-    .then(function(resp) {
-      return Logic.save(String(req.user.gitid), resp);
-    })
     .then(function(data) {
-      res.send(resp);
+      res.send(data);
     })
     .catch(function(err) {
       res.send(err.message);
