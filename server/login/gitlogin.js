@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Instance = require('../database/instances.js');
+var InstanceDB = require('../database/instances.js');
 
 
 var passportGithub = require('./auth/githubstrategy.js');
@@ -22,13 +22,9 @@ router.get('/isauthenticated', function(req, res) {
 });
 
 router.get('/getuserinstances', function(req, res) {
-  Instance.getUserInstances(req.user.gitid)
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      res.send(err);
-    })
+  InstanceDB.getUserInstances(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
 });
 
 router.get('/github', passportGithub.authenticate('github'));

@@ -4,9 +4,7 @@ var InstanceLogin = require('../../../database/models/instancelogin.js');
 
 exports.getCommandData = function(id, command) {
   InstanceLogin.find({ ownergitid: id })
-    .then(function(data) {
-      return Daemon.sendCommand(data[0], command);
-    })
+    .then( data => Daemon.sendCommand(data[0], command) );
 }
 
 // We find the users repo & daemon key then check their instance daemon responds.
@@ -29,12 +27,8 @@ exports.checkDaemonHealth = function(id, restart) {
     .catch(function(err) {
       if(restart === 'soft') {
         SSH2Logic.restartDaemon(id, repoData)
-          .then(function(data) {
-            return data;
-          })
-          .catch(function(err) {
-            return err.message;
-          })
+          .then( data => data )
+          .catch( err => err.message )
       }
       else {
         SSH2Logic.reinstallDaemon(id, repoData)

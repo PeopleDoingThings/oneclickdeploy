@@ -1,6 +1,6 @@
 var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
-var Instance = require('../../../database/instances.js');
+var InstanceDB = require('../../../database/instances.js');
 var InstanceLogin = require('../../../database/instancelogin.js');
 var OpenStack = require('../../openstack.js');
 var Hat = require('hat');
@@ -8,15 +8,9 @@ var Hat = require('hat');
 
 // This maps each service to a list of its information
 exports.instanceList = function() {
-  return OVH.listServices().then(function(resp) {
-    return resp;
-  })
-  .then(function(resp) {
-    return Promise.all(resp.map(function(val) {
-      return OVH.getServiceInformation(val);
-    }));
-  })
-
+  return OVH.listServices()
+  .then( data => data )
+  .then( data => Promise.all( resp.map( val => OVH.getServiceInformation(val)) ))
 }
 
 exports.imageData = function(version) {
@@ -45,7 +39,7 @@ exports.reinstallInstance = function(id) {
   var imgObj = { imageId: process.env.OVH_CUSTOMSNAPSHOT };
   var mongoInstanceId = '';
 
-  return Instance.getUserInstances(id)
+  return InstanceDB.getUserInstances(id)
     .then(function(data) {
       mongoInstanceId = data[0]._id;
       console.log('found instance for reinstall! = ', data, 'ins id = ', data[0].openstackid);
@@ -53,13 +47,13 @@ exports.reinstallInstance = function(id) {
     })
     .then(function(data) {
       console.log('reinstalled instance = ', data, mongoInstanceId)
-      return Instance.updateInstanceFromReinstall(data, mongoInstanceId);
+      return InstanceDB.updateInstanceFromReinstall(data, mongoInstanceId);
     })
 }
 
 exports.checkReady = function(userid) {
   var mongoInstanceId = '';
-  return Instance.getUserInstances(userid) // Making sure there is an instance connected with this user.
+  return InstanceDB.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
       mongoInstanceId = data[0]._id;
       console.log('mongoInstanceId = ', mongoInstanceId)
@@ -74,10 +68,8 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      Instance.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
-        .then(function(insert) {
-          return InstanceLogin.findAndUpdateIP(userid, data.ip.ip);
-        })
+      InstanceDB.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
+        .then(data => InstanceLogin.findAndUpdateIP(userid, data.ip.ip) )
 
       return data;
     })
@@ -85,30 +77,22 @@ exports.checkReady = function(userid) {
 
 // Can Refactor these four when time permits.
 exports.rebootInstance = function(userid, type) {
-  return Instance.getUserInstances(userid)
-    .then(function(data) {
-      return OVH.rebootInstance(data[0].openstackid, type);
-    })
+  return InstanceDB.getUserInstances(userid)
+    .then( data => OVH.rebootInstance(data[0].openstackid, type) )
 }
 
 exports.getInstanceUsage = function(userid, time, type) {
-  return Instance.getUserInstances(userid)
-    .then(function(data) {
-      return OVH.getInstanceUsage(data[0].openstackid, time, type);
-    })
+  return InstanceDB.getUserInstances(userid)
+    .then( data => OVH.getInstanceUsage(data[0].openstackid, time, type) )
 }
 
 exports.getConsoleOutput = function(userid) {
-  return Instance.getUserInstances(userid)
-    .then(function(data) {
-      return OpenStack.getConsoleOutput(data[0].openstackid);
-    })
+  return InstanceDB.getUserInstances(userid)
+    .then( data => OpenStack.getConsoleOutput(data[0].openstackid) )
 }
 
 exports.getSSHKey = function(userid) {
-  return Instance.getUserInstances(userid)
-    .then(function(data) {
-      return OVH.getSSHKey(data[0].openstackid);
-    })
+  return InstanceDB.getUserInstances(userid)
+    .then( data => OVH.getSSHKey(data[0].openstackid) )
 }
 
