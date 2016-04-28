@@ -79,6 +79,26 @@ app.get('/statistics/forever', function(req, res){
   })
 })
 
+app.get('/statistics/printenv', function(req, res){
+
+  command = 'printenv'
+
+  exec(command, (err, stdout, stderr) => {
+    if (err) {
+      console.error('error running printenv', err);
+      res.send(err);
+    } else {
+      var response = stdout.split('\n').filter(line => line.length > 0)
+      console.log("---------------------------------------------------------")
+      console.log("- recieved request - /statistics/printenv ; response:   -")
+      console.log("---------------------------------------------------------")
+      console.log(response);
+      console.log("---------------------------------------------------------")
+      res.json(response);
+    }
+  })
+})
+
 app.get('/statistics/uptime', function(req, res){
 
   command = 'uptime'
