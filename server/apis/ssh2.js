@@ -11,6 +11,7 @@ var InstanceLogin = require('../database/models/instancelogin.js');
 // Body should contain start command / repo url & name of server file
 exports.runSSHPostInstallSetup = function(user, repoid) {
   var instanceData = {};
+  if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
   return Instance.getUserInstances(String(user.gitid))
     .then(function(data) {
