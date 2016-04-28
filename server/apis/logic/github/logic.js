@@ -1,4 +1,4 @@
-var Repo = require('../../../database/models/deployedrepos.js');
+var Repo = require('../../../database/models/deployablerepos.js');
 
 exports.save = function(gitid, resp) {
 
@@ -15,7 +15,12 @@ exports.save = function(gitid, resp) {
     return Repo.find({ repoid: String(data.id) })
       .then(function(data) {
         if(data.length === 0) {
+          console.log('Saving New Repo Data!')
           return repoObj.save();
+        }
+        else {
+          console.log('Getting Repo data from DB!', data)
+          return data[0];
         }
       })
   })

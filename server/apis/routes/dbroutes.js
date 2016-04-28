@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var Instance = require('../../database/instances');
-var Repo = require('../../database/models/deployedrepos.js');
+var Instance = require('../../database/instances.js');
+var Repo = require('../../database/models/deployablerepos.js');
 
 
 // Protect with middleware later on.
 router.get('/getuserinstances', function(req, res) {
-  return Instance.getUserInstances(req.user.gitid)
+  return Instance.getUserInstances(String(req.user.gitid))
     .then(function(data) {
       res.send(data);
     })

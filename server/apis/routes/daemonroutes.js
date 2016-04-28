@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Repo = require('../../database/models/deployedrepos.js');
+var Repo = require('../../database/models/deployablerepos.js');
 
 
 // Base route is /api/daemon/

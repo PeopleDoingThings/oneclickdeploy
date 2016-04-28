@@ -4,7 +4,7 @@ var Instance = require('../database/instances.js')
 //This methods file includes our logic and isolates it from our API.
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
-var Repo = require('../database/models/deployedrepos.js');
+var Repo = require('../database/models/deployablerepos.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 
 

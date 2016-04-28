@@ -67,7 +67,7 @@ var obj = {
 
       // console.log('onCommandComplete: ', response)
     },
-    onCommandTimeout:    function(command, response, sshObj, stream, connection) {
+    onCommandTimeout: function(command, response, sshObj, stream, connection) {
       // Adding this section causes 'exit' events to be skipped and we can deal with timeouts here.
       console.log('CONNECTION TIMED OUT!!!!')
       console.log('TIMED OUT COMMAND = ', command)
