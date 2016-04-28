@@ -13,7 +13,7 @@ exports.commandObj = function(data, command) {
 
 exports.pingObj = function(data) {
   var obj = {
-    url: `${data.ip}/statistics/check`
+    url: `${data.ip}/statistics/uptime`
     header: {
       'parent-server-token': data.daemonkey
     }
