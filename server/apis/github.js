@@ -1,22 +1,27 @@
+var moment = require('moment');
+var Moment = moment();
+var Logic = require('./logic/github/logic.js');
+var Repo = require('../database/models/deployablerepos.js');
 var Promise = require('bluebird');
 var Helper = require('./logic/github/helpers.js');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 
 exports.getUserRepos = function(user) {
-  var repo_options = {
-    url: `https://api.github.com/users/${user}/repos?sort=updated&client_id=${process.env.GITHUB_QUERY_CLIENTID}&client_secret=${process.env.GITHUB_QUERY_CLIENTSECRET}`,
-    headers: {
-      'User-Agent': 'peopleDoingThings/oneclickdeploy'
-    }
-  };
 
-  return request(repo_options) 
+  return Repo.find({ ownerid: String(user.gitid) })
+    .then(function(data) {
+      if(data.length > 0 && Moment.diff(data[0].age, 'days') > 3) {
+        return data;
+      }
+
+      return request(Helper.createRepoOpts(user.login));
+    })
     .then(function(resp){
       console.log('Github Limit Remaining: ', resp.headers['x-ratelimit-remaining']);
       var condensed = JSON.parse(resp.body)
         .map(function(repo) {
-          return Helper.processRepo(repo, user);
+          return Helper.processRepo(repo, user.login);
         });
 
       console.log("--------------------------------------------------------");
@@ -28,28 +33,21 @@ exports.getUserRepos = function(user) {
       return condensed;
     })
     .then(function(repo_list){
-
       // I love Bluebird.
       // This filters an array based on an async predicate function.
       return Promise.filter(repo_list, function(repo){
-        return Promise.resolve(validateProcfile(repo.procfile_url))
+        return Logic.save(String(user.gitid), (validateProcfile(repo.procfile_url)));
       });
     })
     .catch(function(err) {
-      // console.log("Error getting user repositories: ", err)
+      console.log("Error getting user repositories: ", err)
       return [];
     });
 }
 
 function validateProcfile(procfile_url) {
-  var procfile_options = {
-    url: procfile_url,
-    headers: {
-      'User-Agent': 'peopleDoingThings/oneclickdeploy'
-    }
-  };
 
-  return request(procfile_options)
+  return request(Helper.createProcOpts(procfile_url))
     .then(function(resp){
       var validity = resp.body.match(/web: node/) !== null;
       console.log("--------------------------------------------------------");
@@ -60,7 +58,7 @@ function validateProcfile(procfile_url) {
       return validity;
     })
     .catch(function(err) {
-      // console.log("Error validating procfile: ", err)
+      //console.log("Error validating procfile: ", err)
       return false;
     });
 }

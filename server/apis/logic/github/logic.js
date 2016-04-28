@@ -8,6 +8,7 @@ exports.save = function(gitid, resp) {
       repoid: String(data.id),
       ownerid: gitid,
       name: data.name,
+      age: Date.now(),
       clone_url: data.clone_url,
       procfile_url: data.procfile_url
     });
@@ -15,12 +16,7 @@ exports.save = function(gitid, resp) {
     return Repo.find({ repoid: String(data.id) })
       .then(function(data) {
         if(data.length === 0) {
-          console.log('Saving New Repo Data!')
           return repoObj.save();
-        }
-        else {
-          console.log('Getting Repo data from DB!', data)
-          return data[0];
         }
       })
   })

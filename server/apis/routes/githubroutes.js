@@ -6,9 +6,7 @@ var Logic = require('../logic/github/logic.js');
 // These routes are relative to the mounted router. Therefore '/' here is actaully '/api/github'.
 
 router.get('/repos', function(req, res) {
-  var username = req.user && req.user.login;
-
-  Github.getUserRepos(username)
+  Github.getUserRepos(req.user)
     .then(function(resp) {
       return Logic.save(String(req.user.gitid), resp);
     })
