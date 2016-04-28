@@ -17,6 +17,7 @@ const rootReducer = combineReducers({
   install: CreatInstance,
   instReady: InstReady,
   isDeployed: IsDeployed,
+  logOutput: LogOutput,
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,

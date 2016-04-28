@@ -86,7 +86,7 @@ function startChckDeployedInterval() {
           console.log('check isDeployed ready is still false')
           component.props.isDeployed(window.localStorage.getItem('repoID'));
         }
-    }, 10000);
+    }, 6000);
   }
 
 function stopChckDeployedInterval() {
