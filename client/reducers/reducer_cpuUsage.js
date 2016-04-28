@@ -1,12 +1,13 @@
-import { CREATEINST } from '../actions/index';
+import { USAGE_CPU } from '../actions/index';
 
 export default function(state = [], action) {
   switch (action.type) {
-
-    case CREATEINST: 
+      case USAGE_CPU:  
       return action.payload.data === undefined ? state : action.payload.data;
+    
     default: return state;
 
   }
  
 }
+

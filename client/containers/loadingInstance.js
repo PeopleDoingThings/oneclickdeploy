@@ -17,7 +17,7 @@ function startLogOutputInterval() {
     logOutput0 = setInterval(function () {
         component.props.getLog();
         console.log('what is logoutput in interval',component.props.LogOutput.output)
-      }, 1000);
+      }, 3000);
 }
 
 function stopLogOutputInterval() {
@@ -83,7 +83,7 @@ function startChckDeployedInterval() {
           console.log('check isDeployed ready is still false')
           component.props.isDeployed();
         }
-    }, 10000);
+    }, 6000);
   }
 
 function stopChckDeployedInterval() {

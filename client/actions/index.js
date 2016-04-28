@@ -15,7 +15,6 @@ export const IS_AUTH = 'IS_AUTH'
 export function isAuth() {
   let url = `login/isauthenticated`;
   let request = axios.get(url);
-  console.log('request', request)
 
   return {
     type: IS_AUTH,
@@ -93,4 +92,55 @@ export function sshPostInstall() {
     type: SSHPOSTINSTALL,
     payload: request
   }
+}
+
+//
+//Dashboard widgets
+//
+export const USAGE_MEM = 'USAGE_MEM'
+export function usageMemory() {
+  let url = '/api/ovh/usagestatistics/?time=lastday&type=mem:used'
+  let request = axios.get(url);
+
+  return {
+    type: USAGE_MEM,
+    payload: request
+  }
+
+}
+
+export const USAGE_CPU = 'USAGE_CPU'
+export function usageCPU() {
+  let url = '/api/ovh/usagestatistics?time=lastday&type=cpu:used'
+  let request = axios.get(url);
+
+  return {
+    type: USAGE_CPU,
+    payload: request
+  }
+
+}
+
+export const USAGE_TX = 'USAGE_TX'
+export function usageTX() {
+  let url = '/api/ovh/usagestatistics/?time=lastday&type=net:tx'
+  let request = axios.get(url);
+
+  return {
+    type: USAGE_TX,
+    payload: request
+  }
+
+}
+
+export const USAGE_RX = 'USAGE_RX'
+export function usageRX() {
+  let url = '/api/ovh/usagestatistics/?time=lastday&type=net:rx'
+  let request = axios.get(url);
+
+  return {
+    type: USAGE_RX,
+    payload: request
+  }
+
 }

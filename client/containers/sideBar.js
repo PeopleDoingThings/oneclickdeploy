@@ -5,7 +5,6 @@ import Logout from '../components/logout';
 export default class Aside extends Component {
  constructor(props){
     super(props);
-    console.log('props in aside:' ,this.props);
   
   }
 
