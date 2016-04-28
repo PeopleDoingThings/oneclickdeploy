@@ -15,7 +15,7 @@ exports.getUserRepos = function(user, query) {
         return Promise.reject(data);  // We reject here to send our data back straight from the db.
       }
 
-      return Repo.remove({ ownerid: String(user.gitid) });
+      return Repo.remove({ ownerid: String(user.gitid), deployed: false });  // We need to keep track of deployed repos!
     })
     .then(function(data) {
       return request(Helper.createRepoOpts(user.login));
