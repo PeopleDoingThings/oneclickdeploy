@@ -4,41 +4,28 @@ var Helper = require('./process/helpers.js')
 mongoose.Promise = require('bluebird');
 
 
-exports.getUserInstances = function(gituserid) {
-  return Instance.find({ ownergitid: gituserid });
-}
+// We make sure we get a user Instance here otherwise we reject! This cleans up logic in other files and prevents repition.
+exports.getUserInstances = gituserid => Instance.find({ ownergitid: gituserid });
 
-exports.getAllInstances = function() {
-  return Instance.find({});
-}
-
-exports.getInstanceById = function(instanceid) {
-  return Instance.find({ openstackid: instanceid });
-}
+exports.getInstanceById = instanceid => Instance.find({ openstackid: instanceid });
 
 // Here if instance doesn't exist it will be from the OVH api (createnew) so its obj.id instead of obj.openstackid
 exports.insertUpdateUserInstance = function(obj, gitid) {
   return Helper.findByInstanceId(obj.openstackid)
-    .then(function(data) {
+    .then( data => {
       console.log('found instance instances.js/db 23 = ', data)
       return Helper.updateInstanceEntry(data);
     })
-    .then(function(data) {
-      return data;
-    })
-    .catch(function(err) {
+    .then( data => data )
+    .catch( err => {
       console.log('instance not found saving new/instances.js/30: ', err)
       return Helper.saveInstance(obj, gitid);
     })
 }
 
-exports.updateInstanceFromReinstall = function(obj, id) {
-  return Helper.updateInstanceEntryFromOVH(obj, id);
-}
+exports.updateInstanceFromReinstall = (obj, id) => Helper.updateInstanceEntryFromOVH(obj, id);
 
 exports.updateInstanceState = function(obj, id) {
   return Helper.updateInstanceState(obj, id)
-    .then(function(data) {
-      return data;
-    })
+    .then( data => data )
 }

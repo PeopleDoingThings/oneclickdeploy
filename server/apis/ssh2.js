@@ -1,7 +1,7 @@
 var req = require('request');
 var Helpers = require('./logic/ssh2/helpers.js');
-var Instance = require('../database/instances.js')
-//This methods file includes our logic and isolates it from our API.
+var InstanceDB = require('../database/instances.js');
+var Instance = require('../database/models/instance.js');
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
 var Repo = require('../database/models/deployablerepos.js');
@@ -11,15 +11,14 @@ var InstanceLogin = require('../database/models/instancelogin.js');
 // Body should contain start command / repo url & name of server file
 exports.runSSHPostInstallSetup = function(user, repoid) {
   var instanceData = {};
+  if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
-  return Instance.getUserInstances(String(user.gitid))
-    .then(function(data) {
-      return data[0].openstackid;
+  return InstanceDB.getUserInstances(String(user.gitid))
+    .then( data => {
+      if(data.length === 0) return Promise.reject( new Error('Please First Create an Instance!') )
+      return data[0].openstackid 
     })
-    .then(function(data) {
-      console.log('getting instance id = ', data)
-      return Instance.getInstanceById(data);
-    })
+    .then( data => Instance.find({ openstackid: data }) )
     .then(function(data) {
       console.log('got instance ssh2.js 19 = ', data[0])
       instanceData = data[0];
@@ -34,13 +33,11 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
     })
     .then(function(data) {
       if(data.length === 0) {
-        return Promise.reject( new Error('No Repo Found for User: !') )
+        return Promise.reject( new Error('No Repo Found for User!') )
       }
 
       var repoData = data[0];
-
-      console.log('gitid 41 ssh2.js = ', user)
-
+      
       return InstanceLogin.find({ ownergitid: user.gitid})
         .then(function(data) {
           console.log('instancelogindata = ', data)
@@ -56,15 +53,9 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
 exports.runSSHCommands = function(userid, cmdArray) {
   var instanceData = {};
 
-  return Instance.getUserInstances(userid)
-    .then(function(data) {
-      console.log('found user instance = ', data)
-      return data[0];
-    })
-    .then(function(data) {
-      console.log('ss2 66 found user instance = ', data)
-      return Instance.getInstanceById(data.openstackid);
-    })
+  return InstanceDB.getUserInstances(userid)
+    .then( data => data[0] )
+    .then( data => Instance.find({ openstackid: data.openstackid }) )
     .then(function(data) {
       if(!data) {
         return Promise.reject( new Error('Instance not Found!') );
@@ -76,12 +67,8 @@ exports.runSSHCommands = function(userid, cmdArray) {
       instanceData = data;
       return InstanceLogin.find({ ownergitid: user.gitid});
     })
-    .then(function(data) {
-      return Logic.runCommandList(instanceData, cmdArray, data[0]);
-    })
-    .then(function(data) {
-      return data;
-    })
+    .then( data => Logic.runCommandList(instanceData, cmdArray, data[0]) )
+    .then( data => data )
 }
 
 

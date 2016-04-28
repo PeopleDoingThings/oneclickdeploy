@@ -7,33 +7,20 @@ var Logic = require('../logic/openstack/logic.js');
 
 router.get('/getflavors', function(req, res) {
   OpenStack.getFlavors()
-    .then(function(data) {
-      res.send(data.body);
-    })
-    .catch(function(err) {
-      res.send(err);
-    })
+    .then( data => res.send(data.body) )
+    .catch( err => res.send(err) )
 })
 
 router.get('/getnewtoken', function(req, res) {
   OpenStack.getNewToken()
-    .then(function(data) {
-      process.env.OPENSTACK_X_AUTH = data.body.access.token.id;
-      res.send(data.body);
-    })
-    .catch(function(err) {
-      res.send(err);
-    })
+    .then( data => res.send(data.body) )
+    .catch( err => res.send(err) )
 })
 
 router.get('/getconsoleoutput', function(req, res) {
   Logic.getConsoleOutput(String(req.user.gitid))
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      res.send(err.message);
-    })
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
 })
 
 router.get('/createinstance', function(req, res) {
