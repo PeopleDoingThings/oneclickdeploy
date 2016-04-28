@@ -14,8 +14,11 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
   var instanceData = {};
   if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
-  return Instance.getUserInstances(String(user.gitid))
-    .then( data => data[0].openstackid )
+  return InstanceDB.getUserInstances(String(user.gitid))
+    .then( data => {
+      if(data.length === 0) return Promise.reject( new Error('Please First Create an Instance!') )
+      return data[0].openstackid 
+    })
     .then( data => Instance.find({ openstackid: data }) )
     .then(function(data) {
       console.log('got instance ssh2.js 19 = ', data[0])

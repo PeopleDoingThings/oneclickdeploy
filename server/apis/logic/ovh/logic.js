@@ -68,8 +68,9 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
+      console.log('DATA IP IS THIS UNDEFINED???? ==== ', data)
       InstanceDB.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
-        .then(data => InstanceLogin.findAndUpdateIP(userid, data.ip.ip) )
+        .then( obj => InstanceLogin.findAndUpdateIP(userid, data.ip.ip) )
 
       return data;
     })

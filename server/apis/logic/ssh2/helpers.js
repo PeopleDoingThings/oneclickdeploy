@@ -1,4 +1,7 @@
-exports.postInstallhost = function(instanceData, cmdArray, data, repoData) {
+var Logic = require('./logic.js');
+
+
+exports.postInstallHost = function(instanceData, cmdArray, data, repoData) {
 var obj = {
     server: {
       host: instanceData.publicip,
@@ -49,7 +52,8 @@ var obj = {
         console.log(response)
         console.log('KNEX cat END')
         var valid = response.split("\r\n");
-        var find = response.split("\n").map( val => val.split("'")[1][1] );
+        var find = response.split("\n").map( val => val.split("'") );
+        if(find !== undefined && find[1] !== undefined) find = find[1][1];
         console.log('FIND after split = ', find)
         console.log('valid[1] ==== ', valid[1]) //this checks if there is a knex file.
         //We will want to change this logic in future in regard to updating repos from master.

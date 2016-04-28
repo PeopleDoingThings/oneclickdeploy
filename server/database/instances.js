@@ -5,13 +5,7 @@ mongoose.Promise = require('bluebird');
 
 
 // We make sure we get a user Instance here otherwise we reject! This cleans up logic in other files and prevents repition.
-exports.getUserInstances = function(gituserid) {
-  return Instance.find({ ownergitid: gituserid })
-    .then(function(data) {
-      if(!data || data.length === 0) { return Promise.reject( new Error('No Instance Found for User!') ); }
-      return data;
-    })
-}
+exports.getUserInstances = gituserid => Instance.find({ ownergitid: gituserid });
 
 exports.getInstanceById = instanceid => Instance.find({ openstackid: instanceid });
 

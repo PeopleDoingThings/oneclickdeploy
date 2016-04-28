@@ -25,7 +25,7 @@ exports.callCreateNewInstance = function(id) {
   var name = Hat().slice(6);
   var pass = Hat().slice(0, 9);
 
-  return InstanceDB.getUserInstances(id)
+  return Instance.find({ ownergitid: id })
     .then(function(data) {
       if(data.length > 0) {
         return Promise.reject( new Error('User Already Has An Instance!') );
