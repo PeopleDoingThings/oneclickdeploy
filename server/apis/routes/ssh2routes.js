@@ -8,11 +8,9 @@ var Commands = require('../logic/ssh2/commands.js');
 router.get('/startsshpostinstall', function(req, res) {
   SSH2.runSSHPostInstallSetup(req.user, req.query.repoid)
     .then(function(data) {
-      console.log('ssh success = ', data)
       res.send(data);
     })
     .catch(function(err) {
-      console.log('ssh err = ', err)
       res.send(err.message);
     })
 })

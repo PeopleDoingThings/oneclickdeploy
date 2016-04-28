@@ -1,6 +1,7 @@
 var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
 var Instance = require('../../../database/instances.js');
+var InstanceLogin = require('../../../database/instancelogin.js');
 var OpenStack = require('../../openstack.js');
 var Hat = require('hat');
 
@@ -73,11 +74,10 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      console.log('got ins state = ', data)
-      Instance.updateInstanceState(data, mongoInstanceId)
-      .then(function(insert) {
-        console.log('updated instance state! logic.js/ovh' , insert)
-      })
+      Instance.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
+        .then(function(insert) {
+          return InstanceLogin.findAndUpdateIP(userid, data.ip.ip);
+        })
 
       return data;
     })
