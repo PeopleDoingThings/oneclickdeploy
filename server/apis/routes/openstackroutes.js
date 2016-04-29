@@ -18,22 +18,15 @@ router.get('/getnewtoken', function(req, res) {
 })
 
 router.get('/getconsoleoutput', function(req, res) {
-  Logic.getConsoleOutput(String(req.user.gitid))
+  Logic.getConsoleOutput(req.user.gitid)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
 })
 
 router.get('/createinstance', function(req, res) {
-  console.log('confirm req.user.gitid', req.user.gitid)
-  Logic.callCreateNewInstance(String(req.user.gitid))
-    .then(function(data) {
-      console.log('OS create instance success = ', data)
-      res.send(data);
-    })
-    .catch(function(err) {
-      console.log('OS create instance err = ', err)
-      res.send(err.message)
-    })
+  Logic.callCreateNewInstance(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
 })
 
 

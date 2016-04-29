@@ -57,8 +57,8 @@ exports.checkReady = function(userid) {
   var mongoInstanceId = '';
   return InstanceDB.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
-      mongoInstanceId = data[0]._id;
       console.log('mongoInstanceId = ', mongoInstanceId)
+      mongoInstanceId = data[0]._id;
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {

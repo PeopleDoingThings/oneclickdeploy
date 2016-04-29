@@ -13,7 +13,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
   var instanceData = {};
   if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
-  return InstanceDB.getUserInstances(String(user.gitid))
+  return InstanceDB.getUserInstances(user.gitid)
     .then( data => {
       if(data.length === 0) return Promise.reject( new Error('Please First Create an Instance!') )
       return data[0].openstackid 
@@ -29,7 +29,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Repo.find({ ownerid: String(user.gitid), repoid: repoid }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
+      return Repo.find({ ownerid: user.gitid, repoid: repoid }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
     })
     .then(function(data) {
       if(data.length === 0) {
