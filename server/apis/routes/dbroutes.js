@@ -14,7 +14,10 @@ router.get('/getuserinstances', function(req, res) {
 // This just pulls down any deployed repos for that person.
 router.get('/checkdeployed', function(req, res) {
   return Repo.find({ ownerid: req.user.gitid, repoid: req.query.repoid })
-    .then( data => res.send(data) )
+    .then( data =>  {
+      if(data.length === 0) res.send('RepoID Invalid or Repo does not exist!')
+      else res.send(data)
+    })
     .catch( err => res.send(err) )
 })
 

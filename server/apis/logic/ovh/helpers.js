@@ -31,7 +31,7 @@ exports.checkInstanceState = function(data) {
 
   console.log('IP Data = ', data.ipAddresses)
 
-  if(data.ipAddresses) {
+  if(data.ipAddresses !== null) {
     state.ip = {
       ip: data.ipAddresses[0].ip,
       type: data.ipAddresses[0].type
@@ -42,8 +42,8 @@ exports.checkInstanceState = function(data) {
   
 
   if( data.status === 'ACTIVE' && 
-      data.flavor.id === '550757b3-36c2-4027-b6fe-d70f45304b9c' && 
-      data.image.id === process.env.OVH_CUSTOMSNAPSHOT ) 
+      data.flavor.id === process.env.OVH_FLAVOR && 
+      data.image.id === process.env.OVH_CUSTOMSNAPSHOT )
   {
     state.isReady = true;
   }
