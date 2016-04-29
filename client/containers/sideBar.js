@@ -10,19 +10,22 @@ export default class Aside extends Component {
 
   render() {
     return (
-      <aside>
-      <User user={this.props.user}/>
-        <section className="pull-left">
-          <nav>
-            <ul className="nav nav-pills">
-              Go To:
-              <li className="icon-bar"><a href='/#/repos'>Repos List</a></li>
-              <li classNave="icon-bar"><a href='/#/dashboard'>Dashboard</a></li>
-              <Logout />
-            </ul>
-          </nav>
-          </section>
-      </aside>
+      <div className="side-bar affix">
+      <button class="js-slideout-toggle">
+               menu
+               </button>
+        <User user={this.props.user}/>
+          <section>
+            <nav>
+              <ul className="nav nav-pills">
+                Go To:
+                <li className="icon-bar"><a href='/#/repos'>Repos List</a></li>
+                <li classNave="icon-bar"><a href='/#/dashboard'>Dashboard</a></li>
+                <Logout />
+              </ul>
+            </nav>
+            </section>   
+      </div>
 
     );
   }

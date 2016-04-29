@@ -22,8 +22,6 @@ const store = createStore(reducer, applyMiddleware(ReduxPromise))
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 const history = syncHistoryWithStore(appHistory, store)
 
-
-
 ReactDOM.render(
    <Provider store={store}>
     { /* Tell the Router to use our enhanced history */ }

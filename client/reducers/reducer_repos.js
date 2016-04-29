@@ -3,7 +3,6 @@
 import { FETCH_REPOS } from '../actions/index';
 
 export default function(state = [], action) {
-    console.log('action in index', action)
   switch (action.type) {
 
     case FETCH_REPOS: 

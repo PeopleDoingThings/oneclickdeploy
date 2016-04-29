@@ -1,7 +1,19 @@
-.header {
-  background-color: grey;
+body {
+  width: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
 
+.header {
+  background-color: darkgrey;
+}
+
+/*
+  header hamburger nav 
+*/
+
+
+/**/
 .row-centered {
     text-align:center;
 }
@@ -23,18 +35,66 @@
   background-color: lightgrey;
 }
 
-.main-panel {
-  width: 80%;
-  margin: 30px auto;
+/*
+** main-panel styling to prepare for the sliding sidebar on mobile view ** 
+*/
 
+.main-panel {
+  float: left;
 
 }
 
-aside {
-  background-color: lightgrey;
-  min-height: 300px;
-  border-radius: 30px;
-  text-align: center;
+/*
+** side bar styling ** 
+*/
+/*.slideout-menu {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  width: 256px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  display: none;
+}
+
+.slideout-panel {
+  position: relative;
+  z-index: 1;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}*/
+
+/**/
+
+.side-bar.affix-top {
+    position: static;
+    margin-top:30px;
+    width:228px;
+  }
+
+.side-bar.affix {
+  background-color: #FAFAFA;
+  float: left;
+  margin-bottom: -5000px; /* any large number will do */
+  padding-bottom: 5000px; 
+  /*position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;*/
+  width: 228px;
+  overflow-y: auto;
 }
 
 .git-handle {
