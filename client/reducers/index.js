@@ -11,13 +11,13 @@ import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 
-
 const rootReducer = combineReducers({
   repos: ReposReducer,
   auth: IsAuth,
   install: CreatInstance,
   instReady: InstReady,
   isDeployed: IsDeployed,
+  logOutput: LogOutput,
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,

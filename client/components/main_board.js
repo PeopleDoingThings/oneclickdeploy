@@ -17,12 +17,9 @@ class MainBoard extends Component {
   render() {
     authCheck(this.props.Auth);
     return (
-
       <div>
-        <div className="row">
-          <div className='col-md-3'><Aside user={this.props.Auth}/></div>
-          <div className='col-md-9'>{this.props.children}</div>
-        </div>
+          <Aside user={this.props.Auth}/>
+          <div className="main-panel">{this.props.children}</div>
       </div>
 
     );

@@ -176,7 +176,6 @@ function makeChart(data, container, y_Max, title) {
           .attr("y", 0 - (margin.top / 2))
           .attr("class", "title")
           .text(`${title} Graph: Last Day`);
-
 }
 
 

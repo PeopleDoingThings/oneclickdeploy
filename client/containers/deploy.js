@@ -7,7 +7,6 @@ import { Link, browserHistory } from 'react-router';
 class Deploy extends Component {
 constructor(props){
     super(props);
-    console.log('props in deploy constructor:' ,this.props);
   }
 
   handleClick (id) {
@@ -21,6 +20,7 @@ constructor(props){
     console.log('props in deploy',this.props)
     var boundClick = this.handleClick.bind(this);
     var repoID = this.props.id;
+
     return (
       // <form id='deployForm' onSubmit={() => deploy(this.props.createInst, this.props.reInstall)}>
       //   <input required className="deployFrm" 

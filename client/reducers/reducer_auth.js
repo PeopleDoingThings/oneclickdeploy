@@ -6,7 +6,6 @@ export default function(state = [], action) {
   switch (action.type) {
 
     case IS_AUTH: 
-        console.log('reducer:', action.payload.data)
         return action.payload.data === undefined ? state : action.payload.data;
     default: return state;
 

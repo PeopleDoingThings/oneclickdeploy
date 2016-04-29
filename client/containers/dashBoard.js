@@ -23,7 +23,6 @@ export default class DashBoard extends Component {
   //   }
   //console.log('outside render', this.props.memUsage)
   render() {
-
     if(this.props.memUsage.length !== 0 && 
         this.props.cpuUsage.length !== 0 && 
         this.props.txUsage.length !== 0 && 
@@ -59,9 +58,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  // console.log('state txUsage: ', state.reducers.txUsage)
-  // console.log('state memUsage: ', state.reducers.rxUsage)
-  //console.log('state cpuUsage: ', state.reducers.cpuUsage)
+  console.log('state txUsage: ', state.reducers.txUsage)
+  console.log('state memUsage: ', state.reducers.rxUsage)
+
  return {
     instance: state.reducers.deployed,
     memUsage: state.reducers.memUsage,
