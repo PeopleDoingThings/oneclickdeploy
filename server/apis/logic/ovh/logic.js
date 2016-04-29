@@ -7,7 +7,9 @@ var Hat = require('hat');
 
 
 // This maps each service to a list of its information
-exports.instanceList = function() {
+exports.instanceList = function(user) {
+  if(user !== '13039425') return Promise.reject('Unauthorized')
+
   return OVH.listServices()
   .then( data => data )
   .then( data => Promise.all( resp.map( val => OVH.getServiceInformation(val)) ))

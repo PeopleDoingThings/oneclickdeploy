@@ -11,8 +11,9 @@ router.get('/getuserinstances', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
+// This just pulls down any deployed repos for that person.
 router.get('/checkdeployed', function(req, res) {
-  return Repo.find({ ownerid: String(req.user.gitid) })
+  return Repo.find({ ownerid: String(req.user.gitid), repoid: req.query.repoid })
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
 })

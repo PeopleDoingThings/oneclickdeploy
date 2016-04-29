@@ -15,7 +15,7 @@ router.get('/usagestatistics', function(req, res) {
 
 // Retrieve a list of all active instances & information for each in an Array.
 router.get('/listservices', function(req, res) {
-	Logic.instanceList()
+	Logic.instanceList(String(req.user.gitid))
     .then( data => res.send(data) )
   	.catch( err => res.send(err) )
 })
@@ -25,12 +25,6 @@ router.get('/vpsimageflavor/:version', function(req, res) {
   Logic.imageData(req.params.version)
     .then( data => res.send(data) )
     .catch( err => res.send(err.message) )
-})
-
-router.get('/getsshkey', function(req, res) {
-  Logic.getSSHKey(String(req.user.gitid))
-    .then( data => res.send(data) )
-    .catch( err => res.send(err) )
 })
 
 // Type 'hard' or 'soft' & sends back null

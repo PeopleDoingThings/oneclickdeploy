@@ -63,6 +63,7 @@ exports.createConsoleOpts = function(serverid) {
 }
 
 exports.createInstanceOpts = function(name, id, password) {
+  console.log('createInstanceOpts = ', name, id, password)
   var opt = {
     url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers`,
     json: {
