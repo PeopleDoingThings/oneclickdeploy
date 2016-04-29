@@ -9,16 +9,17 @@ class Loading extends Component {
   super(props); 
   this.props.getLog();
   var component = this ;  
-  component.props.instanceReady();
-  console.log('look for slected repoID in construtore loading', this.props)
-  
+  //component.props.instanceReady();
+  //console.log('look for slected repoID in construtore loading', this.props)
+  //console.log('get localstorage', window.localStorage.getItem('repoID'))
+
 //set interval for logoutput
 var logOutput0 ='';
 function startLogOutputInterval() {     
     logOutput0 = setInterval(function () {
         component.props.getLog();
         console.log('what is logoutput in interval',component.props.LogOutput.output)
-      }, 3000);
+      }, 12000);
 }
 
 function stopLogOutputInterval() {
@@ -40,20 +41,20 @@ function startChckInstInterval() {
           console.log('if statement InstStatus is true')
           console.log('about to stop Interval')
          //call postinstall endpoint
-         console.log('log the id heree',component.props.SelectedRepoID)
-          component.props.sshPostInstall(component.props.SelectedRepoID);
-          console.log('called postinstall')
+         console.log('log the id here localStorage',window.localStorage.getItem('repoID'))
+         component.props.sshPostInstall(window.localStorage.getItem('repoID'));
+         console.log('called postinstall')
          //start set interval2/check deployed 
           startChckDeployedInterval();
          //stop set interval1 if it already started 
           stopChckInstInterval(); 
         }
-        else if (component.props.InstStatus === false) {
+        else {
           //if still false call api again
           console.log('check instance ready is still false')
           component.props.instanceReady();
         }
-    }, 3000);
+    }, 10000);
 }
 
 function stopChckInstInterval() {
@@ -83,9 +84,9 @@ function startChckDeployedInterval() {
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
-          component.props.isDeployed();
+          component.props.isDeployed(window.localStorage.getItem('repoID'));
         }
-    }, 15000);
+    }, 10000);
   }
 
 function stopChckDeployedInterval() {

@@ -70,10 +70,13 @@ export function getLog() {
 }
 
 export const ISDEPLOYED = 'ISDEPLOYED'
-export function isDeployed() {
+export function isDeployed(repoID) {
   let url = `/api/database/checkdeployed`;
-  let request = axios.get(url);
-
+   let request = axios.get(url, {
+    params: {
+      repoid: repoID
+    }
+  });
 
   return {
     type: ISDEPLOYED,
