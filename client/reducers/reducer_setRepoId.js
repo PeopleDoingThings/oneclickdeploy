@@ -6,7 +6,7 @@ export default function(state = [], action) {
   switch (action.type) {
 
     case SETREPOID: 
-        console.log('reducer setrepoid:', action.payload)
+        //console.log('reducer setrepoid:', action.payload)
         return action.payload === undefined ? state : action.payload;
     default: return state;
 

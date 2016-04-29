@@ -104,8 +104,8 @@ function stopChckDeployedInterval() {
     var lines = splitStr.map(function(line){return line})
     }
     
-    console.log('props in render:', this.props.LogOutput.output)//log state.status later
-    console.log('inst dat', JSON.stringify(this.props.InstData))
+    // console.log('props in render:', this.props.LogOutput.output)//log state.status later
+    // console.log('inst dat', JSON.stringify(this.props.InstData))
     return (
       <div>
         <h1>Loading.....</h1>{

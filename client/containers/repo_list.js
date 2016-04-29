@@ -10,17 +10,17 @@ class RepoList extends Component {
   constructor(props) {
     super(props);
     this.props.fetchRepos()
-    console.log('props in repoList: ', this.props);
   }
 
 
   renderList() {
+    console.log('repo ',this.props.repos)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
       return (this.props.repos.map((repo) => {
         return (
-          <RepoItem key={repo.id}  repoItem={repo} />
+          <RepoItem repoItem={repo} />
         )
         })
       );
