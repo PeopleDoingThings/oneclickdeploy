@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,
-  rxUsage: rxUsage
+  rxUsage: rxUsage,
   logOutput: LogOutput,
   selRepoId: SetRepoId
 });
