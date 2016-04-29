@@ -71,17 +71,6 @@ var obj = {
 
       // console.log('onCommandComplete: ', response)
     },
-    onCommandTimeout: function(command, response, sshObj, stream, connection) {
-      // Adding this section causes 'exit' events to be skipped and we can deal with timeouts here.
-      console.log('CONNECTION TIMED OUT!!!!')
-      console.log('TIMED OUT COMMAND = ', command)
-      console.log('CONNECTION TIMED OUT!!!!')
-
-      //optional code for responding to command timeout
-      //response is the text response from the command up to it timing out
-      //stream object used  to respond to the timeout without having to close the connection
-      //connection object gives access to close the shell using connection.end()
-    },
     onEnd: function( sessionText, sshObj ) {
       console.log('ended ssh2 session!!!')
       return Logic.setDeployed(repoData)
