@@ -84,7 +84,7 @@ function startChckDeployedInterval() {
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
-          component.props.isDeployed();
+          component.props.isDeployed(window.localStorage.getItem('repoID'));
         }
     }, 10000);
   }
