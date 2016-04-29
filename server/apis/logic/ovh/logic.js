@@ -54,11 +54,14 @@ exports.reinstallInstance = function(id) {
 }
 
 exports.checkReady = function(userid) {
+  console.log('searching with userid = ', userid)
   var mongoInstanceId = '';
   return InstanceDB.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
-      console.log('mongoInstanceId = ', mongoInstanceId)
+      console.log('instace data from db = ', data)
+      if(!data || data.length === 0) return Promise.reject( new Error('User has No Instance to Check!') )
       mongoInstanceId = data[0]._id;
+      console.log('mongoInstanceId = ', mongoInstanceId)
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {

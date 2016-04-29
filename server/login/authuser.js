@@ -1,5 +1,5 @@
 module.exports = function(req, res, next) {
-  if (req.user && req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     req.user.gitid = String(req.user.gitid);
     console.log('AuthUser Valid!')
     next();
