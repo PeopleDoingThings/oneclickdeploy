@@ -22,8 +22,8 @@ exports.postInstallSetup = function(repoURL, daemonToken) {
     'npm install',     //likely want to change our timeout for this command & set it back again for others.
     'cat bower.json',
     'cat webpack.config.js',
-    'cat Procfile',
-    'cat knexfile.js | grep -i database',  //only look at first db. //look for production db in future releases.
+    'cat knexfile.js | grep database',  //only look at first db. //look for production db in future releases.
+    'cat Procfile',  
     'cd ../instance-monitor',
     'npm install',
     'export MONITOR_SYSTEM=instance',

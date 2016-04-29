@@ -40,6 +40,7 @@ var obj = {
       }
       else if(command === 'cat Procfile') {
         var find = response.split("\r\n")[1].slice(10);
+        find = find.split('.')[0] + '.js';
         console.log('SPLITTING NEW LINES Procfile = ', response.split("\r\n"))
         console.log('splitting DONE!')
         
@@ -47,7 +48,7 @@ var obj = {
         sshObj.commands.unshift(`forever start ${find}`);
         sshObj.commands.unshift('export PORT=1337');
       }
-      else if(command === 'cat knexfile.js | grep -i database') {
+      else if(command === 'cat knexfile.js | grep database') {
         console.log('KNEX cat response = ')
         console.log(response)
         console.log('KNEX cat END')
