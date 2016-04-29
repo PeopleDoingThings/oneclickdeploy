@@ -17,7 +17,6 @@ constructor(props){
     };
 
   render() {
-    console.log('props in deploy',this.props)
     var boundClick = this.handleClick.bind(this);
     var repoID = this.props.id;
 

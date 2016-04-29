@@ -7,7 +7,7 @@ import { Link, browserHistory } from 'react-router';
 class Logout extends Component {
   
 render() {
-  console.log('this.props in Logout', this);
+  //console.log('this.props in Logout', this);
     return (
       <div className="row row-centered">   
         <li>
