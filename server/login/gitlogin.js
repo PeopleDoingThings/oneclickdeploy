@@ -14,7 +14,7 @@ router.get('/isauthenticated', function(req, res) {
 });
 
 router.get('/getuserinstances', function(req, res) {
-  InstanceDB.getUserInstances(req.user.gitid)
+  InstanceDB.getUserInstances(String(req.user.gitid))
     .then( data => res.send(data) )
     .catch( err => res.send(err.message) )
 });

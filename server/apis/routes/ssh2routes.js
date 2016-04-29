@@ -12,7 +12,7 @@ router.get('/startsshpostinstall', function(req, res) {
 })
 
 router.get('/reinstallrepo', function(req, res) {
-  SSH2.runSSHCommands(String(req.user.gitid), Commands.reinstallGitRepo())
+  SSH2.runSSHCommands(req.user.gitid, Commands.reinstallGitRepo())
     .then( data => res.send(data) )
     .catch( err => res.send(err.message) )
 })

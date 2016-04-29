@@ -7,12 +7,8 @@ var Logic = require('../logic/github/logic.js');
 
 router.get('/repos', function(req, res) {
   Github.getUserRepos(req.user, req.query.refresh)  // If refresh !== undefined we refresh all db data.
-    .then(function(data) {
-      res.send(data);
-    })
-    .catch(function(err) {
-      res.send(err.message);
-    })
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
 })
 
 

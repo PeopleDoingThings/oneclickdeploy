@@ -8,14 +8,14 @@ var Logic = require('../logic/ovh/logic.js');
 // Time ex: 'today' 'lastday' 'lastweek'
 // Can request 'mem:used' 'cpu:used' 'net:tx' 'net:rx'
 router.get('/usagestatistics', function(req, res) {
-	Logic.getInstanceUsage(String(req.user.gitid), req.query.time, req.query.type)
+	Logic.getInstanceUsage(req.user.gitid, req.query.time, req.query.type)
     .then( data => res.send(data) )
   	.catch( err => res.send(err) )
 })
 
 // Retrieve a list of all active instances & information for each in an Array.
 router.get('/listservices', function(req, res) {
-	Logic.instanceList(String(req.user.gitid))
+	Logic.instanceList(req.user.gitid)
     .then( data => res.send(data) )
   	.catch( err => res.send(err) )
 })
@@ -29,7 +29,7 @@ router.get('/vpsimageflavor/:version', function(req, res) {
 
 // Type 'hard' or 'soft' & sends back null
 router.get('/reboot', function(req, res) {
-  Logic.rebootInstance(String(req.user.gitid), req.query.type)
+  Logic.rebootInstance(req.user.gitid, req.query.type)
     .then( data => res.send(data) )
     .catch( err => res.send(err.message) )
 })
@@ -41,7 +41,7 @@ router.get('/getsnapshots', function(req, res) {
 })
 
 router.get('/reinstall', function(req, res) {
-  Logic.reinstallInstance(String(req.user.gitid))
+  Logic.reinstallInstance(req.user.gitid)
     .then( data => { // This returns undefined on success. Check for this here otherwise its unclear.
       if(!data) res.send('Instance Reinstall Successful!');
       else res.send(data);
@@ -50,13 +50,13 @@ router.get('/reinstall', function(req, res) {
 })
 
 router.get('/checkinstanceready', function(req, res) {
-  Logic.checkReady(String(req.user.gitid))
+  Logic.checkReady(req.user.gitid)
     .then( data => res.send(data) )
     .catch( err => res.send(err.message) )
 })
 
 router.get('/getconsoleoutput', function(req, res) {
-  Logic.getConsoleOutput(String(req.user.gitid))
+  Logic.getConsoleOutput(req.user.gitid)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
 })

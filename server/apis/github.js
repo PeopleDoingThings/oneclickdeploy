@@ -9,13 +9,13 @@ Promise.promisifyAll(request);
 
 exports.getUserRepos = function(user, query) {
 
-  return Repo.find({ ownerid: String(user.gitid) })
+  return Repo.find({ ownerid: user.gitid })
     .then(function(data) {
       if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && query !== 'true') {
         return Promise.reject(data);  // We reject here to send our data back straight from the db.
       }
 
-      return Repo.remove({ ownerid: String(user.gitid), deployed: false });  // We need to keep track of deployed repos!
+      return Repo.remove({ ownerid: user.gitid, deployed: false });  // We need to keep track of deployed repos!
     })
     .then(function(data) {
       return request(Helper.createRepoOpts(user.login));
@@ -40,7 +40,7 @@ exports.getUserRepos = function(user, query) {
     })
     .then(function(data) {
       console.log('filtered repo list = ', data);
-      return Promise.all( data.map( val => Logic.save(String(user.gitid), val) ) );
+      return Promise.all( data.map( val => Logic.save(user.gitid, val) ) );
     })
     .catch(function(err) {
       if(Array.isArray(err)) { // We check here to see if this is db data instead of a real error.

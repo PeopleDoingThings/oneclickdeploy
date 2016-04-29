@@ -28,10 +28,18 @@ exports.checkInstanceState = function(data) {
   state.flavorid = data.flavor.id;
   state.imageid = data.image.id
   state.imagename = data.image.name;
-  state.ip = {
-    ip: data.ipAddresses[0].ip,
-    type: data.ipAddresses[0].type
+
+  console.log('IP Data = ', data.ipAddresses)
+
+  if(data.ipAddresses) {
+    state.ip = {
+      ip: data.ipAddresses[0].ip,
+      type: data.ipAddresses[0].type
+    }
+  } else {
+    return Promise.reject( new Error('IP Data is not yet avaliable!') )
   }
+  
 
   if( data.status === 'ACTIVE' && 
       data.flavor.id === '550757b3-36c2-4027-b6fe-d70f45304b9c' && 
