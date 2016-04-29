@@ -20,7 +20,7 @@ class RepoList extends Component {
     } else {
       return (this.props.repos.map((repo) => {
         return (
-          <RepoItem key={repo.name}  repoItem={repo} />
+          <RepoItem key={repo.id}  repoItem={repo} />
         )
         })
       );

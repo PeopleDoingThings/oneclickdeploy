@@ -56,6 +56,7 @@ h5 {
   color: white !important;
 }
 
+
 /* 
 /*
  ** Dashboard Graphs Styles **
@@ -138,5 +139,13 @@ path {
 }
 
 
+.log {
+    width: 700px;
+    padding: 10px;
+    color: #32CD32;
+    background: #000;
+    border: 3px groove #ccc;
+    display: block;
+    font-size: 9px;
 
-
+}

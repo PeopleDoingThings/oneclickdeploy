@@ -9,8 +9,9 @@ class Loading extends Component {
   super(props); 
   this.props.getLog();
   var component = this ;  
-  component.props.instanceReady()
-
+  component.props.instanceReady();
+  console.log('look for slected repoID in construtore loading', this.props)
+  
 //set interval for logoutput
 var logOutput0 ='';
 function startLogOutputInterval() {     
@@ -39,7 +40,8 @@ function startChckInstInterval() {
           console.log('if statement InstStatus is true')
           console.log('about to stop Interval')
          //call postinstall endpoint
-          component.props.sshPostInstall();
+         console.log('log the id heree',component.props.SelectedRepoID)
+          component.props.sshPostInstall(component.props.SelectedRepoID);
           console.log('called postinstall')
          //start set interval2/check deployed 
           startChckDeployedInterval();
@@ -51,7 +53,7 @@ function startChckInstInterval() {
           console.log('check instance ready is still false')
           component.props.instanceReady();
         }
-    }, 5000);
+    }, 3000);
 }
 
 function stopChckInstInterval() {
@@ -76,14 +78,14 @@ function startChckDeployedInterval() {
         stopLogOutputInterval();
         stopChckDeployedInterval(); 
         //transition to DB
-         window.location = 'http://localhost:9001/#/dashboard';
+         //window.location = 'http://localhost:9001/#/dashboard';
         }
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
           component.props.isDeployed();
         }
-    }, 6000);
+    }, 15000);
   }
 
 function stopChckDeployedInterval() {
@@ -94,13 +96,30 @@ function stopChckDeployedInterval() {
 }
  
   render() {
+    if(this.props.LogOutput.output){
+    var logItem = this.props.LogOutput.output;
+    var splitStr = logItem.split("\n");
+    //console.log('test log output', splitStr)
+    var lines = splitStr.map(function(line){return line})
+    }
+    
     console.log('props in render:', this.props.LogOutput.output)//log state.status later
+    console.log('inst dat', JSON.stringify(this.props.InstData))
     return (
       <div>
-        <h1>Loading.....</h1>
-        <div>Testing Log</div>
-        <div>Instance info:</div><div> {this.props.InstData[0] ? this.props.InstData[0].id : null} )</div>   
-        <div>Log Output</div>{this.props.LogOutput.output}   
+        <h1>Loading.....</h1>{
+          //<h1>Instance info:</h1>
+        }
+        
+        <div> {this.props.InstData[0] ? this.props.InstData[0].id : null} </div> 
+        <div></div>  
+        <div className="log">
+        <h6>Log Output</h6>
+        {
+          //{this.props.LogOutput.output ? this.props.LogOutput.output : null}
+        }
+        {splitStr ?  splitStr.map(line => <div>{line}</div>) : null  } 
+        </div>
       </div>
     );
   }
@@ -110,13 +129,15 @@ function stopChckDeployedInterval() {
 function mapStateToProps(state) {
   // console.log('load state: ', state.reducers.load)
   // console.log('install data in loading state', state.reducers.install)
-  console.log('state of log reducers', state.reducers.logOutput)
+  console.log('state of all reducers in load now', state.reducers)
   return {
     Load: state.reducers.load,
     InstData: state.reducers.install,
+    Data: state.reducers.instReady,
     InstStatus: state.reducers.instReady.isReady,
     DeployedStatus: state.reducers.isDeployed[0] ? state.reducers.isDeployed[0].deployed : null,
-    LogOutput: state.reducers.logOutput
+    LogOutput: state.reducers.logOutput,
+    SelectedRepoID: state.reducers.selRepoId
   };
 }
 

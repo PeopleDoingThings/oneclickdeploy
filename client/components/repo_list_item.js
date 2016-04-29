@@ -4,9 +4,10 @@ import Deploy from '../containers/deploy';
 export default class RepoItem extends Component {
 
   render(){ 
+  	console.log('props in repo list-group-item',this.props)
   		return (
   			     	<li className="list-group-item">{this.props.repoItem.name}
-  	            		<Deploy />
+  	            		<Deploy id={this.props.repoItem.repoid}/>
   				    </li>
   			     );
           }
