@@ -79,7 +79,7 @@ function startChckDeployedInterval() {
         stopLogOutputInterval();
         stopChckDeployedInterval(); 
         //transition to DB
-         //window.location = 'http://localhost:9001/#/dashboard';
+         window.location = 'http://localhost:9001/#/dashboard';
         }
         else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
           //if still false call api again
