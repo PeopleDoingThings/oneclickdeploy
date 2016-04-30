@@ -10,14 +10,19 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, data, repoData) {
     host.debug = true;
     var SSHClient = new SSH2Shell(host);
     var retries = 0;
+    var superError = undefined;
 
         SSHClient.on("error", function onError(err, type, close, callback) {
           var authFailed = 'All configured authentication methods failed';
+          superError = err.message;
 
           if(err.message === authFailed && retries <= 3) {
             console.log('Retrying SSH Connection!');
             console.log('Retry Attempt: ', retries);
             ++retries;
+          }
+          else if(err.message !== authFailed) {
+            reject(err);
           }
           else {
             // Send some error to the db.
@@ -39,11 +44,18 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, data, repoData) {
       SSHClient.on("close", function onClose(had_error) {
         console.log('Closing Connection! ', retries)
 
-        if(retries < 3) {
+        if(retries < 3 && superError) {
+          console.log('Closing, is Error? = ', superError)
           SSHClient.connect();
         }
-        else { // This is to make sure we alway have some way to end the loop. Unlikely to be needed.
-          reject( new Error('All configured authentication methods failed!') )
+        else if(retries >= 3) {  // This is to make sure we alway have some way to end the loop. Unlikely to be needed.
+          var error = 'All configured authentication methods failed!';
+          exports.setDeployError(repoData, error)
+            .then( data => reject( new Error(error) ))
+            .catch( err => err.message )
+        }
+        else {
+          console.log('Connection Closed with No Errors!');
         }
       });
 
@@ -60,20 +72,32 @@ exports.setDeployed = function(repoData) {
     });
 }
 
-exports.reinstallDaemon = function(id) {
-  InstanceLogin.find({ ownergitid: id })
-    .then(function(data) {
-      var host = Helpers.postInstallHost(instanceData, cmdArray, data, repoData);
-    })
+exports.setDeployError = function(repoData, err) {
+  console.log('setDeployError = ', err, typeof err)
+  return Repo.findByIdAndUpdate(repoData._id,
+    {
+      deployerror: err
+    });
+}
+
+// exports.reinstallDaemon = function(id) {
+//   InstanceLogin.find({ ownergitid: id })
+//     .then(function(data) {
+//       var host = Helpers.postInstallHost(instanceData, cmdArray, data, repoData);
+//     })
 
 
   
-  host.debug = true;
+//   host.debug = true;
 
-  var SSHClient = new SSH2Shell(host);
-  return SSHClient.connect();
-}
+//   var SSHClient = new SSH2Shell(host);
+//   return SSHClient.connect();
+// }
 
 exports.restartDaemon = function() {
   // Just attempts to restart the daemon with forever
 }
+
+
+
+

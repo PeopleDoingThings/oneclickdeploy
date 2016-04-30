@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var Repo = new Schema({
   deployed: Boolean,
+  deployerror: String,
   repoid: String,
   ownerid: String,
   name: String,
