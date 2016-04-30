@@ -32,7 +32,7 @@ export default class Login extends Component {
         <Header />
         <Motion defaultStyle={{ y: topY }} style={{ y: spring(this.state.topDiv) }}>
           {interpolatingStyle =>
-          <div style={{height: '100%', width: '100%', position: 'absolute', top: interpolatingStyle.y, backgroundColor: 'grey'}}>
+          <div className="home-login" style={{height: '100%', width: '100%', position: 'absolute', top: interpolatingStyle.y}}>
             <div className="row row-centered">
               <div className="login col-md-4 col-centered">
                 <h1> Sign in with Github and get started</h1>
@@ -45,7 +45,8 @@ export default class Login extends Component {
         </Motion>
         <Motion defaultStyle={{y: bottomY}} style={{ y: spring(this.state.bottomDiv) }}>
           {interpolatingStyle =>
-          <div style={{ height: 400, width: '100%', position: 'absolute', bottom: interpolatingStyle.y, backgroundColor: 'orange'}} onClick={hideDetails}>I wanna slide up</div>
+          <div className="home-details" style={{ height: 400, width: '100%', position: 'absolute', bottom: interpolatingStyle.y}} onClick={hideDetails}>
+            I wanna slide up</div>
           }
         </Motion>
       </div>
