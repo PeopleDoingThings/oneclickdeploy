@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router'
-import { bindActionCreators } from 'redux'; 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Aside from '../containers/sideBar';
 import { isAuth } from '../actions/index';
+import { Tabs, Tab } from 'react-bootstrap'
 
 
 class MainBoard extends Component {
   constructor(props){
     super(props);
-    this.props.isAuth(); 
+    this.props.isAuth();
     console.log('props in mainboard constructor:' ,this.props);
-  
+
   }
-  
+
   render() {
     authCheck(this.props.Auth);
     return (
       <div>
           <Aside user={this.props.Auth}/>
-          <div className="main-panel">{this.props.children}</div>
+          <div className="main col-md-10 col-sm-12">{this.props.children}</div>
       </div>
 
     );

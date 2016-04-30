@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --progress --inline --hot"
+    "start": "webpack -w"
   },
   "repository": {
     "type": "git",
@@ -41,8 +41,10 @@
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "react": "^15.0.1",
+    "react-bootstrap": "^0.29.3",
     "react-dom": "^0.14.3",
     "react-faux-dom": "^2.4.0",
+    "react-motion": "^0.4.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.3.0",
     "react-router-redux": "^4.0.2",

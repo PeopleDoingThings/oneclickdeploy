@@ -8,10 +8,6 @@ export default class Header extends Component {
       <div>
         <header className="header">
               <h1>App name</h1>
-              {
-              // <Link to="/">Home</Link>
-              // <Link to="/main-panel">Main Panel</Link>
-              }
         </header>
       </div>
 

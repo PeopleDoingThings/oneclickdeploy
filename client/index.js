@@ -17,7 +17,7 @@ import Loading from './containers/loadingInstance';
 
 import RepoList from './containers/repo_list';
 
-const reducer = combineReducers({reducers,routing: routerReducer}) 
+const reducer = combineReducers({reducers,routing: routerReducer})
 const store = createStore(reducer, applyMiddleware(ReduxPromise))
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 const history = syncHistoryWithStore(appHistory, store)
