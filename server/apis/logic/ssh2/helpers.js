@@ -73,6 +73,8 @@ var obj = {
       // console.log('onCommandComplete: ', response)
     },
     onEnd: function( sessionText, sshObj ) {
+      console.log('TESTING FOR FAILED LOGGIN === ', sessionText)
+
       console.log('ended ssh2 session!!!')
       return Logic.setDeployed(repoData)
         .then(function(data) {
