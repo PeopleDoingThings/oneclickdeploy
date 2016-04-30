@@ -5,6 +5,8 @@ var Instance = require('../database/models/instance.js');
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
 var Repo = require('../database/models/deployablerepos.js');
+var Env = require('../database/models/env.js');
+var EnvDB = require('../database/env.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
@@ -85,4 +87,17 @@ exports.checkWebServer = function(address) {
     })
 }
 
+exports.setEnv = function(body, repoId, gitId) {
+  return EnvDB.getEnv(repoId, gitId)
+    .then(function(data) {
+      return EnvDB.updateEnv(data[0]._id, body, repoId, gitId);
+    })
+    .catch(function(err) {
+      console.log('Saving New Environment Variables: ', err)
+      return EnvDB.saveNew(body, repoId, gitId);
+    })
+}
 
+exports.getEnv = function(repoId, gitId) {
+  return EnvDB.getEnv(repoId, gitId);
+}
