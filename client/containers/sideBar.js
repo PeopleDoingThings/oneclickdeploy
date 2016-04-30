@@ -5,15 +5,12 @@ import Logout from '../components/logout';
 export default class Aside extends Component {
  constructor(props){
     super(props);
-  
+
   }
 
   render() {
     return (
-      <div className="side-bar affix">
-      <button class="js-slideout-toggle">
-               menu
-               </button>
+      <div className="aside col-md-2 col-sm-12">
         <User user={this.props.user}/>
           <section>
             <nav>
@@ -24,7 +21,7 @@ export default class Aside extends Component {
                 <Logout />
               </ul>
             </nav>
-            </section>   
+            </section>
       </div>
 
     );
