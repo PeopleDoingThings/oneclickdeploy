@@ -31,7 +31,6 @@ class RepoList extends Component {
     
     return (
 		 	<div>
-		 		<h3>Repo list</h3>
 				<ul className="list-group">
          {this.renderList()}
         </ul>
