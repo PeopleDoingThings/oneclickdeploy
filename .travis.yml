@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "5.11.0"
+branches:
+  only:
+    - master
+before_script:
+  - npm install -g gulp
+  - npm install -g webpack
+  - webpack
