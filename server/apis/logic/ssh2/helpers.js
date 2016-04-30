@@ -70,8 +70,6 @@ var obj = {
         }
       }
 
-
-      // console.log('onCommandComplete: ', response)
     },
     onEnd: function( sessionText, sshObj ) {
 

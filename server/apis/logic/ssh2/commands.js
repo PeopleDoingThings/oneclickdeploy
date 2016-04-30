@@ -1,10 +1,12 @@
-// Working to be able to support environment variabls on deploy.
+var EnvDB = require('../../../database/env.js');
 
-exports.postInstallSetup = function(repoURL, daemonToken) {
+exports.postInstallSetup = function(repoData, loginData) {
+  var repoURL = repoData.clone_url;
+  var daemonToken = loginData.daemonkey;
   var repoFolder = repoURL.split('/');
   repoFolder = repoFolder[repoFolder.length - 1].replace('.git', '');
 
-  var array = [
+  var arrayStart = [
     'ls -l',
     'sudo su',
     'unalias -a',
@@ -15,7 +17,12 @@ exports.postInstallSetup = function(repoURL, daemonToken) {
     'svn checkout https://github.com/PeopleDoingThings/oneclickdeploy/trunk/instance-monitor',
     'chown -R admin:admin *',
     `cd ${repoFolder}`,
-    'su admin',
+    'su admin'
+  ];
+
+  var arrayMiddle = [];
+
+  var arrayEnd = [
     'nvm use 5.11.0',
     'unalias -a',
     'git status',
@@ -33,8 +40,18 @@ exports.postInstallSetup = function(repoURL, daemonToken) {
     'forever start server/daemon.js',
     'forever list'
   ];
-  
-  return array;
+
+  console.log('repoData = ', repoData)
+  return EnvDB.getEnv(repoData.repoid, repoData.ownerid)
+    .then(function(data) {
+      console.log('Environement Vars = ', data)
+
+      data[0].variables.forEach( val => arrayMiddle.push(`export ${val.key}=${val.value}`) )  // Push our environement varibls in.
+      return arrayStart.concat(arrayMiddle).concat(arrayEnd); // Concat our arrays together
+    })
+    .catch(function(err) {
+      return arrayStart.concat(arrayEnd);
+    })
 }
 
 

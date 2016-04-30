@@ -4,9 +4,10 @@ var InstanceLogin = require('../../../database/models/instancelogin.js');
 var Helpers = require('./helpers.js');
 
 
-exports.runSSHPostInstall = function(instanceData, cmdArray, data, repoData) {
+exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData) {
+  console.log('runSSHPostInstall data = ', instanceData, loginData, repoData)
   return new Promise(function(resolve, reject) {
-    var host = Helpers.postInstallHost(instanceData, cmdArray, data, repoData);
+    var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData);
     host.debug = true;
     var SSHClient = new SSH2Shell(host);
     var retries = 0;
