@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import User from '../components/user';
 import Logout from '../components/logout';
+import { PanelGroup, Panel } from 'react-bootstrap'
 
 export default class Aside extends Component {
  constructor(props){
@@ -10,16 +11,25 @@ export default class Aside extends Component {
 
   render() {
     return (
-      <div className="aside col-md-2 col-sm-12">
+      <div className="side-bar aside col-md-2 col-sm-12">
         <User user={this.props.user}/>
-          <section>
+          <section className="sidebar-nav">
             <nav>
-              <ul className="nav nav-pills">
-                Go To:
-                <li className="icon-bar"><a href='/#/repos'>Repos List</a></li>
-                <li classNave="icon-bar"><a href='/#/dashboard'>Dashboard</a></li>
-                <Logout />
-              </ul>
+              <PanelGroup defaultActiveKey="2" accordion>
+                <Panel header="Panel 1" eventKey="1">
+                  <ul>
+                    <li><a href='/#/repos'>Repos List</a></li>
+                    <li><a href='/#/dashboard'>Dashboard</a></li>
+                  </ul>
+                </Panel>
+                <Panel header="Panel 2" eventKey="2">Panel 2 content</Panel>
+              </PanelGroup>
+
+
+
+                <div className="sidebar-logout">
+                  <Logout />
+                </div>
             </nav>
             </section>
       </div>

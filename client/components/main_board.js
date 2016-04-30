@@ -4,15 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Aside from '../containers/sideBar';
 import { isAuth } from '../actions/index';
-import { Tabs, Tab } from 'react-bootstrap'
-
+import { Modal, Button } from 'react-bootstrap'
 
 class MainBoard extends Component {
   constructor(props){
     super(props);
     this.props.isAuth();
     console.log('props in mainboard constructor:' ,this.props);
-
   }
 
   render() {
@@ -20,7 +18,7 @@ class MainBoard extends Component {
     return (
       <div>
           <Aside user={this.props.Auth}/>
-          <div className="main col-md-10 col-sm-12">{this.props.children}</div>
+          <div className="main col-lg-9 col-md-7 col-sm-5 col-xs-12">{this.props.children}</div>
       </div>
 
     );
