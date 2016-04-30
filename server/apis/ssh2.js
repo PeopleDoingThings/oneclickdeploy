@@ -6,6 +6,9 @@ var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
 var Repo = require('../database/models/deployablerepos.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
+var Promise = require('bluebird');
+var request = Promise.promisify(require('request'));
+Promise.promisifyAll(request);
 
 
 // Body should contain start command / repo url & name of server file
@@ -71,6 +74,15 @@ exports.runSSHCommands = function(userid, cmdArray) {
     .then( data => data )
 }
 
+exports.checkWebServer = function(address) {
+  return request(`http://${address}`)
+    .then(function(data) {
+      if(data.body.match(/<title>\s*Error\s*<\/title>/) !== null) {
+        return Promise.reject( new Error('Deployment Failed! NodeJS Server Not Running.') )
+      }
 
+      return data;
+    })
+}
 
 

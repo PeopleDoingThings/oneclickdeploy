@@ -3,6 +3,7 @@ var Repo = require('../../../database/models/deployablerepos.js');
 exports.save = function(gitid, data) {
   var repoObj = new Repo({
     deployed: false,
+    deployerror: 'none',
     repoid: String(data.id),
     ownerid: gitid,
     name: data.name,

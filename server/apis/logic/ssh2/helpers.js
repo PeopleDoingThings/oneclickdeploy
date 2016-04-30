@@ -1,4 +1,5 @@
 var Logic = require('./logic.js');
+var SSH2 = require('../../ssh2.js');
 
 
 exports.postInstallHost = function(instanceData, cmdArray, data, repoData) {
@@ -56,11 +57,11 @@ var obj = {
         var find = response.split("\n").map( val => val.split("'") );
         if(find !== undefined && find[1] !== undefined) find = find[1][1];
         console.log('FIND after split = ', find)
-        console.log('valid[1] ==== ', valid[1]) //this checks if there is a knex file.
+        console.log('valid[1] ==== ', valid[1]) 
+        //this checks if there is a knex file.
         //We will want to change this logic in future in regard to updating repos from master.
         //Deal with dropping the dbs & rerunning etc.
         
-
         if(valid[1] !== 'cat: knexfile.js: No such file or directory') {
           sshObj.commands.unshift('sudo -u admin knex seed:run');
           sshObj.commands.unshift('sudo -u admin knex migrate:latest');
@@ -73,17 +74,23 @@ var obj = {
       // console.log('onCommandComplete: ', response)
     },
     onEnd: function( sessionText, sshObj ) {
-      console.log('TESTING FOR FAILED LOGGIN === ', sessionText)
 
-      console.log('ended ssh2 session!!!')
-      return Logic.setDeployed(repoData)
+      SSH2.checkWebServer(instanceData.publicip)
+        .then(function(data) {
+          console.log('Response from checkWebServer = ', data)
+          return Logic.setDeployed(repoData);
+        })
         .then(function(data) {
           console.log('Repo Deployment Success!');
           return data;
         })
         .catch(function(err) {
           console.log('Repo Deployment Failed!');
-          return err.message;
+          return Logic.setDeployError(repoData, err.message);
+        })
+        .then(function(data) {
+          console.log('db err dep data = ', data)
+          return data;
         })
     }
   };
