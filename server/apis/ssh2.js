@@ -5,6 +5,8 @@ var Instance = require('../database/models/instance.js');
 var Logic = require('./logic/ssh2/logic.js');
 var Commands = require('./logic/ssh2/commands.js');
 var Repo = require('../database/models/deployablerepos.js');
+var Env = require('../database/models/env.js');
+var EnvDB = require('../database/env.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
@@ -13,7 +15,9 @@ Promise.promisifyAll(request);
 
 // Body should contain start command / repo url & name of server file
 exports.runSSHPostInstallSetup = function(user, repoid) {
+  var loginData = {};
   var instanceData = {};
+  var repoData = {};
   if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
   return InstanceDB.getUserInstances(user.gitid)
@@ -39,17 +43,22 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('No Repo Found for User!') )
       }
 
-      var repoData = data[0];
+      repoData = data[0];
       
       return InstanceLogin.find({ ownergitid: user.gitid})
-        .then(function(data) {
-          console.log('instancelogindata = ', data)
-          if(data.length > 0) {
-            return Logic.runSSHPostInstall(instanceData, Commands.postInstallSetup(repoData.clone_url, data[0].daemonkey), data[0], repoData);
-          }
-          
-          return Promise.reject( new Error('Instance Login Data not Found!') );
-        })
+    })
+    .then(function(data) {
+      console.log('instance login data = ', data)
+      if(data.length > 0) {
+        loginData = data[0];
+        return Commands.postInstallSetup(repoData, loginData);
+      }
+      
+      return Promise.reject( new Error('Instance Login Data not Found!') );
+    })
+    .then(function(cmdArray) {
+      console.log('cmdArray = ', cmdArray)
+      return Logic.runSSHPostInstall(instanceData, cmdArray, loginData, repoData);
     })
 }
 
@@ -85,4 +94,17 @@ exports.checkWebServer = function(address) {
     })
 }
 
+exports.setEnv = function(body, repoId, gitId) {
+  return EnvDB.getEnv(repoId, gitId)
+    .then(function(data) {
+      return EnvDB.updateEnv(data[0]._id, body, repoId, gitId);
+    })
+    .catch(function(err) {
+      console.log('Saving New Environment Variables: ', err)
+      return EnvDB.saveNew(body, repoId, gitId);
+    })
+}
 
+exports.getEnv = function(repoId, gitId) {
+  return EnvDB.getEnv(repoId, gitId);
+}
