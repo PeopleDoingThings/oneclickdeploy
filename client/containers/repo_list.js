@@ -1,57 +1,29 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
-
-import RepoItem from '../components/repo_list_item'; 
-import { fetchRepos } from '../actions/index';
-
+import { Tabs, Tab, PanelGroup, Panel } from 'react-bootstrap';
+import Deployable from './deployable';
 
 class RepoList extends Component {
   constructor(props) {
     super(props);
-    this.props.fetchRepos()
   }
 
-
-  renderList() {
-    console.log('repo ',this.props.repos)
-    if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return "Loading....."
-    } else {
-      return (this.props.repos.map((repo) => {
-        return (
-          <RepoItem repoItem={repo} />
-        )
-        })
-      );
-    }
-  } 
-
   render() {
-    
     return (
-		 	<div>
-		 		<h3>Repo list</h3>
-				<ul className="list-group">
-         {this.renderList()}
-        </ul>
-		 	</div> 
+      <div>
+      <h3 className='repoInstance'>Some Random Text Here Later</h3>
+           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+                <Tab eventKey={1} title="Deployable Repos">
+                  <Deployable />
+                </Tab>
+              <Tab eventKey={2} title="Deployed Instances">Deployed Instances</Tab>
+           </Tabs>
+      </div>
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRepos }, dispatch);
-}
 
-function mapStateToProps(state) {
-	//whatever gets returned here will show up
-	//as props inside RepoList
-	console.log('state: ', state)
-	return {
-		repos: state.reducers.repos
-	};
-}
+export default connect(null,null)(RepoList);
 
-//take this component/mapStateToProps and return a container
-export default connect(mapStateToProps, mapDispatchToProps)(RepoList);
