@@ -357,7 +357,14 @@ path {
     font-size: 9px;
 
 }
+.nav-tabs>li {
+  width: 50%;
+  color: #4A4A4A;
+}
 
+.repoInstance {
+  text-align: center;
+}
 /*************************************************/
 /*
 ** MEDIA QUERIES
