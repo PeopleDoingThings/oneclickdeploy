@@ -5,16 +5,15 @@ import { createInst, setRepoID } from '../actions/index';
 import { Link, browserHistory } from 'react-router';
 import {Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import Deploy from './deploy';
-import getEnvVar from '../actions/index';
+import {getEnvVar} from '../actions/index';
 
 class envVarForm extends Component {
 constructor(props){
     super(props);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.state = {envVar: ''}
-    //this.props.getEnvVar();
-    console.log('here is envVar reducer', this.props)
+    //this.state = {envVar: ''}
+    this.props.getEnvVar();
   }
 
    onInputChange(event) {
@@ -23,28 +22,45 @@ constructor(props){
 
    onFormSubmit(event) {
     event.preventDefault();
-    this.setState({envVar: ''}); 
+    this.setState({envVar: []}); 
     //console.log('this is the input:', this.state.envVar )  
   }
 
-  // renderEnvVar(var){
-
-  //   // if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-  //   //   return "Loading....."
-  //   // } else {
-  //   //   var counter = 0;
-  //   //   return (this.props.repos.map((repo) => {
-  //   //     return (
-  //   //         <Panel key={repo.repoid} header={repo.name} eventKey={counter++}>
-  //   //           <RepoItem repoItem={repo} />
-  //   //           <Form id={repo.repoid}/>
-  //   //         </Panel>
-  //   //       )
-  //   //     })
-  //   //   );
-  //   // }
-
-  // }
+  renderEnvVar(){
+    if (this.props.envVars.length === 0 || this.props.envVars === undefined || this.props.envVars[0].length === 0){
+      return "Loading....."
+    } else {
+      var counter = 0;
+      return (this.props.envVars.map((obj, indx) => {
+        //console.log ('val', val.indx, 'indx',indx)
+            counter++;
+            for (var key in obj){
+            return (
+              <div key={indx}>
+                <FormGroup controlId={counter}>
+                  <ControlLabel>Key</ControlLabel>
+                   <FormControl 
+                    type="text" 
+                    placeholder="Environment Variable Key" 
+                    value = {key}
+                    //onChange = {this.onInputChange}
+                    />
+                </FormGroup>
+                <FormGroup controlId={counter++}>
+                  <ControlLabel>Value</ControlLabel>
+                  <FormControl 
+                   type="text" 
+                   value = {obj[key]}
+                   placeholder="Environment Variable Value" 
+                  />
+                </FormGroup> 
+              </div>  
+            )
+            }
+        })
+      );
+    }
+  }
 
 
   render() {
@@ -64,6 +80,14 @@ constructor(props){
 //         <button form={repoID} type='submit' className="btn btn-secondary">Submit</button>      
 //     </form>
      }
+
+     <Form inline  onSubmit={this.onFormSubmit} className="input-group">
+        {this.renderEnvVar()}
+        <Button type="submit">
+        Submit
+        </Button>
+     </Form>
+
       {
     // <Form inline  onSubmit={this.onFormSubmit} className="input-group">
     //     <FormGroup controlId={repoID}>

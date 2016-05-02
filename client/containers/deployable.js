@@ -11,6 +11,7 @@ class Deployable extends Component {
   constructor(props) {
     super(props);
     this.props.fetchRepos()
+    console.log('props in deployable', this.props)
   }
 
 
