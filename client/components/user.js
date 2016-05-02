@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Glyphicon, glyph, Badge } from 'react-bootstrap'
 
 export default class UserProfile extends Component {
 
@@ -7,10 +8,14 @@ export default class UserProfile extends Component {
         <div>
           <div className="main-logo">GHV</div>
   				<div className="user-profile">
-            <img className="avatar" src={this.props.user.avatar_url} />
+            <ul className="user-profile-widget">
+              <li><button><Glyphicon glyph="cog" /></button></li>
+              <li><img className="avatar" src={this.props.user.avatar_url} /></li>
+              <li><button><Badge pullRight="true">1</Badge><Glyphicon glyph="bell" /></button></li>
+            </ul>
     				<div className ="user-details">
-              <p>{this.props.user.name}</p>
-              <p>{this.props.user.login}</p>
+              <p className="name">{this.props.user.name}</p>
+              <p className="handle">{this.props.user.login}</p>
             </div>
   				</div>
         </div>

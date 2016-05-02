@@ -5,28 +5,52 @@
 /******************************************************/
 /*
 darkgrey: #4A4A4A;
+softGrey: #9B9B9B;
 medgrey: ; #545555;
 sidebar Nav: #FAFAFA;
 purple: #5D478B;
 lightGrey: #EDEFF0;
 
-
-
 */
 
+@import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC|Roboto:400,300,500,700);
 
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
 
+.left {
+  float: left;
+}
 
-/*body {
-  width: 100%;
-  max-height: 100%;
-  overflow: auto;
-}*/
+.right {
+  float: right;
+}
+.bold {
+  font-weight: 700;
+}
 
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a:focus, a:hover {
+  text-decoration: none;
+}
 
 .header {
-  height: 150px;
+  top: 0px;
+  height: 70px;
+  width: 100%;
   background-color: #4A4A4A;
+  position: absolute;
+}
+
+.header h1 {
+  margin-left: 40px;
 }
 
 /**/
@@ -47,13 +71,33 @@ lightGrey: #EDEFF0;
     margin-right:-4px;
 }
 
+.home-title {
+  margin: 0;
+  padding: 0;
+}
 .home-login {
   background-color: #EE9A00;
+  color: #fff;
 }
 
 .login {
-  background-color: #EE9A00;
-  min-height: 300px;
+  text-align: center;
+}
+
+h1.logo {
+  font-family: 'Bowlby One SC', sans-serif;  
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 4em;
+  margin: 0;
+  padding: 0;
+}
+
+.login .tagline {
+  text-align: right;
+  padding: 0;
+  padding-right: 48px;
+  margin: 0;
 }
 
 .home-details {
@@ -76,6 +120,11 @@ lightGrey: #EDEFF0;
 /*
 ** sideBar styling **
 */
+/*for animation on the large desktop view*/
+.sideBarPanel {
+  position: absolute;
+}
+
 .side-bar {
   position: relative;
   background-color: #4A4A4A;
@@ -88,12 +137,18 @@ lightGrey: #EDEFF0;
 }
 
 .side-bar .main-logo {
-  min-height: 150px;
+  min-height: 120px;
+  text-align: center;
+  padding-top: 30px;
+  font-size: 1.5em;
+  letter-spacing: 0.5em;
+  color: #EDEFF0;
 }
 
 /*
 ** SideBar User Profile***
 */
+
 
 .user-profile {
   text-align: center;
@@ -101,27 +156,76 @@ lightGrey: #EDEFF0;
   z-index: 1000;
 }
 
-.user-details {
-  color: #0099ff;
+.user-profile-widget {
+  margin: 0;
+  padding: 25px 5px 0 0;
 }
 
-.user-detrals span {
-  display: block;
-  color: #545555;
+.user-profile-widget li {
+  display: inline;
+  padding: 0 5px;
 }
 
-.avatar {
+ul.user-profile-widget li img.avatar {
   border-radius: 50%;
   border: 2px solid #fff;
   width: 40%;
   height: auto;
+  box-shadow: 1px 1px 1px grey;
 }
+
+.user-profile-widget button {
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #fff;
+    height: 47px;
+    width: 47px;
+    font-size: 1.5em;
+    color: lightgrey;
+    box-shadow: 1px 1px 1px grey;
+}
+
+.user-profile-widget .glyphicon {
+  line-height: normal;
+}
+.user-profile-widget .badge {
+  position: absolute;
+  left: 245px;
+  top: 58px;
+  background-color: orange;
+}
+
+
+.user-details {
+  margin: 10px;
+  color: #0099ff;
+}
+
+.user-details .name {
+  color: #4A4A4A;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin: 0;
+}
+.user-details .handle {
+  font-size: 1.2em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #5D478B;
+}
+/*.user-detrals span {
+  display: block;
+  color: #545555;
+}*/
+
+
 
 /**/
 
 .sidebar-nav {
   position: absolute;
-  top: 223px;
+  top: 200px;
   width: 295px;
   background-color: #FAFAFA;
   margin-bottom: -5000px;
@@ -158,35 +262,149 @@ lightGrey: #EDEFF0;
   outline: none;
 }
 
+.panel-default>.panel-heading+.panel-collapse>.panel-body {
+  margin: 0;
+  padding: 0;
+}
+
 .sidebar-nav nav {
-  margin: 130px 0 0 0;
+  margin: 140px 0 0 0;
 }
 
 .sidebar-nav ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
-/*.sidebar-nav ul li a {
+
+.sidebar-nav li {
+  font-size: 1.1em;
+  background: #4A4A4A;
+  border-bottom: 1px solid #EDEFF0;
+}
+.sidebar-nav li a {
+  padding: 10px;
+  color: #EDEFF0;
   display: block;
-  padding: 12px;
-  border-bottom: 1px solid #fff;
-  border-top: 1px solid #fff;
-
+  width: 100%;
+  height: 100%;
 }
 
-.sidebar-nav ul li a:hover {
-  background-color: ;
+.sidebar-nav li a:hover {
+  color: #4A4A4A;
 }
 
-*/
+.sidebar-nav li:hover {
+  background-color: #EDEFF0;
+}
+.sidebar-nav li a:focus {
+  outline: none;
+  color: #EDEFF0;
+}
+/* Toggle */
+.sidebar-nav li.active {
+  background-color: orange;
+  color: #fff;
+  pointer-events: none;
+  cursor: default;
+}
+
 .logout {
   color: white !important;
 }
 
 /*
 /*
- ** Dashboard Graphs Styles **
+ ** Main Panel Styles **
 */
 
+.main {
+  margin-left: 320px;
+}
+
+.welcome-banner {
+  text-align: center;
+  border-bottom: 1px solid #EDEFF0;
+  margin-bottom: 30px;
+  padding: 30px 0 20px 0;
+}
+
+
+/*
+/*
+ ** Dashboard  **
+*/
+/* Info Panel */
+.info-panel {
+  border: 1px solid #EDEFF0;
+  background-color: #fff;
+}
+
+.info-panel .ip {
+  font-size: 3.2em;
+  text-align: center;
+  letter-spacing: 2.5px;
+  font-weight: 700;
+  padding: 20px 10px 0px 0;
+}
+
+.info-panel .btn {
+  margin-left: 168px;
+  margin-bottom: 20px;
+  width: 130px;
+}
+
+.info-panel .status-bubble, .info-panel .build-bubble {
+  float: left;
+  display: block;
+  height: 140px;
+  width: 140px;
+  padding: 33px 0 0 26px;
+  margin: 5px;
+  font-size: 12px;
+  border-radius: 50%; 
+}
+
+.info-panel .status-bubble {
+  
+  background-color: #4A4A4A;
+  border: 13px solid #9B9B9B; 
+  color: white;
+}
+
+.info-panel .build-bubble {
+  border: 13px solid #EDEFF0;
+  border-radius: 50%;
+}
+.info-panel span {
+  font-size: 2.3em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  display: block;
+}
+
+.info-panel .build-bubble span {
+  font-size: 1.5em;
+  font-weight: 400;
+}
+
+.info-panel ul {
+  margin: 10px 0;
+  padding: 0;
+  list-style: none;
+  height: 78px;
+}
+
+.info-panel ul li {
+}
+.info-panel ul li:first-child {
+  text-transform: uppercase;
+  border-bottom: 1px dotted lightgrey;
+  font-weight: 700;
+  color: #9B9B9B;
+}
+
+/* Graphs Styles */
 text.shadow {
   stroke: #fff;
   stroke-width: 2.5px;
@@ -210,14 +428,14 @@ path {
 .axis path,
 .axis line {
     fill: none;
-    stroke: grey;
+    /*stroke: grey;
     stroke-width: 1;
-    shape-rendering: crispEdges;
+    shape-rendering: crispEdges;*/
 }
 
 .grid .tick {
     stroke: lightgrey;
-    stroke-opacity: 0.7;
+    stroke-opacity: 0;
     shape-rendering: crispEdges;
 }
 
@@ -234,7 +452,7 @@ path {
 }
 
 
-.d3-tip {
+/*.d3-tip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
@@ -244,7 +462,7 @@ path {
 }
 
 /* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
+/*.d3-tip:after {
   box-sizing: border-box;
   display: inline;
   font-size: 10px;
@@ -254,97 +472,14 @@ path {
   content: "\25BC";
   position: absolute;
   text-align: center;
-}
+}*/
 
 /* Style northward tooltips differently */
-.d3-tip.n:after {
+/*.d3-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
-}
-
-
-
-/*
-/*
- ** Dashboard Graphs Styles **
-*/
-
-text.shadow {
-  stroke: #fff;
-  stroke-width: 2.5px;
-  opacity: 0.9;
-}
-
-text.title {
-  text-decoration: none;
-  float: left;
-  font-size: 10px;
-  color: darkgrey;
-}
-
-path {
-    stroke: steelblue;
-    stroke-width: 2;
-    fill: none;
-}
-
-
-.axis path,
-.axis line {
-    fill: none;
-    stroke: grey;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-}
-
-.grid .tick {
-    stroke: lightgrey;
-    stroke-opacity: 0.7;
-    shape-rendering: crispEdges;
-}
-
-.tick text {
-  font-size: 0.5em;
-}
-.grid path {
-          stroke-width: 0;
-}
-
-.area {
-    fill: lightsteelblue;
-    stroke-width: 0;
-}
-
-
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-  margin: -1px 0 0 0;
-  top: 100%;
-  left: 0;
-}
+}*/
 
 
 .log {
@@ -373,12 +508,20 @@ path {
 
 /* small screens */
 @media (max-width: 600px) {
-
-  .side-bar {
-  background-color: #FAFAFA;
-  width: 100%;
+  .sideBarPanel {
+    position: relative;
   }
 
+  .side-bar {
+    background-color: #FAFAFA;
+    width: 100%;
+  }
+
+  .main {
+    margin-left: 0;
+  }
 }
+
+
 
 

@@ -26,8 +26,6 @@ export const INSTANCE_READY = 'INSTANCE_READY'
 export function instanceReady() {
   let url = `/api/ovh/checkinstanceready`;
   let request = axios.get(url);
-
-
   return {
     type: INSTANCE_READY,
     payload: request

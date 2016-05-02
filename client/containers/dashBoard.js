@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
 
-import * as ActionCreators from '../actions/index'
+import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
+import InstanceInfo from '../components/InstanceInfo'
 
 
 
@@ -31,13 +32,7 @@ export default class DashBoard extends Component {
       return (
 
         <div>
-        {console.log('working')}
-          <h3>test: Dashboard</h3>
-            {
-            // <ul>
-            //   <li>created on {this.props.instance.created}</li>
-            // </ul>
-            }
+            <InstanceInfo instance={this.props.instance}/>
             <MemUsage 
               memUsage={this.props.memUsage} 
               cpuUsage={this.props.cpuUsage} 
@@ -58,11 +53,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state txUsage: ', state.reducers.txUsage)
+  console.log('state isDeployed: ', state.reducers.instReady)
   console.log('state memUsage: ', state.reducers.rxUsage)
 
  return {
-    instance: state.reducers.deployed,
+    instance: state.reducers.instReady,
     memUsage: state.reducers.memUsage,
     cpuUsage: state.reducers.cpuUsage,
     txUsage:  state.reducers.txUsage,

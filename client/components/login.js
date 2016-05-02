@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import Header from '../containers/header';
 import {Motion, spring} from 'react-motion';
-import { Tabs, Tab } from 'react-bootstrap'
 
-let topY = 75;
+let topY = 70;
 let bottomY = -225;
 
 function showDetails() {
   this.setState( {topDiv: -400, bottomDiv: 0} );
-  console.log(this.state.bottomDiv)
 }
 
 function hideDetails() {
   this.setState( {topDiv: topY, bottomDiv: bottomY} );
-  console.log(this.state.bottomDiv)
 }
 
 export default class Login extends Component {
@@ -33,14 +30,25 @@ export default class Login extends Component {
         <Motion defaultStyle={{ y: topY }} style={{ y: spring(this.state.topDiv) }}>
           {interpolatingStyle =>
           <div className="home-login" style={{height: '100%', width: '100%', position: 'absolute', top: interpolatingStyle.y}}>
-            <div className="row row-centered">
-              <div className="login col-md-4 col-centered">
+            <Motion defaultStyle={{ y: -500 }} style={{ y: spring(100) }}>
+            {IntroStyle =>
+            <div style={{ textAlign: 'center', minHeight: 400, width: '100%', position: 'absolute', top: IntroStyle.y}}>
+              <div className="login col-md-8 col-xs-10 col-centered">
+                <div className="home-title">
+                  <h1 className="logo">Git Hypervisor</h1>
+                  <h3 className="tagline">one-click solution for app deployment</h3>
+                </div>  
+                <p>Wanna deploy your node.js app?</p>
+                <p>It's easy! Just sign in to Github from our link below and choose the app to deploy from your public Github repos</p>
                 <h1> Sign in with Github and get started</h1>
                 <a href="http://localhost:9001/login/github" className="btn btn-primary">sign in</a>
+                <button type="button" onClick={showDetails}> find out more </button>
               </div>
+              
             </div>
-          <button type="button" onClick={showDetails}> find out more </button>
-          </div>
+            }
+          </Motion>
+          </div>  
            }
         </Motion>
         <Motion defaultStyle={{y: bottomY}} style={{ y: spring(this.state.bottomDiv) }}>
