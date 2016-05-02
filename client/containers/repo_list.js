@@ -33,7 +33,7 @@ class RepoList extends Component {
                 <Tab eventKey={1} title="Deployable Repos">
                   <Deployable />
                 </Tab>
-                <Tab eventKey={2} title="Deployed Instances">
+                <Tab eventKey={2} title="Deployed Repos">
                  <DeployedApp />
                 </Tab>
            </Tabs>

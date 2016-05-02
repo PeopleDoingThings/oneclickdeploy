@@ -34,7 +34,7 @@ constructor(props){
       return (this.props.envVars.map((obj, indx) => {
         //console.log ('val', val.indx, 'indx',indx)
             counter++;
-            for (var key in obj){
+            //for (var key in obj){
             return (
               <div key={indx}>
                 <FormGroup controlId={counter}>
@@ -42,7 +42,7 @@ constructor(props){
                    <FormControl 
                     type="text" 
                     placeholder="Environment Variable Key" 
-                    value = {key}
+                    value = {obj.key}
                     //onChange = {this.onInputChange}
                     />
                 </FormGroup>
@@ -50,13 +50,13 @@ constructor(props){
                   <ControlLabel>Value</ControlLabel>
                   <FormControl 
                    type="text" 
-                   value = {obj[key]}
+                   value = {obj.value}
                    placeholder="Environment Variable Value" 
                   />
                 </FormGroup> 
               </div>  
             )
-            }
+            
         })
       );
     }
