@@ -7,7 +7,7 @@ export default class Header extends Component {
     return (
       <div>
         <header className="header">
-              <h1>App name</h1>
+              <h1>GHV</h1>
         </header>
       </div>
 

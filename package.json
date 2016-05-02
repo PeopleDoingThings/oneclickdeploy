@@ -28,6 +28,7 @@
     "base-64": "^0.1.0",
     "bluebird": "^3.3.5",
     "body-parser": "^1.15.0",
+    "classnames": "^2.2.4",
     "connect-mongodb-session": "^1.1.1",
     "d3": "^3.5.16",
     "d3-tip": "^0.6.7",

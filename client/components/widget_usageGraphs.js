@@ -26,7 +26,7 @@ function makeChart(data, container, y_Max, title) {
   
   let margin = {top: 30, right: 20, bottom: 30, left: 50},
       width = 600 - margin.left - margin.right,
-      height = 170 - margin.top - margin.bottom
+      height = 150 - margin.top - margin.bottom
 
   let duration = 1500;
   let delay = 500;
@@ -207,7 +207,7 @@ export default class MemUsage extends Component {
 
   render() {      
         return (
-        <div>
+        <div className="col-md-8">
           <div>{memGraph.toReact()} </div>   
           <div>{cpuGraph.toReact()} </div> 
           <div>{txGraph.toReact()} </div> 

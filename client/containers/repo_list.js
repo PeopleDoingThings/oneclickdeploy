@@ -12,6 +12,19 @@ class RepoList extends Component {
     super(props);
   }
 
+  renderList() {
+    if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
+      return "Loading....."
+    } else {
+      return (this.props.repos.map((repo) => {
+        return (
+          <RepoItem repoItem={repo} />
+        )
+        })
+      );
+    }
+  } 
+
   render() {
     return (
       <div>
@@ -28,6 +41,5 @@ class RepoList extends Component {
     );
   }
 }
-
 
 export default connect(null,null)(RepoList);
