@@ -1,3 +1,4 @@
+var Hat = require('hat');
 var ovh = require('ovh')({
   endpoint: process.env.OVH_ENDPOINT,
   appKey: process.env.OVH_APPKEY,
@@ -124,7 +125,24 @@ exports.getInstance = function(instanceid) {
   })
 }
 
-exports.getSnapShots = function() {
+exports.createSnapShot = function(instanceid) {
+  return new Promise(function(resolve, reject) {
+    var snapshotName = Hat().slice(0, 9);
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/snapshot`,
+     { snapshotName: snapshotName }, 
+     function(err, resp, body) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      console.log('created snapshot ovh = ', resp, body)
+      resolve(resp, name);
+    })
+  })
+}
+
+exports.getSnapShots = function(data) {
   return new Promise(function(resolve, reject) {
     ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot`, function(err, resp) {
       if(err) {
@@ -133,10 +151,39 @@ exports.getSnapShots = function() {
       }
 
       console.log('got snapshot data from OVH = ', resp)
+      resolve(resp, data);
+    })
+  })
+}
+
+exports.deleteSnapShot = function(sid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('DELETE', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot/${sid}`, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      console.log('deleted snapshot ovh = ', resp)
       resolve(resp);
     })
   })
 }
+
+exports.rescueReboot = function(instanceid) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/rescueMode`, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+
+      console.log('rebooting in rescue mode! = ', resp)
+      resolve(resp);
+    })
+  })
+}
+
 
 
 

@@ -99,7 +99,7 @@ exports.getConsoleOutput = function(userid) {
 }
 
 exports.getBackups = function(gitid) {
-  SnapShot.find({ ownergitid: gitid })
+  return SnapShot.find({ ownergitid: gitid })
     .then(function(data) {
       if(data.length === 0) {
         return Promise.reject( new Error('No SnapShot in DB!') )
@@ -110,11 +110,73 @@ exports.getBackups = function(gitid) {
 }
 
 exports.createBackup = function(gitid) {
-  SnapShot.find({ ownergitid: gitid })
+  var snapName;
+  return SnapShot.find({ ownergitid: gitid })
     .then(function(data) {
       if(data.length > 0) {
         return Promise.reject( new Error('User Already Has Snapshot!') )
       }
+
+      return InstanceDB.getUserInstances(gitid);
+    })
+    .then(function(data) {
+      console.log('user instances = ', data);
+      return OVH.createSnapShot(data[0].openstackid);
+    })
+    .then(function(data, name) {
+      console.log('snapshot created = ', data)
+      console.log('snapshot name = ', name)
+      snapName = name;
+
+      return OVH.getSnapShots();
+    })
+    .then(function(data) {
+      console.log('ovh SnapShots = ', data)
+      return Helper.saveSnapShot(data.filter( val => val.name === snapName ));
     })
 }
+
+exports.deleteBackup = function(gitid) {
+  return SnapShot.find({ ownergitid: gitid })
+    .then(function(data) {
+      if(data.length === 0) {
+        return Promise.reject( new Error('No SnapShot Found for Delete!') )
+      }
+
+      return data[0];
+    })
+    .then(function(data) {
+      console.log('DB SNapshot = ', data)
+      return OVH.getSnapShots(data);
+    })
+    .then(function(resp, data) {
+      console.log('response from ovh get snapshots = ', resp)
+      var result = resp.filter( val => val.id === data.id);
+
+      return OVH.deleteSnapShot(final.snapshotid);
+    })
+}
+
+exports.rescueReboot = function(gitid) {
+  return SnapShot.find({ ownergitid: gitid })
+    .then(function(data) {
+      if(data.length > 0) {
+        return Promise.reject( new Error('No Instance for Use of Rescue Mode!') )
+      }
+
+      return InstanceDB.getUserInstances(gitid);
+    })
+    .then(function(data) {
+      console.log('user instances = ', data);
+      return OVH.createSnapShot(data[0].openstackid);
+    })
+}
+
+
+
+
+
+
+
+
 

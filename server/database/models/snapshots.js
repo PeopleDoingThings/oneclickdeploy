@@ -2,8 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var SnapShot = new Schema({
-  ownergitid: String,
-  
+  ownergitid: String  
 });
 
 

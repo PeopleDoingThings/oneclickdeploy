@@ -61,14 +61,28 @@ router.get('/getconsoleoutput', function(req, res) {
     .catch( err => res.send(err) )
 })
 
-router.post('/createbackup', function(req, res) {
+router.get('/createbackup', function(req, res) {
   Logic.createBackup(req.user.gitid)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
 })
 
-router.get('/rescuemode', function(req, res) {
+router.get('/deletebackup', function(req, res) {
+  Logic.deleteBackups(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
+})
 
+router.get('/listbackups', function(req, res) {
+  Logic.getBackups(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
+})
+
+router.get('/rescuemode', function(req, res) {
+  Logic.rescueReboot(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
 })
 
 
