@@ -10,6 +10,7 @@ import cpuUsage from './reducer_cpuUsage';
 import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
+import GetEnvVar from './reducer_envVar';
 
 const rootReducer = combineReducers({
   repos: ReposReducer,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   txUsage: txUsage,
   rxUsage: rxUsage,
   logOutput: LogOutput,
-  selRepoId: SetRepoId
+  selRepoId: SetRepoId,
+  envVar: GetEnvVar
 });
 
 
