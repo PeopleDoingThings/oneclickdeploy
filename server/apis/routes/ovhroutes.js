@@ -61,6 +61,14 @@ router.get('/getconsoleoutput', function(req, res) {
     .catch( err => res.send(err) )
 })
 
+router.post('/createbackup', function(req, res) {
+   // /cloud/project/{serviceName}/instance/{instanceId}/snapshot
+})
+
+router.get('/rescuemode', function(req, res) {
+
+})
+
 
 
 module.exports = router;
