@@ -160,3 +160,31 @@ export function setRepoID(repoID) {
   }
   
 }
+
+
+export const GET_ENV_VAR = 'GET_ENV_VAR'
+export function getEnvVar(repoID) {
+//   let url = `/api/ssh2/getenv/:{repoID}`;
+//   let request = axios.get(url);
+
+
+  return {
+    type: GET_ENV_VAR,
+   // payload: request
+    payload: repoID
+  }
+}
+
+export const SET_ENV_VAR = 'SET_ENV_VAR'
+export function setEnvVar(varData, repoID) {
+  let url = `/api/ssh2/setenv/:{repoID}`;
+  let request = axios.post(url, varData);
+
+
+  return {
+    type: SET_ENV_VAR,
+    payload: request
+  }
+}
+
+

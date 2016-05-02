@@ -4,14 +4,12 @@ import { connect } from 'react-redux';
 import RepoItem from '../components/repo_list_item'; 
 import { fetchRepos } from '../actions/index';
 import { PanelGroup, Panel } from 'react-bootstrap';
-import Form from './envVarForm';
 
 
-class Deployable extends Component {
+class DeployedApp extends Component {
   constructor(props) {
     super(props);
     this.props.fetchRepos()
-    console.log('props in deployable', this.props)
   }
 
 
@@ -23,11 +21,10 @@ renderList() {
     } else {
     	var counter = 0;
       return (this.props.repos.map((repo) => {
-        if(repo.deployed===false)
+        if(repo.deployed===true)
         return (
         	  <Panel key={repo.repoid} header={repo.name} eventKey={counter++}>
           		<RepoItem repoItem={repo} />
-          		<Form id={repo.repoid}/>
           	</Panel>
         	)
         })
@@ -52,13 +49,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-	//whatever gets returned here will show up
-	//as props inside RepoList
-	console.log('state: ', state)
 	return {
 		repos: state.reducers.repos
 	};
 }
 
-//take this component/mapStateToProps and return a container
-export default connect(mapStateToProps, mapDispatchToProps)(Deployable);
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeployedApp);
