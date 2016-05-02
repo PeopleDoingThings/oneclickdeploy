@@ -123,10 +123,9 @@ exports.createBackup = function(gitid) {
       console.log('user instances = ', data);
       return OVH.createSnapShot(data[0].openstackid);
     })
-    .then(function(data, name) {
-      console.log('snapshot created = ', data)
-      console.log('snapshot name = ', name)
-      snapName = name;
+    .then(function(data) {
+      console.log('snapshot created name = ', data)
+      snapName = data;
 
       return OVH.getSnapShots();
     })

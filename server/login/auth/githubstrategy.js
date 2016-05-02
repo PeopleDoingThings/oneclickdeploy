@@ -4,6 +4,7 @@ var GitHubStrategy = require('passport-github2').Strategy;
 var User = require('../../database/models/gituser.js');
 var init = require('./init');
 var User = require('../../database/users.js');
+var UserToken = require('../../database/models/usertoken.js');
 
 
 passport.use(new GitHubStrategy({
@@ -12,25 +13,43 @@ passport.use(new GitHubStrategy({
   callbackURL: 'http://localhost:' + process.env.PORT + '/login/github/callback'
   },
   function(accessToken, refreshToken, profile, done) {
+    var updatedEntry;
 
     // We update our user if found in regard to followers & profile picture as these can change often.
     User.findByGitId(profile.id)
-      .then(function(data) {
-        return User.updateEntry(data);
+      .then(function(user) {
+        if(user.length === 0) return Promise.reject( new Error('No User Found in DB!') )
+
+        return User.updateEntry(user, profile._json);
       })
       .then(function(data) {
-        return done(null, data);
+        updatedEntry = data;
+        return UserToken.find({ id: String(profile.id) });
+      })
+      .then(function(data) {
+        return UserToken.findByIdAndUpdate(data._id, { token: accessToken });
+      })
+      .then(function(data) {
+        done(null, updatedEntry);
       })
       .catch(function(err) {
-        User.saveUser(profile._json)
+        var tokenObj = new UserToken({
+          id: profile.id,
+          token: accessToken
+        })
+
+        tokenObj.save()
           .then(function(data) {
-            return done(null, data);
+            return User.saveUser(profile._json);
+          })
+          .then(function(data) {
+            done(null, data);
           })
           .catch(function(err) {
-            return done(err);
+            console.log('Saving New User Failed: ', err)
           })
-      })
-
+      })  
+      
 
   }));
 

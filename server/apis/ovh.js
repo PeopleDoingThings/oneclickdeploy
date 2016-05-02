@@ -130,14 +130,13 @@ exports.createSnapShot = function(instanceid) {
     var snapshotName = Hat().slice(0, 9);
     ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/snapshot`,
      { snapshotName: snapshotName }, 
-     function(err, resp, body) {
+     function(err, resp) {
       if(err) {
         reject(err);
         return;
       }
 
-      console.log('created snapshot ovh = ', resp, body)
-      resolve(resp, name);
+      resolve(snapshotName);
     })
   })
 }

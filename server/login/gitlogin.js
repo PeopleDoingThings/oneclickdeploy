@@ -8,7 +8,7 @@ var passportGithub = require('./auth/githubstrategy.js');
 
 //req.isAuthenticated() will return true or false. Then returns the user obj if they are authed.
 router.get('/isauthenticated', function(req, res) {
-  console.log('Current User: ', req.user.name)
+  console.log('Current User: ', req.user)
   if (req.isAuthenticated()) res.send(req.user);
   else res.sendStatus(401);
 });
