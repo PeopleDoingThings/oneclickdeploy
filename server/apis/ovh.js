@@ -124,7 +124,19 @@ exports.getInstance = function(instanceid) {
   })
 }
 
+exports.getSnapShots = function() {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot`, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
+      console.log('got snapshot data from OVH = ', resp)
+      resolve(resp);
+    })
+  })
+}
 
 
 

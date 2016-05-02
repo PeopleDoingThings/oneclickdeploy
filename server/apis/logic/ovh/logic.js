@@ -2,6 +2,7 @@ var OVH = require('../../ovh.js');
 var Helper = require('./helpers.js');
 var InstanceDB = require('../../../database/instances.js');
 var InstanceLogin = require('../../../database/instancelogin.js');
+var SnapShot = require('../../../database/models/snapshots.js');
 var OpenStack = require('../../openstack.js');
 var Hat = require('hat');
 
@@ -97,8 +98,23 @@ exports.getConsoleOutput = function(userid) {
     .then( data => OpenStack.getConsoleOutput(data[0].openstackid) )
 }
 
-exports.getSSHKey = function(userid) {
-  return InstanceDB.getUserInstances(userid)
-    .then( data => OVH.getSSHKey(data[0].openstackid) )
+exports.getBackups = function(gitid) {
+  SnapShot.find({ ownergitid: gitid })
+    .then(function(data) {
+      if(data.length === 0) {
+        return Promise.reject( new Error('No SnapShot in DB!') )
+      }
+
+      return data[0];
+    })
+}
+
+exports.createBackup = function(gitid) {
+  SnapShot.find({ ownergitid: gitid })
+    .then(function(data) {
+      if(data.length > 0) {
+        return Promise.reject( new Error('User Already Has Snapshot!') )
+      }
+    })
 }
 
