@@ -62,7 +62,9 @@ router.get('/getconsoleoutput', function(req, res) {
 })
 
 router.post('/createbackup', function(req, res) {
-   // /cloud/project/{serviceName}/instance/{instanceId}/snapshot
+  Logic.createBackup(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
 })
 
 router.get('/rescuemode', function(req, res) {
