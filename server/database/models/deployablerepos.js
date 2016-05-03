@@ -7,6 +7,7 @@ var Repo = new Schema({
   deployerror: String,
   repoid: String,
   ownerid: String,
+  ownername: String,
   name: String,
   age: Date,
   clone_url: String,

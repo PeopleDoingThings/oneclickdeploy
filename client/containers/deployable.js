@@ -14,8 +14,6 @@ class Deployable extends Component {
     console.log('props in deployable', this.props)
   }
 
-
-
 renderList() {
     console.log('props in deployable ',this.props.repos.length)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
