@@ -26,6 +26,8 @@ exports.postInstallSetup = function(repoData, loginData) {
     'nvm use 5.11.0',
     'unalias -a',
     'git status',
+    'export NODE_ENV=production',
+    'export ENV=production',
     'npm install',     //likely want to change our timeout for this command & set it back again for others.
     'cat bower.json',
     'cat webpack.config.js',
