@@ -22,6 +22,21 @@ exports.createRepoOpts = function(user) {
   return repo_options;
 }
 
+exports.createOrgOpts = function(user, token) {
+  var repo_options = {
+    url: `https://api.github.com/users/${user}/orgs?sort=updated&client_id=${process.env.GITHUB_QUERY_CLIENTID}&client_secret=${process.env.GITHUB_QUERY_CLIENTSECRET}`,
+    headers: {
+      'User-Agent': 'peopleDoingThings/oneclickdeploy'
+    }
+  };
+
+  if (token !== undefined) repo_options.headers['Authorization'] = 'token ' + token
+
+  console.log("apis/logic/github/helpers.js --- repo_options: ", repo_options);
+
+  return repo_options;
+}
+
 exports.createProcOpts = function(procfile_url) {
   var procfile_options = {
     url: procfile_url,

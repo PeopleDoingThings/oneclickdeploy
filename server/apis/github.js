@@ -7,11 +7,10 @@ var Helper = require('./logic/github/helpers.js');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 
-exports.getUserRepos = function(user, query) {
-
+exports.getUserRepos = function(user, forceRequery) {
   return Repo.find({ ownerid: user.gitid })
     .then(function(data) {
-      if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && query !== 'true') {
+      if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && forceRequery !== 'true') {
         return Promise.reject(data);  // We reject here to send our data back straight from the db.
       }
 
@@ -36,7 +35,13 @@ exports.getUserRepos = function(user, query) {
       return condensed;
     })
     .then(function(repo_list){
-      return Promise.filter( repo_list, val => validateProcfile(val.procfile_url) );
+      return repo_list.concat.apply(getUserOrgRepos(user))
+    })
+    .then(function(full_repo_list){
+      console.log('*******************************************************');
+      console.log('********** Full repo list: ', full_repo_list)
+
+      return Promise.filter( full_repo_list, val => validateProcfile(val.procfile_url));
     })
     .then(function(data) {
       console.log('filtered repo list = ', data);
@@ -50,6 +55,23 @@ exports.getUserRepos = function(user, query) {
 
       return [];
     });
+}
+
+function getUserOrgRepos(user){
+  return request(Helper.createOrgOpts(user.login, user.AccessToken))
+  .then(function(org_list){
+    console.log('response from get orgs: ', org_list)
+    
+    return Promise.all(org_list.map((org) => exports.getUserRepos(org, true)))
+  })
+  .then(function(org_repo_list){
+    console.log('the full list is: ', org_repo_list)
+
+    return full_list 
+  })
+  .catch(function(err){
+    console.log('shit blew the f up: ', err)
+  })
 }
 
 function validateProcfile(procfile_url) {
