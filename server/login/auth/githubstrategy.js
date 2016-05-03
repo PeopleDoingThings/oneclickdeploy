@@ -5,12 +5,27 @@ var User = require('../../database/models/gituser.js');
 var init = require('./init');
 var User = require('../../database/users.js');
 var UserToken = require('../../database/models/usertoken.js');
+var gitCallback;
+var clientID;
+var clientSecret;
+
+
+if(process.env.ENV === 'production') {
+  gitCallback = 'https://hyperjs.io/login/github/callback';
+  clientID = process.env.GITHUB_CLIENTID_PROD;
+  clientSecret = process.env.GITHUB_CLIENTSECRET_PROD;
+}
+else {
+  gitCallback = `http://localhost:${process.env.PORT}/login/github/callback`;
+  clientID = process.env.GITHUB_CLIENTID;
+  clientSecret = process.env.GITHUB_CLIENTSECRET;
+}
 
 
 passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_CLIENTID,
-  clientSecret: process.env.GITHUB_CLIENTSECRET,
-  callbackURL: 'http://localhost:' + process.env.PORT + '/login/github/callback'
+  clientID: clientID,
+  clientSecret: clientSecret,
+  callbackURL: gitCallback
   },
   function(accessToken, refreshToken, profile, done) {
     var updatedEntry;
@@ -48,7 +63,7 @@ passport.use(new GitHubStrategy({
           .catch(function(err) {
             console.log('Saving New User Failed: ', err)
           })
-      })  
+      })
       
 
   }));

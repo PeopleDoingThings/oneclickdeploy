@@ -95,4 +95,38 @@ var obj = {
 
   return obj;
 }
-  
+
+exports.subdomainHost = function(cmdArray) {
+  var obj = {
+    server: {
+      host: process.env.VHOST_SERVER_IP,
+      port: 22,
+      userName: process.env.VHOST_SERVER_USER,
+      password: process.env.VHOST_SERVER_PASS
+    },
+    commands: cmdArray,
+    idleTimeOut: 5000,  // 30 second idle timeout. We can deal with timeout events below
+    onCommandComplete: function( command, response, sshObj ) {
+      console.log('Command Start: ============')
+      console.log('Command : ', command)
+      console.log('Command End:   ============')
+
+    },
+    onEnd: function( sessionText, sshObj ) {
+      console.log('sessionText Start: ')
+      console.log('sessionText: ', sessionText)
+      console.log('sessionText Start: ')
+    }
+  };
+
+  return obj;
+}
+
+
+
+
+
+
+
+
+

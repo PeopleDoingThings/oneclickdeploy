@@ -5,7 +5,6 @@ var Helpers = require('./helpers.js');
 
 
 exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData) {
-  console.log('runSSHPostInstall data = ', instanceData, loginData, repoData)
   return new Promise(function(resolve, reject) {
     var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData);
     host.debug = true;
@@ -81,6 +80,33 @@ exports.setDeployError = function(repoData, err) {
     });
 }
 
+exports.createNewSubdomain = function(cmdArray) {
+  return new Promise(function(resolve, reject) {
+    var host = Helpers.subdomainHost(cmdArray);
+    var SSHClient = new SSH2Shell(host);
+
+    SSHClient.on("close", function onClose(had_error) {
+      if(had_error) {
+        reject(had_error);
+      }
+      else {
+        resolve('SubDomain Created Successfully!');
+      }
+    });
+
+    SSHClient.on("error", function onError(err, type, close, callback) {
+      if(err) {
+        reject(err);
+      }
+      else {
+        resolve('Connection Success but Ended With Error!');
+      }
+    })
+
+    SSHClient.connect();
+  }) 
+}
+
 // exports.reinstallDaemon = function(id) {
 //   InstanceLogin.find({ ownergitid: id })
 //     .then(function(data) {
@@ -98,7 +124,5 @@ exports.setDeployError = function(repoData, err) {
 exports.restartDaemon = function() {
   // Just attempts to restart the daemon with forever
 }
-
-
 
 
