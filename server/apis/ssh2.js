@@ -108,3 +108,32 @@ exports.setEnv = function(body, repoId, gitId) {
 exports.getEnv = function(repoId, gitId) {
   return EnvDB.getEnv(repoId, gitId);
 }
+
+exports.createSubDomain = function(id, subDomain) {
+  var instanceData;
+
+  return Instance.find({ ownergitid: id })
+    .then(function(data) {
+      console.log('instancelogin data: ', data[0])
+      instanceData = data[0];
+      return data[0];
+    })
+    .then(function(data) {
+      console.log('Commands.addNewVirtualHost: ', id, subDomain, data.publicip)
+      return Logic.createNewSubdomain(Helpers.subdomainHost(Commands.addNewVirtualHost(id, subDomain, data.publicip)));
+    })
+    .then(function(data) {
+      Instance.findByIdAndUpdate(instanceData._id, {
+        subdomain: subDomain
+      })
+
+      return data;
+    })
+}
+
+
+     
+
+      
+
+

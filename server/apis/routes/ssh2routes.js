@@ -29,4 +29,10 @@ router.get('/getenv/:repoid', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
+router.get('/createsubdomain/:subdomain', function(req, res) {
+  SSH2.createSubDomain(req.user.gitid, req.params.subdomain)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err) )
+})
+
 module.exports = router;
