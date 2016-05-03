@@ -7,17 +7,20 @@ var Helper = require('./logic/github/helpers.js');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 
-exports.getUserRepos = function(user, forceRequery) {
-  return Repo.find({ ownerid: user.gitid })
+exports.getIndividualRepos = function(user, forceRequery) {
+  console.log("Getting repos for: ", user)
+  // .id for orgs, .gitid for users
+  var ownerid =  user.gitid ? user.gitid : user.id 
+  return Repo.find({ ownerid: ownerid})
     .then(function(data) {
       if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && forceRequery !== 'true') {
         return Promise.reject(data);  // We reject here to send our data back straight from the db.
       }
 
-      return Repo.remove({ ownerid: user.gitid, deployed: false });  // We need to keep track of deployed repos!
+      return Repo.remove({ ownerid: ownerid, deployed: false });  // We need to keep track of deployed repos!
     })
     .then(function(data) {
-      return request(Helper.createRepoOpts(user.login));
+      return request(Helper.createRepoOpts(user.repos_url));
     })
     .then(function(resp){
       console.log('Github Limit Remaining: ', resp.headers['x-ratelimit-remaining']);
@@ -26,20 +29,10 @@ exports.getUserRepos = function(user, forceRequery) {
           return Helper.processRepo(repo, user.login);
         });
 
-      // console.log("--------------------------------------------------------");
-      // console.log("--------------------------------------------------------");
-      // console.log("Condensed list of repos: ")
-      // console.log("--------------------------------------------------------");
-      // console.log("--------------------------------------------------------");
-      // console.log(condensed)
+      console.log('condensed repo: ', condensed)
       return condensed;
     })
-    .then(function(repo_list){
-      return repo_list.concat.apply(getUserOrgRepos(user))
-    })
     .then(function(full_repo_list){
-      console.log('*******************************************************');
-      console.log('********** Full repo list: ', full_repo_list)
 
       return Promise.filter( full_repo_list, val => validateProcfile(val.procfile_url));
     })
@@ -57,20 +50,28 @@ exports.getUserRepos = function(user, forceRequery) {
     });
 }
 
-function getUserOrgRepos(user){
+exports.getUserOrgs = function(user){
   return request(Helper.createOrgOpts(user.login, user.AccessToken))
   .then(function(org_list){
-    console.log('response from get orgs: ', org_list)
-    
-    return Promise.all(org_list.map((org) => exports.getUserRepos(org, true)))
-  })
-  .then(function(org_repo_list){
-    console.log('the full list is: ', org_repo_list)
-
-    return full_list 
+    var thing = JSON.parse(org_list.body)
+    var orgList = thing
+    console.log('orgList is: ', orgList)
+    return orgList
   })
   .catch(function(err){
-    console.log('shit blew the f up: ', err)
+    console.log('error getting orgList: ', err)
+  })
+}
+
+exports.getUserRepos = function(user, forceRequery){
+  return exports.getUserOrgs(user).then((orgList) => orgList.concat(user))
+  .then((list) => {
+    console.log("list is: ", list)
+    return Promise.map(list, list => exports.getIndividualRepos(list, true))
+  })
+  .then((nested) => {
+    console.log("nested is: ", nested)
+    return nested.reduce((a, b) => a.concat(b), [])
   })
 }
 
@@ -79,11 +80,11 @@ function validateProcfile(procfile_url) {
   return request(Helper.createProcOpts(procfile_url))
     .then(function(resp){
       var validity = resp.body.match(/web: node/) !== null;
-      // console.log("--------------------------------------------------------");
-      // console.log("Procfile: ", procfile_url);
-      // console.log("Contents: ", resp.body);
-      // console.log("Is this valid? - ", validity);
-      // console.log("--------------------------------------------------------");
+      console.log("--------------------------------------------------------");
+      console.log("Procfile: ", procfile_url);
+      console.log("Contents: ", resp.body);
+      console.log("Is this valid? - ", validity);
+      console.log("--------------------------------------------------------");
       return validity;
     })
     .catch(function(err) {
