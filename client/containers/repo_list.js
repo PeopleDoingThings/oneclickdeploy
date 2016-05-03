@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs, Tab, PanelGroup, Panel } from 'react-bootstrap';
 import Deployable from './deployable';
-import DeployedApp from './DeployedApps';
+import DeployedApp from './deployedApps';
 
 
 class RepoList extends Component {
@@ -14,7 +14,7 @@ class RepoList extends Component {
 
   renderList() {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return "Loading....."
+      return ''// "Loading....."
     } else {
       return (this.props.repos.map((repo) => {
         return (
@@ -33,7 +33,7 @@ class RepoList extends Component {
                 <Tab eventKey={1} title="Deployable Repos">
                   <Deployable />
                 </Tab>
-                <Tab eventKey={2} title="Deployed Repos">
+                <Tab eventKey={2} title="Deployed Instances">
                  <DeployedApp />
                 </Tab>
            </Tabs>
