@@ -6,11 +6,6 @@ import { fetchRepos } from '../actions/index';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import Form from './envVarForm';
 
-function test(blah) {
-      console.log('working!')
-      this.setState({one: blah});
-    }
-
 class Deployable extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +41,6 @@ renderList() {
       
         <PanelGroup accordion>
           {this.renderList()} 
-          {test()}
         </PanelGroup>       
       </div>        
     );
