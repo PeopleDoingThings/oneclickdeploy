@@ -41,7 +41,6 @@ renderList() {
       
         <PanelGroup accordion>
           {this.renderList()} 
-          {test()}
         </PanelGroup>       
       </div>        
     );
