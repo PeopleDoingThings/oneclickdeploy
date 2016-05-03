@@ -7,7 +7,6 @@ var User = new Schema({
   name: String,
   login: String,
   gitid: String,
-  token: String,
   profile_url: String,
   avatar_url: String,
   repos_url: String,
