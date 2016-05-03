@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs, Tab, PanelGroup, Panel } from 'react-bootstrap';
 import Deployable from './deployable';
-import DeployedApp from './deployedApps';
+import DeployedApp from './deployedRepos';
 
 
 class RepoList extends Component {

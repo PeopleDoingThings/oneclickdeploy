@@ -12,7 +12,7 @@ constructor(props){
     super(props);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.props.getEnvVar();
+    this.props.getEnvVar(this.props.id);
     this.state = { 
       envVar: props.envVars,
       envVarArray: [{key:'', value: ''}]
@@ -22,6 +22,13 @@ constructor(props){
   }
 
    formatEnv (stateObj, envVars){
+    ////****
+    //**send correct repo id for 
+    //**deal with inital state being empty array only loading ...then add
+    ////****
+
+
+
     var updatedEnvVars = envVars.slice();
     var resultArray =[];
     var ind, field;
@@ -67,9 +74,10 @@ constructor(props){
   }
 
   renderEnvVar(){
-    if(this.props.envVars.length === 0 || this.props.envVars === undefined || this.props.envVars[0].length === 0){
-      return 'Loading...'
-    }else if (this.props.envVars==='No Environment Variables Found!'){
+    // if(this.props.envVars.length === 0 || this.props.envVars === undefined || this.props.envVars[0].length === 0){
+    //   return 'Loading...'
+    // }else 
+    if (this.props.envVars==='No Environment Variables Found!'|| this.props.envVars === undefined){
       console.log('counter', this.state.counter)
       console.log('array', this.state.envVarArray)
       var inputFields = this.state.envVarArray;
@@ -99,10 +107,9 @@ constructor(props){
         })
       );
             
-    } else {
-      var inputFields = this.state.envVarArray;
+    } else if(this.props.envVars) {
       return (this.props.envVars.map((obj, indx) => {
-        console.log ('state props for envVars: ', this.state , 'indx: ',indx)
+        console.log ('it is saying variables are defined')
             return (
               <div key={indx}>
                 <FormGroup controlId={"key" + indx}>
