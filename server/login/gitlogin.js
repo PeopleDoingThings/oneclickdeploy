@@ -22,7 +22,7 @@ router.get('/getuserinstances', function(req, res) {
 router.get('/github', passportGithub.authenticate('github'));
 
 router.get('/github/callback',
-  passportGithub.authenticate('github', { failureRedirect: 'http://localhost:9001/failed', successRedirect: '/#/main-panel' }));
+  passportGithub.authenticate('github', { failureRedirect: '/#/', successRedirect: '/#/main-panel' }));
 
 module.exports = router;
 
