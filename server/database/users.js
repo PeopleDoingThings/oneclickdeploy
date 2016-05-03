@@ -4,6 +4,7 @@ var User = require('./models/gituser.js');
 mongoose.Promise = require('bluebird'); 
 
 exports.saveUser = function(obj) {
+  console.log('Saving User = ', obj)
   var userObj = new User({
     name: obj.name,
     login: obj.login,
@@ -32,12 +33,13 @@ exports.findByGitId = function(id) {
     })
 }
 
-exports.updateEntry = function(user) {
+exports.updateEntry = function(user, profile) {
+  console.log('updating entry with = ', user, profile)
   return User.findByIdAndUpdate(user._id,
-    { updated_at: user.updated_at, 
-      following: user.following, 
-      followers: user.followers,
-      public_repos: user.public_repos,
-      avatar_url: user.avatar_url 
+    { updated_at: profile.updated_at,
+      following: profile.following, 
+      followers: profile.followers,
+      public_repos: profile.public_repos,
+      avatar_url: profile.avatar_url
     });
 }

@@ -1,4 +1,5 @@
 var InstanceLogin = require('../../../database/models/instancelogin.js');
+var SnapShot = require('../../../database/models/snapshots.js');
 var Hat = require('hat');
 
 exports.checkListImage = function(data, version) {
@@ -50,5 +51,25 @@ exports.checkInstanceState = function(data) {
 
   return state;
 }
+
+exports.saveSnapShot = function(ovhdata) {
+  var snapObj = new SnapShot({
+    creationDate: ovhdata.creationDate,
+    id: ovhdata.id,
+    minDisk: ovhdata.minDisk,
+    minRam: ovhdata.minRam,
+    name: ovhdata.name,
+    region: ovhdata.region,
+    status: ovhdata.status,
+    type: ovhdata.type,
+    user: ovhdata.user,
+    visibility: ovhdata.visibility
+  });
+
+  return snapObj.save();
+}
+
+
+
 
 

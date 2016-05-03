@@ -1,3 +1,5 @@
+var UserToken = require('../database/models/usertoken.js');
+
 module.exports = function(req, res, next) {
   // TESTING ONLY
   var requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
@@ -6,9 +8,14 @@ module.exports = function(req, res, next) {
     next();
   }
   else if (req.isAuthenticated()) {
-    req.user.gitid = String(req.user.gitid);
     console.log('AuthUser Valid!')
-    next();
+
+    req.user.gitid = String(req.user.gitid);
+    UserToken.find({ id: req.user.gitid })
+      .then(function(data) {
+        req.user.AccessToken = data[0].token;  // We add this here so it skips the /login/isauth route so the client doesnt get the token.
+        next();
+      })
   } 
   else {
     console.log('AuthUser Invalid!')
