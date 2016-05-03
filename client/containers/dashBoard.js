@@ -16,7 +16,7 @@ export default class DashBoard extends Component {
     this.props.usageCPU();
     this.props.usageTX();
     this.props.usageRX();
-    //this.props.sshLogin();
+    this.props.sshLogin();
     this.state = {};
     
   }
@@ -57,7 +57,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  //console.log('state SSHLogin: ', state.reducers.SSHLogin)
+  console.log('state SSHLogin: ', state.reducers.SSHLogin)
   console.log('state memUsage: ', state.reducers.rxUsage)
 
  return {
@@ -66,7 +66,7 @@ function mapStateToProps(state) {
     cpuUsage: state.reducers.cpuUsage,
     txUsage:  state.reducers.txUsage,
     rxUsage:  state.reducers.rxUsage,
-    //SSHLogin: state.reducers.SSHLogin,
+    SSHLogin: state.reducers.SSHLogin,
   };
 }
 
