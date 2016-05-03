@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../containers/header';
-import {Motion, spring, Image} from 'react-motion';
+import {Motion, spring} from 'react-motion';
 import { Glyphicon, glyph, Badge } from 'react-bootstrap'
 
 let topY = 70;

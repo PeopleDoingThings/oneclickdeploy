@@ -353,10 +353,13 @@ ul.user-profile-widget li img.avatar {
   padding: 20px 10px 0px 0;
 }
 
-.info-panel .btn {
+.info-panel .go-to-ip {
   margin-left: 168px;
   margin-bottom: 20px;
   width: 130px;
+}
+.info-panel .btn-group {
+  display: inline-block;
 }
 
 .info-panel .status-bubble, .info-panel .build-bubble {
@@ -407,6 +410,21 @@ ul.user-profile-widget li img.avatar {
   border-bottom: 1px dotted lightgrey;
   font-weight: 700;
   color: #9B9B9B;
+}
+
+/*SSH Login Panel*/
+.ssh-button {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.sshLive {
+  display: none;
+}
+.sshList span {
+  font-weight: 700;
+  color: #9B9B9B;
+  padding-right: 20px;
 }
 
 /* Graphs Styles */

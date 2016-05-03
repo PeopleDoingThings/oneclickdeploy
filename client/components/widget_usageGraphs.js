@@ -214,6 +214,13 @@ export default class MemUsage extends Component {
   render() {      
         return (
         <div className="col-md-8">
+        <div className="button-group">
+          <button className="btn btn-primary">Reboot</button>
+          <button className="btn btn-primary">Snapshot</button>
+          <button className="btn btn-primary">Enable Rescue</button>
+          <button className="btn btn-primary">Reinstall</button>
+          <button className="btn btn-primary">Reset Instance</button>
+        </div>
           <div>{memGraph.toReact()} </div>   
           <div>{cpuGraph.toReact()} </div> 
           <div>{txGraph.toReact()} </div> 
