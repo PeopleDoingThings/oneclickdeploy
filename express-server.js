@@ -15,6 +15,10 @@ var DatabaseRoutes = require('./server/apis/routes/dbroutes.js');
 var SSH2Routes = require('./server/apis/routes/ssh2routes.js');
 var DaemonRoutes = require('./server/apis/routes/daemonroutes.js');
 
+// Makes sure express trusts the fowarded ips from Nginx & cloudflare while disabling the ExpressJS header.
+app.enable('trust proxy');
+app.disable('x-powered-by');
+
 // MongoDB
 mongoose.connect('mongodb://localhost/oneclickdb');
 
@@ -40,6 +44,8 @@ app.use(session({
   secret: Hat(),
   store: store,
   resave: false,
+  proxy: true,
+  cookie: { secure: 'auto' },
   saveUninitialized: false
 }));
 
