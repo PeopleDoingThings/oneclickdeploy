@@ -19,7 +19,7 @@ router.get('/getuserinstances', function(req, res) {
     .catch( err => res.send(err.message) )
 });
 
-router.get('/github', passportGithub.authenticate('github'));
+router.get('/github', passportGithub.authenticate('github', { scope: ['read:org', 'public_repo', 'user'] }));
 
 router.get('/github/callback',
   passportGithub.authenticate('github', { failureRedirect: '/#/', successRedirect: '/#/main-panel' }));
