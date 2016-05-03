@@ -8,13 +8,13 @@ var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 
 exports.getIndividualRepos = function(user, forceRequery) {
-  console.log("Getting repos for: ", user)
-  // .id for orgs, .gitid for users
+
   var ownerid =  user.gitid ? user.gitid : user.id 
-  return Repo.find({ ownerid: ownerid})
+  return Repo.find({ ownerid: ownerid })
     .then(function(data) {
       if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && forceRequery !== 'true') {
-        return Promise.reject(data);  // We reject here to send our data back straight from the db.
+        console.log('Getting Data from DB rejecting!')
+        return Promise.reject(data);
       }
 
       return Repo.remove({ ownerid: ownerid, deployed: false });  // We need to keep track of deployed repos!
@@ -64,10 +64,16 @@ exports.getUserOrgs = function(user){
 }
 
 exports.getUserRepos = function(user, forceRequery){
-  return exports.getUserOrgs(user).then((orgList) => orgList.concat(user))
+  return exports.getUserOrgs(user).then((orgList) => {
+    if(!Array.isArray(orgList)) {
+      console.log('orgList GET Failed: ', orgList)
+      return Promise.reject( new Error(orgList) )
+    }
+    return orgList.concat(user);
+  })
   .then((list) => {
     console.log("list is: ", list)
-    return Promise.map(list, list => exports.getIndividualRepos(list, true))
+    return Promise.map(list, list => exports.getIndividualRepos(list))
   })
   .then((nested) => {
     console.log("nested is: ", nested)
