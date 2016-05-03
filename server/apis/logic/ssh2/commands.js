@@ -57,27 +57,56 @@ exports.postInstallSetup = function(repoData, loginData) {
 }
 
 exports.addNewVirtualHost = function(id, subDomain, ip) {
-  var vHost = `server {\r\n    listen 80;\r\n    server_name ${subdomain}.hyperjs.io;\r\n\r\n    resolver 8.8.8.8;\r\n    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";\r\n    server_tokens off;\r\n    add_header X-Frame-Options SAMEORIGIN;\r\n    add_header X-Content-Type-Options nosniff;\r\n    add_header X-XSS-Protection \"1; mode=block\";\r\n\r\n    pagespeed on;\r\n    pagespeed XHeaderValue \"ngx_pagespeed\";\r\n\r\n    # needs to exist and be writable by nginx\r\n    pagespeed FileCachePath \/var\/ngx_pagespeed_cache;\r\n\r\n    location \/ {\r\n        proxy_pass ${ip};\r\n        proxy_http_version 1.1;\r\n        proxy_set_header X-Real-IP $remote_addr;\r\n        proxy_set_header Upgrade $http_upgrade;\r\n        proxy_set_header X-Forwarded-Proto $scheme;\r\n        proxy_set_header Host $http_host;\r\n        proxy_set_header X-NginX-Proxy true;\r\n        proxy_read_timeout 5m;\r\n        proxy_connect_timeout 5m;\r\n        proxy_set_header Connection \'upgrade\';\r\n        proxy_set_header Host $host;\r\n        proxy_redirect off;\r\n        proxy_set_header X-Forwarded-For $remote_addr;\r\n        proxy_cache_bypass $http_upgrade;\r\n      }\r\n\r\n        #error_page  404              \/404.html;\r\n\r\n        # redirect server error pages to the static page \/50x.html\r\n        #\r\n        error_page   500 502 503 504  \/50x.html;\r\n        location = \/50x.html {\r\n            root   html;\r\n        }\r\n\r\n        # proxy the PHP scripts to Apache listening on 127.0.0.1:80\r\n        #\r\n        #location ~ \\.php$ {\r\n        #    proxy_pass   http:\/\/127.0.0.1;\r\n        #}\r\n\r\n        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000\r\n        #\r\n        #location ~ \\.php$ {\r\n        #    root           html;\r\n        #    fastcgi_pass   127.0.0.1:9000;\r\n        #    fastcgi_index  index.php;\r\n        #    fastcgi_param  SCRIPT_FILENAME  \/scripts$fastcgi_script_name;\r\n        #    include        fastcgi_params;\r\n        #}\r\n\r\n        # deny access to .htaccess files, if Apache\'s document root\r\n        # concurs with nginx\'s one\r\n        #\r\n        #location ~ \/\\.ht {\r\n        #    deny  all;\r\n        #}\r\n    }`
+  var vHost = `server {
+      listen 80;
+      server_name ${subDomain}.hyperjs.io;
+
+      resolver 8.8.8.8;
+      server_tokens off;
+      add_header X-Frame-Options SAMEORIGIN;
+      add_header X-Content-Type-Options nosniff;
+
+      pagespeed on;
+      pagespeed XHeaderValue "ngx_pagespeed";
+
+      # needs to exist and be writable by nginx
+      pagespeed FileCachePath /var/ngx_pagespeed_cache;
+
+      location / {
+        proxy_pass http://${ip};
+        proxy_http_version 1.1;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_read_timeout 5m;
+        proxy_connect_timeout 5m;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_redirect off;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_cache_bypass $http_upgrade;
+      }
+
+      error_page   500 502 503 504  /50x.html;
+      location = /50x.html {
+        root html;
+      }
+    }`;
 
   var commands = [
+    'ls -l',
     'sudo su',
+    'unalias -a',
     'cd /etc/nginx/sites-available',
+    'pwd',
     `touch ${id}`,
-    `echo ${vHost} > '${id}'`,
+    `echo "${vHost}" > '${id}'`,
     'nginx -s reload'
-  ]
+  ];
 
   return commands;
 }
 
 
-exports.reinstallGitRepo = function (repoURL) {
-  var array = [
-    'ls -l',
-    ''
-  ];
-
-  array.push(`wget ${repoURL}`)
-
-  return array;
-}

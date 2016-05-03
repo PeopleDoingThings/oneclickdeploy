@@ -80,9 +80,8 @@ exports.setDeployError = function(repoData, err) {
     });
 }
 
-exports.createNewSubdomain = function(cmdArray) {
+exports.createNewSubdomain = function(host) {
   return new Promise(function(resolve, reject) {
-    var host = Helpers.subdomainHost(cmdArray);
     var SSHClient = new SSH2Shell(host);
 
     SSHClient.on("close", function onClose(had_error) {
@@ -92,6 +91,10 @@ exports.createNewSubdomain = function(cmdArray) {
       else {
         resolve('SubDomain Created Successfully!');
       }
+    });
+
+    SSHClient.on("ready", function onReady() {
+      console.log('Connection Ready, Starting Install!')
     });
 
     SSHClient.on("error", function onError(err, type, close, callback) {

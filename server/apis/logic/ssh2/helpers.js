@@ -97,6 +97,7 @@ var obj = {
 }
 
 exports.subdomainHost = function(cmdArray) {
+  console.log('creating subdomainHost = ', cmdArray)
   var obj = {
     server: {
       host: process.env.VHOST_SERVER_IP,
@@ -110,6 +111,9 @@ exports.subdomainHost = function(cmdArray) {
       console.log('Command Start: ============')
       console.log('Command : ', command)
       console.log('Command End:   ============')
+      console.log('Command Response Start: ============')
+      console.log('Command Response: ', response)
+      console.log('Command Response End:   ============')
 
     },
     onEnd: function( sessionText, sshObj ) {
