@@ -101,7 +101,7 @@ exports.createNewSubdomain = function(cmdArray) {
       else {
         resolve('Connection Success but Ended With Error!');
       }
-    }
+    })
 
     SSHClient.connect();
   }) 
