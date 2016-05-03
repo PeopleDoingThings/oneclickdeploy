@@ -13,7 +13,7 @@ module.exports = function(req, res, next) {
     req.user.gitid = String(req.user.gitid);
     UserToken.find({ id: req.user.gitid })
       .then(function(data) {
-        req.user.AccessToken = data[0].token;
+        req.user.AccessToken = data[0].token;  // We add this here so it skips the /login/isauth route so the client doesnt get the token.
         next();
       })
   } 
