@@ -94,14 +94,19 @@ h1.logo {
 }
 
 .login .tagline {
-  text-align: right;
-  padding: 0;
-  padding-right: 48px;
-  margin: 0;
+  text-align: left;
+}
+
+.login .three-steps {
+  text-align: left;
 }
 
 .home-details {
   background-color: #5D478B;
+}
+
+.glyph {
+  font-size: 2.5em;
 }
 
 .list-group-item .repoItem:nth-child(even)  {

@@ -23,7 +23,7 @@ let data = [
 
 function makeChart(data, container, y_Max, title) {
   //console.log('data', data)
-  
+
   let margin = {top: 30, right: 20, bottom: 30, left: 50},
       width = 600 - margin.left - margin.right,
       height = 150 - margin.top - margin.bottom
@@ -51,7 +51,7 @@ function makeChart(data, container, y_Max, title) {
   let yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .ticks(8);
+      .ticks(5);
 
   let area = d3.svg.area()
       .interpolate("basis")
@@ -89,7 +89,7 @@ function makeChart(data, container, y_Max, title) {
     return d3.svg.axis()
         .scale(y)
         .orient("left")
-        .ticks(8)
+        .ticks(5)
   }
 
   // Get the data
@@ -97,6 +97,12 @@ function makeChart(data, container, y_Max, title) {
           d.timestamp = d.timestamp * 1000
           d.value = +d.value;
       });
+
+      if (y_Max === null) {
+        //console.log('max number', d3.max(data, function(d) { return d.timestamp; }))
+        y_Max = 20000
+        //d3.max(data, function(d) { return d.timestamp; })
+      }
 
       // Scale the range of the data
       x.domain(d3.extent(data, function(d) { return d.timestamp }));
@@ -197,10 +203,10 @@ export default class MemUsage extends Component {
         this.props.rxUsage.values.length !== 0
       ) {
         console.log('start making charts yo')
-        makeChart(newMem, memGraph, 4000, "RAM usage");
+        makeChart(newMem, memGraph, null, "RAM usage");
         makeChart(newCPU, cpuGraph, 100, "CPU usage");
-        makeChart(newTX, txGraph, 4000, "outgoing");
-        makeChart(newRX, rxGraph, 4000, "incoming");
+        makeChart(newTX, txGraph, null, "outgoing");
+        makeChart(newRX, rxGraph, null, "incoming");
       }
 
   }

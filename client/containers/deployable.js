@@ -6,6 +6,10 @@ import { fetchRepos } from '../actions/index';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import Form from './envVarForm';
 
+function test(blah) {
+      console.log('working!')
+      this.setState({one: blah});
+    }
 
 class Deployable extends Component {
   constructor(props) {
@@ -15,11 +19,14 @@ class Deployable extends Component {
   }
 
 renderList() {
+
     console.log('props in deployable ',this.props.repos.length)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
     	var counter = 0;
+      
+      console.log('repo state:', this.state)
       return (this.props.repos.map((repo) => {
         if(repo.deployed===false)
         return (
@@ -34,10 +41,12 @@ renderList() {
   } 
 
   render() {
-    return (
+    return ( 
       <div>
+      
         <PanelGroup accordion>
           {this.renderList()} 
+          {test()}
         </PanelGroup>       
       </div>        
     );
