@@ -25,7 +25,7 @@ exports.createRepoOpts = function(repoLocation) {
 
 exports.createOrgOpts = function(user, token) {
   var repo_options = {
-    url: `https://api.github.com/users/${user}/orgs?sort=updated&client_id=${process.env.GITHUB_QUERY_CLIENTID}&client_secret=${process.env.GITHUB_QUERY_CLIENTSECRET}`,
+    url: `https://api.github.com/user/orgs?sort=updated&client_id=${process.env.GITHUB_QUERY_CLIENTID}&client_secret=${process.env.GITHUB_QUERY_CLIENTSECRET}`,
     headers: {
       'User-Agent': 'peopleDoingThings/oneclickdeploy'
     }
