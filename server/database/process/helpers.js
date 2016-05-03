@@ -14,10 +14,11 @@ exports.saveInstance = function(obj, gitid) {
       complete: false,
       status: obj.status,
       customimage: false,
-      postinstall: false
+      postinstall: false,
+      subdomain: 'none'
     },
     creationdate: obj.created,
-    publicip: 'none',
+    publicip: 'pending',
     image: {
       flavorid: obj.flavor.id,
       imageid: obj.image.id
@@ -28,10 +29,6 @@ exports.saveInstance = function(obj, gitid) {
       bandwidth: obj.flavor.inboundBandwidth,
       vcpus: obj.flavor.vcpus,
       ram: obj.flavor.ram
-    },
-    ssh: {
-      user: 'none',
-      pass: 'none'
     }
   });
 
@@ -50,11 +47,11 @@ exports.findByInstanceId = function(id) {
 }
 
 exports.updateInstanceEntry = function(instance) {
+  console.log('updating Instance = ', instance)
   return Instance.findByIdAndUpdate(instance._id,
     {
       state: instance.state,
-      publicip: instance.publicip,
-      ssh: instance.ssh
+      publicip: instance.publicip
     });
 }
 

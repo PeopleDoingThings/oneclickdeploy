@@ -25,8 +25,7 @@ var Instance = new Schema({
   creationdate: String,
   publicip: String,
   image: Object,
-  system: Object,
-  ssh: Object
+  system: Object
 });
 
 

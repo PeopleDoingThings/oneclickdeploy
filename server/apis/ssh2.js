@@ -110,11 +110,19 @@ exports.getEnv = function(repoId, gitId) {
 }
 
 exports.createSubDomain = function(id, subDomain) {
+  if(!subDomain) {
+    return Promise.reject( new Error('Please Enter A Subdomain!') )
+  }
+
   var instanceData;
 
   return Instance.find({ ownergitid: id })
     .then(function(data) {
-      console.log('instancelogin data: ', data[0])
+      console.log('instance data: ', data[0])
+      if(data[0].state.subdomain !== 'none') {
+        return Promise.reject( new Error('Subdomain Already Exists for Instance!') )
+      }
+      
       instanceData = data[0];
       return data[0];
     })
@@ -124,7 +132,7 @@ exports.createSubDomain = function(id, subDomain) {
     })
     .then(function(data) {
       Instance.findByIdAndUpdate(instanceData._id, {
-        subdomain: subDomain
+        'state.subdomain': subDomain
       })
 
       return data;
