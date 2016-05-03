@@ -35,7 +35,6 @@ exports.callCreateNewInstance = function(id) {
       return OVH.getInstance(serverid);
     })
     .then(function(data) {
-      console.log('got ins data from OVH = ', data, serverid)
       return InstanceDB.insertUpdateUserInstance(data, id);
     })
 }

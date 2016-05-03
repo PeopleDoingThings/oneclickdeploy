@@ -13,7 +13,6 @@ exports.getInstanceById = instanceid => Instance.find({ openstackid: instanceid 
 exports.insertUpdateUserInstance = function(obj, gitid) {
   return Helper.findByInstanceId(obj.openstackid)
     .then( data => {
-      console.log('found instance instances.js/db 23 = ', data)
       return Helper.updateInstanceEntry(data);
     })
     .then( data => data )
