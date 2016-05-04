@@ -84,6 +84,8 @@ exports.checkReady = function(userid) {
 
 // Can Refactor these four when time permits.
 exports.rebootInstance = function(userid, type) {
+  if(!type) return Promise.reject( new Error('Please Specify a Reboot Type!') )
+
   return InstanceDB.getUserInstances(userid)
     .then( data => OVH.rebootInstance(data[0].openstackid, type) )
 }
@@ -99,7 +101,7 @@ exports.getConsoleOutput = function(userid) {
 }
 
 exports.getBackups = function(gitid) {
-  return SnapShot.find({ ownergitid: gitid })
+  return SnapShot.find({ ownerid: gitid })
     .then(function(data) {
       if(data.length === 0) {
         return Promise.reject( new Error('No SnapShot in DB!') )
@@ -110,8 +112,9 @@ exports.getBackups = function(gitid) {
 }
 
 exports.createBackup = function(gitid) {
+
   var snapName;
-  return SnapShot.find({ ownergitid: gitid })
+  return SnapShot.find({ ownerid: gitid })
     .then(function(data) {
       if(data.length > 0) {
         return Promise.reject( new Error('User Already Has Snapshot!') )
@@ -131,15 +134,16 @@ exports.createBackup = function(gitid) {
     })
     .then(function(data) {
       console.log('ovh SnapShots = ', data)
-      return Helper.saveSnapShot(data.filter( val => val.name === snapName ));
+      return Helper.saveSnapShot(data.filter( val => val.name === snapName )[0], gitid);
     })
 }
 
 exports.deleteBackup = function(gitid) {
   var snapshotId;
 
-  return SnapShot.find({ ownergitid: gitid })
+  return SnapShot.find({ ownerid: gitid })
     .then(function(data) {
+      console.log('snapshot = ', data)
       if(data.length === 0) {
         return Promise.reject( new Error('No SnapShot Found for Delete!') )
       }
@@ -153,10 +157,19 @@ exports.deleteBackup = function(gitid) {
     })
     .then(function(resp) {
       console.log('response from ovh get snapshots = ', resp)
-      var toDelete = resp.filter( val => val.id === snapshotId)[0].id;
-      if(!toDelete) return Promise.reject( new Error('No SnapShot in DB Matches SnapShot in OpenStack Storage Cloud.') )
+      var toDelete = resp.filter( val => val.id === snapshotId);
+      console.log('toDelete === ', toDelete)
+      if(toDelete.length === 0) return Promise.reject( new Error('No SnapShot in DB Matches SnapShot in OpenStack Storage Cloud.') )
 
-      return OVH.deleteSnapShot();
+      console.log('deleting snapshot = ', toDelete)
+      return OVH.deleteSnapShot(toDelete[0].id);
+    })
+    .then(function(data) {
+      console.log('ovh snapshot resp = ')
+      if(data !== null) Promise.reject( new Error('Unable to Delete SnapShot!', data) )
+      return Snapshot.remove({
+        ownerid: snapshotId
+      })
     })
 }
 
@@ -175,8 +188,26 @@ exports.rescueReboot = function(gitid) {
     })
 }
 
+exports.getSnapShotStatus = function(gitid) {
+  var snapShotDbId;
 
+  return SnapShot.find({ ownerid: gitid })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('No SnapShot Found for User!') )
 
+      return data[0];
+    })
+    .then(function(data) {
+      snapShotDbId = data._id;
+      console.log('snapshot stats from db = ', data)
+      return OVH.getSnapShotStatus(data.id);
+    })
+    .then(function(data) {
+      return SnapShot.findByIdAndUpdate(snapShotDbId, {
+        status: data.status
+      })
+    })
+}
 
 
 
