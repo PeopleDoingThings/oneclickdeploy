@@ -5,12 +5,16 @@ export default class RepoItem extends Component {
 
   render(){
   	//console.log('props in repo list-group-item',this.props)
-  		return (
+  		console.log ('props in repo item', this.props)
+      var date = new Date((this.props.repoItem.age).slice(0,19));
+      return (
+
   					<div>
-  			     	{this.props.repoItem.name}
-  			     	{
-  	            		// <Deploy id={this.props.repoItem.repoid}/>
-  			     	}
+  			     	
+              <b>Date Created:  </b>{date.toString()}
+              <br/>
+              <b>Owner's Name:  </b>{this.props.repoItem.ownername}
+
   				    </div>
   			     );
           }

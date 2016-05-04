@@ -19,32 +19,6 @@ constructor(props){
     };
   }
 
-// bundle.js:30305 Uncaught TypeError: varsCopy.push is not a function
-// bundle.js:65446 Uncaught TypeError: Cannot create property 'key' on string 'N'
-   // formatEnv (stateObj, envVars){
-   //  console.log('stateObj',stateObj)
-   //  console.log('envVars', envVars)
-   //  var updatedEnvVars = [];
-   //  if(envVars !== "No Environment Variables Found!"){
-   //  updatedEnvVars = envVars.slice();
-   //  }
-   //  var resultArray =[];
-   //  var ind, field;
-
-   //  for(var key in stateObj){
-   //    ind = key.charAt(key.length-1)
-   //    field = key.charAt(0)==='k' ? 'key' : 'value';
-   //    if(key !== 'envVar' && key !== 'envVarArray'){
-   //      updatedEnvVars[ind][field] = stateObj[key];
-   //    }  
-   //  }
-   //  updatedEnvVars.forEach(function(obj){
-   //    if(obj.key !== ''){
-   //      resultArray.push(obj);
-   //    }
-   //  })
-   //  return resultArray;
-   // }
 
   formatEnv (stateObj, envVars){
     console.log('this is what no vars look like', envVars)
@@ -58,7 +32,7 @@ constructor(props){
       if(key !== 'envVar' && key !== 'envVarArray'){
         ind = Number(key.charAt(key.length-1))
         field = key.charAt(0)==='k' ? 'key' : 'value';
-        updatedEnvVars[ind][field]= {[field]: stateObj[key]};
+        updatedEnvVars[ind][field]= stateObj[key];
       }  
     }
 
@@ -73,14 +47,14 @@ constructor(props){
    }
 
   addInputGroup () {
-
     var newEmptyObj = {key:'', value: ''};
     var envVarArray =this.state.envVarArray;
     envVarArray.push(newEmptyObj);
     this.setState({envVarArray:envVarArray});
   }
 
-  handleClick () {
+  handleClick (event) {
+  event.preventDefault();  
   console.log('click working')
   this.addInputGroup();
   this.props.updateEnvVar();
@@ -179,17 +153,18 @@ constructor(props){
      {
       //console.log('does envVar props exist?', this.props.envVars)
     }
-     <Deploy id={repoID} />
-     
+    
      <Form id='envVarForm' inline  onSubmit={this.onFormSubmit} className="input-group">
         {this.renderEnvVar()}
-        <Button onClick={()=>this.handleClick()}>
+        <Button onClick={this.handleClick}>
         Add more
         </Button>
         <Button form='envVarForm' type="submit">
         Submit
         </Button>
      </Form>
+      <Deploy id={repoID} />
+     
     </div>
     );
   }
