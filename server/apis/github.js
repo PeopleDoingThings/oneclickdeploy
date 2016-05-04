@@ -9,14 +9,21 @@ Promise.promisifyAll(request);
 
 exports.getIndividualRepos = function(user, forceRequery) {
 
-  var ownerid =  user.gitid ? user.gitid : user.id 
+  var ownerid =  user.gitid ? user.gitid : user.id
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log("User is: ", user.login," ||||| ownerid is: ", ownerid);
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   return Repo.find({ ownerid: ownerid })
     .then(function(data) {
       if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && forceRequery !== 'true') {
-        console.log('Getting Data from DB rejecting!')
+        console.log('Getting Data from DB; Skipping all calls to GitHub API!')
         return Promise.reject(data);
       }
-
+      
       return Repo.remove({ ownerid: ownerid, deployed: false });  // We need to keep track of deployed repos!
     })
     .then(function(data) {
@@ -29,7 +36,7 @@ exports.getIndividualRepos = function(user, forceRequery) {
           return Helper.processRepo(repo, user.login);
         });
 
-      console.log('condensed repo: ', condensed)
+      // console.log('condensed repo: ', condensed)
       return condensed;
     })
     .then(function(full_repo_list){
@@ -38,7 +45,7 @@ exports.getIndividualRepos = function(user, forceRequery) {
     })
     .then(function(data) {
       console.log('filtered repo list = ', data);
-      return Promise.all( data.map( val => Logic.save(user.gitid, val) ) );
+      return Promise.all( data.map( val => Logic.save(ownerid, val) ) );
     })
     .catch(function(err) {
       if(Array.isArray(err)) { // We check here to see if this is db data instead of a real error.
@@ -52,31 +59,31 @@ exports.getIndividualRepos = function(user, forceRequery) {
 
 exports.getUserOrgs = function(user){
   return request(Helper.createOrgOpts(user.login, user.AccessToken))
-  .then(function(org_list){
-    var thing = JSON.parse(org_list.body)
-    var orgList = thing
+  .then(function(res){
+    var orgList = JSON.parse(res.body)
+
     console.log('orgList is: ', orgList)
     return orgList
   })
   .catch(function(err){
-    console.log('error getting orgList: ', err)
+    // console.log('error getting orgList: ', err)
   })
 }
 
 exports.getUserRepos = function(user, forceRequery){
   return exports.getUserOrgs(user).then((orgList) => {
     if(!Array.isArray(orgList)) {
-      console.log('orgList GET Failed: ', orgList)
+      // console.log('orgList GET Failed: ', orgList)
       return Promise.reject( new Error(orgList) )
     }
     return orgList.concat(user);
   })
   .then((list) => {
-    console.log("list is: ", list)
+    // console.log("list is: ", list)
     return Promise.map(list, list => exports.getIndividualRepos(list))
   })
   .then((nested) => {
-    console.log("nested is: ", nested)
+    // console.log("nested is: ", nested)
     return nested.reduce((a, b) => a.concat(b), [])
   })
 }
@@ -86,15 +93,15 @@ function validateProcfile(procfile_url) {
   return request(Helper.createProcOpts(procfile_url))
     .then(function(resp){
       var validity = resp.body.match(/web: node/) !== null;
-      console.log("--------------------------------------------------------");
-      console.log("Procfile: ", procfile_url);
-      console.log("Contents: ", resp.body);
-      console.log("Is this valid? - ", validity);
-      console.log("--------------------------------------------------------");
+      // console.log("--------------------------------------------------------");
+      // console.log("Procfile: ", procfile_url);
+      // console.log("Contents: ", resp.body);
+      // console.log("Is this valid? - ", validity);
+      // console.log("--------------------------------------------------------");
       return validity;
     })
     .catch(function(err) {
-      console.log("Error validating procfile: ", err)
+      // console.log("Error validating procfile: ", err)
       return false;
     });
 }
