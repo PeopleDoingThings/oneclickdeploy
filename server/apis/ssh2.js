@@ -118,7 +118,7 @@ exports.createSubDomain = function(id, subDomain) {
 
   return Instance.find({ ownergitid: id })
     .then(function(data) {
-      console.log('instance data: ', data[0])
+      if(!data || data.length === 0) return Promise.reject( new Error('No Instance Found for User!') );
       if(data[0].state.subdomain !== 'none') {
         return Promise.reject( new Error('Subdomain Already Exists for Instance!') )
       }
@@ -127,8 +127,11 @@ exports.createSubDomain = function(id, subDomain) {
       return data[0];
     })
     .then(function(data) {
-      console.log('Commands.addNewVirtualHost: ', id, subDomain, data.publicip)
-      return Logic.createNewSubdomain(Helpers.subdomainHost(Commands.addNewVirtualHost(id, subDomain, data.publicip)));
+      var commandArray = Commands.addNewVirtualHost(id, subDomain, data.publicip);
+      console.log('Commands Array = ', commandArray)
+      var generateHost = Helpers.subdomainHost(commandArray);
+
+      return Logic.createNewSubdomain(generateHost);
     })
     .then(function(data) {
       Instance.findByIdAndUpdate(instanceData._id, {
