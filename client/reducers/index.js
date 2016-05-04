@@ -11,6 +11,7 @@ import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 import GetEnvVar from './reducer_envVar';
+import SSHLogin from  './reducer_instanceLogin'
 
 const rootReducer = combineReducers({
   repos: ReposReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   instReady: InstReady,
   isDeployed: IsDeployed,
   logOutput: LogOutput,
+  SSHLogin: SSHLogin,
   memUsage: memUsage,
   cpuUsage: cpuUsage,
   txUsage: txUsage,

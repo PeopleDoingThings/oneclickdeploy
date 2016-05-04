@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Header from '../containers/header';
 import {Motion, spring} from 'react-motion';
+import { Glyphicon, glyph, Badge } from 'react-bootstrap'
 
 let topY = 70;
-let bottomY = -225;
+let bottomY = -400;
 
 function showDetails() {
   this.setState( {topDiv: -400, bottomDiv: 0} );
@@ -18,14 +19,16 @@ export default class Login extends Component {
     super(props);
     this.state = {
       topDiv: topY,
-      bottomDiv: bottomY,
+      bottomDiv: bottomY
     }
     showDetails = showDetails.bind(this);
     hideDetails = hideDetails.bind(this);
   }
   render() {
     return (
+
       <div>
+      {console.log('array:', this.state.arr)}
         <Header />
         <Motion defaultStyle={{ y: topY }} style={{ y: spring(this.state.topDiv) }}>
           {interpolatingStyle =>
@@ -35,16 +38,29 @@ export default class Login extends Component {
             <div style={{ textAlign: 'center', minHeight: 400, width: '100%', position: 'absolute', top: IntroStyle.y}}>
               <div className="login col-md-8 col-xs-10 col-centered">
                 <div className="home-title">
-                  <h1 className="logo">Git Hypervisor</h1>
-                  <h3 className="tagline">one-click solution for app deployment</h3>
+                  <h1 className="logo">Git HyperVisor</h1>
+                  <h3 className="tagline">disclaimer: this app is for those who want to deploy their app
+                    but cringe at any complicated deployment process</h3>
                 </div>  
-                <p>Wanna deploy your node.js app?</p>
-                <p>It's easy! Just sign in to Github from our link below and choose the app to deploy from your public Github repos</p>
-                <h1> Sign in with Github and get started</h1>
+                <h2 className="three-steps">wanna give it a try? 3 simple steps</h2>
+                <div className="node-intro col-md-4 max-size">
+                  <h3>Got node?<Glyphicon glyph="ok" className="glyph" /></h3>
+                  <p>you need a node.js app</p>
+                  <img src="images/nodejs-logo.png" style={{maxWidth:'50%', height:'auto'}} alt="node.js logo" />
+                </div>
+                <div className="node-intro col-md-4">
+                  <h3>Got github?<Glyphicon glyph="ok" className="glyph" /></h3>
+                  <p>your app is in a public github repo</p>
+                  <img src="images/Octocat.png" style={{maxWidth: '60%', height:'auto'}} alt="Github logo"/>
+                </div>
+                <div className="node-intro col-md-4">
+                  <h3>Got Proc?<Glyphicon glyph="ok" className="glyph" /></h3>
+                  <p>drop in a standard Procfile</p>
+                  <img src="images/Octocat.png" style={{maxWidth: '60%', height:'auto'}} alt="Github logo" />
+                </div>
                 <a href="http://localhost:9001/login/github" className="btn btn-primary">sign in</a>
-                <button type="button" onClick={showDetails}> find out more </button>
+                <button type="button" className="btn" onClick={showDetails}> find out more </button>
               </div>
-              
             </div>
             }
           </Motion>
@@ -62,5 +78,5 @@ export default class Login extends Component {
   }
 }
 
-
+//
 

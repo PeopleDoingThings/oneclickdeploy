@@ -149,6 +149,21 @@ export function usageRX() {
 
 }
 
+//
+//Get SSH Login
+//
+export const SSH_LOGIN = 'SSH_LOGIN'
+export function sshLogin() {
+  let url = '/api/database/instancelogin'
+  let request = axios.get(url);
+
+  return {
+    type: SSH_LOGIN,
+    payload: request
+  }
+
+}
+
 export const SETREPOID = 'SETREPOID'
 export function setRepoID(repoID) {
  
@@ -158,7 +173,6 @@ export function setRepoID(repoID) {
   }
   
 }
-
 
 export const GET_ENV_VAR = 'GET_ENV_VAR'
 export function getEnvVar(repoID) {
