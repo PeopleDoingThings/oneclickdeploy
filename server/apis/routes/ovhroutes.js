@@ -34,12 +34,6 @@ router.get('/reboot', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
-router.get('/getsnapshots', function(req, res) {
-  OVH.getSnapshots()
-    .then( data => res.send(data) )
-    .catch( err => res.send(err) )
-})
-
 router.get('/reinstall', function(req, res) {
   Logic.reinstallInstance(req.user.gitid)
     .then( data => { // This returns undefined on success. Check for this here otherwise its unclear.
@@ -67,10 +61,16 @@ router.get('/createbackup', function(req, res) {
     .catch( err => res.send(err) )
 })
 
-router.get('/deletebackup', function(req, res) {
-  Logic.deleteBackups(req.user.gitid)
+router.get('/getsnapshotstatus', function(req, res) {
+  Logic.getSnapShotStatus(req.user.gitid)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
+})
+
+router.get('/deletebackup', function(req, res) {
+  Logic.deleteBackup(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
 })
 
 router.get('/listbackups', function(req, res) {

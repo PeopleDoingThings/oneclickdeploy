@@ -52,23 +52,27 @@ exports.checkInstanceState = function(data) {
   return state;
 }
 
-exports.saveSnapShot = function(ovhdata) {
-  console.log('saving snapshot in DB = ', ovhdata)
-  ovhdata = ovhdata[0];
-  var snapObj = new SnapShot({
-    creationDate: ovhdata.creationDate,
-    id: ovhdata.id,
-    minDisk: ovhdata.minDisk,
-    minRam: ovhdata.minRam,
-    name: ovhdata.name,
-    region: ovhdata.region,
-    status: ovhdata.status,
-    type: ovhdata.type,
-    user: ovhdata.user,
-    visibility: ovhdata.visibility
-  });
+exports.saveSnapShot = function(ovhdata, gitid) {
+  if(ovhdata) {
+    var snapObj = new SnapShot({
+      creationDate: ovhdata.creationDate,
+      id: ovhdata.id,
+      minDisk: ovhdata.minDisk,
+      minRam: ovhdata.minRam,
+      name: ovhdata.name,
+      region: ovhdata.region,
+      status: ovhdata.status,
+      type: ovhdata.type,
+      user: ovhdata.user,
+      visibility: ovhdata.visibility,
+      ownerid: gitid
+    });
 
-  return snapObj.save();
+    return snapObj.save();
+  }
+  else {
+    return Promise.reject( new Error('SnapShot Creation Failed!') )
+  }
 }
 
 

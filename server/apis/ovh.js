@@ -79,8 +79,12 @@ exports.rebootInstance = function(instanceid, type) {
         reject(err);
         return;
       }
-
-      resolve(resp);
+      else if(resp === null) {
+        resolve(`${type} reboot successful!`);
+      }
+      else {
+        reject('Reboot Failed!');
+      }
     })
   })
 }
@@ -183,6 +187,17 @@ exports.rescueReboot = function(instanceid) {
   })
 }
 
+exports.getSnapShotStatus = function(snapshotId) {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot/${snapshotId}`, function(err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
+      resolve(resp);
+    })
+  })
+}
 
 
