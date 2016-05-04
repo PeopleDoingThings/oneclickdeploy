@@ -9,7 +9,6 @@ import { PanelGroup, Panel } from 'react-bootstrap';
 class DeployedApp extends Component {
   constructor(props) {
     super(props);
-    this.props.fetchRepos()
   }
 
 
@@ -44,9 +43,9 @@ renderList() {
 }
   
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRepos }, dispatch);
-}
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators({ fetchRepos }, dispatch);
+// }
 
 function mapStateToProps(state) {
 	return {
@@ -55,4 +54,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeployedApp);
+export default connect(mapStateToProps)(DeployedApp);

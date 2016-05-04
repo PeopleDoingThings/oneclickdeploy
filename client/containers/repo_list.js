@@ -5,12 +5,17 @@ import { connect } from 'react-redux';
 import { Tabs, Tab, PanelGroup, Panel } from 'react-bootstrap';
 import Deployable from './deployable';
 import DeployedApp from './deployedRepos';
+import { fetchRepos } from '../actions/index';
+
 
 
 class RepoList extends Component {
   constructor(props) {
     super(props);
+    this.props.fetchRepos();
   }
+
+
 
   renderList() {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
@@ -41,5 +46,11 @@ class RepoList extends Component {
     );
   }
 }
-export default connect(null,null)(RepoList);
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchRepos }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(RepoList);
 

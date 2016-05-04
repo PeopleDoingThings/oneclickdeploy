@@ -5,7 +5,7 @@ import { createInst, setRepoID } from '../actions/index';
 import { Link, browserHistory } from 'react-router';
 import {Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import Deploy from './deploy';
-import { getEnvVar, setEnvVar, updateEnvVar } from '../actions/index';
+import {setEnvVar, updateEnvVar } from '../actions/index';
 
 class envVarForm extends Component {
 constructor(props){
@@ -13,40 +13,63 @@ constructor(props){
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.props.getEnvVar(this.props.id);
     this.state = { 
       envVar: props.envVars,
-      envVarArray: []
+      envVarArray: [{key:'' , value:''}]
     };
-   
-
   }
 
-   formatEnv (stateObj, envVars){
-    ////****
-    //**send correct repo id for 
-    //**deal with inital state being empty array only loading ...then add
-    ////****
+// bundle.js:30305 Uncaught TypeError: varsCopy.push is not a function
+// bundle.js:65446 Uncaught TypeError: Cannot create property 'key' on string 'N'
+   // formatEnv (stateObj, envVars){
+   //  console.log('stateObj',stateObj)
+   //  console.log('envVars', envVars)
+   //  var updatedEnvVars = [];
+   //  if(envVars !== "No Environment Variables Found!"){
+   //  updatedEnvVars = envVars.slice();
+   //  }
+   //  var resultArray =[];
+   //  var ind, field;
 
+   //  for(var key in stateObj){
+   //    ind = key.charAt(key.length-1)
+   //    field = key.charAt(0)==='k' ? 'key' : 'value';
+   //    if(key !== 'envVar' && key !== 'envVarArray'){
+   //      updatedEnvVars[ind][field] = stateObj[key];
+   //    }  
+   //  }
+   //  updatedEnvVars.forEach(function(obj){
+   //    if(obj.key !== ''){
+   //      resultArray.push(obj);
+   //    }
+   //  })
+   //  return resultArray;
+   // }
 
-
+  formatEnv (stateObj, envVars){
+    console.log('this is what no vars look like', envVars)
+    console.log('this is what state looks like', stateObj)
+    
     var updatedEnvVars = envVars.slice();
     var resultArray =[];
     var ind, field;
 
     for(var key in stateObj){
-      ind = key.charAt(key.length-1)
-      field = key.charAt(0)==='k' ? 'key' : 'value';
       if(key !== 'envVar' && key !== 'envVarArray'){
-        updatedEnvVars[ind][field] = stateObj[key];
+        ind = Number(key.charAt(key.length-1))
+        field = key.charAt(0)==='k' ? 'key' : 'value';
+        updatedEnvVars[ind][field]= {[field]: stateObj[key]};
       }  
     }
+
     updatedEnvVars.forEach(function(obj){
       if(obj.key !== ''){
         resultArray.push(obj);
       }
     })
+
     return resultArray;
+
    }
 
   addInputGroup () {
@@ -72,17 +95,20 @@ constructor(props){
     event.preventDefault();
     console.log('state on submit:' , this.state)
     console.log('see copy', this.formatEnv(this.state,this.props.envVars))
-    this.props.setEnvVar(this.formatEnv(this.state,this.props.envVars),this.props.id)
+    //alert(JSON.stringify(this.props.envVars[0].variables))
+   // debugger
+    var varArray=[];
+    varArray = this.props.envVars[0].variables||this.props.envVars  
+    //alert(JSON.stringify(varArray))  
+    this.props.setEnvVar(this.formatEnv(this.state,varArray),this.props.id)
   }
 
   renderEnvVar(){
     // if(this.props.envVars.length === 0 || this.props.envVars === undefined || this.props.envVars[0].length === 0){
     //   return 'Loading...'
     // }else 
-    if (this.props.envVars==='No Environment Variables Found!'|| this.props.envVars === undefined){
-      // console.log('counter', this.state.counter)
-      // console.log('array', this.state.envVarArray)
-      var component = this;
+    if (this.props.envVars==='No Environment Variables Found!'|| this.props.envVars.length===0){
+       console.log('array', this.state.envVarArray)
       var inputFields = this.state.envVarArray;
       return (inputFields.map((obj, indx) => {
         console.log('outputting inputFields')
@@ -111,9 +137,10 @@ constructor(props){
         })
       );
             
-    } else {
-      return (this.props.envVars.map((obj, indx) => {
-        console.log('does envVar props exist?', this.props.envVars)
+    } else if (this.props.envVars[0].variables) {
+      return (this.props.envVars[0].variables.map((obj, indx) => {
+        console.log('here is the first obj', obj)
+        console.log('does envVar props exist?', this.props.envVars[0].variables)
         console.log('outputting envVars')
             return (
               <div key={indx}>
@@ -169,7 +196,7 @@ constructor(props){
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getEnvVar, setEnvVar, updateEnvVar }, dispatch);
+  return bindActionCreators({ setEnvVar, updateEnvVar }, dispatch);
 }
 
 function mapStateToProps(state) {
