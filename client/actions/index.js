@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+export const SIDEBAR_TOGGLE = 'SIDEBAR_TOGGLE';
+export function sideBarToggle() {
+  return {
+    type: SIDEBAR_TOGGLE,
+  }
+}
+
+
 //fetch reposlist from Git Hub after user signs in
 export const FETCH_REPOS = 'FETCH_REPOS';
 export function fetchRepos() {

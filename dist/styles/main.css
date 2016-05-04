@@ -42,15 +42,29 @@ a:focus, a:hover {
 }
 
 .header {
-  top: 0px;
-  height: 70px;
+  height: 60px;
   width: 100%;
   background-color: #4A4A4A;
-  position: absolute;
 }
 
 .header h1 {
-  margin-left: 40px;
+  margin: 0 0 0 40px;
+  display: inline-block;
+}
+
+.hideHeader {
+  position: absolute;
+  top: -200px;
+}
+
+.glyphicon-menu-hamburger {
+  padding: 8px 30px;
+  font-size: 3em;
+  color: white;
+}
+
+.hideHamburger {
+  display: none;
 }
 
 /**/
@@ -125,6 +139,7 @@ h1.logo {
 /*
 ** sideBar styling **
 */
+
 /*for animation on the large desktop view*/
 .sideBarPanel {
   position: absolute;
@@ -139,6 +154,16 @@ h1.logo {
   padding-bottom: 5000px;
   width: 295px;
   overflow-y: auto;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
+  -o-transition: all 0.1s ease-in;
+  transition: all 0.1s ease-in;
+}
+
+/* show/hide toggle for small screens */
+.showSideNav {
+  width: 298px !important;
+  z-index: 1;
 }
 
 .side-bar .main-logo {
@@ -231,10 +256,9 @@ ul.user-profile-widget li img.avatar {
 .sidebar-nav {
   position: absolute;
   top: 200px;
-  width: 295px;
+  width: 100%;
   background-color: #FAFAFA;
-  margin-bottom: -5000px;
-  padding-bottom: 5000px;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -346,16 +370,16 @@ ul.user-profile-widget li img.avatar {
 }
 
 .info-panel .ip {
-  font-size: 3.2em;
-  text-align: center;
+  font-size: 3.1vw;
+  text-align: right;
+  margin-right: 20px;
   letter-spacing: 2.5px;
-  font-weight: 700;
-  padding: 20px 10px 0px 0;
+  padding: 20px 0px 0px 0;
 }
 
 .info-panel .go-to-ip {
-  margin-left: 168px;
-  margin-bottom: 20px;
+  margin-right: 18px;
+  float: right;
   width: 130px;
 }
 .info-panel .btn-group {
@@ -530,18 +554,23 @@ path {
 /*************************************************/
 
 /* small screens */
-@media (max-width: 600px) {
-  .sideBarPanel {
+@media (max-width: 1084px) {
+  .hideHeader {
     position: relative;
+    top: 0px;
+  }
+  .sideBarPanel {
+
   }
 
   .side-bar {
-    background-color: #FAFAFA;
-    width: 100%;
+    width: 0px;
+    z-index: 100;
   }
 
   .main {
     margin-left: 0;
+    float: none;
   }
 }
 

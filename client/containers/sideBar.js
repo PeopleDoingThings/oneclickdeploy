@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ClassNames from 'ClassNames';
 import User from '../components/user';
 import SidebarNav from '../components/sidebarNav.js'
 
@@ -9,9 +10,16 @@ class Aside extends Component {
   }
 
   render() {
+    let hide;
+    if (this.props.sidebarToggle) {
+      hide = ClassNames({showSideNav: true});
+    } else {
+      hide = ClassNames({showSideNav: false});
+    }
 
+    {console.log(this.props.sidebarToggle)}
     return (
-      <div className="side-bar aside col-md-2 col-sm-12 AutoAffix">
+      <div className={"side-bar aside col-md-2 col-sm-12 " + hide}>
         <User user={this.props.user}/>
         <SidebarNav url={this.props.url}/>  
       </div>
@@ -21,13 +29,13 @@ class Aside extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state: ', state)
-  // test to get current path
-
   return {
-    url: state.routing.locationBeforeTransitions.pathname
+    url: state.routing.locationBeforeTransitions.pathname,
+    sidebarToggle: state.reducers.sidebarToggle,
   };
 }
 
 //take this component/mapStateToProps and return a container
 export default connect(mapStateToProps)(Aside);
+
+//AutoAffix

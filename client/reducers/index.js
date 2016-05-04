@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import sidebarToggle from  './reducer_sideBarToggle';
 import ReposReducer from './reducer_repos';
 import IsAuth from './reducer_auth';
 import InstReady from './reducer_instReady';
@@ -14,6 +15,7 @@ import GetEnvVar from './reducer_envVar';
 import SSHLogin from  './reducer_instanceLogin'
 
 const rootReducer = combineReducers({
+  sidebarToggle: sidebarToggle,
   repos: ReposReducer,
   auth: IsAuth,
   install: CreatInstance,
