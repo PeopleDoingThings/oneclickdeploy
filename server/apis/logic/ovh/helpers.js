@@ -53,6 +53,8 @@ exports.checkInstanceState = function(data) {
 }
 
 exports.saveSnapShot = function(ovhdata) {
+  console.log('saving snapshot in DB = ', ovhdata)
+  ovhdata = ovhdata[0];
   var snapObj = new SnapShot({
     creationDate: ovhdata.creationDate,
     id: ovhdata.id,
