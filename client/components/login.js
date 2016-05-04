@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Header from '../containers/header';
 import {Motion, spring} from 'react-motion';
 import { Glyphicon, glyph, Badge } from 'react-bootstrap'
 
-let topY = 70;
+let topY = 60;
 let bottomY = -400;
 
 function showDetails() {
@@ -28,8 +27,6 @@ export default class Login extends Component {
     return (
 
       <div>
-      {console.log('array:', this.state.arr)}
-        <Header />
         <Motion defaultStyle={{ y: topY }} style={{ y: spring(this.state.topDiv) }}>
           {interpolatingStyle =>
           <div className="home-login" style={{height: '100%', width: '100%', position: 'absolute', top: interpolatingStyle.y}}>

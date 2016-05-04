@@ -213,7 +213,7 @@ export default class MemUsage extends Component {
 
   render() {      
         return (
-        <div className="col-md-8">
+        <div className="col-xs-12 col-md-6 col-lg-8">
         <div className="button-group">
           <button className="btn btn-primary">Reboot</button>
           <button className="btn btn-primary">Snapshot</button>

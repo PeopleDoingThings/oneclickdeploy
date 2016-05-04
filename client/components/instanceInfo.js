@@ -29,13 +29,18 @@ export default class InstanceInfo extends Component {
     console.log('component props:', this.props)
 
     return (
-      <div className="col-md-4">  
+      <div className="col-xs-12 col-md-4 col-lg-4">  
         <div className="info-panel">
-          <div className="ip">{instance.ip.ip}</div>
-          <button type="button" className="go-to-ip btn btn-warning">go to site</button>
+          <div>
+            <div className="ip">{instance.ip.ip}</div>
+            <button type="button" className="go-to-ip btn btn-warning">go to site</button>
+            <div className="clearfix"></div>
+          </div>  
+
           <div className="status-bubble">STATUS <span>{ (instance.status === 'ACTIVE') ? "LIVE" : "OFF" }</span></div>
           <div className="build-bubble">BUILD <span>{instance.status}</span></div>
-          <div className="col-md-6">
+          <div className="clearfix visible-xs-block"></div>
+          <div className="col-md-6 col-xs-12">
             <ul>
               <li>Created On</li>
               <li>{createdDate}</li>
@@ -45,7 +50,7 @@ export default class InstanceInfo extends Component {
               <li>{instance.imagename}</li>
             </ul>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-6 col-xs-12">
             <ul>
               <li>Location</li>
               <li>BHS 1</li>
