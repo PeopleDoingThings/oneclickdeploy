@@ -136,6 +136,8 @@ exports.createBackup = function(gitid) {
 }
 
 exports.deleteBackup = function(gitid) {
+  var snapshotId;
+
   return SnapShot.find({ ownergitid: gitid })
     .then(function(data) {
       if(data.length === 0) {
@@ -146,13 +148,15 @@ exports.deleteBackup = function(gitid) {
     })
     .then(function(data) {
       console.log('DB SNapshot = ', data)
-      return OVH.getSnapShots(data);
+      snapshotId = data.id;
+      return OVH.getSnapShots();
     })
-    .then(function(resp, data) {
+    .then(function(resp) {
       console.log('response from ovh get snapshots = ', resp)
-      var result = resp.filter( val => val.id === data.id);
+      var toDelete = resp.filter( val => val.id === snapshotId)[0].id;
+      if(!toDelete) return Promise.reject( new Error('No SnapShot in DB Matches SnapShot in OpenStack Storage Cloud.') )
 
-      return OVH.deleteSnapShot(final.snapshotid);
+      return OVH.deleteSnapShot();
     })
 }
 

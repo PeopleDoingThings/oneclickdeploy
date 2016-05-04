@@ -141,7 +141,7 @@ exports.createSnapShot = function(instanceid) {
   })
 }
 
-exports.getSnapShots = function(data) {
+exports.getSnapShots = function() {
   return new Promise(function(resolve, reject) {
     ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/snapshot`, function(err, resp) {
       if(err) {
@@ -150,7 +150,7 @@ exports.getSnapShots = function(data) {
       }
 
       console.log('got snapshot data from OVH = ', resp)
-      resolve(resp, data);
+      resolve(resp);
     })
   })
 }
