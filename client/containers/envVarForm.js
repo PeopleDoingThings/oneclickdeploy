@@ -12,10 +12,11 @@ constructor(props){
     super(props);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.props.getEnvVar(this.props.id);
     this.state = { 
       envVar: props.envVars,
-      envVarArray: [{key:'', value: ''}]
+      envVarArray: []
     };
    
 
@@ -48,7 +49,8 @@ constructor(props){
     return resultArray;
    }
 
-  addInputGroup (event) {
+  addInputGroup () {
+
     var newEmptyObj = {key:'', value: ''};
     var envVarArray =this.state.envVarArray;
     envVarArray.push(newEmptyObj);
@@ -78,10 +80,12 @@ constructor(props){
     //   return 'Loading...'
     // }else 
     if (this.props.envVars==='No Environment Variables Found!'|| this.props.envVars === undefined){
-      console.log('counter', this.state.counter)
-      console.log('array', this.state.envVarArray)
+      // console.log('counter', this.state.counter)
+      // console.log('array', this.state.envVarArray)
+      var component = this;
       var inputFields = this.state.envVarArray;
       return (inputFields.map((obj, indx) => {
+        console.log('outputting inputFields')
             return (
               <div key={indx}>
                 <FormGroup controlId={"key" + indx}>
@@ -107,9 +111,10 @@ constructor(props){
         })
       );
             
-    } else if(this.props.envVars) {
+    } else {
       return (this.props.envVars.map((obj, indx) => {
-        console.log ('it is saying variables are defined')
+        console.log('does envVar props exist?', this.props.envVars)
+        console.log('outputting envVars')
             return (
               <div key={indx}>
                 <FormGroup controlId={"key" + indx}>
@@ -144,7 +149,9 @@ constructor(props){
 
     return (   
     <div> 
-     {console.log('does envVar props exist?', this.props.envVars)}
+     {
+      //console.log('does envVar props exist?', this.props.envVars)
+    }
      <Deploy id={repoID} />
      
      <Form id='envVarForm' inline  onSubmit={this.onFormSubmit} className="input-group">
