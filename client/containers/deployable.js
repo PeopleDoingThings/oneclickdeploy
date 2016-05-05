@@ -79,5 +79,4 @@ function mapStateToProps(state) {
     repos: state.reducers.repos
   };
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Deployable);

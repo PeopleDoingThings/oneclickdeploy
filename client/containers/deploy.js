@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'; 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createInst, setRepoID } from '../actions/index';
 import { Link, browserHistory } from 'react-router';
@@ -13,7 +13,7 @@ constructor(props){
      this.props.setRepoID(id);
      window.localStorage.setItem('repoID', id);
      console.log('click excecuted, this is the id', this.SelectedRepo)
-     this.props.createInst(); 
+     this.props.createInst();
     };
 
   render() {
@@ -21,8 +21,8 @@ constructor(props){
     var repoID = this.props.id;
 
     return (
-      <div>  
-         <Link to="/loading" onClick={()=>boundClick(repoID)}><button className="btn btn-primary deployBtn">Deploy</button></Link> 
+      <div>
+         <Link to="/loading" onClick={()=>boundClick(repoID)}><button className="btn btn-primary deployBtn">Deploy</button></Link>
       </div>
     );
   }
