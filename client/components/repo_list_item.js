@@ -4,18 +4,17 @@ import React, { Component } from 'react';
 export default class RepoItem extends Component {
 
   render(){
-  	//console.log('props in repo list-group-item',this.props)
-  		console.log ('props in repo item', this.props)
-      var date = new Date((this.props.repoItem.age).slice(0,19));
+
+    //  var date = new Date((this.props.repoItem.age).slice(0,19));
       return (
 
-  					<div>
-  			     	
-              <b>Date Created:  </b>{date.toString()}
-              <br/>
-              <b>Owner's Name:  </b>{this.props.repoItem.ownername}
+            <div>
 
-  				    </div>
-  			     );
+              <b>Repo URL:  </b><a href={this.props.repoItem.clone_url} target="blank">{this.props.repoItem.clone_url}</a>
+              <br/>
+              <b>Owned by:  </b>{this.props.repoItem.ownername}
+
+              </div>
+             );
           }
 }

@@ -43,10 +43,6 @@ renderList() {
 }
   
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators({ fetchRepos }, dispatch);
-// }
-
 function mapStateToProps(state) {
 	return {
 		repos: state.reducers.repos
