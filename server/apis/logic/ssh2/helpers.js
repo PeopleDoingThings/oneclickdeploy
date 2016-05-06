@@ -55,6 +55,9 @@ var obj = {
         console.log('KNEX cat END')
         var valid = response.split("\r\n");
         var find = response.split("\n").map( val => val.split("'") );
+        var dblist = find.slice();
+        dblist.pop().shift();
+        console.log('All the dbs should be listed here: ', dblist)
         if(find !== undefined && find[1] !== undefined) find = find[1][1];
         console.log('FIND after split = ', find)
         console.log('valid[1] ==== ', valid[1]) 

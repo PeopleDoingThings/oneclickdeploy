@@ -5,7 +5,11 @@ module.exports = function(req, res, next) {
   var requestedUrl = req.protocol + '://' + req.get('Host') + req.url;
   var final = requestedUrl.split('/');
   if(final[final.length - 1] === 'getnewtoken') {
-    next();
+    if(process.env.ENV === 'production') {
+      res.sendStatus(401);
+    } else {
+      next();
+    }
   }
   else if (req.isAuthenticated()) {
     console.log('AuthUser Valid!')
