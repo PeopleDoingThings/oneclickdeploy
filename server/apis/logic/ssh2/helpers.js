@@ -126,6 +126,46 @@ exports.subdomainHost = function(cmdArray) {
   return obj;
 }
 
+exports.createRepoUpdateHost = function(cmdArray, loginData) {
+  console.log('updateRepoFromGitHub = ', cmdArray, loginData)
+  var obj = {
+    server: {
+      host: loginData.ip,
+      port: 22,
+      userName: loginData.sshuser,
+      password: loginData.password
+    },
+    commands: cmdArray,
+    idleTimeOut: 10000,  // 30 second idle timeout. We can deal with timeout events below
+    onCommandComplete: function( command, response, sshObj ) {
+      console.log('Command Start: ============')
+      console.log('Command : ', command)
+      console.log('Command End:   ============')
+      console.log('Command Response Start: ============')
+      console.log('Command Response: ', response)
+      console.log('Command Response End:   ============')
+
+      if(command === 'cat Procfile') {
+        var find = response.split("\r\n")[1].slice(10);
+        find = find.split('.')[0] + '.js';
+        console.log('SPLITTING NEW LINES Procfile = ', response.split("\r\n"))
+        console.log('splitting DONE!')
+        
+
+        sshObj.commands.unshift(`forever start ${find}`);
+        sshObj.commands.unshift('export PORT=1337');
+      }
+
+    },
+    onEnd: function( sessionText, sshObj ) {
+      console.log('sessionText Start: ')
+      console.log('sessionText: ', sessionText)
+      console.log('sessionText Start: ')
+    }
+  };
+
+  return obj;
+}
 
 
 

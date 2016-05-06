@@ -17,6 +17,12 @@ router.get('/reinstallrepo', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
+router.get('/updatefromgithub', function(req, res) {
+  SSH2.updateRepoFromMaster(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
+})
+
 router.post('/setenv/:repoid', function(req, res) {
   SSH2.setEnv(req.body, req.params.repoid, req.user.gitid)
     .then( data => res.send(data) )

@@ -128,4 +128,32 @@ exports.restartDaemon = function() {
   // Just attempts to restart the daemon with forever
 }
 
+exports.updateRepoFromMaster = function(host) {
+    return new Promise(function(resolve, reject) {
+    var SSHClient = new SSH2Shell(host);
 
+    SSHClient.on("close", function onClose(had_error) {
+      if(had_error) {
+        reject(had_error);
+      }
+      else {
+        resolve('SubDomain Created Successfully!');
+      }
+    });
+
+    SSHClient.on("ready", function onReady() {
+      console.log('Connection Ready, Starting Install!')
+    });
+
+    SSHClient.on("error", function onError(err, type, close, callback) {
+      if(err) {
+        reject(err);
+      }
+      else {
+        resolve('Connection Success but Ended With Error!');
+      }
+    })
+
+    SSHClient.connect();
+  }) 
+}

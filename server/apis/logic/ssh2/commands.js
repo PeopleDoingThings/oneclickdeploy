@@ -1,10 +1,9 @@
-var EnvDB = require('../../../database/env.js');
+var CMDHelper = require('./cmdhelpers.js');
+
 
 exports.postInstallSetup = function(repoData, loginData) {
-  var repoURL = repoData.clone_url;
+  var repoObj = CMDHelper.getRepoFolder(repoData);
   var daemonToken = loginData.daemonkey;
-  var repoFolder = repoURL.split('/');
-  repoFolder = repoFolder[repoFolder.length - 1].replace('.git', '');
 
   var arrayStart = [
     'ls -l',
@@ -13,10 +12,10 @@ exports.postInstallSetup = function(repoData, loginData) {
     'pwd',
     'sudo -u mongod mongod --fork --logpath /var/log/mongodb/mongod.log',
     'cd /media/git',
-    `git clone ${repoURL}`,
+    `git clone ${repoObj.repoURL}`,
     'svn checkout https://github.com/PeopleDoingThings/oneclickdeploy/trunk/instance-monitor',
     'chown -R admin:admin *',
-    `cd ${repoFolder}`,
+    `cd ${repoObj.repoFolder}`,
     'su admin'
   ];
 
@@ -43,17 +42,12 @@ exports.postInstallSetup = function(repoData, loginData) {
     'forever list'
   ];
 
-  console.log('repoData = ', repoData)
-  return EnvDB.getEnv(repoData.repoid, repoData.ownerid)
-    .then(function(data) {
-      console.log('Environement Vars = ', data)
-
-      data[0].variables.forEach( val => arrayMiddle.push(`export ${val.key}=${val.value}`) )  // Push our environement varibls in.
-      return arrayStart.concat(arrayMiddle).concat(arrayEnd); // Concat our arrays together
-    })
-    .catch(function(err) {
-      return arrayStart.concat(arrayEnd);
-    })
+  // We can refactor this heavily. Using basically the exact same thing three times.
+  return CMDHelper.addEnvirsToArray(repoData, {
+    cmdsZero: arrayStart,
+    cmdsOne: arrayMiddle,
+    cmdsTwo: arrayEnd
+  })
 }
 
 exports.addNewVirtualHost = function(id, subDomain, ip) {
@@ -109,4 +103,45 @@ exports.addNewVirtualHost = function(id, subDomain, ip) {
   return commands;
 }
 
+exports.createRepoUpdateCmds = function(repoData) {
+  console.log('createRepoUpdateCmds: ', repoData)
+  var repoObj = CMDHelper.getRepoFolder(repoData);
+  console.log('repoObj: ', repoObj)
 
+  var cmdsZero = [
+    `cd /media/git/${repoObj.repoFolder}`,
+    'git checkout master',
+    'git pull upstream master',
+    'npm install',
+    'webpack --progress'
+  ];
+
+  var cmdsOne = [];
+
+  var cmdsTwo = [
+    'forever stop 0',
+    'cat Procfile'
+  ];
+
+  return CMDHelper.addEnvirsToArray(repoData, {
+    cmdsZero: cmdsZero,
+    cmdsOne: cmdsOne,
+    cmdsTwo: cmdsTwo
+  })
+}
+
+exports.reInstallRepo = function() {
+  var repoObj = getRepoFolder(repoData);
+
+  var commands = [
+    `cd /media/git`,
+    `rm -rf ${repoObj.repoFolder}`,
+
+  ];
+
+  return CMDHelper.addEnvirsToArray(repoData, {
+    cmdsZero: cmdsZero,
+    cmdsOne: cmdsOne,
+    cmdsTwo: cmdsTwo
+  })
+}
