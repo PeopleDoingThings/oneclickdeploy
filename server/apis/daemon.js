@@ -5,7 +5,6 @@ Promise.promisifyAll(request);
 
 
 exports.getCommandData = function(data, command) {
-  console.log('Getting Command Data: ', data, command)
   return request(Helper.commandObj(data, command));
 }
 

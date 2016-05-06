@@ -9,7 +9,6 @@ exports.commandObj = function(data, command) {
     }
   }
 
-  console.log('commandObj: ', obj)
   return obj;
 }
 
