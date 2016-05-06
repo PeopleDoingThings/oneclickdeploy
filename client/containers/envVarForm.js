@@ -1,168 +1,207 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux'; 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createInst, setRepoID } from '../actions/index';
 import { Link, browserHistory } from 'react-router';
-import {Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import Deploy from './deploy';
-import { getEnvVar, setEnvVar, updateEnvVar } from '../actions/index';
+import {setEnvVar, updateEnvVar } from '../actions/index';
 
 class envVarForm extends Component {
 constructor(props){
     super(props);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
-    this.props.getEnvVar();
-    this.state = { 
+    this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
       envVar: props.envVars,
-      envVarArray: [{key:'', value: ''}]
+      showModal: false,
+      envVarArray: [{variables: {key:'' , value:''}}]
     };
-   
-
   }
 
-   formatEnv (stateObj, envVars){
-    var updatedEnvVars = envVars.slice();
+  closeModal(){
+    console.log('this here', this)
+    this.setState({showModal:false});
+   }
+
+   openModal(){
+    console.log('this here', this)
+    this.setState({showModal:true});
+   }
+
+  formatEnv (stateObj, envVars){
+    var updatedEnvVars = envVars[0].variables.slice();
     var resultArray =[];
     var ind, field;
 
     for(var key in stateObj){
-      ind = key.charAt(key.length-1)
-      field = key.charAt(0)==='k' ? 'key' : 'value';
-      if(key !== 'envVar' && key !== 'envVarArray'){
-        updatedEnvVars[ind][field] = stateObj[key];
-      }  
+      if(key !== 'envVar' && key !== 'envVarArray' && key !== 'showModal'){
+        ind = Number(key.charAt(key.length-1))
+        field = key.charAt(0)==='k' ? 'key' : 'value';
+        updatedEnvVars[ind][field]= stateObj[key];
+      }
     }
+
     updatedEnvVars.forEach(function(obj){
       if(obj.key !== ''){
         resultArray.push(obj);
       }
     })
+    console.log('resultArray:', resultArray)
     return resultArray;
+
    }
 
-  addInputGroup (event) {
+  addInputGroup () {
     var newEmptyObj = {key:'', value: ''};
     var envVarArray =this.state.envVarArray;
     envVarArray.push(newEmptyObj);
+    console.log('new state with envVarArray', envVarArray)
     this.setState({envVarArray:envVarArray});
+    console.log('this.state.envVarArray', this.state.envVarArray)
   }
 
-  handleClick () {
+handleClick (event) {
+  event.preventDefault();
   console.log('click working')
   this.addInputGroup();
   this.props.updateEnvVar();
-            
-  };
+};
 
-   onInputChange(event) {
-    this.setState({[event.target.id] :event.target.value});
-  }
-
-   onFormSubmit(event) {
-    event.preventDefault();
-    console.log('state on submit:' , this.state)
-    console.log('see copy', this.formatEnv(this.state,this.props.envVars))
-    this.props.setEnvVar(this.formatEnv(this.state,this.props.envVars),this.props.id)
-  }
-
-  renderEnvVar(){
-    if(this.props.envVars.length === 0 || this.props.envVars === undefined || this.props.envVars[0].length === 0){
-      return 'Loading...'
-    }else if (this.props.envVars==='No Environment Variables Found!'){
-      console.log('counter', this.state.counter)
-      console.log('array', this.state.envVarArray)
-      var inputFields = this.state.envVarArray;
-      return (inputFields.map((obj, indx) => {
-            return (
-              <div key={indx}>
-                <FormGroup controlId={"key" + indx}>
-                  <ControlLabel>Key</ControlLabel>
-                   <FormControl 
-                    type="text" 
-                    placeholder="Environment Variable Key" 
-                    defaultValue = {obj.key}
-                    onChange = {this.onInputChange}
-                    />
-                </FormGroup>
-                <FormGroup controlId={"value" + indx}>
-                  <ControlLabel>Value</ControlLabel>
-                  <FormControl 
-                   type="text" 
-                   defaultValue = {obj.value}
-                   placeholder="Environment Variable Value" 
-                   onChange = {this.onInputChange}
-                  />
-                </FormGroup> 
-              </div>  
-            )           
-        })
-      );
-            
-    } else {
-      var inputFields = this.state.envVarArray;
-      return (this.props.envVars.map((obj, indx) => {
-        console.log ('state props for envVars: ', this.state , 'indx: ',indx)
-            return (
-              <div key={indx}>
-                <FormGroup controlId={"key" + indx}>
-                  <ControlLabel>Key</ControlLabel>
-                   <FormControl 
-                    type="text" 
-                    placeholder="Environment Variable Key" 
-                    defaultValue = {obj.key}
-                    onChange = {this.onInputChange}
-                    />
-                </FormGroup>
-                <FormGroup controlId={"value" + indx}>
-                  <ControlLabel>Value</ControlLabel>
-                  <FormControl 
-                   type="text" 
-                   defaultValue = {obj.value}
-                   placeholder="Environment Variable Value" 
-                   onChange = {this.onInputChange}
-                  />
-                </FormGroup> 
-              </div>  
-            )
-            
-        })
-      );
-    }
-  }
-
-
-  render() {
-    var repoID = this.props.id;
-
-    return (   
-    <div> 
-     {console.log('does envVar props exist?', this.props.envVars)}
-     <Deploy id={repoID} />
-     
-     <Form id='envVarForm' inline  onSubmit={this.onFormSubmit} className="input-group">
-        {this.renderEnvVar()}
-        <Button onClick={()=>this.handleClick()}>
-        Add more
-        </Button>
-        <Button form='envVarForm' type="submit">
-        Submit
-        </Button>
-     </Form>
-    </div>
-    );
-  }
+onInputChange(event) {
+  this.setState({[event.target.id] :event.target.value});
 }
 
+onFormSubmit(event) {
+  event.preventDefault();
+  console.log('form submit working')
+ // var varArray=[];
+  this.props.setEnvVar(this.formatEnv(this.state,this.props.envVars),this.props.id)
+}
+
+
+// renderEnvVar(){
+//   var repoID = this.props.id;
+// if (this.props.envVars[0] !== undefined ){         
+// return ( 
+//        <form onSubmit={this.onFormSubmit}>
+//           {this.props.envVars[0].variables.map((obj, indx) => {
+//          return (
+//            <div key={indx}>
+//            <FormGroup controlId={"key" + indx}>
+//              <ControlLabel>Key</ControlLabel>
+//              <FormControl
+//               type="text"
+//               defaultValue = {obj.key}
+//               onChange = {this.onInputChange}
+//              />
+//            </FormGroup>
+//            <FormGroup controlId={"value" + indx}>
+//              <ControlLabel>Value</ControlLabel>
+//              <FormControl
+//               type="text"
+//               defaultValue = {obj.value}
+//               onChange = {this.onInputChange}
+//              />
+//            </FormGroup>
+//            </div>
+//            )
+//           })
+//          }
+//          {'\n'}
+//          <Button onClick={this.handleClick}>
+//            Add more
+//          </Button>
+//          {'\n'}
+//           <Deploy id={repoID} />
+//          {
+//            // <Button type="submit">
+//            // Submit
+//            // </Button>
+//           } 
+//       </form>      
+//      )
+// } 
+render() {
+var repoID = this.props.id;
+if (this.props.envVars[0] !== undefined ){         
+return ( 
+      <div>
+       <Form onSubmit={this.onFormSubmit} id="envForm">
+          {this.props.envVars[0].variables.map((obj, indx) => {
+         return (
+           <div key={indx}>
+           <FormGroup controlId={"key" + indx}>
+              <ControlLabel>Key</ControlLabel>
+              {' '}
+              <FormControl
+                type="text"
+                defaultValue = {obj.key}
+                onChange = {this.onInputChange}
+              />
+           </FormGroup>
+           {' '}
+           <FormGroup controlId={"value" + indx}>
+              <ControlLabel>Value</ControlLabel>
+              {' '}
+              <FormControl
+                type="text"
+                defaultValue = {obj.value}
+                onChange = {this.onInputChange}
+              />
+           </FormGroup>
+           </div>
+           )
+       })
+        }
+         {'\n'}
+          <Button onClick={this.handleClick}>
+        Add more
+      </Button>
+         {'\n'}
+       <Button onClick={this.openModal} type="submit">
+       Submit 
+       </Button>
+         {' '}
+         </Form>
+      
+      {
+      //  <Deploy id={repoID} />  
+      }
+       <Modal show={this.state.showModal} onHide={this.closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Please confirm</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <b>Are you sure you would like to deploy your 
+            repo?</b>
+          </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.closeModal}>Cancel</Button>
+              <Deploy id={repoID} /> 
+             </Modal.Footer>
+      </Modal>
+      </div>     
+     );
+ }else{
+  return (<div></div>);
+}
+}
+}
+
+
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getEnvVar, setEnvVar, updateEnvVar }, dispatch);
+  return bindActionCreators({ setEnvVar, updateEnvVar }, dispatch);
 }
 
 function mapStateToProps(state) {
+  console.log('state reducers envar', state.reducers.envVar)
   return {
     envVars: state.reducers.envVar
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(envVarForm);

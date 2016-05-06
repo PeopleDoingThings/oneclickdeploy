@@ -184,14 +184,13 @@ export function setRepoID(repoID) {
 
 export const GET_ENV_VAR = 'GET_ENV_VAR'
 export function getEnvVar(repoID) {
-//   let url = `/api/ssh2/getenv/${repoID}`;
-//   let request = axios.get(url);
+  let url = `/api/ssh2/getenv/${repoID}`;
+  let request = axios.get(url);
 
 
   return {
     type: GET_ENV_VAR,
-   // payload: request
-    payload: repoID
+    payload: request
   }
 }
 
