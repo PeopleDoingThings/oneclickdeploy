@@ -1,20 +1,22 @@
 // Repeating ourself here but the function calls would be a mess if we created the url inside them.
+// top / forever / printenv
 
 exports.commandObj = function(data, command) {
   var obj = {
-    url: `${data.ip}/statistics/${command}`,
-    header: {
+    url: `http://${data.ip}:1492/statistics/${command}`,
+    headers: {
       'parent-server-token': data.daemonkey
     }
   }
 
+  console.log('commandObj: ', obj)
   return obj;
 }
 
 exports.pingObj = function(data) {
   var obj = {
-    url: `${data.ip}/statistics/uptime`
-    header: {
+    url: `http://${data.ip}:1492/statistics/uptime`,
+    headers: {
       'parent-server-token': data.daemonkey
     }
   }

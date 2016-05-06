@@ -3,15 +3,17 @@ var Daemon = require('../../daemon.js');
 var InstanceLogin = require('../../../database/models/instancelogin.js');
 
 exports.getCommandData = function(id, command) {
-  InstanceLogin.find({ ownergitid: id })
-    .then( data => Daemon.sendCommand(data[0], command) );
+  return InstanceLogin.find({ ownergitid: id })
+    .then(function(data) {
+      return Daemon.getCommandData(data[0], command);
+    });
 }
 
 // We find the users repo & daemon key then check their instance daemon responds.
 exports.checkDaemonHealth = function(id, restart) {
   var repoData = {};
 
-  InstanceLogin.find({ ownergitid: id })
+  return InstanceLogin.find({ ownergitid: id })
     .then(function(data) {
       repoData = data[0];
 

@@ -25,8 +25,8 @@ exports.saveUser = function(obj) {
 exports.findByGitId = function(id) {
   return User.findOne( { 'gitid': id } )
     .then(function(data) {
-      if(!data) {
-        return Promise.reject( new Error('No User Found!', id) );
+      if(!data || data.length === 0) {
+        return Promise.reject( new Error('No User Found!') );
       }
 
       return data;

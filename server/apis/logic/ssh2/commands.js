@@ -37,7 +37,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'export MONITOR_SYSTEM=instance',
     'ls -l',
     'svn update',
-    `echo "module.exports = [${daemonToken}];" > 'token_list.js'`, //inject our token key.
+    `echo "module.exports = ["${daemonToken}"];" > 'token_list.js'`, //inject our token key.
     'forever start server/daemon.js',
     'forever list'
   ];
