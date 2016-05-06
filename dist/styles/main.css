@@ -557,6 +557,7 @@ path {
 @media (max-width: 1084px) {
   .hideHeader {
     position: relative;
+    background-color: #EE9A00;
     top: 0px;
   }
   .sideBarPanel {

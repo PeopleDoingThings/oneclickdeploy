@@ -12,7 +12,9 @@ import txUsage from './reducer_txUsage';
 import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 import GetEnvVar from './reducer_envVar';
-import SSHLogin from  './reducer_instanceLogin'
+import SSHLogin from  './reducer_instanceLogin';
+import instanceBottons from './reducer_instanceButtons'; 
+import instanceBackup from './reducer_instanceBackup';
 
 const rootReducer = combineReducers({
   sidebarToggle: sidebarToggle,
@@ -29,7 +31,9 @@ const rootReducer = combineReducers({
   rxUsage: rxUsage,
   logOutput: LogOutput,
   selRepoId: SetRepoId,
-  envVar: GetEnvVar
+  envVar: GetEnvVar,
+  instanceBottons: instanceBottons,
+  instanceBackup: instanceBackup,
 });
 
 

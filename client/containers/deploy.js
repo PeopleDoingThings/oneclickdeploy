@@ -68,14 +68,10 @@ render() {
       </div>
   );
 }
-
 }
-
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({createInst,setRepoID}, dispatch);
 }
-
 function mapStateToProps(state) {
   //console.log('instance state: ', state.reducers.instance)
   return {

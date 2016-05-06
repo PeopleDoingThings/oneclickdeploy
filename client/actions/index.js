@@ -172,6 +172,98 @@ export function sshLogin() {
 
 }
 
+//
+//REBOOT INSTANCE
+//
+export const REBOOT_INST = 'REBOOT_INST'
+export function rebootInstance() {
+  let url = '/api/ovh/reboot'
+  let request = axios.get(url);
+
+  return {
+    type: REBOOT_INST,
+    payload: request,
+  }
+
+}
+
+//
+//REINSTALL INSTANCE
+//
+export const REINSTALL_INST = 'REINSTALL_INST'
+export function reInstallInstance() {
+  let url = '/api/ovh/reinstall'
+  let request = axios.get(url);
+
+  return {
+    type: REINSTALL_INST,
+    payload: request,
+  }
+}
+
+//
+//ENABLE INSTANCE RESCUE
+//
+export const RESCUE_INSTANCE = 'RESCUE_INSTANCE'
+export function rescueInstance() {
+  let url = '/api/ovh/rescuemode'
+  let request = axios.get(url);
+
+  return {
+    type: RESCUE_INSTANCE,
+    payload: request,
+  }
+}
+
+
+//
+//Instance backup Tools
+//
+export const CREATE_BACKUP = 'CREATE_BACKUP'
+export function createBackup() {
+  let url = '/api/ovh/createbackup'
+  let request = axios.get(url);
+
+  return {
+    type: 'CREATE_BACKUP',
+    payload: request,
+  }
+}
+
+export const GETSNAPSHOT_STATUS = 'GETSNAPSHOT_STATUS'
+export function getSnapshotStatus() {
+  let url = '/api/ovh/getsnapshotstatus'
+  let request = axios.get(url);
+
+  return {
+    type: 'GETSNAPSHOT_STATUS',
+    payload: request,
+  }
+}
+
+export const DELETE_BACKUP = 'DELETE_BACKUP'
+export function deleteBackup() {
+  let url = '/api/ovh/deletebackup'
+  let request = axios.get(url);
+
+  return {
+    type: 'DELETE_BACKUP',
+    payload: request,
+  }
+}
+
+export const LIST_BACKUPS = 'LIST_BACKUPS'
+export function listBackups() {
+  let url = '/api/ovh/listbackups'
+  let request = axios.get(url);
+
+  return {
+    type: 'LIST_BACKUPS',
+    payload: request,
+  }
+}
+
+//Set RepoID
 export const SETREPOID = 'SETREPOID'
 export function setRepoID(repoID) {
  

@@ -41,7 +41,6 @@ renderList() {
     );
   }
 }
-  
 
 function mapStateToProps(state) {
 	return {

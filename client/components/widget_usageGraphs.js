@@ -11,17 +11,7 @@ const cpuGraph = new ReactFauxDOM.Element('div');
 const txGraph = new ReactFauxDOM.Element('div');
 const rxGraph = new ReactFauxDOM.Element('div');
 
-let data = [
-    {date: '1-May-12', close: 58.13},
-    {date: '1-May-12', close: 68.13},
-    {date: '2-May-12', close: 78.13},
-    {date: '2-May-12', close: 58.13},
-    {date: '3-May-12', close: 28.13},
-    {date: '3-May-12', close: 38.13},
-    {date: '3-May-12', close: 28.13}
-  ]
-
-function makeChart(data, container, y_Max, title) {
+function makeChart(data, container, y_Max, title, yLabel) {
   //console.log('data', data)
 
   let margin = {top: 30, right: 20, bottom: 30, left: 50},
@@ -34,8 +24,6 @@ function makeChart(data, container, y_Max, title) {
 
   let x = d3.time.scale().range([0, width]);
   let y = d3.scale.linear().range([height, 0]);
-
-  let yRamLabel = 'RAM(mb)'
 
   let xAxis = d3.svg.axis()
       .scale(x)
@@ -165,7 +153,7 @@ function makeChart(data, container, y_Max, title) {
           .attr("dy", ".71em")
           .style("text-anchor", "end")
           .attr("class", "shadow")
-          .text(yRamLabel);
+          .text(yLabel);
 
       // Add the text label for the Y axis
       svg.append("text")
@@ -174,7 +162,7 @@ function makeChart(data, container, y_Max, title) {
           .attr("x", margin.top - (height / 2))
           .attr("dy", ".71em")
           .style("text-anchor", "end")
-          .text(yRamLabel);
+          .text(yLabel);
 
       //Add the title
       svg.append("text")
@@ -189,6 +177,11 @@ function makeChart(data, container, y_Max, title) {
 export default class MemUsage extends Component { 
   constructor(props){
     super(props);
+
+    let newRXtest = this.props.rxUsage.values.map((item) => {
+      console.log(item.value/1000000);
+    })
+
     console.log('memUsage: ', this.props.memUsage);
     console.log('cpuUsage: ', this.props.cpuUsage);
     console.log('rxUsage: ', this.props.rxUsage);
@@ -203,24 +196,17 @@ export default class MemUsage extends Component {
         this.props.rxUsage.values.length !== 0
       ) {
         console.log('start making charts yo')
-        makeChart(newMem, memGraph, null, "RAM usage");
-        makeChart(newCPU, cpuGraph, 100, "CPU usage");
-        makeChart(newTX, txGraph, null, "outgoing");
-        makeChart(newRX, rxGraph, null, "incoming");
+        makeChart(newMem, memGraph, null, "RAM usage", 'RAM(mb)');
+        makeChart(newCPU, cpuGraph, 100, "CPU usage", 'CPU(%)');
+        makeChart(newTX, txGraph, null, "outgoing", 'TX(mb)');
+        makeChart(newRX, rxGraph, null, "incoming", 'RX(mb)');
       }
 
   }
 
   render() {      
         return (
-        <div className="col-xs-12 col-md-6 col-lg-8">
-        <div className="button-group">
-          <button className="btn btn-primary">Reboot</button>
-          <button className="btn btn-primary">Snapshot</button>
-          <button className="btn btn-primary">Enable Rescue</button>
-          <button className="btn btn-primary">Reinstall</button>
-          <button className="btn btn-primary">Reset Instance</button>
-        </div>
+        <div>
           <div>{memGraph.toReact()} </div>   
           <div>{cpuGraph.toReact()} </div> 
           <div>{txGraph.toReact()} </div> 
