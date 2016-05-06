@@ -46,7 +46,6 @@ class RepoList extends Component {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchRepos }, dispatch);
 }
