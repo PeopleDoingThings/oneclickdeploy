@@ -142,8 +142,33 @@ exports.createSubDomain = function(id, subDomain) {
     })
 }
 
+exports.updateRepoFromMaster = function(userid) {
 
-     
+  var insLogin;
+  var userRepo;
+  return Repo.find({ ownerid: userid, deployed: true })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User Has No Deployed Repos') )
+      console.log('user repo = ', data)
+      userRepo = data[0];
+
+      return InstanceLogin.find({ ownergitid: userid });
+    })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User has No Instances') )
+        console.log('instancelogin data = ', data);
+      insLogin = data[0];
+      
+      return Commands.createRepoUpdateCmds(userRepo);
+    })
+    .then(function(commands) {
+      console.log('Commands after create: ', commands)
+      console.log('InstanceLogin: ', insLogin)
+      var host = Helpers.createRepoUpdateHost(commands, insLogin);
+      
+      return Logic.updateRepoFromMaster(host);
+    })
+}
 
       
 
