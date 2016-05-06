@@ -37,7 +37,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'export MONITOR_SYSTEM=instance',
     'ls -l',
     'svn update',
-    `echo "module.exports = [${daemonToken}];" > 'token_list.js'`, //inject our token key.
+    `echo "module.exports = ["${daemonToken}"];" > 'token_list.js'`, //inject our token key.
     'forever start server/daemon.js',
     'forever list'
   ];
@@ -69,18 +69,18 @@ exports.addNewVirtualHost = function(id, subDomain, ip) {
       location / {
         proxy_pass http://${ip};
         proxy_http_version 1.1;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP \\$remote_addr;
+        proxy_set_header Upgrade \\$http_upgrade;
+        proxy_set_header X-Forwarded-Proto \\$scheme;
+        proxy_set_header Host \\$http_host;
         proxy_set_header X-NginX-Proxy true;
         proxy_read_timeout 5m;
         proxy_connect_timeout 5m;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
+        proxy_set_header Host \\$host;
         proxy_redirect off;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Forwarded-For \\$remote_addr;
+        proxy_cache_bypass \\$http_upgrade;
       }
 
       error_page   500 502 503 504  /50x.html;

@@ -1,4 +1,5 @@
 var Helper = require('./logic/daemon/helper.js');
+var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
 

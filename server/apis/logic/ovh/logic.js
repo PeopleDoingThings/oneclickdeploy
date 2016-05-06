@@ -4,6 +4,7 @@ var InstanceDB = require('../../../database/instances.js');
 var InstanceLogin = require('../../../database/instancelogin.js');
 var SnapShot = require('../../../database/models/snapshots.js');
 var OpenStack = require('../../openstack.js');
+var Repo = require('../../../database/models/deployablerepos.js');
 var Hat = require('hat');
 
 
@@ -51,6 +52,14 @@ exports.reinstallInstance = function(id) {
     .then(function(data) {
       console.log('reinstalled instance = ', data, mongoInstanceId)
       return InstanceDB.updateInstanceFromReinstall(data, mongoInstanceId);
+    })
+    .then(function(data) {          
+      Repo.remove({ ownerid: id, deployed: true })
+        .then(function(data) {
+          console.log('Deployed Repo Removed after Reinstall!');
+        })
+
+      return data;
     })
 }
 

@@ -14,6 +14,7 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
 
         SSHClient.on("error", function onError(err, type, close, callback) {
           var authFailed = 'All configured authentication methods failed';
+          var unReachable = 'connect ENETUNREACH';
           superError = err.message;
 
           if(err.message === authFailed && retries <= 3) {
@@ -46,6 +47,7 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
 
         if(retries < 3 && superError) {
           console.log('Closing, is Error? = ', superError)
+          ++retries;
           SSHClient.connect();
         }
         else if(retries >= 3) {  // This is to make sure we alway have some way to end the loop. Unlikely to be needed.
