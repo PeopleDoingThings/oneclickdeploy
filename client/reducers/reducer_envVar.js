@@ -27,6 +27,7 @@ export default function(state = [], action) {
 
     case UPDATE_ENV_VAR:
       varsCopy[0].variables.push({key:'', value: ''})
+      console.log('updating this varsCopy',varsCopy)
       return varsCopy;
     default: return state;
 

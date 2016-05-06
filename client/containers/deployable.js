@@ -20,6 +20,7 @@ class Deployable extends Component {
 handleClick (repoID){
     this.props.getEnvVar(repoID);
     this.setState({showForm: true});
+    console.log('handleclick for form')
 }
 
 hideForm (){
@@ -28,6 +29,7 @@ hideForm (){
 
 
 renderList() {
+  console.log('envars in deployable', this.props.envVars)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
@@ -35,21 +37,19 @@ renderList() {
       return (this.props.repos.map((repo) => {
         if(repo.deployed===false)
         return (
-            <Panel key={repo.repoid} header={repo.name} id={repo.repoid} eventKey={counter++}>
+            <Panel key={repo.repoid} header={repo.name} id={repo.repoid} repoName={repo.name} eventKey={counter++}>
               {!this.state.showForm ?
                 <div>
                 <RepoItem repoItem={repo} />
                 <button className="btn btn-primary deployBtn" onClick={()=>this.handleClick(repo.repoid)}>Get Started!</button>
                  </div>
                 : null}
-
                  { this.state.showForm ?
                    <div>
                    <Form key={repo._id} id={repo.repoid}/>
                  <button className="btn btn-primary" onClick={()=>this.hideForm()}>Cancel</button>
                   </div>
                  : null }
-
             </Panel>
           )
         })
@@ -59,8 +59,8 @@ renderList() {
 
   render() {
     return (
-      <div>
-        <PanelGroup accordion>
+      <div>       
+      <PanelGroup accordion>
           {this.renderList()}
         </PanelGroup>
       </div>
@@ -76,7 +76,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   console.log('state: ', state)
   return {
-    repos: state.reducers.repos
+    repos: state.reducers.repos,
+    envVars: state.reducers.envVar
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Deployable);
