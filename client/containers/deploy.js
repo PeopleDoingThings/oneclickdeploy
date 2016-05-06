@@ -29,9 +29,9 @@ constructor(props){
      //this.props.setRepoID(id);
      console.log('the create instance would work with id', id)
     // this.openModal();
-    //  window.localStorage.setItem('repoID', id);
+    window.localStorage.setItem('repoID', id);
     //  console.log('click excecuted, this is the id', id)
-     this.props.createInst();
+    this.props.createInst();
     };
 
 
