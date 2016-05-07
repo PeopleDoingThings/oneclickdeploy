@@ -305,4 +305,18 @@ export function updateEnvVar() {
     type: UPDATE_ENV_VAR
   }
 }
+export const REFRESH_REPO = 'REFRESH_REPO'
+export function refreshRepo() {
+let url = `/api/github/repos`;
+let request = axios.get(url, {
+    params: {
+      refresh: true
+    }
+  });
+
+  return {
+    type: REFRESH_REPO,
+    payload: request
+  }
+}
 
