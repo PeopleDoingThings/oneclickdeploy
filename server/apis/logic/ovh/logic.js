@@ -182,18 +182,14 @@ exports.deleteBackup = function(gitid) {
     })
 }
 
-exports.rescueReboot = function(gitid) {
-  return SnapShot.find({ ownergitid: gitid })
+exports.rescueReboot = function(gitid, state) {
+  console.log('starting rescuemode = ', gitid, state)
+  return InstanceDB.getUserInstances(gitid)
     .then(function(data) {
-      if(data.length > 0) {
-        return Promise.reject( new Error('No Instance for Use of Rescue Mode!') )
-      }
+      console.log('rescuemode instances = ', data)
+      if(data.length === 0) return Promise.reject( new Error( 'No User Instance Found' ) );
 
-      return InstanceDB.getUserInstances(gitid);
-    })
-    .then(function(data) {
-      console.log('user instances = ', data);
-      return OVH.createSnapShot(data[0].openstackid);
+      return OVH.rescueReboot(data[0].openstackid, state);
     })
 }
 

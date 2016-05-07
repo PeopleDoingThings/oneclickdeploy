@@ -79,8 +79,8 @@ router.get('/listbackups', function(req, res) {
     .catch( err => res.send(err) )
 })
 
-router.get('/rescuemode', function(req, res) {
-  Logic.rescueReboot(req.user.gitid)
+router.get('/rescuemode/:state', function(req, res) {
+  Logic.rescueReboot(req.user.gitid, req.params.state)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
 })

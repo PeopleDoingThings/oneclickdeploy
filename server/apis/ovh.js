@@ -74,7 +74,9 @@ exports.getFlavorIDs = function() {
 
 exports.rebootInstance = function(instanceid, type) {
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, { type: type },function(err, resp) {
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, 
+      { type: type },
+      function(err, resp) {
       if(err) {
         reject(err);
         return;
@@ -133,14 +135,14 @@ exports.createSnapShot = function(instanceid) {
   return new Promise(function(resolve, reject) {
     var snapshotName = Hat().slice(0, 9);
     ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/snapshot`,
-     { snapshotName: snapshotName }, 
-     function(err, resp) {
-      if(err) {
-        reject(err);
-        return;
-      }
+      { snapshotName: snapshotName }, 
+      function(err, resp) {
+        if(err) {
+          reject(err);
+          return;
+        }
 
-      resolve(snapshotName);
+        resolve(snapshotName);
     })
   })
 }
@@ -173,16 +175,18 @@ exports.deleteSnapShot = function(sid) {
   })
 }
 
-exports.rescueReboot = function(instanceid) {
+exports.rescueReboot = function(instanceid, state) {
+  state = JSON.parse(state);
   return new Promise(function(resolve, reject) {
-    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/rescueMode`, function(err, resp) {
-      if(err) {
-        reject(err);
-        return;
-      }
+    ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/rescueMode`,
+      { rescue: state },
+      function(err, resp) {
+        if(err) {
+          reject(err);
+          return;
+        }
 
-      console.log('rebooting in rescue mode! = ', resp)
-      resolve(resp);
+        resolve(resp);
     })
   })
 }
