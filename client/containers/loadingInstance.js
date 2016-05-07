@@ -22,10 +22,6 @@ socket.on('sshresp', function(resp) {
   //console.log('SSH Resp: ', resp)
 })
 
-// socket.on('sshresp', function(resp) {
-//   console.log('SSH Resp: ', resp)
-// })
-
 class Loading extends Component {
   constructor(props){
   super(props); 

@@ -403,9 +403,17 @@ ul.user-profile-widget li img.avatar {
 /* Info Panel */
 
 .info-panel {
+<<<<<<< c9e2159ac5e24df4bcc9268ad74e7ca43308392c
   border: 1px solid #EDEFF0;
   background-color: #fff;
   padding: 20px;
+||||||| merged common ancestors
+  border: 1px solid #EDEFF0;
+  background-color: #fff;
+=======
+    border: 1px solid #EDEFF0;
+    background-color: #fff;
+>>>>>>> add logoutput emulator
 }
 
 .info-panel .ip {
@@ -486,7 +494,24 @@ ul.user-profile-widget li img.avatar {
 }
 
 .sshLive {
+<<<<<<< c9e2159ac5e24df4bcc9268ad74e7ca43308392c
     display: none;
+||||||| merged common ancestors
+  display: none;
+}
+.sshList span {
+  font-weight: 700;
+  color: #9B9B9B;
+  padding-right: 20px;
+=======
+    display: none;
+}
+
+.sshList span {
+    font-weight: 700;
+    color: #9B9B9B;
+    padding-right: 20px;
+>>>>>>> add logoutput emulator
 }
 
 .sshList span {
@@ -587,6 +612,7 @@ path {
   left: 0;
 }*/
 
+<<<<<<< c9e2159ac5e24df4bcc9268ad74e7ca43308392c
 .overlay {
     height: 100%;
     width: 100%;
@@ -618,6 +644,20 @@ path {
 }
 
 /******************************/
+||||||| merged common ancestors
+=======
+.overlay {
+    height: 100%;
+    width: 100%;
+    z-index: 1001;
+    position: absolute;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    background-color: black;
+}
+
+>>>>>>> add logoutput emulator
 
 .log {
     width: 720px;
@@ -664,6 +704,7 @@ path {
 
 }
 
+<<<<<<< c9e2159ac5e24df4bcc9268ad74e7ca43308392c
 .popUp {
     width: 720px;
     height: 405px;
@@ -675,6 +716,21 @@ path {
     opacity: 1;
     position: absolute;
     transition: ease 1000ms linear;
+||||||| merged common ancestors
+=======
+.popUp {
+    width: 720px;
+    height: 405px;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    z-index: 2000;
+    opacity: 1;
+    position: absolute;
+    transition: ease 1000ms linear;
+>>>>>>> add logoutput emulator
+>>>>>>> add logoutput emulator
 }
 .nav-tabs>li {
     width: 50%;
