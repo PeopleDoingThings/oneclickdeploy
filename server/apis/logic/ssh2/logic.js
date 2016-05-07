@@ -91,6 +91,7 @@ exports.createNewSubdomain = function(host) {
         reject(had_error);
       }
       else {
+        //insert into db here
         resolve('SubDomain Created Successfully!');
       }
     });
