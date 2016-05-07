@@ -137,7 +137,7 @@ exports.createSubDomain = function(id, subDomain) {
       console.log('Commands Array = ', commandArray)
       var generateHost = Helpers.subdomainHost(commandArray);
 
-      return Logic.createNewSubdomain(generateHost);
+      return Logic.createNewSubdomain(generateHost, id, subDomain);
     })
     .then(function(data) {
       Instance.findByIdAndUpdate(instanceData._id, {

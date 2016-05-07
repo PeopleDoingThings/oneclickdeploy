@@ -82,7 +82,7 @@ exports.setDeployError = function(repoData, err) {
     });
 }
 
-exports.createNewSubdomain = function(host) {
+exports.createNewSubdomain = function(host, id, subDomain) {
   return new Promise(function(resolve, reject) {
     var SSHClient = new SSH2Shell(host);
 
@@ -91,8 +91,14 @@ exports.createNewSubdomain = function(host) {
         reject(had_error);
       }
       else {
-        //insert into db here
-        resolve('SubDomain Created Successfully!');
+        Repo.find({ ownerid: id, deployed: true })
+          .then(function(data) {
+            Repo.findByIdAndUpdate(data[0]._id, {
+              subdomain: subDomain
+            })
+
+            resolve('SubDomain Created Successfully!');
+          })
       }
     });
 
@@ -112,20 +118,6 @@ exports.createNewSubdomain = function(host) {
     SSHClient.connect();
   }) 
 }
-
-// exports.reinstallDaemon = function(id) {
-//   InstanceLogin.find({ ownergitid: id })
-//     .then(function(data) {
-//       var host = Helpers.postInstallHost(instanceData, cmdArray, data, repoData);
-//     })
-
-
-  
-//   host.debug = true;
-
-//   var SSHClient = new SSH2Shell(host);
-//   return SSHClient.connect();
-// }
 
 exports.restartDaemon = function() {
   // Just attempts to restart the daemon with forever
