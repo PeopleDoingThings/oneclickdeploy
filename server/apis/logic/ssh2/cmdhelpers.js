@@ -1,4 +1,6 @@
 var EnvDB = require('../../../database/env.js');
+var Repo = require('../../../database/models/deployablerepos.js');
+var InstanceLogin = require('../../../database/models/instancelogin.js');
 
 exports.getRepoFolder = function(repoData) {
   console.log('getting repo folder = ', repoData)
@@ -24,3 +26,25 @@ exports.addEnvirsToArray = function(repoData, arrayObj) {
       return arrayObj.cmdsZero.concat(arrayObj.cmdsTwo);
     })
 }
+
+exports.findDeployedRepoAndLoginData = function(userid) {
+  var insLogin;
+  var userRepo;
+  return Repo.find({ ownerid: userid, deployed: true })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User has No Deployed Repo') )
+      userRepo = data[0];
+      return InstanceLogin.find({ ownergitid: userid });
+    })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User has No Instances') )
+      insLogin = data[0];
+
+      return { insLogin: insLogin, userRepo: userRepo };
+    })
+}
+  
+
+
+
+
