@@ -34,7 +34,8 @@ this.closeModal = this.closeModal.bind(this);
 this.cksInsID1 ='';
 this.logOutput0 ='';
 this.logOutput1 ='';
-this.ckDep2 ='';  
+this.ckDep2 =''; 
+this.delay ='';  
 component.startChckInstInterval();
 }
 
@@ -54,8 +55,7 @@ componentDidMount(){
 
     socket.on('sshresp', function(resp) {
     console.log('SSH Resp: ', resp)
-    component.setState({socketResp: '>> ' + resp.split('\n')})
-  
+    component.setState({socketResp: '>> ' + resp.split('\n')}) 
 })
 }
 
@@ -85,7 +85,7 @@ closeModal(){
 
 delayCheckDeployed(){
   var component= this;
-  setTimeout(function(){
+  this.delay = setTimeout(function(){
    component.startChckDeployedInterval(); 
   }, 20000)
 }
@@ -110,7 +110,7 @@ startLogOutputInterval() {
           component.setState({Step_Three:true})
           component.stopLogOutputInterval();
         }
-    }, (Math.random()*100+500));
+    }, (Math.random()*50+150));
 }
 
 
@@ -178,6 +178,7 @@ var sshRan = 0 ;
          //stop interval2 log output
         component.stopLogOutputInterval();
         component.stopChckDeployedInterval(); 
+        clearTimeout(this.delay)
         //transition to DB
         component.setState({Step_Four:false})
         component.setState({Step_Five:true})
