@@ -305,6 +305,15 @@ export function updateEnvVar() {
     type: UPDATE_ENV_VAR
   }
 }
+
+export const UPDATE_LOG_FILE = 'UPDATE_LOG_FILE'
+export function updateLogFile() {
+ 
+  return {
+    type: UPDATE_LOG_FILE
+  }
+}
+
 export const REFRESH_REPO = 'REFRESH_REPO'
 export function refreshRepo() {
 let url = `/api/github/repos`;

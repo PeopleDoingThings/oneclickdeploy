@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux'; 
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
-import { instanceReady, getLog, isDeployed, sshPostInstall } from '../actions/index';
+import { instanceReady, getLog, isDeployed, sshPostInstall, updateLogFile } from '../actions/index';
 
 class Loading extends Component {
   constructor(props){
@@ -15,15 +15,23 @@ class Loading extends Component {
 
 //set interval for logoutput
 var logOutput0 ='';
+var logOutput1 ='';
 function startLogOutputInterval() {     
     logOutput0 = setInterval(function () {
         component.props.getLog();
         console.log('what is logoutput in interval',component.props.LogOutput.output)
       }, 12000);
+    logOutput1 = setInterval(function(){
+        component.props.updateLogFile();
+        console.log('this is real')
+    }, (Math.random()*700+1000));
 }
+
+
 
 function stopLogOutputInterval() {
   clearInterval(logOutput0);
+  clearInterval(logOutput1);
   console.log('really stopped logoutput now')
 }
 
@@ -97,12 +105,12 @@ function stopChckDeployedInterval() {
 }
  
   render() {
-    if(this.props.LogOutput.output){
-    var logItem = this.props.LogOutput.output;
-    var splitStr = logItem.split("\n");
+    //if(this.props.LogOutput.output){
+    //var logItem = this.props.LogOutput.output;
+    //var splitStr = logItem.split("\n");
     //console.log('test log output', splitStr)
-    var lines = splitStr.map(function(line){return line})
-    }
+    //var lines = splitStr.map(function(line){return line})
+    //}
     
     // console.log('props in render:', this.props.LogOutput.output)//log state.status later
     // console.log('inst dat', JSON.stringify(this.props.InstData))
@@ -119,7 +127,12 @@ function stopChckDeployedInterval() {
         {
           //{this.props.LogOutput.output ? this.props.LogOutput.output : null}
         }
-        {splitStr ?  splitStr.map(line => <div>{line}</div>) : null  } 
+        {
+             // {splitStr ?  splitStr.map(line => <div>{line}</div>) : null  } 
+            <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div>
+
+        
+        }
         </div>
       </div>
     );
@@ -143,7 +156,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ instanceReady, getLog, isDeployed, sshPostInstall }, dispatch);
+  return bindActionCreators({ instanceReady, getLog, isDeployed, sshPostInstall, updateLogFile }, dispatch);
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Loading);

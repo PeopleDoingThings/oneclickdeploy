@@ -530,13 +530,17 @@ path {
 
 
 .log {
-    width: 700px;
+    width: 720px;
+    height: 405px;
     padding: 10px;
     color: #32CD32;
     background: #000;
     border: 3px groove #ccc;
     display: block;
-    font-size: 9px;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 
 }
 .nav-tabs>li {
