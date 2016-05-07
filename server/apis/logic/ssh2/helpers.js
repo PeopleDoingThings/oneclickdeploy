@@ -170,7 +170,34 @@ exports.createRepoUpdateHost = function(cmdArray, loginData) {
   return obj;
 }
 
+exports.createRepoDeleteHost = function(cmdArray, loginData) {
+  console.log('deleteRepoHost = ', cmdArray, loginData)
+  var obj = {
+    server: {
+      host: loginData.ip,
+      port: 22,
+      userName: loginData.sshuser,
+      password: loginData.password
+    },
+    commands: cmdArray,
+    idleTimeOut: 10000,  // 30 second idle timeout. We can deal with timeout events below
+    onCommandComplete: function( command, response, sshObj ) {
+      console.log('Command Start: ============')
+      console.log('Command : ', command)
+      console.log('Command End:   ============')
+      console.log('Command Response Start: ============')
+      console.log('Command Response: ', response)
+      console.log('Command Response End:   ============')
+    },
+    onEnd: function( sessionText, sshObj ) {
+      console.log('sessionText Start: ')
+      console.log('sessionText: ', sessionText)
+      console.log('sessionText Start: ')
+    }
+  };
 
+  return obj;
+}
 
 
 

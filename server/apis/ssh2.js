@@ -195,7 +195,11 @@ exports.deleteDeployedRepo = function(userid) {
       return Logic.deleteRepoData(host);
     })
     .then(function(data) {
-      return Repo.remove({ ownerid: userid, deployed: true });
+      Repo.findByIdAndUpdate(userRepo._id, {
+        deployed: false 
+      });
+
+      return data;
     })
 }
 

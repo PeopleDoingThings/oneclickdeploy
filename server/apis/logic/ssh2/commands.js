@@ -147,17 +147,18 @@ exports.reInstallRepo = function() {
 }
 
 exports.findDeployedAndDelete = function(insLogin, userRepo) {
-  var repoObj = CMDHelper.getRepoFolder(repoData);
+  var repoObj = CMDHelper.getRepoFolder(userRepo);
+  console.log('findDeployedAndDelete cmds = ', repoObj, insLogin, userRepo)
 
   var commands = [
     'cd /media/git',
-    'sudo su',
     'forever list',
     'forever stopall',
-    `rm -rf ${repoObj.repoFolder}`,
+    `sudo rm -rf ${repoObj.repoFolder}`,
     'ls -l',
     'cd instance-monitor',
-    'forever start server/daemon.js',
+    'cd server',
+    'forever start daemon.js',
     'forever list'
   ];
 
