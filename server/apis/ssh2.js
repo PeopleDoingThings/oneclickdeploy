@@ -88,7 +88,13 @@ exports.checkWebServer = function(address) {
     .then(function(data) {
       if(data.body.match(/<title>\s*Error\s*<\/title>/) !== null) {
         return Promise.reject( new Error('Deployment Failed! NodeJS Server Not Running.') )
+      } 
+      else if(!data.body) {
+        console.log('checkWebServer Problem: ', data.body)
+        return Promise.reject( new Error('Deployment Failed! WebServer Not Responding.') )
       }
+
+      console.log('Deployment Success: ', data.body);
 
       return data;
     })
@@ -131,7 +137,7 @@ exports.createSubDomain = function(id, subDomain) {
       console.log('Commands Array = ', commandArray)
       var generateHost = Helpers.subdomainHost(commandArray);
 
-      return Logic.createNewSubdomain(generateHost);
+      return Logic.createNewSubdomain(generateHost, id, subDomain);
     })
     .then(function(data) {
       Instance.findByIdAndUpdate(instanceData._id, {
@@ -170,6 +176,33 @@ exports.updateRepoFromMaster = function(userid) {
     })
 }
 
-      
+exports.deleteDeployedRepo = function(userid) {
+  var insLogin;
+  var userRepo;
+  return Repo.find({ ownerid: userid, deployed: true })
+    .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User has No Deployed Repo') )
+      userRepo = data[0];
+      return InstanceLogin.find({ ownergitid: userid });
+    })
+    .then(function(data) {
+      insLogin = data[0];
+      return Commands.findDeployedAndDelete(insLogin, userRepo);
+    })
+    .then(function(commands) {
+      return Helpers.createRepoUpdateHost(commands, insLogin);
+    })
+    .then(function(host) {
+      return Logic.deleteRepoData(host);
+    })
+    .then(function(data) {
+      Repo.findByIdAndUpdate(userRepo._id, {
+        deployed: false 
+      })
+      .then( data => console.log('Set Repo to Not Deployed: ', data))
+
+      return data;
+    })
+}
 
 

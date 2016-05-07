@@ -1,6 +1,7 @@
 var EnvDB = require('../../../database/env.js');
 
 exports.getRepoFolder = function(repoData) {
+  console.log('getting repo folder = ', repoData)
   var repoObj = {
     repoURL: repoData.clone_url,
     repoFolder: repoData.clone_url.split('/')

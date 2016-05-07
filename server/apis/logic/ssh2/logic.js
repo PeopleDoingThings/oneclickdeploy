@@ -82,7 +82,7 @@ exports.setDeployError = function(repoData, err) {
     });
 }
 
-exports.createNewSubdomain = function(host) {
+exports.createNewSubdomain = function(host, id, subDomain) {
   return new Promise(function(resolve, reject) {
     var SSHClient = new SSH2Shell(host);
 
@@ -91,7 +91,22 @@ exports.createNewSubdomain = function(host) {
         reject(had_error);
       }
       else {
-        resolve('SubDomain Created Successfully!');
+        Repo.find({ ownerid: id, deployed: true })
+          .then(function(data) {
+            console.log('Repo Data for Update = ', data)
+            console.log('Update with SubDomain: ', subDomain)
+            if(data.length === 0) resolve('SubDomain Created But No Deployed Repo Found for User')
+            else {
+              Repo.findByIdAndUpdate(data[0]._id, {
+                subdomain: subDomain
+              })
+              .then(function(data) {
+                console.log('Updated SubDomain repo = ', data)
+              })
+
+              resolve('SubDomain Created Successfully!');
+            }
+          })
       }
     });
 
@@ -111,20 +126,6 @@ exports.createNewSubdomain = function(host) {
     SSHClient.connect();
   }) 
 }
-
-// exports.reinstallDaemon = function(id) {
-//   InstanceLogin.find({ ownergitid: id })
-//     .then(function(data) {
-//       var host = Helpers.postInstallHost(instanceData, cmdArray, data, repoData);
-//     })
-
-
-  
-//   host.debug = true;
-
-//   var SSHClient = new SSH2Shell(host);
-//   return SSHClient.connect();
-// }
 
 exports.restartDaemon = function() {
   // Just attempts to restart the daemon with forever
@@ -153,6 +154,36 @@ exports.updateRepoFromMaster = function(host) {
       }
       else {
         resolve('Connection Success but Ended With Error!');
+      }
+    })
+
+    SSHClient.connect();
+  }) 
+}
+
+exports.deleteRepoData = function(host) {
+    return new Promise(function(resolve, reject) {
+    var SSHClient = new SSH2Shell(host);
+
+    SSHClient.on("close", function onClose(had_error) {
+      if(had_error) {
+        reject(had_error);
+      }
+      else {
+        resolve('Repo Deleted Successfully!');
+      }
+    });
+
+    SSHClient.on("ready", function onReady() {
+      console.log('Connection Ready, Starting Repo Removal')
+    });
+
+    SSHClient.on("error", function onError(err, type, close, callback) {
+      if(err) {
+        reject(err);
+      }
+      else {
+        resolve('Connection Success for Delete Repo, but Ended With Error!');
       }
     })
 

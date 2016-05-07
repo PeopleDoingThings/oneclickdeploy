@@ -6,6 +6,7 @@ exports.save = function(gitid, data) {
   var repoObj = new Repo({
     deployed: false,
     deployerror: 'none',
+    subdomain: 'none',
     repoid: String(data.id),
     ownerid: gitid,
     ownername: data.owner_name,

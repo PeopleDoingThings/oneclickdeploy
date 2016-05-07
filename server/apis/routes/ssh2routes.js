@@ -29,6 +29,12 @@ router.post('/setenv/:repoid', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
+router.get('/deletedeployedrepo', function(req, res) {
+  SSH2.deleteDeployedRepo(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
+})
+
 router.get('/getenv/:repoid', function(req, res) {
   SSH2.getEnv(req.params.repoid, req.user.gitid)
     .then( data => res.send(data) )
