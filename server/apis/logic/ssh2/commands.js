@@ -111,7 +111,7 @@ exports.createRepoUpdateCmds = function(repoData) {
   var cmdsZero = [
     `cd /media/git/${repoObj.repoFolder}`,
     'git checkout master',
-    'git pull upstream master',
+    'git pull origin master',
     'npm install',
     'webpack --progress'
   ];
@@ -162,7 +162,7 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
     'forever list'
   ];
 
-  return commands;
+  return { cmds: commands, insLogin: insLogin };
 }
 
 

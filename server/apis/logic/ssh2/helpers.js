@@ -130,6 +130,7 @@ exports.subdomainHost = function(cmdArray) {
 }
 
 exports.createRepoUpdateHost = function(cmdArray, loginData) {
+
   console.log('updateRepoFromGitHub = ', cmdArray, loginData)
   var obj = {
     server: {
@@ -148,6 +149,13 @@ exports.createRepoUpdateHost = function(cmdArray, loginData) {
       console.log('Command Response: ', response)
       console.log('Command Response End:   ============')
 
+
+      if(command === 'git pull origin master') {
+        var find = response.split("\n");
+        console.log('git pull resp = ', find)
+        
+      }
+
       if(command === 'cat Procfile') {
         var find = response.split("\r\n")[1].slice(10);
         find = find.split('.')[0] + '.js';
@@ -162,7 +170,7 @@ exports.createRepoUpdateHost = function(cmdArray, loginData) {
     },
     onEnd: function( sessionText, sshObj ) {
       console.log('sessionText Start: ')
-      console.log('sessionText: ', sessionText)
+      // console.log('sessionText: ', sessionText)
       console.log('sessionText Start: ')
     }
   };

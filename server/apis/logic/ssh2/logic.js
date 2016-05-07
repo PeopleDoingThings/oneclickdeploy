@@ -140,13 +140,21 @@ exports.updateRepoFromMaster = function(host) {
         reject(had_error);
       }
       else {
-        resolve('SubDomain Created Successfully!');
+        resolve('Repo Updated Successfully');
       }
     });
 
     SSHClient.on("ready", function onReady() {
       console.log('Connection Ready, Starting Install!')
     });
+
+    SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
+      if(command === "git pull origin master") {
+        var split = response.split('\r\n');
+        split.pop(); // cut off the shell new line prompt.
+        resolve(split);
+      }
+    })
 
     SSHClient.on("error", function onError(err, type, close, callback) {
       if(err) {

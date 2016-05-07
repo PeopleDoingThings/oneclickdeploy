@@ -8,6 +8,7 @@ var Repo = require('../database/models/deployablerepos.js');
 var Env = require('../database/models/env.js');
 var EnvDB = require('../database/env.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
+var CMDHelper = require('./logic/ssh2/cmdhelpers.js');
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
@@ -149,23 +150,12 @@ exports.createSubDomain = function(id, subDomain) {
 }
 
 exports.updateRepoFromMaster = function(userid) {
-
   var insLogin;
-  var userRepo;
-  return Repo.find({ ownerid: userid, deployed: true })
-    .then(function(data) {
-      if(data.length === 0) return Promise.reject( new Error('User Has No Deployed Repos') )
-      console.log('user repo = ', data)
-      userRepo = data[0];
 
-      return InstanceLogin.find({ ownergitid: userid });
-    })
+  return CMDHelper.findDeployedRepoAndLoginData(userid)
     .then(function(data) {
-      if(data.length === 0) return Promise.reject( new Error('User has No Instances') )
-        console.log('instancelogin data = ', data);
-      insLogin = data[0];
-      
-      return Commands.createRepoUpdateCmds(userRepo);
+      insLogin = data.insLogin;
+      return Commands.createRepoUpdateCmds(data.userRepo);
     })
     .then(function(commands) {
       console.log('Commands after create: ', commands)
@@ -177,20 +167,15 @@ exports.updateRepoFromMaster = function(userid) {
 }
 
 exports.deleteDeployedRepo = function(userid) {
-  var insLogin;
   var userRepo;
-  return Repo.find({ ownerid: userid, deployed: true })
+
+  return CMDHelper.findDeployedRepoAndLoginData(userid)
     .then(function(data) {
-      if(data.length === 0) return Promise.reject( new Error('User has No Deployed Repo') )
-      userRepo = data[0];
-      return InstanceLogin.find({ ownergitid: userid });
+      userRepo = data.userRepo;
+      return Commands.findDeployedAndDelete(data.insLogin, data.userRepo);
     })
     .then(function(data) {
-      insLogin = data[0];
-      return Commands.findDeployedAndDelete(insLogin, userRepo);
-    })
-    .then(function(commands) {
-      return Helpers.createRepoUpdateHost(commands, insLogin);
+      return Helpers.createRepoUpdateHost(data.cmds, data.insLogin);
     })
     .then(function(host) {
       return Logic.deleteRepoData(host);
@@ -199,7 +184,7 @@ exports.deleteDeployedRepo = function(userid) {
       Repo.findByIdAndUpdate(userRepo._id, {
         deployed: false 
       })
-      .then( data => console.log('Set Repo to Not Deployed: ', data))
+      .then( data => console.log('Set Repo to Not Deployed: ', data) )
 
       return data;
     })
