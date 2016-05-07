@@ -106,6 +106,19 @@ export function sshPostInstall(repoID) {
   }
 }
 
+export const SUBDOMAIN = 'SUBDOMAIN'
+export function setSubdomain(subdomain) {
+  let url = `/api/ssh2/createsubdomain/${subdomain}`;
+  let request = axios.get(url);
+
+
+  return {
+    type: SUBDOMAIN,
+    payload: request
+  }
+}
+
+
 //
 //Dashboard widgets
 //

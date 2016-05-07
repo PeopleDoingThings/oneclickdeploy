@@ -1,3 +1,4 @@
+var path = require('path');
 module.exports = {
   entry: [
     './client/index.js'
@@ -23,6 +24,9 @@ module.exports = {
     }]
   },
   resolve: {
+     alias: {
+      react: path.join(__dirname, 'node_modules', 'react')
+    },
     extensions: ['', '.js', '.jsx']
 
   },
