@@ -181,6 +181,7 @@ exports.deleteDeployedRepo = function(userid) {
   var userRepo;
   return Repo.find({ ownerid: userid, deployed: true })
     .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('User has No Deployed Repo') )
       userRepo = data[0];
       return InstanceLogin.find({ ownergitid: userid });
     })
@@ -197,7 +198,8 @@ exports.deleteDeployedRepo = function(userid) {
     .then(function(data) {
       Repo.findByIdAndUpdate(userRepo._id, {
         deployed: false 
-      });
+      })
+      .then( data => console.log('Set Repo to Not Deployed: ', data))
 
       return data;
     })
