@@ -117,18 +117,14 @@ exports.getEnv = function(repoId, gitId) {
 }
 
 exports.createSubDomain = function(id, subDomain) {
+  var instanceData;
   if(!subDomain) {
     return Promise.reject( new Error('Please Enter A Subdomain!') )
   }
 
-  var instanceData;
-
   return Instance.find({ ownergitid: id })
     .then(function(data) {
       if(!data || data.length === 0) return Promise.reject( new Error('No Instance Found for User!') );
-      if(data[0].state.subdomain !== 'none') {
-        return Promise.reject( new Error('Subdomain Already Exists for Instance!') )
-      }
       
       instanceData = data[0];
       return data[0];
@@ -158,8 +154,6 @@ exports.updateRepoFromMaster = function(userid) {
       return Commands.createRepoUpdateCmds(data.userRepo);
     })
     .then(function(commands) {
-      console.log('Commands after create: ', commands)
-      console.log('InstanceLogin: ', insLogin)
       var host = Helpers.createRepoUpdateHost(commands, insLogin);
       
       return Logic.updateRepoFromMaster(host);

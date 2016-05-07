@@ -104,7 +104,7 @@ exports.createNewSubdomain = function(host, id, subDomain) {
                 console.log('Updated SubDomain repo = ', data)
               })
 
-              resolve('SubDomain Created Successfully!');
+              resolve(`SubDomain: ${subDomain} Created Successfully!`);
             }
           })
       }
