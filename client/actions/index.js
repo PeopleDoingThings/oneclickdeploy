@@ -284,13 +284,32 @@ export function listBackups() {
 // App management
 //
 
+//Get Deployed Repo Info
+export const DEPLOYED_REPO = 'DEPLOYED_REPO'
+export function deployedRepo() {
+  let url = 'api/database/getdeployed'
+  let request = axios.get(url)
+  .then(function (response) {
+    console.log(" deployed repo working")
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Deployed Repo Error:", err);
+  })
+
+  return {
+    type: DEPLOYED_REPO,
+    payload: request,
+  }
+}
+
+
 //Update from Github
 export const GITHUB_UPDATE = 'GITHUB_UPDATE'
 export function githubUpdate() {
   let url = 'api/ssh2/updatefromgithub'
   let request = axios.get(url)
   .then(function (response) {
-    console.log("githubUpdate action working")
     return response;
   })
   .catch(function (err) {
@@ -302,6 +321,7 @@ export function githubUpdate() {
     payload: request,
   }
 }
+
 
 //Set RepoID
 export const SETREPOID = 'SETREPOID'

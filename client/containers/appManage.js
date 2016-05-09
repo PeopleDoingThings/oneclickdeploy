@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 //import * as ActionCreators from '../actions/index';
 import AppControl from '../components/appManagementControls';
 import AppConsole from '../components/appManagementConsole';
+import DeployedRepo from '../components/appManagementInfo';
 
 
 export default class AppManagement extends Component {
@@ -13,7 +14,9 @@ export default class AppManagement extends Component {
   render() {
       return (
         <div>
-          <div className="col-xs-12 col-md-4 col-lg-4">General Info</div>
+          <div className="col-xs-12 col-md-4 col-lg-4">
+            <DeployedRepo deployed={this.props.deployed[0]}/>
+          </div>
 
           <div className="col-xs-12 col-md-6 col-lg-8">   
              <AppControl />
@@ -27,11 +30,12 @@ export default class AppManagement extends Component {
 
 
 function mapStateToProps(state) {
-  console.log('state app management: ', state.reducers.appManage)
+  console.log('state app management: ', state.reducers.deployedRepo[0])
   // console.log('state memUsage: ', state.reducers.rxUsage)
 
  return {
     AppManage: state.reducers.appManage,
+    deployed: state.reducers.deployedRepo,
   };
 }
 

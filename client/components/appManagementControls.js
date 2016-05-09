@@ -7,7 +7,7 @@ import * as ActionCreators from '../actions/index';
 class AppControl extends Component {
   constructor(props){
     super(props);
-
+    this.props.deployedRepo();
     this.githubUpdate = this.githubUpdate.bind(this);
   }
 
