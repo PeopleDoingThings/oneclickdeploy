@@ -149,7 +149,7 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
   return { cmds: commands, insLogin: insLogin };
 }
 
-exports.createJSRestartCommands(insLogin, userRepo) {
+exports.createJSRestartCommands = function(insLogin, userRepo) {
   var repoObj = CMDHelper.getRepoFolder(userRepo);
 
   var cmdsZero = [
