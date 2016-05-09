@@ -11,12 +11,6 @@ router.get('/startsshpostinstall', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
-router.get('/reinstallrepo', function(req, res) {
-  SSH2.runSSHCommands(req.user.gitid, Commands.reinstallGitRepo())
-    .then( data => res.send(data) )
-    .catch( err => res.send(err.message) )
-})
-
 router.get('/updatefromgithub', function(req, res) {
   SSH2.updateRepoFromMaster(req.user.gitid)
     .then( data => res.send(data) )
@@ -45,6 +39,12 @@ router.get('/createsubdomain/:subdomain', function(req, res) {
   SSH2.createSubDomain(req.user.gitid, req.params.subdomain)
     .then( data => res.send(data) )
     .catch( err => res.send(err) )
+})
+
+router.get('/startforever', function(req, res) {
+  SSH2.restartJS(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
 })
 
 module.exports = router;
