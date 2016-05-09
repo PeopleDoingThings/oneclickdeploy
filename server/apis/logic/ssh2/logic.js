@@ -2,6 +2,7 @@ var SSH2Shell = require ('ssh2shell');
 var Repo = require('../../../database/models/deployablerepos.js');
 var InstanceLogin = require('../../../database/models/instancelogin.js');
 var Helpers = require('./helpers.js');
+var io = require('socket.io');
 
 
 exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData) {
@@ -36,6 +37,13 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
         console.log('close = ', close)
         console.log('retries = ', retries)
       });
+
+      SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
+        // lets socket!!!
+        // io.on('connection', function(socket) {
+        //   console.log('')
+        // })
+      })
 
       SSHClient.on("ready", function onReady() { // On successful connect we return a promise.
         console.log('Connection Ready, Starting Install!')

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import io from 'socket.io-client';
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { createHashHistory } from 'history'
@@ -18,10 +19,15 @@ import Loading from './containers/loadingInstance';
 
 import RepoList from './containers/repo_list';
 
+const socket = io.connect('http://localhost:9001');
 const reducer = combineReducers({reducers,routing: routerReducer})
 const store = createStore(reducer, applyMiddleware(ReduxPromise))
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 const history = syncHistoryWithStore(appHistory, store)
+
+socket.on('auth', function(msg) {
+  console.log('Socket Response: ', msg)
+})
 
 ReactDOM.render(
    <Provider store={store}>
