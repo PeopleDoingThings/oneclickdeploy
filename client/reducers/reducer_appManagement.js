@@ -6,8 +6,6 @@ export default function(state = [], action) {
     case GITHUB_UPDATE:
       return action.payload.data === undefined ? state : action.payload.data;
 
-
     default: return state;
 
   }
-}
