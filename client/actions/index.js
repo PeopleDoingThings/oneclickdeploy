@@ -176,9 +176,20 @@ export function sshLogin() {
 //REBOOT INSTANCE
 //
 export const REBOOT_INST = 'REBOOT_INST'
-export function rebootInstance() {
-  let url = '/api/ovh/reboot'
-  let request = axios.get(url);
+export function rebootInstance(type) {
+  let url = '/api/ovh/reboot';
+  let request = axios.get(url, {
+    params: {
+      type: type
+    }
+  })
+  .then(function (response) {
+    console.log('response: ', response);
+    return response;
+  })
+  .catch(function (err) {
+    console.error(err);
+  })
 
   return {
     type: REBOOT_INST,
@@ -193,7 +204,13 @@ export function rebootInstance() {
 export const REINSTALL_INST = 'REINSTALL_INST'
 export function reInstallInstance() {
   let url = '/api/ovh/reinstall'
-  let request = axios.get(url);
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Reinstall Errr:", err);
+  })
 
   return {
     type: REINSTALL_INST,
@@ -262,6 +279,49 @@ export function listBackups() {
     payload: request,
   }
 }
+
+//
+// App management
+//
+
+//Get Deployed Repo Info
+export const DEPLOYED_REPO = 'DEPLOYED_REPO'
+export function deployedRepo() {
+  let url = 'api/database/getdeployed'
+  let request = axios.get(url)
+  .then(function (response) {
+    console.log(" deployed repo working")
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Deployed Repo Error:", err);
+  })
+
+  return {
+    type: DEPLOYED_REPO,
+    payload: request,
+  }
+}
+
+
+//Update from Github
+export const GITHUB_UPDATE = 'GITHUB_UPDATE'
+export function githubUpdate() {
+  let url = 'api/ssh2/updatefromgithub'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Github update Error:", err);
+  })
+
+  return {
+    type: GITHUB_UPDATE,
+    payload: request,
+  }
+}
+
 
 //Set RepoID
 export const SETREPOID = 'SETREPOID'
