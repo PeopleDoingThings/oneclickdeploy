@@ -100,3 +100,19 @@ exports.insertInstanceLogin = function(data) {
     return data;
   })
 }
+
+exports.createVNCOpts = function(serverid) {
+  var opt = {
+    url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers/${serverid}/action`,
+    json: {
+      "os-getVNCConsole": {
+        "type": "novnc"
+      }
+    },
+    headers: {
+      'X-Auth-Token': process.env.OPENSTACK_X_AUTH
+    }
+  };
+
+  return opt;
+}

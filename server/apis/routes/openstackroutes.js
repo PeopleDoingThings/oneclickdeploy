@@ -29,5 +29,11 @@ router.get('/createinstance', function(req, res) {
     .catch( err => res.send(err.message) )
 })
 
+router.get('/createconsole', function(req, res) {
+  Logic.createConsole(req.user.gitid)
+    .then( data => res.send(data) )
+    .catch( err => res.send(err.message) )
+})
+
 
 module.exports = router;
