@@ -14,8 +14,8 @@ exports.instanceList = function(user) {
   if(user !== '13039425') return Promise.reject('Unauthorized')
 
   return OVH.listServices()
-  .then( data => data )
-  .then( data => Promise.all( resp.map( val => OVH.getServiceInformation(val)) ))
+    .then( data => data )
+    .then( data => Promise.all( resp.map( val => OVH.getServiceInformation(val)) ))
 }
 
 exports.imageData = function(version) {
@@ -99,9 +99,11 @@ exports.rebootInstance = function(userid, type) {
       return OVH.rebootInstance(data[0].openstackid, type);
     })
     .then(function(data) {
-      setTimeout( function() {
-        return SSH2.restartJS(userid);
+      setTimeout( function() { // do we want to wrap this in a promise? Our ajax call will take 20s ish.
+        SSH2.restartJS(userid);
       }, 15000);
+
+      return data;
     })
 }
 
