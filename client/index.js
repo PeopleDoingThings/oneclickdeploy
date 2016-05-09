@@ -19,7 +19,7 @@ import Loading from './containers/loadingInstance';
 
 import RepoList from './containers/repo_list';
 
-const socket = io.connect('http://localhost:9001');
+const socket = io.connect('/');
 const reducer = combineReducers({reducers,routing: routerReducer})
 const store = createStore(reducer, applyMiddleware(ReduxPromise))
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
