@@ -198,3 +198,41 @@ exports.deleteRepoData = function(host) {
     SSHClient.connect();
   }) 
 }
+
+exports.restartJS = function(host) {
+  return new Promise(function(resolve, reject) {
+    var SSHClient = new SSH2Shell(host);
+
+    SSHClient.on("close", function onClose(had_error) {
+      if(had_error) {
+        reject('Restart Failed with Error: ', had_error);
+      }
+      else {
+        resolve('Restarted JS Servers Successfully');
+      }
+    });
+
+    SSHClient.on("ready", function onReady() {
+      console.log('Connection Ready, Starting Install!')
+    });
+
+    SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
+      if(command === "forever list") {
+        var split = response.split('\r\n');
+        //split.pop(); // cut off the shell new line prompt.
+        resolve(split);
+      }
+    })
+
+    SSHClient.on("error", function onError(err, type, close, callback) {
+      if(err) {
+        reject(err);
+      }
+      else {
+        resolve('Restart JS Connection Success but Ended With Error!');
+      }
+    })
+
+    SSHClient.connect();
+  }) 
+}

@@ -131,7 +131,6 @@ exports.createSubDomain = function(id, subDomain) {
     })
     .then(function(data) {
       var commandArray = Commands.addNewVirtualHost(id, subDomain, data.publicip);
-      console.log('Commands Array = ', commandArray)
       var generateHost = Helpers.subdomainHost(commandArray);
 
       return Logic.createNewSubdomain(generateHost, id, subDomain);

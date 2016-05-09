@@ -14,6 +14,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'cd /media/git',
     `git clone ${repoObj.repoURL}`,
     'svn checkout https://github.com/PeopleDoingThings/oneclickdeploy/trunk/instance-monitor',
+    'export MONITOR_SYSTEM=instance',
     'chown -R admin:admin *',
     `cd ${repoObj.repoFolder}`,
     'su admin'
@@ -140,6 +141,7 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
     'forever stopall',
     `sudo rm -rf ${repoObj.repoFolder}`,
     'ls -l',
+    'export MONITOR_SYSTEM=instance',
     'cd instance-monitor',
     'cd server',
     'forever start daemon.js',
@@ -153,21 +155,25 @@ exports.createJSRestartCommands = function(insLogin, userRepo) {
   var repoObj = CMDHelper.getRepoFolder(userRepo);
 
   var cmdsZero = [
-    'cd /media/git/instance-monitor/server',
     'forever stopall',
+    'cd /media/git/instance-monitor/server',
+    'export MONITOR_SYSTEM=instance',
     'forever start daemon.js',
-    `cd /media/git/${repoObj.repoFolder}`,
+    `cd /media/git/${repoObj.repoFolder}`
   ];
 
   var cmdsOne = [];
 
   var cmdsTwo = [
-    'cat Procfile'
+    'cat Procfile',
+    'forever list'
   ];
 
-  return CMDHelper.addEnvirsToArray(repoData, {
+  var commands = CMDHelper.addEnvirsToArray(repoData, {
     cmdsZero: cmdsZero,
     cmdsOne: cmdsOne,
     cmdsTwo: cmdsTwo
   })
+
+  return { cmds: commands, insLogin: insLogin };
 }
