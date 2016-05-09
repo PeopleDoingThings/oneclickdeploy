@@ -35,7 +35,7 @@ export default class Login extends Component {
             <div style={{ textAlign: 'center', minHeight: 400, width: '100%', position: 'absolute', top: IntroStyle.y}}>
               <div className="login col-md-8 col-xs-10 col-centered">
                 <div className="home-title">
-                  <h1 className="logo">Git HyperVisor</h1>
+                  <h1 className="logo">HyperJs</h1>
                   <h3 className="tagline">disclaimer: this app is for those who want to deploy their app
                     but cringe at any complicated deployment process</h3>
                 </div>  

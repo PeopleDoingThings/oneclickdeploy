@@ -176,9 +176,20 @@ export function sshLogin() {
 //REBOOT INSTANCE
 //
 export const REBOOT_INST = 'REBOOT_INST'
-export function rebootInstance() {
-  let url = '/api/ovh/reboot'
-  let request = axios.get(url);
+export function rebootInstance(type) {
+  let url = '/api/ovh/reboot';
+  let request = axios.get(url, {
+    params: {
+      type: type
+    }
+  })
+  .then(function (response) {
+    console.log('response: ', response);
+    return response;
+  })
+  .catch(function (err) {
+    console.error(err);
+  })
 
   return {
     type: REBOOT_INST,
@@ -193,7 +204,14 @@ export function rebootInstance() {
 export const REINSTALL_INST = 'REINSTALL_INST'
 export function reInstallInstance() {
   let url = '/api/ovh/reinstall'
-  let request = axios.get(url);
+  let request = axios.get(url)
+  .then(function (response) {
+    console.log('response: ', response);
+    return response;
+  })
+  .catch(function (err) {
+    console.error(err);
+  })
 
   return {
     type: REINSTALL_INST,
