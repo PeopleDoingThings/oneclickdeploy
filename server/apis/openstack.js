@@ -58,5 +58,16 @@ exports.createNewInstance = function(name, id, pass) {
   })
 }
 
+exports.createNoVNCConsole = function(id) {
+  return new Promise(function(resolve, reject) {
+    req.post(Helpers.createVNCOpts(id), function(err, res) {
+      if(err) {
+        reject(err);
+        return;
+      }
 
+      resolve(res.body);
+    })
+  })
+}
 

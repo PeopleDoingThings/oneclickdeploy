@@ -78,7 +78,6 @@ var obj = {
 
       SSH2.checkWebServer(instanceData.publicip)
         .then(function(data) {
-          console.log('Response from checkWebServer = ', data)
           return Logic.setDeployed(repoData);
         })
         .then(function(data) {

@@ -39,3 +39,8 @@ exports.callCreateNewInstance = function(id) {
     })
 }
 
+exports.createConsole = function(id) {
+  return Instance.find({ ownergitid: id })
+    .then( data => data[0].openstackid )
+    .then( data => OpenStack.createNoVNCConsole(data) )
+}

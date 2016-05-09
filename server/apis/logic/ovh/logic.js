@@ -46,11 +46,9 @@ exports.reinstallInstance = function(id) {
   return InstanceDB.getUserInstances(id)
     .then(function(data) {
       mongoInstanceId = data[0]._id;
-      console.log('found instance for reinstall! = ', data, 'ins id = ', data[0].openstackid);
       return OVH.reinstallInstance(data[0].openstackid, imgObj);
     })
     .then(function(data) {
-      console.log('reinstalled instance = ', data, mongoInstanceId)
       return InstanceDB.updateInstanceFromReinstall(data, mongoInstanceId);
     })
     .then(function(data) {          
