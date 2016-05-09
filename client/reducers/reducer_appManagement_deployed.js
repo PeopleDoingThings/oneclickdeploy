@@ -1,9 +1,9 @@
-import { GITHUB_UPDATE } from '../actions/index';
+import { DEPLOYED_REPO } from '../actions/index';
 
 export default function(state = [], action) {
   switch (action.type) {
-
-    case GITHUB_UPDATE:
+    
+    case DEPLOYED_REPO: 
       return action.payload.data === undefined ? state : action.payload.data;
 
 
