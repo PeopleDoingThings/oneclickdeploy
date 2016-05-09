@@ -10,7 +10,6 @@ medgrey: ; #545555;
 sidebar Nav: #FAFAFA;
 purple: #5D478B;
 lightGrey: #EDEFF0;
-
 */
 
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC|Roboto:400,300,500,700);
@@ -163,7 +162,6 @@ h1.logo {
 /* show/hide toggle for small screens */
 .showSideNav {
   width: 298px !important;
-  z-index: 1;
 }
 
 .side-bar .main-logo {
@@ -451,6 +449,20 @@ ul.user-profile-widget li img.avatar {
   padding-right: 20px;
 }
 
+/*
+/* App Management Console
+*/
+.app-management-console {
+  background-color: #4A4A4A;
+  margin: 20px 20px 20px 0;
+  padding: 20px;
+  color: lightgray;
+  border: 2px solid darkblue;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
+  height: 500px;
+  overflow: auto;
+}
+
 /* Graphs Styles */
 text.shadow {
   stroke: #fff;
@@ -507,7 +519,6 @@ path {
   color: #fff;
   border-radius: 2px;
 }
-
 /* Creates a small triangle extender for the tooltip */
 /*.d3-tip:after {
   box-sizing: border-box;
@@ -578,7 +589,3 @@ path {
     float: none;
   }
 }
-
-
-
-

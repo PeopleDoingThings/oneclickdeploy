@@ -13,8 +13,9 @@ import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 import GetEnvVar from './reducer_envVar';
 import SSHLogin from  './reducer_instanceLogin';
-import instanceBottons from './reducer_instanceButtons'; 
+import instanceButtons from './reducer_instanceButtons'; 
 import instanceBackup from './reducer_instanceBackup';
+import appManage from './reducer_appManagement';
 
 const rootReducer = combineReducers({
   sidebarToggle: sidebarToggle,
@@ -32,8 +33,9 @@ const rootReducer = combineReducers({
   logOutput: LogOutput,
   selRepoId: SetRepoId,
   envVar: GetEnvVar,
-  instanceBottons: instanceBottons,
+  instanceButtons: instanceButtons,
   instanceBackup: instanceBackup,
+  appManage: appManage,
 });
 
 

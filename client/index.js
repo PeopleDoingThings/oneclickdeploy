@@ -12,7 +12,7 @@ import reducers from './reducers/index'
 import App from './components/app';
 import MainBoard from './components/main_board';
 import DashBoard from './containers/dashBoard';
-import LiveMonitorDash from './containers/liveMonitorDash'
+import AppManagement from './containers/appManage'
 import Login from './components/login';
 import Loading from './containers/loadingInstance';
 
@@ -33,7 +33,7 @@ ReactDOM.render(
         <Route path="main-panel" component={MainBoard}>
           <Route path="/repos" component={RepoList} />
           <Route path="/dashboard" component={DashBoard} />
-          <Route path="/live-monitor" component={LiveMonitorDash} />
+          <Route path="/app-management" component={AppManagement} />
           <Route path="/loading" component={Loading} />
         </Route>
       </Route>
