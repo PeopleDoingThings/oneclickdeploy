@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Aside from '../containers/sideBar';

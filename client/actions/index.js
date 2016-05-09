@@ -206,11 +206,10 @@ export function reInstallInstance() {
   let url = '/api/ovh/reinstall'
   let request = axios.get(url)
   .then(function (response) {
-    console.log('response: ', response);
     return response;
   })
   .catch(function (err) {
-    console.error(err);
+    console.error("Reinstall Errr:", err);
   })
 
   return {
@@ -277,6 +276,29 @@ export function listBackups() {
 
   return {
     type: 'LIST_BACKUPS',
+    payload: request,
+  }
+}
+
+//
+// App management
+//
+
+//Update from Github
+export const GITHUB_UPDATE = 'GITHUB_UPDATE'
+export function githubUpdate() {
+  let url = 'api/ssh2/updatefromgithub'
+  let request = axios.get(url)
+  .then(function (response) {
+    console.log("githubUpdate action working")
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Github update Error:", err);
+  })
+
+  return {
+    type: GITHUB_UPDATE,
     payload: request,
   }
 }
