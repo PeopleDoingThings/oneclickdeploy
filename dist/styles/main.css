@@ -153,7 +153,6 @@ h1.logo {
   margin-bottom: -5000px;
   padding-bottom: 5000px;
   width: 295px;
-  overflow-y: auto;
   -webkit-transition: all 0.1s ease-in;
   -moz-transition: all 0.1s ease-in;
   -o-transition: all 0.1s ease-in;
@@ -259,7 +258,6 @@ ul.user-profile-widget li img.avatar {
   width: 100%;
   background-color: #FAFAFA;
   height: 100%;
-  overflow-y: auto;
 }
 
 /*
@@ -451,6 +449,10 @@ ul.user-profile-widget li img.avatar {
   padding-right: 20px;
 }
 
+/* Instance Buttons */
+#reinstall-instance-tooltip p {
+  padding: 20px;
+}
 /* Graphs Styles */
 text.shadow {
   stroke: #fff;
