@@ -219,7 +219,7 @@ exports.restartJS = function(host) {
     SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
       if(command === "forever list") {
         var split = response.split('\r\n');
-        //split.pop(); // cut off the shell new line prompt.
+        split.pop(); // cut off the shell new line prompt.
         resolve(split);
       }
     })

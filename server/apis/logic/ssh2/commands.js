@@ -169,7 +169,7 @@ exports.createJSRestartCommands = function(insLogin, userRepo) {
     'forever list'
   ];
 
-  var commands = CMDHelper.addEnvirsToArray(repoData, {
+  var commands = CMDHelper.addEnvirsToArray(userRepo, {
     cmdsZero: cmdsZero,
     cmdsOne: cmdsOne,
     cmdsTwo: cmdsTwo
