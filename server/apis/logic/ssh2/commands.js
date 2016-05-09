@@ -14,6 +14,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'cd /media/git',
     `git clone ${repoObj.repoURL}`,
     'svn checkout https://github.com/PeopleDoingThings/oneclickdeploy/trunk/instance-monitor',
+    'export MONITOR_SYSTEM=instance',
     'chown -R admin:admin *',
     `cd ${repoObj.repoFolder}`,
     'su admin'
@@ -37,7 +38,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'export MONITOR_SYSTEM=instance',
     'ls -l',
     'svn update',
-    `echo "module.exports = ["${daemonToken}"];" > 'token_list.js'`, //inject our token key.
+    `echo "module.exports = [\\"${daemonToken}\\"];" > 'token_list.js'`, //inject our token key.
     'forever start server/daemon.js',
     'forever list'
   ];
@@ -130,22 +131,6 @@ exports.createRepoUpdateCmds = function(repoData) {
   })
 }
 
-exports.reInstallRepo = function() {
-  var repoObj = getRepoFolder(repoData);
-
-  var commands = [
-    `cd /media/git`,
-    `rm -rf ${repoObj.repoFolder}`,
-
-  ];
-
-  return CMDHelper.addEnvirsToArray(repoData, {
-    cmdsZero: cmdsZero,
-    cmdsOne: cmdsOne,
-    cmdsTwo: cmdsTwo
-  })
-}
-
 exports.findDeployedAndDelete = function(insLogin, userRepo) {
   var repoObj = CMDHelper.getRepoFolder(userRepo);
   console.log('findDeployedAndDelete cmds = ', repoObj, insLogin, userRepo)
@@ -156,6 +141,7 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
     'forever stopall',
     `sudo rm -rf ${repoObj.repoFolder}`,
     'ls -l',
+    'export MONITOR_SYSTEM=instance',
     'cd instance-monitor',
     'cd server',
     'forever start daemon.js',
@@ -165,4 +151,29 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
   return { cmds: commands, insLogin: insLogin };
 }
 
+exports.createJSRestartCommands = function(insLogin, userRepo) {
+  var repoObj = CMDHelper.getRepoFolder(userRepo);
 
+  var cmdsZero = [
+    'forever stopall',
+    'cd /media/git/instance-monitor/server',
+    'export MONITOR_SYSTEM=instance',
+    'forever start daemon.js',
+    `cd /media/git/${repoObj.repoFolder}`
+  ];
+
+  var cmdsOne = [];
+
+  var cmdsTwo = [
+    'cat Procfile',
+    'forever list'
+  ];
+
+  var commands = CMDHelper.addEnvirsToArray(userRepo, {
+    cmdsZero: cmdsZero,
+    cmdsOne: cmdsOne,
+    cmdsTwo: cmdsTwo
+  })
+
+  return { cmds: commands, insLogin: insLogin };
+}

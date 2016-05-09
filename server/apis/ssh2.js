@@ -131,7 +131,6 @@ exports.createSubDomain = function(id, subDomain) {
     })
     .then(function(data) {
       var commandArray = Commands.addNewVirtualHost(id, subDomain, data.publicip);
-      console.log('Commands Array = ', commandArray)
       var generateHost = Helpers.subdomainHost(commandArray);
 
       return Logic.createNewSubdomain(generateHost, id, subDomain);
@@ -184,4 +183,24 @@ exports.deleteDeployedRepo = function(userid) {
     })
 }
 
+exports.restartJS = function(userid) {
+  var insLogin;
 
+  return CMDHelper.findDeployedRepoAndLoginData(userid)
+    .then(function(data) {
+      console.log('findDeployedRepoAndLoginData: ', data)
+      return Commands.createJSRestartCommands(data.insLogin, data.userRepo);
+    })
+    .then(function(data) {
+      insLogin = data.insLogin;
+      console.log('createJSRestartCommands resp = ', data);
+      return data.cmds;
+    })
+    .then(function(data) {
+      console.log('commands arry resed = ', data)
+      return Helpers.createJSRestartHost(data, insLogin);
+    })
+    .then(function(host) {
+      return Logic.restartJS(host);
+    })
+}

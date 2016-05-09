@@ -6,6 +6,7 @@ var SnapShot = require('../../../database/models/snapshots.js');
 var OpenStack = require('../../openstack.js');
 var Repo = require('../../../database/models/deployablerepos.js');
 var Hat = require('hat');
+var SSH2 = require('../../ssh2.js');
 
 
 // This maps each service to a list of its information
@@ -94,7 +95,14 @@ exports.rebootInstance = function(userid, type) {
   if(!type) return Promise.reject( new Error('Please Specify a Reboot Type!') )
 
   return InstanceDB.getUserInstances(userid)
-    .then( data => OVH.rebootInstance(data[0].openstackid, type) )
+    .then(function(data) {
+      return OVH.rebootInstance(data[0].openstackid, type);
+    })
+    .then(function(data) {
+      setTimeout( function() {
+        return SSH2.restartJS(userid);
+      }, 15000);
+    })
 }
 
 exports.getInstanceUsage = function(userid, time, type) {
