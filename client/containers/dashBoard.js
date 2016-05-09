@@ -88,6 +88,5 @@ function mapStateToProps(state) {
   };
 }
 
-//take this component/mapStateToProps and return a container
 export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);
 

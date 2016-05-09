@@ -16,8 +16,8 @@ import DashBoard from './containers/dashBoard';
 import AppManagement from './containers/appManage'
 import Login from './components/login';
 import Loading from './containers/loadingInstance';
-
 import RepoList from './containers/repo_list';
+import liveConsole from './containers/liveConsole';
 
 const socket = io.connect('/');
 const reducer = combineReducers({reducers,routing: routerReducer})
@@ -41,6 +41,7 @@ ReactDOM.render(
           <Route path="/dashboard" component={DashBoard} />
           <Route path="/app-management" component={AppManagement} />
           <Route path="/loading" component={Loading} />
+          <Route path="/live-console" component={liveConsole} />
         </Route>
       </Route>
     </Router>

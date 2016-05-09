@@ -48,6 +48,7 @@
     "react-bootstrap": "^0.29.3",
     "react-dom": "^0.14.3",
     "react-faux-dom": "^2.4.0",
+    "react-iframe": "0.0.4",
     "react-motion": "^0.4.3",
     "react-redux": "^4.0.0",
     "react-router": "^2.3.0",
