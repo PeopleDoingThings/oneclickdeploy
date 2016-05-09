@@ -16,7 +16,6 @@ export default class AppManagement extends Component {
         <div>
           <div className="col-xs-12 col-md-4 col-lg-4">
           </div>
-
           <div className="col-xs-12 col-md-6 col-lg-8">   
              <AppControl />
              <AppConsole appManage={this.props.AppManage} />
@@ -40,6 +39,3 @@ function mapStateToProps(state) {
 
 //take this component/mapStateToProps and return a container
 export default connect(mapStateToProps)(AppManagement);
-
-
-// <DeployedRepo deployed={this.props.deployed[0]}/>

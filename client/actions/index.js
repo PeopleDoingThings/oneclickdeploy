@@ -303,7 +303,6 @@ export function deployedRepo() {
   }
 }
 
-
 //Update from Github
 export const GITHUB_UPDATE = 'GITHUB_UPDATE'
 export function githubUpdate() {
@@ -321,7 +320,6 @@ export function githubUpdate() {
     payload: request,
   }
 }
-
 
 //Set RepoID
 export const SETREPOID = 'SETREPOID'
