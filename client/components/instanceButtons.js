@@ -141,6 +141,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InstanceButtons);
-
-//<li>Image Flavor Id: {modalBody.image.flavorid}</li>
-//<li>Image Image Id: {modalBody.image.imageid}</li>
