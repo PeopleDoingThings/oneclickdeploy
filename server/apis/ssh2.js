@@ -184,4 +184,15 @@ exports.deleteDeployedRepo = function(userid) {
     })
 }
 
-
+exports.restartJS = function(userid) {
+  return CMDHelper.findDeployedRepoAndLoginData(userid)
+    .then(function(data) {
+      return Commands.createJSRestartCommands(data.insLogin, data.userRepo);
+    })
+    .then(function(data) {
+      return Helpers.createJSRestartHost(data);
+    })
+    .then(function(host) {
+      return Logic.restartJS(host);
+    })
+}

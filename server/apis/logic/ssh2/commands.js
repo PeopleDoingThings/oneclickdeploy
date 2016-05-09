@@ -37,7 +37,7 @@ exports.postInstallSetup = function(repoData, loginData) {
     'export MONITOR_SYSTEM=instance',
     'ls -l',
     'svn update',
-    `echo "module.exports = ["${daemonToken}"];" > 'token_list.js'`, //inject our token key.
+    `echo "module.exports = [\\"${daemonToken}\\"];" > 'token_list.js'`, //inject our token key.
     'forever start server/daemon.js',
     'forever list'
   ];
@@ -130,22 +130,6 @@ exports.createRepoUpdateCmds = function(repoData) {
   })
 }
 
-exports.reInstallRepo = function() {
-  var repoObj = getRepoFolder(repoData);
-
-  var commands = [
-    `cd /media/git`,
-    `rm -rf ${repoObj.repoFolder}`,
-
-  ];
-
-  return CMDHelper.addEnvirsToArray(repoData, {
-    cmdsZero: cmdsZero,
-    cmdsOne: cmdsOne,
-    cmdsTwo: cmdsTwo
-  })
-}
-
 exports.findDeployedAndDelete = function(insLogin, userRepo) {
   var repoObj = CMDHelper.getRepoFolder(userRepo);
   console.log('findDeployedAndDelete cmds = ', repoObj, insLogin, userRepo)
@@ -165,4 +149,25 @@ exports.findDeployedAndDelete = function(insLogin, userRepo) {
   return { cmds: commands, insLogin: insLogin };
 }
 
+exports.createJSRestartCommands(insLogin, userRepo) {
+  var repoObj = CMDHelper.getRepoFolder(userRepo);
 
+  var cmdsZero = [
+    'cd /media/git/instance-monitor/server',
+    'forever stopall',
+    'forever start daemon.js',
+    `cd /media/git/${repoObj.repoFolder}`,
+  ];
+
+  var cmdsOne = [];
+
+  var cmdsTwo = [
+    'cat Procfile'
+  ];
+
+  return CMDHelper.addEnvirsToArray(repoData, {
+    cmdsZero: cmdsZero,
+    cmdsOne: cmdsOne,
+    cmdsTwo: cmdsTwo
+  })
+}
