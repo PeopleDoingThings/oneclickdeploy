@@ -59,7 +59,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
       return Promise.reject( new Error('Instance Login Data not Found!') );
     })
     .then(function(commands) {
-      return Logic.runSSHPostInstall(instanceData, commands, loginData, repoData);
+      return Logic.runSSHPostInstall(instanceData, commands, loginData, repoData, user.gitid);
     })
 }
 
