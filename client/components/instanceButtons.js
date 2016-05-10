@@ -90,6 +90,12 @@ class InstanceButtons extends Component {
           <OverlayTrigger placement="top" overlay={tooltip}>
             <NavItem eventKey={3}>Reinstall</NavItem>
           </OverlayTrigger>
+          <NavDropdown eventKey={4} title="Back up" id="nav-dropdown">
+            <MenuItem eventKey="4.1">Create Backup</MenuItem>
+            <MenuItem eventKey="4.2">Get Snapshot Status</MenuItem>
+            <MenuItem eventKey="4.3">List Backups</MenuItem>
+            <MenuItem eventKey="4.4">Delete Backup</MenuItem>
+          </NavDropdown>
       </Nav>
       <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>

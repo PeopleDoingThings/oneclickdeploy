@@ -31,7 +31,15 @@ export default class AppConsole extends Component {
   componentWillReceiveProps(nextProps) {
     console.log('i mounted:', nextProps)
       let newArray = [];
-      consoleLog(0, nextProps.appManage, newArray);
+      if (Array.isArray(nextProps.appManage) === true) {
+        consoleLog(0, nextProps.appManage, newArray);
+    } else if (typeof nextProps.appManage === 'string'){
+        newArray.push(nextProps.appManage);
+        this.setState({log: newArray});
+    } 
+    // else if (nextProps.appManage.body !== undefined) {
+    //   consoleLog(0, nextProps.appManage.body, newArray);
+    // }
   }
 
 
