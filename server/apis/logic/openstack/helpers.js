@@ -35,8 +35,7 @@ exports.createConsoleOpts = function(serverid) {
     url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers/${serverid}/action`,
     json: {
       'os-getConsoleOutput': {
-
-        'length': -1 
+        'length': 50 
       }
     },
     headers: {
@@ -47,7 +46,6 @@ exports.createConsoleOpts = function(serverid) {
   return opt;
 }
 
->>>>>>> add logoutput emulator
 
 
 exports.createInstanceOpts = function(name, id, password) {
