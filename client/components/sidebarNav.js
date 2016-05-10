@@ -11,13 +11,16 @@ export default class SidebarNav extends Component {
   render() {
     let repoClass;
     let instanceDashClass;
-    let liveMonitorDashClass
+    let liveMonitorDashClass;
+    let liveConsole;
     if (this.props.url === "/repos") {
       repoClass = ClassNames({active: true});
     } else if (this.props.url === '/dashboard') {
       instanceDashClass = ClassNames({active: true});
     } else if (this.props.url === '/live-monitor') {
       liveMonitorDashClass = ClassNames({active: true});
+    } else if (this.props.url === '/live-console') {
+      liveConsole = ClassNames({active: true});
     }
 
     return (
@@ -28,6 +31,7 @@ export default class SidebarNav extends Component {
                   <ul>
                     <li className={instanceDashClass}><a href='/#/dashboard'>Instance Dashboard</a></li>
                     <li className={liveMonitorDashClass}><a href='/#/app-management'>App Management</a></li>
+                    <li className={liveConsole}><a href='/#/live-console'>Live Console</a></li>
                   </ul>
                 </Panel>
                 <Panel header="Github Repos" eventKey="2">

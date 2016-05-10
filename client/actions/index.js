@@ -281,6 +281,26 @@ export function listBackups() {
 }
 
 //
+// Live SSH Console
+//
+export const SSH_CONSOLE = 'SSH_CONSOLE'
+export function sshConsole() {
+  let url = '/api/openstack/createconsole'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("SSH console Error:", err);
+  })
+
+  return {
+    type: SSH_CONSOLE,
+    payload: request,
+  }
+}
+
+//
 // App management
 //
 
@@ -290,7 +310,6 @@ export function deployedRepo() {
   let url = 'api/database/getdeployed'
   let request = axios.get(url)
   .then(function (response) {
-    console.log(" deployed repo working")
     return response;
   })
   .catch(function (err) {
@@ -307,7 +326,7 @@ export function deployedRepo() {
 export const CREATE_SUBDOMAIN = 'CREATE_SUBDOMAIN'
 export function createSubdomain(name) {
   let url = '/api/ssh2/createsubdomain/'
-  let request = axios.get(url + ":" + name)
+  let request = axios.get(url + name)
   .then(function (response) {
     return response;
   })
