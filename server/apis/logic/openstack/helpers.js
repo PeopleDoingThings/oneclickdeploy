@@ -35,22 +35,6 @@ exports.createConsoleOpts = function(serverid) {
     url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers/${serverid}/action`,
     json: {
       'os-getConsoleOutput': {
-        'length': -1 
-      }
-    },
-    headers: {
-      'X-Auth-Token': process.env.OPENSTACK_X_AUTH
-    }
-  };
-
-  return opt;
-}
-
-exports.createConsoleOpts = function(serverid) {
-  var opt = {
-    url: `${exports.computeEndpoint}${process.env.OPENSTACK_TENANTID}/servers/${serverid}/action`,
-    json: {
-      'os-getConsoleOutput': {
         'length': 50 
       }
     },
@@ -61,6 +45,7 @@ exports.createConsoleOpts = function(serverid) {
 
   return opt;
 }
+
 
 exports.createInstanceOpts = function(name, id, password) {
   console.log('createInstanceOpts = ', name, id, password)

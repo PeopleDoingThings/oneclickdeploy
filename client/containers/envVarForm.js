@@ -23,12 +23,12 @@ constructor(props){
   }
 
   closeModal(){
-    console.log('this here', this)
+    console.log('close modal has been activated')
     this.setState({showModal:false});
    }
 
    openModal(){
-    console.log('this here', this)
+    console.log('opening modal')
     this.setState({showModal:true});
    }
 
@@ -78,53 +78,10 @@ onInputChange(event) {
 onFormSubmit(event) {
   event.preventDefault();
   console.log('form submit working')
- // var varArray=[];
   this.props.setEnvVar(this.formatEnv(this.state,this.props.envVars),this.props.id)
 }
 
 
-// renderEnvVar(){
-//   var repoID = this.props.id;
-// if (this.props.envVars[0] !== undefined ){         
-// return ( 
-//        <form onSubmit={this.onFormSubmit}>
-//           {this.props.envVars[0].variables.map((obj, indx) => {
-//          return (
-//            <div key={indx}>
-//            <FormGroup controlId={"key" + indx}>
-//              <ControlLabel>Key</ControlLabel>
-//              <FormControl
-//               type="text"
-//               defaultValue = {obj.key}
-//               onChange = {this.onInputChange}
-//              />
-//            </FormGroup>
-//            <FormGroup controlId={"value" + indx}>
-//              <ControlLabel>Value</ControlLabel>
-//              <FormControl
-//               type="text"
-//               defaultValue = {obj.value}
-//               onChange = {this.onInputChange}
-//              />
-//            </FormGroup>
-//            </div>
-//            )
-//           })
-//          }
-//          {'\n'}
-//          <Button onClick={this.handleClick}>
-//            Add more
-//          </Button>
-//          {'\n'}
-//           <Deploy id={repoID} />
-//          {
-//            // <Button type="submit">
-//            // Submit
-//            // </Button>
-//           } 
-//       </form>      
-//      )
-// } 
 render() {
 var repoID = this.props.id;
 if (this.props.envVars[0] !== undefined ){         
@@ -169,7 +126,6 @@ return (
          </Form>
       
       {
-      //  <Deploy id={repoID} />  
       }
        <Modal show={this.state.showModal} onHide={this.closeModal}>
           <Modal.Header closeButton>

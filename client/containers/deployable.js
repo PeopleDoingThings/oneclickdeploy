@@ -10,6 +10,7 @@ import { getEnvVar} from '../actions/index';
 class Deployable extends Component {
   constructor(props) {
     super(props);
+    //var now = Date.now();
     this.state ={
       showForm: false,
     }
@@ -27,13 +28,16 @@ hideForm (){
     this.setState({showForm: false});
 }
 
-
 renderList() {
   console.log('envars in deployable', this.props.envVars)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
-      var counter = 0;
+       var counter = 0;
+          var now= Date.now();
+          var old = Date.parse(this.props.repos[0].age);
+     if(Math.abs(now - old ) > (259200000))
+     {this.props.refreshRepo()}
       return (this.props.repos.map((repo) => {
         if(repo.deployed===false)
         return (
@@ -59,9 +63,9 @@ renderList() {
 
   render() {
     return (
-      <div>       
-      <PanelGroup accordion>
-          {this.renderList()}
+      <div>                
+        <PanelGroup accordion>
+         {this.renderList()}   
         </PanelGroup>
       </div>
     );

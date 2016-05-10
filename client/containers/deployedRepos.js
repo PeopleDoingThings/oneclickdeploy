@@ -18,7 +18,11 @@ renderList() {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
-    	var counter = 0;
+    	   var counter = 0;
+         var now= Date.now();
+        var old = Date.parse(this.props.repos[0].age);
+        if(Math.abs(now - old ) > (259200000))
+           {this.props.refreshRepo()}
       return (this.props.repos.map((repo) => {
         if(repo.deployed===true)
         return (

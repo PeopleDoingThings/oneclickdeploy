@@ -26,6 +26,12 @@ class RepoList extends Component {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return ''// "Loading....."
     }else {
+      var now = Date.now()
+      console.log('now', now)
+      console.log('age', this.props.repos[0].age)
+      if(this.props.repos[0].age - now < (60*1000*60*24*3))
+       { this.props.refreshRepo();
+      console.log('it is young')}
       return (this.props.repos.map((repo) => {
         return (
           <RepoItem repoItem={repo} />
