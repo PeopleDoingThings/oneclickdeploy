@@ -15,10 +15,10 @@ export default class AppManagement extends Component {
       return (
         <div>
           <div className="col-xs-12 col-md-4 col-lg-4">
+              <DeployedRepo deployed={this.props.deployed[0]}/>
           </div>
-
           <div className="col-xs-12 col-md-6 col-lg-8">   
-             <AppControl />
+             <AppControl deployed={this.props.deployed[0]} />
              <AppConsole appManage={this.props.AppManage} />
           </div>
         </div>        
@@ -29,17 +29,19 @@ export default class AppManagement extends Component {
 
 
 function mapStateToProps(state) {
-  console.log('state app management: ', state.reducers.deployedRepo[0])
-  // console.log('state memUsage: ', state.reducers.rxUsage)
+  let appManage;
+  if(state.reducers.appManage.body !== undefined) {
+  console.log('state app management: ', state.reducers.appManage.body)
+    appManage = JSON.parse(state.reducers.appManage.body);
+  } else {
+    appManage = state.reducers.appManage;
+  }
 
  return {
-    AppManage: state.reducers.appManage,
+    AppManage: appManage,
     deployed: state.reducers.deployedRepo,
   };
 }
 
 //take this component/mapStateToProps and return a container
 export default connect(mapStateToProps)(AppManagement);
-
-
-// <DeployedRepo deployed={this.props.deployed[0]}/>

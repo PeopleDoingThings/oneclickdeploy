@@ -303,6 +303,23 @@ export function deployedRepo() {
   }
 }
 
+// create new subdomain
+export const CREATE_SUBDOMAIN = 'CREATE_SUBDOMAIN'
+export function createSubdomain(name) {
+  let url = '/api/ssh2/createsubdomain/'
+  let request = axios.get(url + ":" + name)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Reinstall Deployed Repo Error:", err);
+  })
+
+  return {
+    type: CREATE_SUBDOMAIN,
+    payload: request,
+  }
+}
 
 //Update from Github
 export const GITHUB_UPDATE = 'GITHUB_UPDATE'
@@ -322,6 +339,139 @@ export function githubUpdate() {
   }
 }
 
+//Restart the deployed Repo
+export const RESTART_REPO = 'RESTART_REPO'
+export function restartRepo() {
+  let url = 'api/ssh2/startforever'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Start Forever Error:", err);
+  })
+
+  return {
+    type: RESTART_REPO,
+    payload: request,
+  }
+}
+
+//Delete the deployed Repo
+export const DELETE_REPO = 'DELETE_REPO'
+export function deleteRepo() {
+  let url = 'api/ssh2/deletedeployedrepo'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Delete Deployed Repo Error:", err);
+  })
+
+  return {
+    type: DELETE_REPO,
+    payload: request,
+  }
+}
+
+//Reinstall Deployed Repo
+export const REINSTALL_REPO = 'REINSTALL_REPO'
+export function reinstallRepo(repoID) {
+  let url = 'api/ssh2/startsshpostinstall'
+  let request = axios.get(url, {
+    params: {
+      repoid: repoID
+    }
+  })
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Reinstall Deployed Repo Error:", err);
+  })
+
+  return {
+    type: REINSTALL_REPO,
+    payload: request,
+  }
+}
+
+//
+//App Status Update
+//
+
+//Stats Top 
+export const OUTPUT_TOP = 'OUTPUT_TOP'
+export function outputTop() {
+  let url = '/api/daemon/stats/top'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Output Top Error:", err);
+  })
+
+  return {
+    type: OUTPUT_TOP,
+    payload: request,
+  }
+}
+
+//Stats Forever 
+export const OUTPUT_FOREVER = 'OUTPUT_FOREVER'
+export function outputForever() {
+  let url = '/api/daemon/stats/forever'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Output Forever Error:", err);
+  })
+
+  return {
+    type: OUTPUT_FOREVER,
+    payload: request,
+  }
+}
+
+//Stats Print Env 
+export const OUTPUT_PRINTENV = 'OUTPUT_PRINTENV'
+export function outputprintEnv() {
+  let url = '/api/daemon/stats/printenv'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Output PrintEnv Error:", err);
+  })
+
+  return {
+    type: OUTPUT_PRINTENV,
+    payload: request,
+  }
+}
+
+//Stats Uptime
+export const OUTPUT_UPTIME = 'OUTPUT_UPTIME'
+export function outputUptime() {
+  let url = '/api/daemon/stats/uptime'
+  let request = axios.get(url)
+  .then(function (response) {
+    return response;
+  })
+  .catch(function (err) {
+    console.error("Output Uptime Error:", err);
+  })
+
+  return {
+    type: OUTPUT_UPTIME,
+    payload: request,
+  }
+}
 
 //Set RepoID
 export const SETREPOID = 'SETREPOID'

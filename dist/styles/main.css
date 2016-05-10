@@ -463,6 +463,16 @@ ul.user-profile-widget li img.avatar {
   overflow: auto;
 }
 
+/* Instance Buttons */
+#reinstall-instance-tooltip p {
+  padding: 20px;
+  color: lightgray;
+  border: 2px solid darkblue;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
+  height: 500px;
+  overflow: auto;
+}
+
 /* Graphs Styles */
 text.shadow {
   stroke: #fff;
