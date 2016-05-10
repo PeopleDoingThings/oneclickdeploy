@@ -67,14 +67,16 @@ Global.io.use(passportSocketIo.authorize({
   fail:         onAuthorizeFail, 
 }));
 
-function onAuthorizeSuccess(data, accept){
+function onAuthorizeSuccess(data, accept) {
   console.log('successful connection to socket.io');
+  console.log('auth sucess data: ', typeof data.res._header)
   accept();
 }
 
 function onAuthorizeFail(data, message, error, accept) {
   console.log('socket.io auth err = ', error)
   console.log('socket.io auth message = ', message)
+  console.log('clients connected!', Global.io.sockets.connected);
   if(error)
     accept(new Error(message));
   // this error will be sent to the user as a special error-package
@@ -82,7 +84,19 @@ function onAuthorizeFail(data, message, error, accept) {
 }
 
 Global.io.on('connection', function(socket) {
+  // console.log('user socket data = ', socket)
+  var id = socket.conn.id;
+  console.log('socket conn id: ', socket.conn.id)
+
+  console.log('clients connected!', Global.io.sockets.connected[`/#${id}`]);
+
+  Global.io.sockets.connected[`/#${id}`].emit('auth', 'emited to only your socket!');
+
+  Global.io.sockets.connected[`/#${id}`].github = socket.request.user.gitid;
+
   console.log('a user connected');
+
+  console.log('clients connected github id = ', Global.io.sockets.connected[`/#${id}`].github);
 
   socket.on('disconnect', function() {
     console.log('user disconnected');

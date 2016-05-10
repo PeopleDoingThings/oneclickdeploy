@@ -6,7 +6,7 @@ var Global = require('../../../globals/globals.js');
 var sshSocket = require('../../../globals/proxy.js');
 
 
-exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData) {
+exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData, gitid) {
   return new Promise(function(resolve, reject) {
 
     var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData);
@@ -14,16 +14,34 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
     var SSHClient = new SSH2Shell(host);
     var retries = 0;
     var superError = undefined;
+    var socketid = [];
+
+    for(var prop in Global.io.sockets.connected) {
+      console.log('connected clients prop: ', prop)
+      console.log('client git id: ', Global.io.sockets.connected[prop].github)
+      console.log('github id = ', gitid)
+      console.log('github id = gitid: ', gitid === Global.io.sockets.connected[prop].github);
+      // do we need to emit on every socket associated with a user?
+      if(Global.io.sockets.connected[prop].github === gitid) {
+        console.log('found git id!')
+        socketid.push(prop.toString().slice(2));
+      }
+    }
+
+    console.log('socketid array = ', socketid)
 
     Global.io.emit('sshconn', 'SSH Connceted: (cmd from server)!');
     console.log('recieved sshstart event on socket!');
 
       SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
         console.log('SSH Command Complete, Emitting!');
-        Global.io.emit('sshcmd', command);
-        Global.io.emit('sshresp', response);
+
+        socketid.forEach(function(val) {
+          Global.io.sockets.connected[`/#${val}`].emit('sshcmd', `Just for you! ${command}`);
+          Global.io.sockets.connected[`/#${val}`].emit('sshresp', `Just for you! ${response}`);
+        })
+
       })
-      
 
       SSHClient.on("error", function onError(err, type, close, callback) {
         var authFailed = 'All configured authentication methods failed';
