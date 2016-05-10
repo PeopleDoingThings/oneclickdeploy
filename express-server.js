@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const Global = require('./server/globals/globals.js');
+Global.io = require('socket.io')(server);
 const ss = require('socket.io-stream');
 const passportSocketIo = require('passport.socketio');
+
 
 const passport = require('passport');
 const session = require('express-session');
@@ -56,7 +58,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-io.use(passportSocketIo.authorize({
+Global.io.use(passportSocketIo.authorize({
   cookieParser: cookieParser,        // the same middleware you registrer in express
   key:          'ghv',               // the name of the cookie where express/connect stores its session_id
   secret:       sessionSecret,       // the session_secret to parse the cookie
@@ -79,10 +81,10 @@ function onAuthorizeFail(data, message, error, accept) {
   // see: http://socket.io/docs/client-api/#socket > error-object
 }
 
-io.on('connection', function(socket){
+Global.io.on('connection', function(socket) {
   console.log('a user connected');
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     console.log('user disconnected');
   });
 

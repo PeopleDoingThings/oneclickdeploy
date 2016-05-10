@@ -2,48 +2,53 @@ var SSH2Shell = require ('ssh2shell');
 var Repo = require('../../../database/models/deployablerepos.js');
 var InstanceLogin = require('../../../database/models/instancelogin.js');
 var Helpers = require('./helpers.js');
-var io = require('socket.io');
+var Global = require('../../../globals/globals.js');
+var sshSocket = require('../../../globals/proxy.js');
 
 
 exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData) {
   return new Promise(function(resolve, reject) {
+
     var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData);
     host.debug = true;
     var SSHClient = new SSH2Shell(host);
     var retries = 0;
     var superError = undefined;
 
-        SSHClient.on("error", function onError(err, type, close, callback) {
-          var authFailed = 'All configured authentication methods failed';
-          var unReachable = 'connect ENETUNREACH';
-          superError = err.message;
+    Global.io.emit('sshconn', 'SSH Connceted: (cmd from server)!');
+    console.log('recieved sshstart event on socket!');
 
-          if(err.message === authFailed && retries <= 3) {
-            console.log('Retrying SSH Connection!');
-            console.log('Retry Attempt: ', retries);
-            ++retries;
-          }
-          else if(err.message !== authFailed) {
-            reject(err);
-          }
-          else {
-            // Send some error to the db.
-            console.log('All Retries Failed, Deploy Fail!');
-            reject( new Error('All configured authentication methods failed!') )
-          }
+      SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
+        console.log('SSH Command Complete, Emitting!');
+        Global.io.emit('sshcmd', command);
+        Global.io.emit('sshresp', response);
+      })
+      
+
+      SSHClient.on("error", function onError(err, type, close, callback) {
+        var authFailed = 'All configured authentication methods failed';
+        var unReachable = 'connect ENETUNREACH';
+        superError = err.message;
+
+        if(err.message === authFailed && retries <= 3) {
+          console.log('Retrying SSH Connection!');
+          console.log('Retry Attempt: ', retries);
+          ++retries;
+        }
+        else if(err.message !== authFailed) {
+          reject(err);
+        }
+        else {
+          // Send some error to the db.
+          console.log('All Retries Failed, Deploy Fail!');
+          reject( new Error('All configured authentication methods failed!') )
+        }
 
         console.log('err = ', err.message)
         console.log('type = ', type)
         console.log('close = ', close)
         console.log('retries = ', retries)
       });
-
-      SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
-        // lets socket!!!
-        // io.on('connection', function(socket) {
-        //   console.log('')
-        // })
-      })
 
       SSHClient.on("ready", function onReady() { // On successful connect we return a promise.
         console.log('Connection Ready, Starting Install!')
@@ -225,6 +230,12 @@ exports.restartJS = function(host) {
     });
 
     SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
+      io.on('connection', function(socket) {
+        console.log('connected ssh post socket!')
+        socket.emit('ssh', command);
+        socket.emit('ssh', response);
+      })
+
       if(command === "forever list") {
         var split = response.split('\r\n');
         split.pop(); // cut off the shell new line prompt.

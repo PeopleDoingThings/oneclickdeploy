@@ -47,7 +47,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('isAuth state: ', state.reducers.auth)
+  // console.log('isAuth state: ', state.reducers.auth)
 
   return {
     Auth: state.reducers.auth
