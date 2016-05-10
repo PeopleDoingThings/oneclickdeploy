@@ -57,6 +57,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
+// Setup our socket.io session middleware & listener that sets github id on connect to user socket.
 socketMiddleware.socketAuth(cookieParser, sessionSecret, store);
 
 server.listen(process.env.PORT, function() {

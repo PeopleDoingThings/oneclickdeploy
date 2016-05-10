@@ -216,6 +216,9 @@ exports.createJSRestartHost = function(cmdArray, loginData) {
       password: loginData.password
     },
     commands: cmdArray,
+    asciiFilter:        "[^\r\n\x20-\x7e]", //optional regular exression string 
+    diableColorFilter:  false, //optional bollean  
+    textColorFilter:    "(\x1b\[[0-9;]*m)",
     idleTimeOut: 10000,  // 10 second idle timeout. We can deal with timeout events below
     onCommandComplete: function( command, response, sshObj ) {
       console.log('Command Start: ============')

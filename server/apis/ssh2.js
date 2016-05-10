@@ -201,6 +201,6 @@ exports.restartJS = function(userid) {
       return Helpers.createJSRestartHost(data, insLogin);
     })
     .then(function(host) {
-      return Logic.restartJS(host);
+      return Logic.restartJS(host, userid);
     })
 }
