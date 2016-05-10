@@ -9,6 +9,7 @@ var Env = require('../database/models/env.js');
 var EnvDB = require('../database/env.js');
 var InstanceLogin = require('../database/models/instancelogin.js');
 var CMDHelper = require('./logic/ssh2/cmdhelpers.js');
+var sshSocket = require('../globals/proxy.js');
 var Promise = require('bluebird');
 var request = Promise.promisify(require('request'));
 Promise.promisifyAll(request);
@@ -19,6 +20,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
   var loginData = {};
   var instanceData = {};
   var repoData = {};
+
   if(!repoid) { return Promise.reject( new Error('Please Include a Repo to Provision!') ) }
 
   return InstanceDB.getUserInstances(user.gitid)
@@ -37,7 +39,7 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
         return Promise.reject( new Error('Instance not Ready!') );
       }
 
-      return Repo.find({ ownerid: user.gitid, repoid: repoid }); //change pls // repoid: repoid // make sure to look for the repo with the correct id.
+      return Repo.find({ ownerid: user.gitid, repoid: repoid });
     })
     .then(function(data) {
       if(data.length === 0) {
@@ -49,7 +51,6 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
       return InstanceLogin.find({ ownergitid: user.gitid})
     })
     .then(function(data) {
-      console.log('instance login data = ', data)
       if(data.length > 0) {
         loginData = data[0];
         return Commands.postInstallSetup(repoData, loginData);
@@ -57,9 +58,8 @@ exports.runSSHPostInstallSetup = function(user, repoid) {
       
       return Promise.reject( new Error('Instance Login Data not Found!') );
     })
-    .then(function(cmdArray) {
-      console.log('cmdArray = ', cmdArray)
-      return Logic.runSSHPostInstall(instanceData, cmdArray, loginData, repoData);
+    .then(function(commands) {
+      return Logic.runSSHPostInstall(instanceData, commands, loginData, repoData);
     })
 }
 

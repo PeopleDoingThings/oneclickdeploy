@@ -54,7 +54,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state: ', state)
+  // console.log('state: ', state)
   // test to get current path
 
   return {

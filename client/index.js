@@ -25,10 +25,6 @@ const store = createStore(reducer, applyMiddleware(ReduxPromise))
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 const history = syncHistoryWithStore(appHistory, store)
 
-socket.on('auth', function(msg) {
-  console.log('Socket Response: ', msg)
-})
-
 ReactDOM.render(
    <Provider store={store}>
     { /* Tell the Router to use our enhanced history */ }

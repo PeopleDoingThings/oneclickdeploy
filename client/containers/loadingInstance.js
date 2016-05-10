@@ -3,6 +3,23 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import { instanceReady, getLog, isDeployed, sshPostInstall, updateLogFile } from '../actions/index';
+import io from 'socket.io-client';
+
+const socket = io.connect('/');
+socket.on('sshconn', function(ssh) {
+  console.log('ssh connected!!!!!!!', ssh);
+  socket.emit('sshstart');
+  console.log('emitted sshstart')
+})
+
+socket.on('sshcmd', function(cmd) {
+  console.log('SSH CMD: ', cmd)
+})
+
+socket.on('sshresp', function(resp) {
+  console.log('SSH Resp: ', resp)
+})
+
 
 class Loading extends Component {
   constructor(props){
@@ -19,11 +36,11 @@ var logOutput1 ='';
 function startLogOutputInterval() {     
     logOutput0 = setInterval(function () {
         component.props.getLog();
-        console.log('what is logoutput in interval',component.props.LogOutput.output)
+        // console.log('what is logoutput in interval',component.props.LogOutput.output)
       }, 12000);
     logOutput1 = setInterval(function(){
         component.props.updateLogFile();
-        console.log('this is real')
+        // console.log('this is real')
     }, (Math.random()*700+1000));
 }
 
@@ -48,13 +65,14 @@ function startChckInstInterval() {
         if(component.props.InstStatus === true){        
           console.log('if statement InstStatus is true')
           console.log('about to stop Interval')
-         //call postinstall endpoint
-         console.log('log the id here localStorage',window.localStorage.getItem('repoID'))
-         component.props.sshPostInstall(window.localStorage.getItem('repoID'));
-         console.log('called postinstall')
-         //start set interval2/check deployed 
+          //call postinstall endpoint
+          console.log('log the id here localStorage',window.localStorage.getItem('repoID'))
+          component.props.sshPostInstall(window.localStorage.getItem('repoID'));
+
+          console.log('called postinstall')
+          //start set interval2/check deployed 
           startChckDeployedInterval();
-         //stop set interval1 if it already started 
+          //stop set interval1 if it already started 
           stopChckInstInterval(); 
         }
         else {
@@ -74,8 +92,9 @@ startChckInstInterval();
 
 //set interval for checkdeployed
 let ckDep2 ='';
-function startChckDeployedInterval() {     
+function startChckDeployedInterval() {  
     ckDep2 = setInterval(function () {
+
       console.log(' set timeout props deployed', component.props.DeployedStatus)    
         if(component.props.DeployedStatus === undefined){
           console.log('depl status undefiend ')
@@ -143,7 +162,7 @@ function stopChckDeployedInterval() {
 function mapStateToProps(state) {
   // console.log('load state: ', state.reducers.load)
   // console.log('install data in loading state', state.reducers.install)
-  console.log('state of all reducers in load now', state.reducers)
+  // console.log('state of all reducers in load now', state.reducers)
   return {
     Load: state.reducers.load,
     InstData: state.reducers.install,
