@@ -4,8 +4,7 @@ const server = require('http').Server(app);
 const Global = require('./server/globals/globals.js');
 Global.io = require('socket.io')(server);
 const ss = require('socket.io-stream');
-const passportSocketIo = require('passport.socketio');
-
+const socketMiddleware = require('./server/middleware/socketm.js');
 
 const passport = require('passport');
 const session = require('express-session');
@@ -58,55 +57,8 @@ app.use(session({
   saveUninitialized: false
 }));
 
-Global.io.use(passportSocketIo.authorize({
-  cookieParser: cookieParser,        // the same middleware you registrer in express
-  key:          'ghv',               // the name of the cookie where express/connect stores its session_id
-  secret:       sessionSecret,       // the session_secret to parse the cookie
-  store:        store,               // we NEED to use a sessionstore. no memorystore please
-  success:      onAuthorizeSuccess,
-  fail:         onAuthorizeFail, 
-}));
-
-function onAuthorizeSuccess(data, accept) {
-  console.log('successful connection to socket.io');
-  console.log('auth sucess data: ', typeof data.res._header)
-  accept();
-}
-
-function onAuthorizeFail(data, message, error, accept) {
-  console.log('socket.io auth err = ', error)
-  console.log('socket.io auth message = ', message)
-  console.log('clients connected!', Global.io.sockets.connected);
-  if(error)
-    accept(new Error(message));
-  // this error will be sent to the user as a special error-package
-  // see: http://socket.io/docs/client-api/#socket > error-object
-}
-
-Global.io.on('connection', function(socket) {
-  // console.log('user socket data = ', socket)
-  var id = socket.conn.id;
-  console.log('socket conn id: ', socket.conn.id)
-
-  console.log('clients connected!', Global.io.sockets.connected[`/#${id}`]);
-
-  Global.io.sockets.connected[`/#${id}`].emit('auth', 'emited to only your socket!');
-
-  Global.io.sockets.connected[`/#${id}`].github = socket.request.user.gitid;
-
-  console.log('a user connected');
-
-  console.log('clients connected github id = ', Global.io.sockets.connected[`/#${id}`].github);
-
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
-  });
-
-  if(socket.request.user.gitid) {
-    console.log('socket user = ', socket.request.user)
-    socket.emit('auth', `User ${socket.request.user.name} Authenticated!`)
-  }
-});
+// Setup our socket.io session middleware & listener that sets github id on connect to user socket.
+socketMiddleware.socketAuth(cookieParser, sessionSecret, store);
 
 server.listen(process.env.PORT, function() {
 	console.log(`Server Started on Port: ${process.env.PORT}!`);

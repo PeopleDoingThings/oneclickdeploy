@@ -155,6 +155,7 @@ exports.createJSRestartCommands = function(insLogin, userRepo) {
   var repoObj = CMDHelper.getRepoFolder(userRepo);
 
   var cmdsZero = [
+    'unalias -a',
     'forever stopall',
     'cd /media/git/instance-monitor/server',
     'export MONITOR_SYSTEM=instance',
@@ -166,7 +167,7 @@ exports.createJSRestartCommands = function(insLogin, userRepo) {
 
   var cmdsTwo = [
     'cat Procfile',
-    'forever list'
+    'forever list --no-color'
   ];
 
   var commands = CMDHelper.addEnvirsToArray(userRepo, {

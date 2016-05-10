@@ -230,9 +230,25 @@ exports.deleteRepoData = function(host) {
   }) 
 }
 
-exports.restartJS = function(host) {
+exports.restartJS = function(host, gitid) {
   return new Promise(function(resolve, reject) {
     var SSHClient = new SSH2Shell(host);
+    var socketid = [];
+
+    for(var prop in Global.io.sockets.connected) {
+      console.log('connected clients prop: ', prop)
+      console.log('client git id: ', Global.io.sockets.connected[prop].github)
+      console.log('github id = ', gitid)
+      console.log('github id = gitid: ', gitid === Global.io.sockets.connected[prop].github);
+      // do we need to emit on every socket associated with a user?
+      if(Global.io.sockets.connected[prop].github === gitid) {
+        console.log('found git id!')
+        socketid.push(prop.toString().slice(2));
+      }
+    }
+
+    Global.io.emit('sshconn', 'SSH Connceted: (cmd from server)!');
+    console.log('recieved sshstart event on socket!');
 
     SSHClient.on("close", function onClose(had_error) {
       if(had_error) {
@@ -248,13 +264,14 @@ exports.restartJS = function(host) {
     });
 
     SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
-      io.on('connection', function(socket) {
-        console.log('connected ssh post socket!')
-        socket.emit('ssh', command);
-        socket.emit('ssh', response);
+
+      console.log('SSH Command Complete, Emitting!');
+      socketid.forEach(function(val) {
+        Global.io.sockets.connected[`/#${val}`].emit('sshcmd', `Just for you! ${command}`);
+        Global.io.sockets.connected[`/#${val}`].emit('sshresp', `Just for you! ${response}`);
       })
 
-      if(command === "forever list") {
+      if(command === "forever list --no-color") {
         var split = response.split('\r\n');
         split.pop(); // cut off the shell new line prompt.
         resolve(split);
