@@ -7,20 +7,20 @@ import  ReactCountdownClock from 'react-countdown-clock';
 import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 
-const socket = io.connect('/');
-socket.on('sshconn', function(ssh) {
-  console.log('ssh connected!!!!!!!', ssh);
-  socket.emit('sshstart');
-  console.log('emitted sshstart')
-})
+// const socket = io.connect('/');
+// socket.on('sshconn', function(ssh) {
+//   console.log('ssh connected!!!!!!!', ssh);
+//   socket.emit('sshstart');
+//   console.log('emitted sshstart')
+// })
 
-socket.on('sshcmd', function(cmd) {
-  console.log('SSH CMD: ', cmd)
-})
+// socket.on('sshcmd', function(cmd) {
+//   console.log('SSH CMD: ', cmd)
+// })
 
-socket.on('sshresp', function(resp) {
-  console.log('SSH Resp: ', resp)
-})
+// socket.on('sshresp', function(resp) {
+//   console.log('SSH Resp: ', resp)
+// })
 
 class Loading extends Component {
   constructor(props){
