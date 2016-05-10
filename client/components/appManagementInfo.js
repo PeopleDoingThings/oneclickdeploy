@@ -12,7 +12,7 @@ class DeployedRepo extends Component {
     this.getValidationState = this.getValidationState.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      value: ''
+      value: '',
     }
     
   }
@@ -39,6 +39,7 @@ class DeployedRepo extends Component {
 
   render() {
     const repo = this.props.deployed;
+    const url = "http://" + this.state.value + '.hyperjs.io';
     if (typeof repo === 'object') {
       return (
         <div className="info-panel">
@@ -79,9 +80,12 @@ class DeployedRepo extends Component {
                 />
             </FormGroup>
             {' '}
-            <button onClick={this.handleSubmit}>
+            <Button onClick={this.handleSubmit}>
               Use subdomain
-            </button>
+            </Button>
+            <p>Current subdomain: {repo.subdomain}</p>
+            <p>New Subdomain: {this.state.value}</p>
+            <Button><a href={url} taget="_blank">Go to your new subdomain</a></Button>
           </Form>
         </div>
       );
