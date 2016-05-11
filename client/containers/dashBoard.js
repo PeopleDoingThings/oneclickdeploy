@@ -9,10 +9,15 @@ import InstanceButtons from '../components/instanceButtons';
 import InstanceConsole from '../components/instanceConsole';
 
 function renderChart() {
-      if(this.props.memUsage.values.length > 12 &&
-      this.props.cpuUsage.values.length > 12 &&
-      this.props.txUsage.values.length > 12 &&
-      this.props.rxUsage.values.length > 12) {
+      if (this.props.memUsage.length === 0) {
+        return <h1>loading</h1>
+      } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
+        return <h4>sorry, no data is available yet, please come back later</h4>
+      } else if(
+        this.props.memUsage.values.length > 12 &&
+        this.props.cpuUsage.values.length > 12 &&
+        this.props.txUsage.values.length > 12 &&
+        this.props.rxUsage.values.length > 12) {
         return (
           <div>
             <MemUsage 
@@ -23,14 +28,8 @@ function renderChart() {
               />
           </div>    
         )
-      } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
-        return <h4>sorry, no data is available yet, please come back later</h4>
-      } else {
-        return <h1>loading</h1>
-
-      }
+      } 
     }
-
 
 export default class DashBoard extends Component {
   constructor(props) {
