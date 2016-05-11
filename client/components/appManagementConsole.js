@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { connect } from 'react-redux';
 
 function consoleLog(i, array, newArray) {
     let that = this;
