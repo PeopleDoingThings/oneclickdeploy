@@ -665,6 +665,14 @@ path {
     padding: 10px;
     color: #32CD32;
 }
+
+.sshLog {
+    width: 720px;
+    height: 405px;
+    padding: 10px;
+    color: #32CD32;
+    overflow:scroll;
+}
 /*.loading_Page {
   opacity: 0.5;  
 }*/
@@ -697,8 +705,8 @@ path {
     position: absolute;
     top: 25%;
     left: 25%;
-    width: 50%;
-    height: 50%;
+    /*width: 50%;
+    height: 50%;*/
     padding: 16px;
     background-color: black;
 
