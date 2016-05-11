@@ -18,6 +18,7 @@ import instanceBackup from './reducer_instanceBackup';
 import appManage from './reducer_appManagement';
 import deployedRepo from './reducer_appManagement_deployed';
 import liveConsole from './reducer_liveConsole';
+import subdomain from './reducer_subdomain';
 
 const rootReducer = combineReducers({
   sidebarToggle: sidebarToggle,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   appManage: appManage,
   deployedRepo: deployedRepo,
   liveConsole: liveConsole,
+  subdomain: subdomain,
 });
 
 

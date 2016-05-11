@@ -1,5 +1,5 @@
 import React, { Component } from 'react';   
-import {ListGroup, ListGroupItem} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button} from 'react-bootstrap';
 //import {Motion, spring} from 'react-motion'; 
 import ClassNames from 'classnames';  
 
@@ -33,7 +33,7 @@ export default class InstanceInfo extends Component {
         <div className="info-panel">
           <div>
             <div className="ip">{instance.ip.ip}</div>
-            <button type="button" className="go-to-ip btn btn-warning"><a href={'http://' + instance.ip.ip} target="_blank">go to site</a></button>
+            <Button bsStyle="warning" href={'http://' + instance.ip.ip} target="_blank">go to site</Button>
             <div className="clearfix"></div>
           </div>  
 

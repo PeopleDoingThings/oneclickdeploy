@@ -7,10 +7,10 @@ export default function(state = [], action) {
       return action.payload.data === undefined ? state : action.payload.data;
 
     case RESTART_REPO:
-      return action.payload.data === undefined ? state : action.payload.data;
+      return "socketIO";
 
     case REINSTALL_REPO:
-      return action.payload.data === undefined ? state : action.payload.data;
+      return "socketIO";
 
     case DELETE_REPO:
       return action.payload.data === undefined ? state : action.payload.data;  

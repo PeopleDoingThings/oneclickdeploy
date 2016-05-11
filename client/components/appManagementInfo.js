@@ -18,10 +18,12 @@ class DeployedRepo extends Component {
   }
 
   getValidationState() {
-    const length = this.state.value.length;
-    if (length < 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 10) return 'error';
+    const invalidRegexp =  /[^a-zA-Z0-9\-]/;
+    const value = "" + this.state.value;
+    console.log('value:', value);
+    console.log('test:', invalidRegexp.test(value))
+    if (invalidRegexp.test(value) === false && value.length < 62) {return 'success'}
+    else if (invalidRegexp.test(value) === true || value.length > 62) {return 'error'}
   }
 
   handleChange(e) {
@@ -29,9 +31,7 @@ class DeployedRepo extends Component {
   }
 
   handleSubmit(e){
-    console.log('is the form working?')
     e.preventDefault();
-    console.log('submit:', this.state.value)
     const name = this.state.value;
     this.props.createSubdomain(name);
   }
@@ -60,8 +60,8 @@ class DeployedRepo extends Component {
               <li>{repo.ownername}</li>
             </ul>
             <ul>
-              <li>Clone URL</li>
-              <li>{repo.clone_url}</li>
+              <li>Github Repo</li>
+              <li><a href={repo.clone_url}>go to Github repo</a></li>
             </ul>
           </div>
           <Form>
@@ -78,6 +78,7 @@ class DeployedRepo extends Component {
                 placeholder="Enter text"
                 onChange={this.handleChange}
                 />
+               <FormControl.Feedback />  
             </FormGroup>
             {' '}
             <Button onClick={this.handleSubmit}>
@@ -85,7 +86,12 @@ class DeployedRepo extends Component {
             </Button>
             <p>Current subdomain: {repo.subdomain}</p>
             <p>New Subdomain: {this.state.value}</p>
-            <Button><a href={url} taget="_blank">Go to your new subdomain</a></Button>
+            { this.props.subdomain ?
+              <Button><a href={url} taget="_blank">Go to your new subdomain</a></Button>
+             : console.log('not working')
+
+            }
+           
           </Form>
         </div>
       );

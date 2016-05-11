@@ -403,8 +403,9 @@ ul.user-profile-widget li img.avatar {
 /* Info Panel */
 
 .info-panel {
-    border: 1px solid #EDEFF0;
-    background-color: #fff;
+  border: 1px solid #EDEFF0;
+  background-color: #fff;
+  padding: 20px;
 }
 
 .info-panel .ip {
@@ -492,20 +493,6 @@ ul.user-profile-widget li img.avatar {
     font-weight: 700;
     color: #9B9B9B;
     padding-right: 20px;
-}
-
-/*
-/* App Management Console
-*/
-.app-management-console {
-  background-color: #4A4A4A;
-  margin: 20px 20px 20px 0;
-  padding: 20px;
-  color: lightgray;
-  border: 2px solid darkblue;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
-  height: 500px;
-  overflow: auto;
 }
 
 /* Instance Buttons */
@@ -611,6 +598,26 @@ path {
     background-color: black;
 }
 
+/*
+/* App Management Console
+*/
+.app-management-console {
+  background-color: #4A4A4A;
+  margin: 20px 20px 20px 0;
+  padding: 20px;
+  color: lightgray;
+  border: 2px solid darkblue;
+  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
+  height: 500px;
+  overflow: auto;
+}
+
+.has-feedback label~.form-control-feedback {
+    top: 210px;
+    font-size: 1.3em;
+}
+
+/******************************/
 
 .log {
     width: 720px;
@@ -668,7 +675,6 @@ path {
     opacity: 1;
     position: absolute;
     transition: ease 1000ms linear;
->>>>>>> add logoutput emulator
 }
 .nav-tabs>li {
     width: 50%;
@@ -709,5 +715,11 @@ path {
   .main {
     margin-left: 0;
     float: none;
+  }
+
+/* app management sobdomain input validation */
+  .has-feedback label~.form-control-feedback {
+    top: 395px;
+
   }
 }
