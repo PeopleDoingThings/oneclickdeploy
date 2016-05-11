@@ -7,24 +7,8 @@ import  ReactCountdownClock from 'react-countdown-clock';
 import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 
-const socket = io.connect('/');
-socket.on('sshconn', function(ssh) {
-  //console.log('ssh connected!!!!!!!', ssh);
-  socket.emit('sshstart');
-  //console.log('emitted sshstart')
-})
 
-socket.on('sshcmd', function(cmd) {
-  //console.log('SSH CMD: ', cmd)
-})
-
-socket.on('sshresp', function(resp) {
-  //console.log('SSH Resp: ', resp)
-})
-
-// socket.on('sshresp', function(resp) {
-//   console.log('SSH Resp: ', resp)
-// })
+//const socket = io.connect('/');
 
 class Loading extends Component {
   constructor(props){
@@ -35,8 +19,12 @@ class Loading extends Component {
     Step_Two: false,
     Step_Three: false,
     Step_Four: false,
-    Step_Five: false
+    Step_Five: false,
+    socketCmd: [],
+    socketResp: []
   }
+
+ 
 var component= this;
 
 this.onInputChange = this.onInputChange.bind(this);
@@ -50,6 +38,27 @@ this.ckDep2 ='';
 component.startChckInstInterval();
 }
 
+componentDidMount(){
+    var component = this;
+    var socket = io.connect('/');
+    socket.on('sshconn', function(ssh) {
+      console.log('ssh connected!!!!!!!', ssh);
+      socket.emit('sshstart');
+      console.log('emitted sshstart')
+    })
+
+    socket.on('sshcmd', function(cmd) {
+      console.log('SSH CMD: ', cmd)
+      component.setState({socketCmd: '$ '+ cmd}) 
+    })
+
+    socket.on('sshresp', function(resp) {
+    console.log('SSH Resp: ', resp)
+    component.setState({socketResp: '>> ' + resp.split('\n')})
+  
+})
+}
+
 
 onInputChange(event) {
   this.setState({selectedSubdomain:event.target.value});
@@ -61,7 +70,7 @@ onFormSubmit(event) {
   this.props.sshPostInstall(window.localStorage.getItem('repoID'));
   this.setState({Step_Three: false})
   this.setState({Step_Four: true})
-  this.startChckDeployedInterval();  
+  this.delayCheckDeployed() 
 }
 
 
@@ -70,10 +79,16 @@ closeModal(){
   this.setState({Step_Three: false})
   this.setState({Step_Four: true})
   this.props.sshPostInstall(window.localStorage.getItem('repoID'));
-  this.startChckDeployedInterval();
+  this.delayCheckDeployed()
   
 }
 
+delayCheckDeployed(){
+  var component= this;
+  setTimeout(function(){
+   component.startChckDeployedInterval(); 
+  }, 20000)
+}
 
 //set interval for logoutput
 startLogOutputInterval() { 
@@ -92,10 +107,10 @@ startLogOutputInterval() {
         if (component.state.Step_Two && component.props.LogOutput.length === 23){
           console.log('inside if statement')
           component.setState({Step_Two:false})
-          component.setState({Step_Three:true})///just started on getting module to show
+          component.setState({Step_Three:true})
           component.stopLogOutputInterval();
         }
-    }, (Math.random()*700+1000));
+    }, (Math.random()*100+500));
 }
 
 
@@ -124,9 +139,6 @@ startChckInstInterval() {
         // component.props.sshPostInstall(window.localStorage.getItem('repoID'));
          console.log('called postinstall')
          //start set interval2/check deployed 
-          console.log('component: ', component)
-          console.log('components startlogoutput: ', component.startLogOutputInterval)
-
           component.startLogOutputInterval();
          //stop set interval1 if it already started 
           component.stopChckInstInterval(); 
@@ -136,7 +148,7 @@ startChckInstInterval() {
           console.log('check instance ready is still false')
           component.props.instanceReady();
         }
-    }, 10000);
+    }, 5000);
 }
 
 stopChckInstInterval() {
@@ -155,10 +167,11 @@ var sshRan = 0 ;
         if(component.props.DeployedStatus === undefined){
           console.log('depl status undefiend ')
         }
-        // if(component.props.DeployedStatus.deployerror !== 'none' && sshRan===0){
-        //    sshRan++;
-        //    this.props.sshPostInstall(window.localStorage.getItem('repoID'));
-        // }
+        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[0].deployerror !== 'none' && sshRan===0){
+           console.log('deployerror: rerunning sshPostInstall')
+           sshRan++;
+           this.props.sshPostInstall(window.localStorage.getItem('repoID'));
+        }
         if(component.props.DeployedStatus === true){           
           console.log('isDeployed statement is true')
           console.log('about to stop Interval 2 checkdeployed')
@@ -239,12 +252,17 @@ stopChckDeployedInterval() {
            </div>
         
 
-        <div className="Steps Step_Four"> Step Four: sshPostInstall console output </div>
-        { this.state.Step_Four ?
-          <div className="popUp">Step four is up and running</div>
-          :null
-
+        <div className="Steps Step_Four"> Step Four: sshPostInstall console output 
+        { this.state.Step_Four && this.state.socketCmd !==[] ?
+          <div className="log">
+            <div>{this.state.socketCmd}{' '}{this.state.socketResp}</div>
+          {
+            //  <div> {this.state.socketLog.map(line=><div>{line}</div>)} </div> 
+           }
+           </div>
+          :null 
         }
+        </div>
 
         <div className="Steps Step_Five"> Step Five: Countdown 3-2-1 success animation </div>  
          { this.state.Step_Five ?
@@ -255,10 +273,8 @@ stopChckDeployedInterval() {
                      alpha={0.9}
                      size={200}
                      onComplete={function(){window.location = 'http://localhost:9001/#/dashboard'}} />  
-                     
-                : null}       
-                   
-
+              
+                : null}                          
       </div>
     );
   }
