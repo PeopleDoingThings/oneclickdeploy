@@ -11,7 +11,7 @@ var SSH2 = require('../../ssh2.js');
 
 // This maps each service to a list of its information
 exports.instanceList = function(user) {
-  if(user !== '13039425') return Promise.reject('Unauthorized')
+  if(user !== '13039425') return Promise.reject('Unauthorized');
 
   return OVH.listServices()
     .then( data => data )
