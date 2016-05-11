@@ -102,25 +102,7 @@ class InstanceButtons extends Component {
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {( () => {
-              if (typeof modalBody === 'string' ){
-                return <p>{modalBody}</p>
-              } else if (typeof modalBody === 'object' && modalBody !== null) {
-                return ( <div>
-                          <h4>Instance Name: {modalBody.name}</h4>
-                          <h5>Created Date: {modalBody.creationdate}</h5>
-                          <ul>
-                            <li>Instance Id: {modalBody._id}</li>
-                            <li>Public IP: {modalBody.publicip}</li>
-                            <li>Owner Git IP: {modalBody.ownergitid}</li>
-                            { Object.keys(modalBody.image).map((key) => {
-                                return <li key={key}>{key}: {modalBody.image[key]}</li>
-                            }) }
-                          </ul>
-                         </div>  
-                       )
-              }               
-            })()}
+            
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
@@ -142,7 +124,7 @@ function mapStateToProps(state) {
   // console.log('install data in loading state', state.reducers.install)
   console.log('state of all reducers in load now', state.reducers.instanceButtons)
   return {
-    instanceButtons: state.reducers.instanceButtons
+    instanceCtrls: state.reducers.instanceCtrls
   };
 }
 
