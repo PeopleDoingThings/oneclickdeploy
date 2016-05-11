@@ -6,12 +6,18 @@ import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
 import InstanceInfo from '../components/InstanceInfo';
 import InstanceButtons from '../components/instanceButtons';
+import InstanceConsole from '../components/instanceConsole';
 
 function renderChart() {
-      if(this.props.memUsage.values.length > 12 &&
-      this.props.cpuUsage.values.length > 12 &&
-      this.props.txUsage.values.length > 12 &&
-      this.props.rxUsage.values.length > 12) {
+      if (this.props.memUsage.length === 0) {
+        return <h1>loading</h1>
+      } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
+        return <h4>sorry, no data is available yet, please come back later</h4>
+      } else if(
+        this.props.memUsage.values.length > 12 &&
+        this.props.cpuUsage.values.length > 12 &&
+        this.props.txUsage.values.length > 12 &&
+        this.props.rxUsage.values.length > 12) {
         return (
           <div>
             <MemUsage 
@@ -22,14 +28,8 @@ function renderChart() {
               />
           </div>    
         )
-      } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
-        return <h4>sorry, no data is available yet, please come back later</h4>
-      } else {
-        return <h1>loading</h1>
-
-      }
+      } 
     }
-
 
 export default class DashBoard extends Component {
   constructor(props) {
@@ -57,10 +57,11 @@ export default class DashBoard extends Component {
                 SSHLogin={this.props.SSHLogin}
           />
 
-         <div className="col-xs-12 col-md-6 col-lg-8">   
-         <InstanceButtons />       
-         { renderChart() }
-         </div>
+          <div className="col-xs-12 col-md-6 col-lg-8">   
+            <InstanceButtons />   
+            <InstanceConsole response={this.props.instanceCtrls} />    
+            { renderChart() }
+          </div>
         </div>        
         )
     } else {
@@ -75,7 +76,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state instReady: ', state.reducers.instReady)
+  console.log('state controls: ', state.reducers.instanceCtrls)
   console.log('state memUsage: ', state.reducers.rxUsage)
 
  return {
@@ -85,6 +86,7 @@ function mapStateToProps(state) {
     txUsage:  state.reducers.txUsage,
     rxUsage:  state.reducers.rxUsage,
     SSHLogin: state.reducers.SSHLogin,
+    instanceCtrls: state.reducers.instanceCtrls,
   };
 }
 

@@ -13,8 +13,7 @@ import rxUsage from './reducer_rxUsage';
 import SetRepoId from './reducer_setRepoId';
 import GetEnvVar from './reducer_envVar';
 import SSHLogin from  './reducer_instanceLogin';
-import instanceButtons from './reducer_instanceButtons'; 
-import instanceBackup from './reducer_instanceBackup';
+import instanceCtrls from './reducer_instanceCtrls'; 
 import appManage from './reducer_appManagement';
 import deployedRepo from './reducer_appManagement_deployed';
 import liveConsole from './reducer_liveConsole';
@@ -36,8 +35,7 @@ const rootReducer = combineReducers({
   logOutput: LogOutput,
   selRepoId: SetRepoId,
   envVar: GetEnvVar,
-  instanceButtons: instanceButtons,
-  instanceBackup: instanceBackup,
+  instanceCtrls: instanceCtrls,
   appManage: appManage,
   deployedRepo: deployedRepo,
   liveConsole: liveConsole,

@@ -44,7 +44,7 @@ export default class AppConsole extends Component {
 
   render() {
     return (   
-      <div className="app-management-console">   
+      <div className="console app-management-console">   
         <ul>
          { this.state.log.map((line, index) => {
             return <li key={index}>{line}</li>

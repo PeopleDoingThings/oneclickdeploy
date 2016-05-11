@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Nav, NavItem, NavDropdown, MenuItem, Modal, Button, Tooltip, OverlayTrigger} from 'react-bootstrap'
+import {Nav, NavItem, NavDropdown, MenuItem, Modal, Button, OverlayTrigger} from 'react-bootstrap'
 
 import * as ActionCreators from '../actions/index';
 
@@ -12,11 +12,21 @@ class InstanceButtons extends Component {
    this.handleSelect = this.handleSelect.bind(this);
    this.close = this.close.bind(this);
    this.open = this.open.bind(this);
+   this.softReboot = this.softReboot.bind(this);
+   this.hardReboot = this.hardReboot.bind(this);
+   this.startsRescue = this.startsRescue.bind(this);
+   this.stopsRescue = this.stopsRescue.bind(this);
+   this.reinstallInstance = this.reinstallInstance.bind(this);
+   this.createBackup = this.createBackup.bind(this);
+   this.getSnapshot = this.getSnapshot.bind(this);
+   this.deleteBackup = this.deleteBackup.bind(this);
+   this.listBackups = this.listBackups.bind(this);
 
    this.state = {
       showModal: false,
       modalTitle: "",
       modalBody: "",
+      action: "",
     }
   }
 
@@ -36,26 +46,85 @@ class InstanceButtons extends Component {
       switch (eventKey) {
         case '1.1':
           this.open();
-          this.props.rebootInstance('soft');
-          return this.timeoutSetState('Soft Reboot Status', 'Rebooting started', 3000);
+          this.setState({
+            modalTitle: "Soft Reboot Instance", 
+            modalBody: "Are you sure you want to soft reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open session.",
+            action: this.softReboot,
+          })
+          return;
  
         case '1.2':
           this.open();
-          this.props.rebootInstance('hard');
-          return this.timeoutSetState('Hard Reboot Status', 'Rebooting started', 3000);
+          this.setState({
+            modalTitle: "Hard Reboot Instance", 
+            modalBody: "Are you sure you want to hard reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open session.",
+            action: this.hardReboot,
+          })
+          return;
+
         case '2.1':
           this.open();
-          this.props.rescueInstance(true);
-          return this.timeoutSetState('Rescue Mode Password', 'Enabling Rescue Mode', 4000);
+          this.setState({
+            modalTitle: "Start Rescue Mode", 
+            modalBody: "Are you sure you want to start rescue mode? Be aware that this will cause your site to go down before you terminate rescue mode",
+            action: this.startsRescue,
+          })
+          return;
           
         case '2.2':
           this.open();
-          this.props.rescueInstance(false);
-          return this.timeoutSetState('Rescue Mode Status', 'disabling Rescue Mode', 4000);
+          this.setState({
+            modalTitle: "Stop Rescue Mode", 
+            modalBody: "Are you sure you want to stop rescue mode?",
+            action: this.stopsRescue,
+          })
+          return;
+          
         case 3:
           this.open();
-          this.props.reInstallInstance();
-          return this.timeoutSetState('Reinstall Instance Status', 'Reinstalling Instance, please wait', 7000);
+          this.setState({
+            modalTitle: "Reinstall Instance", 
+            modalBody: "Are you sure you want to reinstall instance? Be aware that this will cause your site to go down and you will have redeploy your app when reinstall is complete",
+            action: this.reinstallInstance,
+          })
+          return;
+
+        case '4.1':
+          this.open();
+          this.setState({
+            modalTitle: "Create Backup", 
+            modalBody: "Are you sure you want to create a backup?",
+            action: this.createBackup,
+          })
+          return;
+
+        case '4.2':
+          this.open();
+          this.setState({
+            modalTitle: "Get Snapshot", 
+            modalBody: "Are you sure you want to get a snapshot?",
+            action: this.getSnapshot,
+          })
+          return; 
+
+        case '4.3':
+          this.open();
+          this.setState({
+            modalTitle: "List Backup", 
+            modalBody: "Are you sure you want to get a list a all the backups?",
+            action: this.listBackups,
+          })
+          return; 
+
+        case '4.4':
+          this.open();
+          this.setState({
+            modalTitle: "Delete Backups", 
+            modalBody: "Are you sure you want to delete the backup?",
+            action: this.deleteBackup,
+          })
+          return;     
+  
 
         default: return;
       }
@@ -69,11 +138,64 @@ class InstanceButtons extends Component {
     this.setState( {showModal: true} );
   }
 
+  softReboot() {
+    console.log('softReboot working')
+    this.props.rebootInstance('soft');
+    this.close();
+  }
+
+  hardReboot() {
+    console.log('hardReboot working')
+    this.props.rebootInstance('hard');
+    this.close();
+  }
+
+  startsRescue() {
+    console.log('start rescue working')
+    this.props.rescueInstance(true);
+    this.close();
+  }
+
+  stopsRescue() {
+    console.log('stops rescue working')
+    this.props.rescueInstance(false);
+    this.close();
+  }
+
+  reinstallInstance() {
+    console.log('reinstall instance working')
+    this.props.reInstallInstance();
+    this.close();
+  }
+
+  //
+  //backup management functions
+  //
+  createBackup() {
+    console.log('create backup is working')
+    this.props.createBackup();
+    this.close();
+  }
+
+  getSnapshot() {
+    console.log('get snapshot status working')
+    this.props.getSnapshotStatus();
+    this.close();
+  }
+  deleteBackup() {
+    console.log('delete backup working')
+    this.props.deleteBackup();
+    this.close();
+  }
+
+  listBackups() {
+    console.log('list backups working')
+    this.props.listBackups();
+    this.close();
+  }
+
   render() {
     const modalBody = this.state.modalBody;
-    const tooltip = (
-      <Tooltip id='reinstall-instance-tooltip'><div><h2>Be Careful!</h2> <p>This will reinstall your instance and WHIP OUT your app. You will need to REDEPLOY your app after reinstall is complete.</p></div></Tooltip>
-    );
 
     return (
       <div>
@@ -86,10 +208,7 @@ class InstanceButtons extends Component {
             <MenuItem eventKey="2.1">Enable Rescue</MenuItem>
             <MenuItem eventKey="2.2">Disable Rescue</MenuItem>
           </NavDropdown>
-
-          <OverlayTrigger placement="top" overlay={tooltip}>
             <NavItem eventKey={3}>Reinstall</NavItem>
-          </OverlayTrigger>
           <NavDropdown eventKey={4} title="Back up" id="nav-dropdown">
             <MenuItem eventKey="4.1">Create Backup</MenuItem>
             <MenuItem eventKey="4.2">Get Snapshot Status</MenuItem>
@@ -101,27 +220,9 @@ class InstanceButtons extends Component {
           <Modal.Header closeButton>
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            {( () => {
-              if (typeof modalBody === 'string' ){
-                return <p>{modalBody}</p>
-              } else if (typeof modalBody === 'object' && modalBody !== null) {
-                return ( <div>
-                          <h4>Instance Name: {modalBody.name}</h4>
-                          <h5>Created Date: {modalBody.creationdate}</h5>
-                          <ul>
-                            <li>Instance Id: {modalBody._id}</li>
-                            <li>Public IP: {modalBody.publicip}</li>
-                            <li>Owner Git IP: {modalBody.ownergitid}</li>
-                            { Object.keys(modalBody.image).map((key) => {
-                                return <li key={key}>{key}: {modalBody.image[key]}</li>
-                            }) }
-                          </ul>
-                         </div>  
-                       )
-              }               
-            })()}
-          </Modal.Body>
+          <Modal.Body>{this.state.modalBody}</Modal.Body>
+            <Button onClick={this.state.action}>Do it</Button>
+            <Button onClick={this.close}>Cancel</Button>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
@@ -140,9 +241,9 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   // console.log('load state: ', state.reducers.load)
   // console.log('install data in loading state', state.reducers.install)
-  console.log('state of all reducers in load now', state.reducers.instanceButtons)
+  console.log('state of all reducers in load now', state.reducers.instanceCtrls)
   return {
-    instanceButtons: state.reducers.instanceButtons
+    instanceCtrls: state.reducers.instanceCtrls
   };
 }
 
