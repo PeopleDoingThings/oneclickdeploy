@@ -6,6 +6,7 @@ import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
 import InstanceInfo from '../components/InstanceInfo';
 import InstanceButtons from '../components/instanceButtons';
+import InstanceConsole from '../components/instanceConsole';
 
 function renderChart() {
       if(this.props.memUsage.values.length > 12 &&
@@ -57,10 +58,11 @@ export default class DashBoard extends Component {
                 SSHLogin={this.props.SSHLogin}
           />
 
-         <div className="col-xs-12 col-md-6 col-lg-8">   
-         <InstanceButtons />       
-         { renderChart() }
-         </div>
+          <div className="col-xs-12 col-md-6 col-lg-8">   
+            <InstanceButtons />   
+            <InstanceConsole response={this.props.instanceCtrls} />    
+            { renderChart() }
+          </div>
         </div>        
         )
     } else {
@@ -75,7 +77,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state instReady: ', state.reducers.instReady)
+  console.log('state controls: ', state.reducers.instanceCtrls)
   console.log('state memUsage: ', state.reducers.rxUsage)
 
  return {
@@ -85,6 +87,7 @@ function mapStateToProps(state) {
     txUsage:  state.reducers.txUsage,
     rxUsage:  state.reducers.rxUsage,
     SSHLogin: state.reducers.SSHLogin,
+    instanceCtrls: state.reducers.instanceCtrls,
   };
 }
 

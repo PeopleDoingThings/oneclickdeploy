@@ -12,11 +12,13 @@ class InstanceButtons extends Component {
    this.handleSelect = this.handleSelect.bind(this);
    this.close = this.close.bind(this);
    this.open = this.open.bind(this);
+   this.softReboot = this.softReboot.bind(this);
 
    this.state = {
       showModal: false,
       modalTitle: "",
       modalBody: "",
+      action: "",
     }
   }
 
@@ -36,25 +38,30 @@ class InstanceButtons extends Component {
       switch (eventKey) {
         case '1.1':
           this.open();
-          this.props.rebootInstance('soft');
-          return this.timeoutSetState('Soft Reboot Status', 'Rebooting started', 3000);
+          this.setState({
+            modalTitle: "Soft Reboot Instance", 
+            modalBody: "Are you sure you want to soft reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open session.",
+            action: this.softReboot,
+          })
+          return;
+          //return this.timeoutSetState('Soft Reboot Status', 'Rebooting started', 3000);
  
         case '1.2':
           this.open();
-          this.props.rebootInstance('hard');
+          //this.props.rebootInstance('hard');
           return this.timeoutSetState('Hard Reboot Status', 'Rebooting started', 3000);
         case '2.1':
           this.open();
-          this.props.rescueInstance(true);
+          //this.props.rescueInstance(true);
           return this.timeoutSetState('Rescue Mode Password', 'Enabling Rescue Mode', 4000);
           
         case '2.2':
           this.open();
-          this.props.rescueInstance(false);
+          //this.props.rescueInstance(false);
           return this.timeoutSetState('Rescue Mode Status', 'disabling Rescue Mode', 4000);
         case 3:
           this.open();
-          this.props.reInstallInstance();
+          //this.props.reInstallInstance();
           return this.timeoutSetState('Reinstall Instance Status', 'Reinstalling Instance, please wait', 7000);
 
         default: return;
@@ -67,6 +74,12 @@ class InstanceButtons extends Component {
 
   open() {
     this.setState( {showModal: true} );
+  }
+
+  softReboot() {
+    console.log('softReboot working')
+    this.props.rebootInstance('soft');
+    this.close();
   }
 
   render() {
@@ -101,9 +114,9 @@ class InstanceButtons extends Component {
           <Modal.Header closeButton>
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            
-          </Modal.Body>
+          <Modal.Body>{this.state.modalBody}</Modal.Body>
+            <Button onClick={this.state.action}>Do it</Button>
+            <Button onClick={this.close}>Cancel</Button>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
@@ -122,7 +135,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   // console.log('load state: ', state.reducers.load)
   // console.log('install data in loading state', state.reducers.install)
-  console.log('state of all reducers in load now', state.reducers.instanceButtons)
+  console.log('state of all reducers in load now', state.reducers.instanceCtrls)
   return {
     instanceCtrls: state.reducers.instanceCtrls
   };
