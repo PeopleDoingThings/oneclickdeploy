@@ -13,7 +13,7 @@ exports.getInstanceUsage = function(inst, time, type) {
   			reject(err);
   			return;
   		}
-      console.log('ovh usage: ', resp)
+      
   		resolve(resp);
 	  });
   })
