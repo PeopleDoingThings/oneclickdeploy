@@ -33,7 +33,7 @@ export default class Header extends Component {
       <div>
         <header className={"header " + hideHeader}>
          <a href="#" onClick={asideToggle} className={hideHamburger}><Glyphicon glyph="menu-hamburger" /></a>
-          <h1>GHV</h1>
+          <h1>[HJs]</h1>
         </header>
       </div>
 
