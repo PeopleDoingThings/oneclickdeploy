@@ -9,7 +9,7 @@ const User = '13039425';
 describe('OVH Instance SnapShot Functionality', function() {
 
   it_('Should Create a New SnapShot', function * () {
-    this.timeout(10000);
+    this.timeout(15000);
 
     // Wipe out any backups to start test.
     try {
@@ -41,6 +41,30 @@ describe('OVH Instance SnapShot Functionality', function() {
 
   })
 
+  it_('Get SnapShot Status Should return only our Backup', function * () {
+    this.timeout(10000);
+
+    var snapStatus = yield OVH.getSnapShotStatus(User)
+
+    expect( snapStatus ).to.be.a('object')
+    expect( snapStatus ).to.have.property('status')
+    expect( snapStatus.status ).to.equal('queued')
+    expect( snapStatus.region ).to.equal('BHS1')
+    expect( snapStatus.ownerid ).to.equal(User)
+
+  })
+
+  it_('Get Backups Should return only our Backup', function * () {
+    this.timeout(10000);
+
+    var backup = yield OVH.getBackups(User)
+
+    expect( backup ).to.be.a('object')
+    expect( backup ).to.have.property('ownerid')
+    expect( backup.ownerid ).to.equal(User)
+
+  })
+
   it_('Should Delete Our Backup', function * () {
     this.timeout(10000);
 
@@ -64,19 +88,44 @@ describe('OVH Instance SnapShot Functionality', function() {
 
   })
 
-  it_('Should return an Error if no Backup', function * () {
+  it_('Delete Backup Should return an Error if no Backup', function * () {
     var err;
 
     try {
       yield OVH.deleteBackup(User)
     } catch (error) {
       err = error;
-      console.log('deleteBackup err = ', error)
     }
 
     expect( err ).to.equal('No SnapShot Found for Delete!')
 
   })
+
+  it_('Get Backups Should return an Error if no Backup', function * () {
+    var err;
+
+    try {
+      yield OVH.getBackups(User)
+    } catch (error) {
+      err = error;
+    }
+
+    expect( err.message ).to.equal('No SnapShot in DB!')
+
+  })
+
+  it_('Get SnapShot Status Should return an Error if no Backup', function * () {
+    var err;
+
+    try {
+      yield OVH.getSnapShotStatus(User)
+    } catch (error) {
+      err = error;
+    }
+
+    expect( err.message ).to.equal('No SnapShot Found for User!')
+
+  })  
 
 })
 
