@@ -46,6 +46,8 @@ exports.getUserOrgs = function(user){
 }
 
 exports.getUserRepos = function(user, forceRequery) {
+  var freshRepos = [];
+
   return Repo.find({ ownerid: user.gitid })
     .then(function(data) {
       if(data.length > 0 && Moment.diff(data[0].age, 'days') < 3 && forceRequery !== 'true') {
@@ -71,6 +73,17 @@ exports.getUserRepos = function(user, forceRequery) {
     .then((nested) => {
       // console.log("nested is: ", nested)
       return nested.reduce((a, b) => a.concat(b), [])
+    })
+    .then(function(data) {
+      freshRepos = data;
+
+      return Repo.find({ ownerid: user.gitid, deployed: true })
+    })
+    .then(function(data) {
+      console.log('fresh repo data repo.find deployed true: ', data)
+      console.log('fresh repos data: ', freshRepos)
+
+      return data.concat(freshRepos)
     })
     .catch(function(err) {
       if(Array.isArray(err)) { // We check here to see if this is db data instead of a real error.

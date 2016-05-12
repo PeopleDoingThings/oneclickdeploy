@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var InstanceDB = require('../database/instances.js');
 var passportGithub = require('./auth/githubstrategy.js');
+var Repo = require('../database/models/deployablerepos.js');
 
 // These routes are relative to the mounted router. Therefore '/' here is actaully '/login/'. 
 // '/github resolves to '/login/github'
@@ -22,10 +23,21 @@ router.get('/getuserinstances', function(req, res) {
 router.get('/github', passportGithub.authenticate('github', { scope: ['read:org', 'public_repo', 'user'] }));
 
 router.get('/github/callback',
-  passportGithub.authenticate('github', { failureRedirect: '/#/', successRedirect: '/#/main-panel' }));
+  passportGithub.authenticate('github', { failureRedirect: '/#/'}),
+    function(req, res) {
+      Repo.find({ ownerid: req.user.gitid, deployed: true })
+        .then(function(data) {
+          if(data.length === 0) {
+            res.redirect('/#/repos')
+          } else {
+            res.redirect('/#/dashboard')
+          }
+        })
+        .catch(function(err) {
+          res.redirect('/#/repos')
+        })
+
+    });
 
 module.exports = router;
-
-
-
-
+  
