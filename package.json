@@ -4,7 +4,7 @@
   "description": "Easy Deployment",
   "main": "server.js",
   "scripts": {
-    "test": "mocha server/test --recursive",
+    "test": "mocha server/test/run --recursive --sort",
     "start": "webpack -w"
   },
   "repository": {
