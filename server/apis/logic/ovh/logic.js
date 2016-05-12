@@ -46,6 +46,8 @@ exports.reinstallInstance = function(id) {
 
   return InstanceDB.getUserInstances(id)
     .then(function(data) {
+      if(data.length === 0) return Promise.reject( new Error('No Instance Found for ReInstall') )
+
       mongoInstanceId = data[0]._id;
       return OVH.reinstallInstance(data[0].openstackid, imgObj);
     })
@@ -63,18 +65,18 @@ exports.reinstallInstance = function(id) {
 }
 
 exports.checkReady = function(userid) {
-  console.log('searching with userid = ', userid)
+  // console.log('searching with userid = ', userid)
   var mongoInstanceId = '';
   return InstanceDB.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
-      console.log('instace data from db = ', data)
+      // console.log('instace data from db = ', data)
       if(!data || data.length === 0) return Promise.reject( new Error('User has No Instance to Check!') )
       mongoInstanceId = data[0]._id;
-      console.log('mongoInstanceId = ', mongoInstanceId)
+      // console.log('mongoInstanceId = ', mongoInstanceId)
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {
-      console.log('got ovh ins data on check ready! = ', data)
+      // console.log('got ovh ins data on check ready! = ', data)
       if(!data) {
         return Promise.reject( new Error('Instance Still Provisioning, Please Try Again!') )
       }
@@ -82,7 +84,7 @@ exports.checkReady = function(userid) {
       return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      console.log('DATA IP IS THIS UNDEFINED???? ==== ', data)
+      // console.log('DATA IP IS THIS UNDEFINED???? ==== ', data)
       InstanceDB.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
         .then( obj => InstanceLogin.findAndUpdateIP(userid, data.ip.ip) )
 
@@ -92,7 +94,7 @@ exports.checkReady = function(userid) {
 
 // Can Refactor these four when time permits.
 exports.rebootInstance = function(userid, type) {
-  if(!type) return Promise.reject( new Error('Please Specify a Reboot Type!') )
+  if(type !== 'soft' && type !== 'hard') return Promise.reject( new Error('Please Specify a Valid Reboot Type!') )
 
   return InstanceDB.getUserInstances(userid)
     .then(function(data) {
