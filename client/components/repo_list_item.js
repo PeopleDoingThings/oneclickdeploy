@@ -13,7 +13,6 @@ export default class RepoItem extends Component {
               <b>Repo URL:  </b><a href={this.props.repoItem.clone_url} target="blank">{this.props.repoItem.clone_url}</a>
               <br/>
               <b>Owned by:  </b>{this.props.repoItem.ownername}
-
               </div>
              );
           }

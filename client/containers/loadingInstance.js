@@ -294,7 +294,6 @@ stopChckDeployedInterval() {
 
 
 function mapStateToProps(state) {
-  // console.log('state of all reducers in load now', state.reducers)
   return {
     Load: state.reducers.load,
     InstData: state.reducers.install,

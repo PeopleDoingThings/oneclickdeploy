@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Tabs, Tab, PanelGroup, Panel } from 'react-bootstrap';
 import Deployable from './deployable';
 import DeployedApp from './deployedRepos';
-import { fetchRepos, refreshRepo } from '../actions/index';
+import { fetchRepos } from '../actions/index';
 
 
 
@@ -12,33 +12,9 @@ class RepoList extends Component {
   constructor(props) {
     super(props);
     this.props.fetchRepos();
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(){
-    console.log('refresh button is working')
-    this.props.refreshRepo();
   }
 
 
-
-  renderList() {
-    if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return ''// "Loading....."
-    }else {
-      var counter = 0;
-      var now= Date.now();
-      var old = Date.parse(this.props.repos[0].age);
-     if(Math.abs(now - old ) > (259200000))
-     {this.props.refreshRepo()}
-      return (this.props.repos.map((repo) => {
-        return (
-          <RepoItem repoItem={repo} />
-        )
-        })
-      );
-    }
-  } 
 
   render() {
     return (
@@ -48,21 +24,17 @@ class RepoList extends Component {
                 <Tab eventKey={1} title="Deployable Repos">
                   <Deployable />
                 </Tab>
-                <Tab eventKey={2} title="Deployed Instances">
+                <Tab eventKey={2} title="Deployed Repos">
                  <DeployedApp />
                 </Tab>
            </Tabs>
-            {''}
-            {''}
-            {''}
-          <h5> Why is my repo not showing?</h5> <button className="btn btn-primary" onClick={()=>this.handleClick()}>Refresh Repo List</button>
       </div>
     );
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRepos, refreshRepo }, dispatch);
+  return bindActionCreators({ fetchRepos}, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(RepoList);

@@ -4,24 +4,29 @@ import { connect } from 'react-redux';
 import RepoItem from '../components/repo_list_item';
 import { PanelGroup, Panel } from 'react-bootstrap';
 import Form from './envVarForm';
-import { getEnvVar} from '../actions/index';
+import { getEnvVar, refreshRepo} from '../actions/index';
 
 
 class Deployable extends Component {
   constructor(props) {
     super(props);
-    //var now = Date.now();
     this.state ={
       showForm: false,
     }
     this.handleClick = this.handleClick.bind(this);
     this.hideForm = this.hideForm.bind(this);
+    this.refreshBtn = this.refreshBtn.bind(this);
   }
 
 handleClick (repoID){
     this.props.getEnvVar(repoID);
     this.setState({showForm: true});
     console.log('handleclick for form')
+}
+
+refreshBtn(){
+    console.log('refresh button is working')
+    this.props.refreshRepo();
 }
 
 hideForm (){
@@ -67,6 +72,11 @@ renderList() {
         <PanelGroup accordion>
          {this.renderList()}   
         </PanelGroup>
+            {''}
+            {''}
+            {''}
+          <h5>Refresh GitHub Repos</h5> 
+          <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Refresh Repo List</button>
       </div>
     );
   }
@@ -74,7 +84,7 @@ renderList() {
 
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getEnvVar }, dispatch);
+  return bindActionCreators({ getEnvVar, refreshRepo }, dispatch);
 }
 
 function mapStateToProps(state) {
