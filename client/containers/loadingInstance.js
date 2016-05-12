@@ -6,13 +6,14 @@ import { instanceReady, getLog, isDeployed, sshPostInstall, updateLogFile, setSu
 import  ReactCountdownClock from 'react-countdown-clock';
 import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
+import Clock from '../components/countClock';
 
 
-//const socket = io.connect('/');
 
 class Loading extends Component {
   constructor(props){
   super(props); 
+  console.log('log all pros',this.props)
   this.state = {
     selectedSubdomain: 'test',
     Step_One: true,
@@ -34,13 +35,15 @@ this.closeModal = this.closeModal.bind(this);
 this.cksInsID1 ='';
 this.logOutput0 ='';
 this.logOutput1 ='';
-this.ckDep2 ='';  
+this.ckDep2 =''; 
+this.delay ='';  
 component.startChckInstInterval();
 }
 
 componentDidMount(){
     var component = this;
     var socket = io.connect('/');
+    var output = [];
     socket.on('sshconn', function(ssh) {
       console.log('ssh connected!!!!!!!', ssh);
       socket.emit('sshstart');
@@ -54,11 +57,10 @@ componentDidMount(){
 
     socket.on('sshresp', function(resp) {
     console.log('SSH Resp: ', resp)
-    component.setState({socketResp: '>> ' + resp.split('\n')})
-  
+    output.push('>> ' + resp)
+    component.setState({socketResp: output}) 
 })
 }
-
 
 onInputChange(event) {
   this.setState({selectedSubdomain:event.target.value});
@@ -75,7 +77,6 @@ onFormSubmit(event) {
 
 
 closeModal(){
-  alert('closing modal')
   this.setState({Step_Three: false})
   this.setState({Step_Four: true})
   this.props.sshPostInstall(window.localStorage.getItem('repoID'));
@@ -85,7 +86,7 @@ closeModal(){
 
 delayCheckDeployed(){
   var component= this;
-  setTimeout(function(){
+  this.delay = setTimeout(function(){
    component.startChckDeployedInterval(); 
   }, 20000)
 }
@@ -110,7 +111,7 @@ startLogOutputInterval() {
           component.setState({Step_Three:true})
           component.stopLogOutputInterval();
         }
-    }, (Math.random()*100+500));
+    }, (Math.random()*50+150));
 }
 
 
@@ -178,6 +179,7 @@ var sshRan = 0 ;
          //stop interval2 log output
         component.stopLogOutputInterval();
         component.stopChckDeployedInterval(); 
+        clearTimeout(this.delay)
         //transition to DB
         component.setState({Step_Four:false})
         component.setState({Step_Five:true})
@@ -204,25 +206,35 @@ stopChckDeployedInterval() {
   render() {
     return (
       <div>
-      <div className="overlay"></div>
-       
-        <div className="Steps Step_One"> Step One: Explain What (Will) Happen </div> 
+      {
+     // <div className="overlay"></div>
+       }
+        <div className="Steps Step_One"> Step One: Explain What (Will) Happen  
            { this.state.Step_One ?
-           <div className="popUp">
-              <img width="560" height="315" src="images/githubScotch.gif"  frameborder="0" allowfullscreen></img> 
-           </div>
+           <div className="fadein">
+           We are creating your instance 
+             {
+             // <img width="360" height="215" src="images/githubScotch.gif"  frameborder="0" allowfullscreen></img> 
+             }
+             Estimated Time Remaining      
+            <Clock time={60} size={100}/>
+           </div>          
            : null}
+        </div>   
 
         <div className="Steps Step_Two"> Step Two: LogOutput 
            { this.state.Step_Two ?
+           <div className="fadein">
            <div className="log">
               <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
            </div>
+             Estimated Time Remaining
+           <Clock time={55} size={100}/>
+           </div>          
            : null}
         </div>   
         
-        <div className="Steps Step_Three"> Step Three: register domain (module)</div>
-           <div className="popUp">
+        <div className="Steps Step_Three"> Step Three: register domain (module)
             <Modal show={this.state.Step_Three} onHide={this.closeModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Pick Your Subdomain</Modal.Title>
@@ -248,33 +260,32 @@ stopChckDeployedInterval() {
                      </Button>
                    </Form>
                  </Modal.Footer>
-              </Modal>               
-           </div>
+              </Modal>
+        </div>                     
+          
         
 
         <div className="Steps Step_Four"> Step Four: sshPostInstall console output 
         { this.state.Step_Four && this.state.socketCmd !==[] ?
+          <div className="fadein">
           <div className="log">
-            <div>{this.state.socketCmd}{' '}{this.state.socketResp}</div>
-          {
-            //  <div> {this.state.socketLog.map(line=><div>{line}</div>)} </div> 
-           }
+            <div>{this.state.socketCmd}</div>{this.state.socketResp.map(line=><div>{line}</div>)}
            </div>
+           Estimated Time Remaining
+           <Clock time={20} size={100}/>
+           </div>          
           :null 
         }
         </div>
 
-        <div className="Steps Step_Five"> Step Five: Countdown 3-2-1 success animation </div>  
-         { this.state.Step_Five ?
-       
-          
-          <ReactCountdownClock seconds={10}
-                     color="#EE9A00"
-                     alpha={0.9}
-                     size={200}
-                     onComplete={function(){window.location = 'http://localhost:9001/#/dashboard'}} />  
-              
-                : null}                          
+        <div className="Steps Step_Five"> Step Five: Countdown 3-2-1 success animation 
+         { this.state.Step_Five ? 
+          <div>
+         You Are almost there: 
+          <Clock time={10} size={100} callback={function(){window.location = 'http://localhost:9001/#/dashboard'}}/> 
+           </div>   
+                : null} 
+        </div>                                  
       </div>
     );
   }

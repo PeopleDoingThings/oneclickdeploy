@@ -73,15 +73,6 @@ a:hover {
     display: none;
 }
 
-.console {
-  background-color: #4A4A4A;
-  margin: 20px 20px 20px 0;
-  padding: 20px;
-  color: lightgray;
-  border: 2px solid darkblue;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
-  overflow: auto;
-}
 
 /**/
 
@@ -189,7 +180,7 @@ h1.logo {
 /* show/hide toggle for small screens */
 
 .showSideNav {
-  width: 298px !important;
+    width: 298px !important;
 }
 
 .side-bar .main-logo {
@@ -412,9 +403,9 @@ ul.user-profile-widget li img.avatar {
 /* Info Panel */
 
 .info-panel {
-  border: 1px solid #EDEFF0;
-  background-color: #fff;
-  padding: 20px;
+    border: 1px solid #EDEFF0;
+    background-color: #fff;
+    padding: 20px;
 }
 
 .info-panel .ip {
@@ -504,20 +495,18 @@ ul.user-profile-widget li img.avatar {
     padding-right: 20px;
 }
 
+
 /* Instance Buttons */
+
 #reinstall-instance-tooltip p {
-  padding: 20px;
-  color: lightgray;
-  border: 2px solid darkblue;
-  box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9);
-  height: 500px;
-  overflow: auto;
+    padding: 20px;
+    color: lightgray;
+    border: 2px solid darkblue;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+    height: 500px;
+    overflow: auto;
 }
 
-/* dashboard console */
-.dashboard-console {
-    height: 200px;
-}
 
 /* Graphs Styles */
 
@@ -612,18 +601,26 @@ path {
     background-color: black;
 }
 
+
 /*
 /* App Management Console
 */
+
 .app-management-console {
-  height: 500px;
+    background-color: #4A4A4A;
+    margin: 20px 20px 20px 0;
+    padding: 20px;
+    color: lightgray;
+    border: 2px solid darkblue;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+    height: 500px;
+    overflow: auto;
 }
 
 .has-feedback label~.form-control-feedback {
     top: 210px;
     font-size: 1.3em;
 }
-
 
 .log {
     width: 720px;
@@ -637,14 +634,22 @@ path {
     height: 405px;
     padding: 10px;
     color: #32CD32;
-    overflow:scroll;
+    overflow: scroll;
+}
+
+.fadein {
+    -webkit-transition: opacity 2s ease-in;
+    -moz-transition: opacity 2s ease-in;
+    -o-transition: opacity 2s ease-in;
+    -ms-transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in;
 }
 /*.loading_Page {
   opacity: 0.5;  
 }*/
 
 .Steps {
-    height: 150px;
+    height: auto;
     border-width: thin;
     border-style: solid;
     border-color: #EDEFF0;
@@ -655,7 +660,7 @@ path {
 }
 
 .Steps .log {
-    width: 720px;
+    /*  width: 720px;
     height: 405px;
     color: white;
     background: #000;
@@ -671,11 +676,19 @@ path {
     position: absolute;
     top: 25%;
     left: 25%;
-    /*width: 50%;
-    height: 50%;*/
     padding: 16px;
-    background-color: black;
-
+    background-color: black;*/
+    background-color: #4A4A4A;
+    margin: 20px 20px 20px 0;
+    padding: 20px;
+    color: lightgray;
+    border: 2px solid darkblue;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+    height: 500px;
+    overflow: auto;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: left;
 }
 
 .popUp {
@@ -690,6 +703,7 @@ path {
     position: absolute;
     transition: ease 1000ms linear;
 }
+
 .nav-tabs>li {
     width: 50%;
     color: #4A4A4A;
@@ -707,33 +721,29 @@ path {
 ** MEDIA QUERIES
 */
 
+
 /*************************************************/
 
 
 /* small screens */
+
 @media (max-width: 1084px) {
-  .hideHeader {
-    position: relative;
-    background-color: #EE9A00;
-    top: 0px;
-  }
-  .sideBarPanel {
-
-  }
-
-  .side-bar {
-    width: 0px;
-    z-index: 100;
-  }
-
-  .main {
-    margin-left: 0;
-    float: none;
-  }
-
-/* app management sobdomain input validation */
-  .has-feedback label~.form-control-feedback {
-    top: 395px;
-
-  }
+    .hideHeader {
+        position: relative;
+        background-color: #EE9A00;
+        top: 0px;
+    }
+    .sideBarPanel {}
+    .side-bar {
+        width: 0px;
+        z-index: 100;
+    }
+    .main {
+        margin-left: 0;
+        float: none;
+    }
+    /* app management sobdomain input validation */
+    .has-feedback label~.form-control-feedback {
+        top: 395px;
+    }
 }
