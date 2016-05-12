@@ -19,6 +19,7 @@ exports.callCreateNewInstance = function(id) {
 
   return Instance.find({ ownergitid: id })
     .then(function(data) {
+      console.log('instance find data: ', data)
       if(data.length > 0) {
         return Promise.reject( new Error('User Already Has An Instance!') );
       }
