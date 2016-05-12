@@ -13,6 +13,11 @@ describe('OVH Instance Commands', function() {
     
     var ready = yield OVH.checkReady(User)
 
+    // Need to wait for our previous snapshot test to complete snapshotting.
+    while(ready.isReady === false) {
+      ready = yield OVH.checkReady(User)
+    }
+
     expect( ready ).to.be.a('object')
     expect( ready ).to.have.property('isReady')
     expect( ready.isReady ).to.equal(true)
@@ -43,7 +48,7 @@ describe('OVH Instance Commands', function() {
     expect( reInstall ).to.have.property('publicip')
     expect( reInstall.ownergitid ).to.equal(User)
 
-    var ready = yield  OVH.checkReady(User)
+    var ready = yield OVH.checkReady(User)
 
     expect( ready ).to.be.a('object')
     expect( ready ).to.have.property('isReady')
@@ -61,14 +66,21 @@ describe('OVH Instance Commands', function() {
 
   })
 
-  it_('Should Not be Ready During Reinstall', function * () {
+  it_('Should Change to ACTIVE after Reinstall', function * () {
     this.timeout(10000);
     
+    var retries = 0;
     var ready = yield OVH.checkReady(User)
 
+    while(ready.isReady === false && retries < 3) {
+      ready = yield OVH.checkReady(User)
+      ++retries
+    }
+
+    expect( retries ).to.be.below(3)
     expect( ready ).to.be.a('object')
     expect( ready ).to.have.property('isReady')
-    expect( ready.isReady ).to.equal(false)
+    expect( ready.isReady ).to.equal(true)
     expect( ready.ip.ip ).to.not.equal(undefined)
 
   })
