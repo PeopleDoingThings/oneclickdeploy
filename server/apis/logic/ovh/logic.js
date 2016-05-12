@@ -174,6 +174,7 @@ exports.deleteBackup = function(gitid) {
     })
     .then(function(resp) {
       console.log('response from ovh get snapshots = ', resp)
+      console.log('snapshotId to filter = ', snapshotId)
       var toDelete = resp.filter( val => val.id === snapshotId);
       console.log('toDelete === ', toDelete)
       if(toDelete.length === 0) return Promise.reject( new Error('No SnapShot in DB Matches SnapShot in OpenStack Storage Cloud.') )
@@ -182,11 +183,24 @@ exports.deleteBackup = function(gitid) {
       return OVH.deleteSnapShot(toDelete[0].id);
     })
     .then(function(data) {
-      console.log('ovh snapshot resp = ')
+      console.log('ovh snapshot resp = ', data)
       if(data !== null) Promise.reject( new Error('Unable to Delete SnapShot!', data) )
-      return Snapshot.remove({
-        ownerid: snapshotId
+      return SnapShot.remove({
+        ownerid: gitid
       })
+    })
+    .catch(function(err) {
+      console.log('Delete err msg: ', err)
+      if( err.message === 'No SnapShot in DB Matches SnapShot in OpenStack Storage Cloud.') {
+        SnapShot.remove({
+          ownerid: gitid
+        })
+        .then(function(data) {
+          console.log('No Snapshot on Openstack, Making sure also not in DB')
+        })
+      }
+
+      return Promise.reject(err.message);
     })
 }
 
