@@ -1,31 +1,36 @@
 import React, { Component } from 'react';
 import {Motion, spring} from 'react-motion';
-import { Glyphicon, glyph, Badge } from 'react-bootstrap'
+import { Glyphicon, glyph, Badge, Panel, Button } from 'react-bootstrap'
 
 let topY = 60;
-let bottomY = -400;
+// let bottomY = -400;
 
-function showDetails() {
-  this.setState( {topDiv: -400, bottomDiv: 0} );
-}
+// function showDetails() {
+//   this.setState( {topDiv: -400, bottomDiv: 0} );
+// }
 
-function hideDetails() {
-  this.setState( {topDiv: topY, bottomDiv: bottomY} );
-}
+// function hideDetails() {
+//   this.setState( {topDiv: topY, bottomDiv: bottomY} );
+// }
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
       topDiv: topY,
-      bottomDiv: bottomY
+      open: true,
+      //bottomDiv: bottomY
     }
-    showDetails = showDetails.bind(this);
-    hideDetails = hideDetails.bind(this);
+    this.showDetails = this.showDetails.bind(this);
+    // hideDetails = hideDetails.bind(this);
   }
+
+  showDetails() {
+    return this.setState({open: true});
+  }
+
   render() {
     return (
-
       <div>
         <Motion defaultStyle={{ y: topY }} style={{ y: spring(this.state.topDiv) }}>
           {interpolatingStyle =>
@@ -55,7 +60,7 @@ export default class Login extends Component {
                   <img src="images/gear.png" style={{maxWidth: '55%', height:'auto'}} alt="Procfile logo" />
                 </div>
                 <a href="http://localhost:9001/login/github" className="btn btn-primary">sign in</a>
-                <button type="button" className="btn" onClick={showDetails}> find out more </button>
+                <Button onClick={this.showDetails}> find out more </Button>
               </div>
             </div>
             }
@@ -63,16 +68,16 @@ export default class Login extends Component {
           </div>  
            }
         </Motion>
-        <Motion defaultStyle={{y: bottomY}} style={{ y: spring(this.state.bottomDiv) }}>
-          {interpolatingStyle =>
-          <div className="home-details" style={{ height: 400, width: '100%', position: 'absolute', bottom: interpolatingStyle.y}} onClick={hideDetails}>
-            I wanna slide up</div>
-          }
-        </Motion>
+          <Panel collapsible expanded={this.state.open}>
+          <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+          Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+          </p>
+        </Panel>  
       </div>
     );
   }
 }
 
-//
+//<div className="home-details">
+            // I wanna slide up</div>
 

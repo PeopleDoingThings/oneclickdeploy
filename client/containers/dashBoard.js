@@ -40,7 +40,6 @@ export default class DashBoard extends Component {
     this.props.usageTX();
     this.props.usageRX();
     this.props.sshLogin();
-    this.state = {};
 
     
 
