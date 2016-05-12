@@ -62,12 +62,10 @@ describe('OVH Instance Output Data Tests', function() {
     this.timeout(10000);
 
     var consoleOutput = yield OVH.getConsoleOutput(User)
-      console.log('Output: ', consoleOutput)
       expect( consoleOutput ).to.be.a('object')
       expect( consoleOutput ).to.have.property('output')
       expect( consoleOutput.output ).to.be.a('string')
-      // Fix this:
-      // expect( consoleOutput.output.length ).to.be.at.least(50)
+      expect( consoleOutput.output.length ).to.be.at.least(50)
 
   })
 
