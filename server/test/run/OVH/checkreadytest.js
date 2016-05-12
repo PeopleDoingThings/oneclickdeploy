@@ -80,7 +80,6 @@ describe('OVH Instance Commands', function() {
 
     while(ready.isReady === false) {
       ready = yield OVH.checkReady(User)
-      console.log('recalling isready')
     }
 
     expect( ready ).to.be.a('object')
