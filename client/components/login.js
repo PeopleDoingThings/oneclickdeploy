@@ -41,41 +41,50 @@ export default class Login extends Component {
           <div className={"home-login " + slideUp + slideDown}>
               <div className="login col-centered">
                 <div className="home-title">
-                  <h1 className="logo">HyperJs</h1>
-                  <h2 style={{textAlign:'center'}} className="tagline">A fast way to put your node.js apps online</h2>
+                 <div className="main-logo"></div>
+                  <h3 style={{textAlign:'center'}} className="tagline">A fast way to put your node.js apps online</h3>
                 </div>  
-                <div className="node-intro col-md-4 max-size">
-                  <h3>node<Glyphicon glyph="ok" className="glyph" /></h3>
+                <div className="intro col-md-4 col-xs-12">
+                  <h2>node<Glyphicon glyph="ok" className="glyph" /></h2>
                   <p>1. Write a node.js app</p>
                   <img src="images/nodejs-logo.png" style={{maxWidth:'50%', height:'auto'}} alt="node.js logo" />
                 </div>
-                <div className="node-intro col-md-4">
-                  <h3>github<Glyphicon glyph="ok" className="glyph" /></h3>
+                <div className="intro col-md-4 col-xs-12">
+                  <h2>github<Glyphicon glyph="ok" className="glyph" /></h2>
                   <p>2. Put it in a public github repo</p>
                   <img src="images/Octocat.png" style={{maxWidth: '60%', height:'auto'}} alt="Github logo"/>
                 </div>
-                <div className="node-intro col-md-4">
-                  <h3>Procfile<Glyphicon glyph="ok" className="glyph" /></h3>
+                <div className="intro col-md-4 col-xs-12">
+                  <h2>Procfile<Glyphicon glyph="ok" className="glyph" /></h2>
                   <p>3. Add a standard Procfile</p>
-                  <img src="images/gear.png" style={{maxWidth: '55%', height:'auto'}} alt="Procfile logo" />
+                  <img src="images/gear.png" style={{maxWidth: '48%', height:'auto'}} alt="Procfile logo" />
                 </div>
-                <p>Everything sounds good? Get started by signing into Github</p>
-                <a href="/login/github" className="signIn btn btn-primary">sign in</a>
+                <div className="clearfix"></div>
+                <p className="login-intro">Everything sounds good? Get started by signing into Github</p>
+                <a href="http://localhost:9001/login/github" className="signIn">sign in</a>
                 <h4>Feeling confused? See below</h4>
                 <button className="tooltips" onClick={this.showDetails}><span>find out more</span></button>
               </div>
           </div>  
 
-          <div id="homeDetails" className={ "home-details " + slideUp + slideDown } onClick={this.hideDetails}>
-            <div className="col-md-4"><h2>Step one</h2>
+          <div id="homeDetails" className={ "home-details " + slideUp + slideDown }>
+            <div className="col-md-4"><h3>One virtual instance & one app at a time</h3>
+              <div className="image"><span className="instance"></span></div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
             </div>
-            <div className="col-md-4"><h2>Step two</h2>
+            <div className="col-md-4"><h3>Why Node & how about my database?</h3>
+              <div className="image"><span className="node"></span></div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
             </div>
-            <div className="col-md-4"><h2>Step two</h2>
+            <div className="col-md-4"><h3>and what's a procfile?</h3>
+              <div className="image"><span className="procfile"></span></div>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
             </div>
+              <div className="clearfix"></div>
+              <div className="controls">
+              <a href="http://localhost:9001/login/github" className="controlButton">Get Started</a>
+              <a href="#" className="controlButton" onClick={this.hideDetails}>back to the top</a>
+              </div>
           </div>
       </div>
     )
