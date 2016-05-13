@@ -3,6 +3,8 @@ var SSH2 = require('../../ssh2.js');
 
 
 exports.postInstallHost = function(instanceData, cmdArray, data, repoData) {
+var count = 0;
+
 var obj = {
     server: {
       host: instanceData.publicip,
@@ -11,11 +13,24 @@ var obj = {
       password: data.password
     },
     commands: cmdArray,
+    diableColorFilter:  false, //optional bollean 
     idleTimeOut: 30000,  // 30 second idle timeout. We can deal with timeout events below
     onCommandComplete: function( command, response, sshObj ) {
+      ++count
+      console.log('host onCommandComplete # ', count)
+      // socketid.forEach(function(val) {
+      //   Global.io.sockets.connected[`/#${val}`].emit('sshresp', stdout);
+      // })
+
+      var asciiFilter = "[^\r\n\x20-\x7e]"
+      var textColorFilter = "(\x1b\[[0-9;]*m)"
+
+      response = response.replace(asciiFilter, "")
+
       console.log('||| COMMAND START |||')
-      console.log('command ======= ', command)
+      console.log('response no stringify ======= ', command)
       console.log('||| COMMAND END |||')
+
       // If there is no response from the command (because the file we grep doesn't exist) it sets false.
       if(command === 'cat bower.json') {
         var find = response.split("\r\n");

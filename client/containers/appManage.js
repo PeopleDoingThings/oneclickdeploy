@@ -21,7 +21,7 @@ export default class AppManagement extends Component {
      socket.on('sshconn', function(ssh) {
           //console.log('ssh connected!!!!!!!', ssh);
       socket.emit('sshstart');
-      //console.log('emitted sshstart')
+      console.log('emitted sshstart')
     })
 
     socket.on('sshcmd', function(cmd) {
@@ -31,10 +31,10 @@ export default class AppManagement extends Component {
     })
 
     socket.on('sshresp', function(resp) {
-      //console.log('SSH Resp: ', resp)
+      console.log('SSH Resp: ', resp)
       result.push(resp.split('\n'));
       that.setState({log: result});
-      console.log('result resp:', that.state.log )
+      // console.log('result resp:', that.state.log )
     })
 
   }

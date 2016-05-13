@@ -32,11 +32,11 @@ exports.postInstallSetup = function(repoData, loginData) {
     'cat bower.json',
     'cat webpack.config.js',
     'cat knexfile.js | grep database',  //only look at first db. //look for production db in future releases.
-    'cat Procfile',  
+    'cat Procfile',
     'cd ../instance-monitor',
     'npm install',
     'export MONITOR_SYSTEM=instance',
-    'ls -l',
+    'ls -l --color=always',
     'svn update',
     `echo "module.exports = [\\"${daemonToken}\\"];" > 'token_list.js'`, //inject our token key.
     'forever start server/daemon.js',
