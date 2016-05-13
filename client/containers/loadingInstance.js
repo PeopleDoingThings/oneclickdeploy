@@ -7,6 +7,7 @@ import  ReactCountdownClock from 'react-countdown-clock';
 import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 import Clock from '../components/countClock';
+import ErrorHandler from '../components/errorHandler'
 
 
 
@@ -15,22 +16,26 @@ class Loading extends Component {
   super(props); 
   console.log('log all pros',this.props)
   this.state = {
-    selectedSubdomain: 'test',
+    selectedSubdomain: '',
     Step_One: true,
     Step_Two: false,
     Step_Three: false,
     Step_Four: false,
     Step_Five: false,
+    ErrorHandler: false,
     socketCmd: [],
-    socketResp: []
+    socketResp: [],
+    height: 200
   }
 
  
 var component= this;
 
+this.getValidationState = this.getValidationState.bind(this);
 this.onInputChange = this.onInputChange.bind(this);
 this.onFormSubmit = this.onFormSubmit.bind(this);
 this.closeModal = this.closeModal.bind(this);
+this.handleScroll = this.handleScroll.bind(this);
 
 this.cksInsID1 ='';
 this.logOutput0 ='';
@@ -38,7 +43,9 @@ this.logOutput1 ='';
 this.ckDep2 =''; 
 this.delay ='';  
 component.startChckInstInterval();
+this.divStyle = {'height':400}
 }
+
 
 componentDidMount(){
     var component = this;
@@ -59,8 +66,34 @@ componentDidMount(){
     console.log('SSH Resp: ', resp)
     output.push('>> ' + resp)
     component.setState({socketResp: output}) 
-})
+    })
+
+    window.addEventListener('scroll', this.handleScroll);
 }
+
+
+componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+}
+
+handleScroll(event) {
+console.log('handeling scroll')
+  this.state.Step_Two ?
+        this.setState({
+          height: 200
+        }) :
+        this.setState({
+          height: 400
+        })
+}
+
+ getValidationState() {
+    const invalidRegexp =  /[^a-zA-Z0-9\-]/;
+    const selectedSubdomain = "" + this.state.selectedSubdomain;
+    if (invalidRegexp.test(selectedSubdomain) === false && selectedSubdomain.length < 62) {return 'success'}
+    else if (invalidRegexp.test(selectedSubdomain) === true || selectedSubdomain.length > 62) {return 'error'}
+  }
+
 
 onInputChange(event) {
   this.setState({selectedSubdomain:event.target.value});
@@ -74,6 +107,7 @@ onFormSubmit(event) {
   this.setState({Step_Four: true})
   this.delayCheckDeployed() 
 }
+
 
 
 closeModal(){
@@ -103,10 +137,9 @@ startLogOutputInterval() {
       }, 12000);
     this.logOutput1 = setInterval(function(){
         component.props.updateLogFile();
-        console.log('state.step_two: ', component.state.Step_Two )
-        console.log('logoutput length: ',component.props.LogOutput.length)
+      //  console.log('state.step_two: ', component.state.Step_Two )
+       // console.log('logoutput length: ',component.props.LogOutput.length)
         if (component.state.Step_Two && component.props.LogOutput.length === 23){
-          console.log('inside if statement')
           component.setState({Step_Two:false})
           component.setState({Step_Three:true})
           component.stopLogOutputInterval();
@@ -173,6 +206,9 @@ var sshRan = 0 ;
            sshRan++;
            this.props.sshPostInstall(window.localStorage.getItem('repoID'));
         }
+        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[0].deployerror !== 'none' && sshRan===1){
+          component.setState({ErrorHandler:true})
+        }
         if(component.props.DeployedStatus === true){           
           console.log('isDeployed statement is true')
           console.log('about to stop Interval 2 checkdeployed')
@@ -204,11 +240,10 @@ stopChckDeployedInterval() {
 
 
   render() {
+    console.log('logging height', this.state.height)
     return (
       <div>
-      {
-     // <div className="overlay"></div>
-       }
+       {this.state.ErrorHandler ? <ErrorHandler errorMsg="lets test this error"/> : <div>
         <div className="Steps Step_One"> Step One: Explain What (Will) Happen  
            { this.state.Step_One ?
            <div className="fadein">
@@ -225,7 +260,7 @@ stopChckDeployedInterval() {
         <div className="Steps Step_Two"> Step Two: LogOutput 
            { this.state.Step_Two ?
            <div className="fadein">
-           <div className="log">
+           <div className="log" style={this.divStyle}>
               <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
            </div>
              Estimated Time Remaining
@@ -245,14 +280,16 @@ stopChckDeployedInterval() {
                 <Modal.Footer>
                   <Button onClick={this.closeModal}>Cancel</Button>
                    <Form inline>
-                    <FormGroup controlId="formInlineName">             
+                    <FormGroup controlId="formInlineName" validationState={this.getValidationState()}>             
                       {' '}
+                      <FormControl.Feedback/>
                       <FormControl 
                       type="text" 
                       value={this.state.selectedSubdomain}
                       onChange={this.onInputChange} 
-                      />
+                      />          
                       <ControlLabel>.hyperjs.io</ControlLabel>
+
                     </FormGroup>
                       {' '}
                      <Button onClick={this.onFormSubmit}>
@@ -268,7 +305,7 @@ stopChckDeployedInterval() {
         <div className="Steps Step_Four"> Step Four: sshPostInstall console output 
         { this.state.Step_Four && this.state.socketCmd !==[] ?
           <div className="fadein">
-          <div className="log">
+          <div className="sshLog" style={this.divStyle}>
             <div>{this.state.socketCmd}</div>{this.state.socketResp.map(line=><div>{line}</div>)}
            </div>
            Estimated Time Remaining
@@ -285,7 +322,10 @@ stopChckDeployedInterval() {
           <Clock time={10} size={100} callback={function(){window.location = 'http://localhost:9001/#/dashboard'}}/> 
            </div>   
                 : null} 
-        </div>                                  
+        </div>  
+
+        </div>}
+
       </div>
     );
   }

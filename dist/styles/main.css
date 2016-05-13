@@ -711,11 +711,17 @@ path {
 }
 
 .sshLog {
-    width: 720px;
-    height: 405px;
-    padding: 10px;
-    color: #32CD32;
-    overflow: scroll;
+    background-color: #4A4A4A;
+    margin: 20px 20px 20px 0;
+    padding: 20px;
+    color: lightgray;
+    border: 2px solid darkblue;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+    height: 400px;
+    overflow: auto;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: left;
 }
 
 .fadein {
@@ -765,7 +771,7 @@ path {
     color: lightgray;
     border: 2px solid darkblue;
     box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
-    height: 500px;
+    height: 200px;
     overflow: auto;
     font-size: 13px;
     font-weight: normal;
