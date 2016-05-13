@@ -19,6 +19,8 @@ lightGrey: #EDEFF0;
 cream: #FEF7E3;
 */
 
+@font-face { font-family: Avenir-Regular; src: url('../fonts/AvenirNextLTPro-Regular.woff'); }
+@font-face { font-family: Avenir; src: url('../fonts/AvenirNextLTPro-Bold.woff'); }
 @import url(https://fonts.googleapis.com/css?family=Bowlby+One+SC|Roboto:400,300,500,700);
 body {
     font-family: 'Roboto', sans-serif;
@@ -35,6 +37,34 @@ body {
     from { width: 0%; }
     to { width: 70%; }
 }*/
+
+/*
+  Live VNC Console
+*/
+
+canvas#noVNC_canvas {
+  width: 100% !important;
+}
+
+.login.col-md-4.col-centered {
+  height: 500px !important;
+  width: 90%;
+}
+
+div#noVNC_screen {
+  height: initial !important;
+}
+
+iframe {
+  padding-top: 20px;
+  height: 450px !important;
+  position: inherit !important;
+  overflow: auto;
+}
+
+/*
+  Live VNC Console End
+*/
 
 .left {
     float: left;
@@ -117,8 +147,16 @@ a:hover {
     padding: 0;
 }
 
+h3.tagline {
+  font-family: Avenir;
+}
+
+.intro p {
+  font-family: Avenir-Regular;
+}
+
 .home-login {
-    background-color: #F16521;
+    background-color: #FFF8DC;
     color: #33332D;
     font-size: 1.2em;
     padding-bottom: 220px;
@@ -142,7 +180,7 @@ a:hover {
 }
 
 .main-logo {
-  background: no-repeat center url("../images/logo.png");
+  background: no-repeat center url("../images/logoalt.png");
   height: 86px;
   width: 100%;
   text-align: center;
@@ -152,6 +190,7 @@ a:hover {
 }
 
 .login-intro {
+  font-family: Avenir-Regular;
   margin-top: 30px;
 }
 
@@ -159,6 +198,7 @@ a:hover {
   text-align: center;
 }
 .intro h2, .intro p  {
+  font-family: Avenir-Regular;
   text-align: left;
   margin-left: 65px;
 }
@@ -211,7 +251,7 @@ a .signIn {
 }
 
 .tooltips:hover, .tooltips:focus, .tooltips:visited {
-  background: #DDCDB7;
+  background: #008B8B;
   outline: none;
 }
 .tooltips:hover:after, .tooltips:focus:after, .tooltips:visited:after {
@@ -221,7 +261,7 @@ a .signIn {
 
 .home-details {
   background-color: #162B26;
-  min-height: 500px;
+  min-height: 400px;
   color: #FEF7E3;
   padding: 20px;
 }
@@ -482,6 +522,10 @@ ul.user-profile-widget li img.avatar {
     background-color: #FAFAFA;
     border-radius: 0;
     padding: 0;
+}
+
+h4 {
+  font-family: Avenir-Regular;
 }
 
 .panel .panel-heading h4 a {
