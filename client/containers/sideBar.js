@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import ClassNames from 'ClassNames';
+import ClassNames from 'classnames';
 import User from '../components/user';
 import SidebarNav from '../components/sidebarNav.js'
 

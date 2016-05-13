@@ -66,8 +66,6 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
             }
           })
 
-       
-
       })
 
       SSHClient.on("error", function onError(err, type, close, callback) {
@@ -290,12 +288,17 @@ exports.restartJS = function(host, gitid) {
       console.log('Connection Ready, Starting Install!')
     });
 
+    SSHClient.on ("commandProcessing", function onCommandProcessing( command, response, sshObj, stream )  { 
+      socketid.forEach(function(val) {
+        Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
+      })
+    });
+
     SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
 
       console.log('SSH Command Complete, Emitting!');
       socketid.forEach(function(val) {
-        Global.io.sockets.connected[`/#${val}`].emit('sshcmd', `Just for you! ${command}`);
-        Global.io.sockets.connected[`/#${val}`].emit('sshresp', `Just for you! ${response}`);
+        Global.io.sockets.connected[`/#${val}`].emit('sshresp', response);
       })
 
       if(command === "forever list --no-color") {
