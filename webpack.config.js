@@ -20,11 +20,21 @@ module.exports = {
     publicPath: '/',
     filename: PROD ? 'bundle.min.js' : 'bundle.js'
   },
-  plugins: PROD ? [
+  plugins:
+  [
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: { warnings: false },
+      comments: false
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
     })
-  ] : [],
+  ],
+  // :
+  // // not PROD
+  // [],
 
 
   //to redirect users back to index page for React to route pages and bypass the browser making http request for such page

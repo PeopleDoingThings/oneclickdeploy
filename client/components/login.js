@@ -60,7 +60,7 @@ export default class Login extends Component {
                   <img src="images/gear.png" style={{maxWidth: '55%', height:'auto'}} alt="Procfile logo" />
                 </div>
                 <p>Everything sounds good? Get started by signing into Github</p>
-                <a href="http://localhost:9001/login/github" className="signIn btn btn-primary">sign in</a>
+                <a href="/login/github" className="signIn btn btn-primary">sign in</a>
                 <h4>Feeling confused? See below</h4>
                 <button className="tooltips" onClick={this.showDetails}><span>find out more</span></button>
               </div>

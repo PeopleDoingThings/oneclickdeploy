@@ -18,9 +18,6 @@ var obj = {
     onCommandComplete: function( command, response, sshObj ) {
       ++count
       console.log('host onCommandComplete # ', count)
-      // socketid.forEach(function(val) {
-      //   Global.io.sockets.connected[`/#${val}`].emit('sshresp', stdout);
-      // })
 
       var asciiFilter = "[^\r\n\x20-\x7e]"
       var textColorFilter = "(\x1b\[[0-9;]*m)"
