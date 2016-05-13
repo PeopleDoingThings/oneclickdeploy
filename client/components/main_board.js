@@ -24,7 +24,7 @@ class MainBoard extends Component {
          
           <div className="main col-lg-9 col-xs-12">
             <div className="welcome-banner">
-              <h2>Welcome Back,{auth.login}</h2>
+              <h2>Welcome Back, {auth.login}</h2>
               <h4>Here's what's going on with your apps</h4>
             </div>
             {this.props.children}
