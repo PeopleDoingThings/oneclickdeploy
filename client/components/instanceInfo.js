@@ -29,7 +29,7 @@ export default class InstanceInfo extends Component {
     console.log('component props:', this.props)
 
     return (
-      <div className="col-xs-12 col-md-4 col-lg-4">  
+      <div className="col-xs-12 col-md-4 col-lg-5">  
         <div className="info-panel">
           <div>
             <div className="ip">{instance.ip.ip}</div>

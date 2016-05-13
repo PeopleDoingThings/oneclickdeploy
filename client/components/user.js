@@ -6,7 +6,7 @@ export default class UserProfile extends Component {
   render(){
   		return (
         <div>
-          <div className="main-logo">GHV</div>
+          <div className="sidebar-logo"></div>
   				<div className="user-profile">
             <ul className="user-profile-widget">
               <li><button><Glyphicon glyph="cog" /></button></li>

@@ -56,7 +56,7 @@ export default class DashBoard extends Component {
                 SSHLogin={this.props.SSHLogin}
           />
 
-          <div className="col-xs-12 col-md-6 col-lg-8">   
+          <div className="col-xs-12 col-md-7 col-lg-7">   
             <InstanceButtons />   
             <InstanceConsole response={this.props.instanceCtrls} />    
             { renderChart() }
