@@ -1,4 +1,16 @@
 var path = require('path');
+var webpack = require('webpack');
+
+
+// Change index.html to use bundle.min.js instead of bundle.js
+// and `export NODE_ENV='production'` to run in prod
+//
+// TODO  - Add the above to webpack
+
+var PROD = process.env.NODE_ENV === 'production'
+if (PROD) console.log('in production')
+
+
 module.exports = {
   entry: [
     './client/index.js'
@@ -6,8 +18,15 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
-    filename: './bundle.js'
+    filename: PROD ? 'bundle.min.js' : 'bundle.js'
   },
+  plugins: PROD ? [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    })
+  ] : [],
+
+
   //to redirect users back to index page for React to route pages and bypass the browser making http request for such page
   // historyApiFallback: {
   // index: '/'
@@ -28,10 +47,8 @@ module.exports = {
       react: path.join(__dirname, 'node_modules', 'react')
     },
     extensions: ['', '.js', '.jsx']
-
   },
-
-   devServer: {
+  devServer: {
     host: 'localhost',
     port: 8080,
     contentBase:'./client/',
