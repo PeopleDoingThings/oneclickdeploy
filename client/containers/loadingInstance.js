@@ -15,7 +15,7 @@ class Loading extends Component {
   super(props); 
   console.log('log all pros',this.props)
   this.state = {
-    selectedSubdomain: 'test',
+    selectedSubdomain: '',
     Step_One: true,
     Step_Two: false,
     Step_Three: false,

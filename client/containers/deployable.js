@@ -25,7 +25,6 @@ handleClick (repoID){
 }
 
 refreshBtn(){
-    console.log('refresh button is working')
     this.props.refreshRepo();
 }
 
@@ -34,7 +33,6 @@ hideForm (){
 }
 
 renderList() {
-  console.log('envars in deployable', this.props.envVars)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
       return "Loading....."
     } else {
@@ -46,7 +44,14 @@ renderList() {
       return (this.props.repos.map((repo) => {
         if(repo.deployed===false)
         return (
-            <Panel key={repo.repoid} header={repo.name} id={repo.repoid} repoName={repo.name} eventKey={counter++}>
+            <Panel 
+            key={repo.repoid} 
+            header={repo.name} 
+            id={repo.repoid} 
+            repoName={repo.name} 
+            eventKey={counter++} 
+            onEnter={()=>{this.props.getEnvVar(repo.repoid); this.setState({showForm: false})}}
+            >
               {!this.state.showForm ?
                 <div>
                 <RepoItem repoItem={repo} />
@@ -75,8 +80,8 @@ renderList() {
             {''}
             {''}
             {''}
-          <h5>Refresh GitHub Repos</h5> 
-          <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Refresh Repo List</button>
+          <h5>Fetch My GitHub Repos</h5> 
+          <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Refresh</button>
       </div>
     );
   }
@@ -88,7 +93,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log('state: ', state)
   return {
     repos: state.reducers.repos,
     envVars: state.reducers.envVar
