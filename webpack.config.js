@@ -1,6 +1,5 @@
 var path = require('path');
 var webpack = require('webpack');
-var WebpackStrip = require('strip-loader');
 
 // Change index.html to use bundle.min.js instead of bundle.js
 // and `export NODE_ENV='production'` to run in prod
