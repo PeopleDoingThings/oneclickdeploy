@@ -33,7 +33,9 @@ export default class liveConsole extends Component {
           <h4>Live Console</h4>
           <p>Actively manage your instance with ssh in our live console</p>
           <Button onClick={this.getConsole}>Enter Live Console</Button>
-          <Iframe url={this.state.url} />
+          <div>
+          <Iframe style={{position:'relative'}} url={this.state.url} />
+          </div>
 
         </div>
       </div>  
