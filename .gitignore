@@ -34,6 +34,7 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
-bundle.js
+dist/bundle.js
+dist/bundle.min.js
 # ds
 .DS_Store

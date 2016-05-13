@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-
+var WebpackStrip = require('strip-loader');
 
 // Change index.html to use bundle.min.js instead of bundle.js
 // and `export NODE_ENV='production'` to run in prod
@@ -23,8 +23,9 @@ module.exports = {
   plugins:
   [
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-      comments: false
+      compress: { warnings: false, drop_console: true },
+      comments: false,
+      minimize: true
     }),
     new webpack.DefinePlugin({
       'process.env': {
@@ -32,25 +33,18 @@ module.exports = {
       }
     })
   ],
-  // :
-  // // not PROD
-  // [],
-
-
-  //to redirect users back to index page for React to route pages and bypass the browser making http request for such page
-  // historyApiFallback: {
-  // index: '/'
-  // },
   historyApiFallback: true,
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel',
-      include: __dirname,
-      query: {
-        presets: [ 'es2015', 'react']
+    loaders: [
+      {
+        exclude: /node_modules/,
+        loader: 'babel',
+        include: __dirname,
+        query: {
+          presets: [ 'es2015', 'react']
+        }
       }
-    }]
+    ]
   },
   resolve: {
      alias: {

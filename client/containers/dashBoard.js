@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
-import InstanceInfo from '../components/InstanceInfo';
+import InstanceInfo from '../components/instanceInfo';
 import InstanceButtons from '../components/instanceButtons';
 import InstanceConsole from '../components/instanceConsole';
 
