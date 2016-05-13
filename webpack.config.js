@@ -19,7 +19,7 @@ module.exports = {
     publicPath: '/',
     filename: PROD ? 'bundle.min.js' : 'bundle.js'
   },
-  plugins:
+  plugins: PROD ?
   [
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false, drop_console: true },
@@ -31,7 +31,7 @@ module.exports = {
         'NODE_ENV': JSON.stringify('production')
       }
     })
-  ],
+  ] : [],
   historyApiFallback: true,
   module: {
     loaders: [
