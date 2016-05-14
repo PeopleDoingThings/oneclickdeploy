@@ -6,9 +6,9 @@ import { Provider } from 'react-redux'
 import { createHashHistory } from 'history'
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
-import './styles/main.css'
-import './styles/bootstrap.css'
+import './styles/abootstrap.css'
 import './styles/bootstrap-theme.css'
+import './styles/main.css'
 
 import ReduxPromise from 'redux-promise'
 
