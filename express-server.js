@@ -69,7 +69,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Requests for files & pages go to express static. Handle the rest seperately on new Routers.
-app.use('/', express.static('./dist'));
+if(process.env.ENV === 'production') app.use('/', express.static('./dist', { index: 'pindex.html' }));
+else app.use('/', express.static('./dist'));
 
 app.use('/login/', LoginRoutes);
 app.use('/api/ovh/', AuthUser, OVHRoutes);
