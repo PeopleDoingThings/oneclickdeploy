@@ -17,7 +17,13 @@ exports.callCreateNewInstance = function(id) {
   var name = Hat().slice(6);
   var pass = Hat().slice(0, 9);
 
-  return Instance.find({ ownergitid: id })
+  return OVH.getInstanceList()
+    .then(function(data) {
+      console.log('Instance List Length: ', data.length)
+      if(data.length > 8) return Promise.reject( new Error('Instance Limit Reached!') )
+
+      return Instance.find({ ownergitid: id });
+    })
     .then(function(data) {
       console.log('instance find data: ', data)
       if(data.length > 0) {
