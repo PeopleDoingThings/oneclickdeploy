@@ -330,7 +330,7 @@ stopChckDeployedInterval() {
           </div>
           {
           <div className="sshLog" style={this.divStyle}>
-            <div><pre>{this.state.socketCmd}</pre></div>{this.state.socketResp.map(line=><div><pre>{line}</pre></div>)}
+            <pre>{this.state.socketCmd + this.state.socketResp.join('')}</pre>
            </div>
          }
            Estimated Time Remaining
