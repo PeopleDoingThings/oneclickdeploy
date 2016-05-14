@@ -61,7 +61,7 @@ export default class Login extends Component {
                 </div>
                 <div className="clearfix"></div>
                 <p className="login-intro">Everything sounds good? Get started by signing into Github</p>
-                <a href="http://localhost:9001/login/github" className="signIn">Sign in</a>
+                <a href="/login/github" className="signIn">Sign in</a>
                 <h4>Feeling confused? See below</h4>
                 <button className="tooltips" onClick={this.showDetails}><span>Find out more</span></button>
               </div>

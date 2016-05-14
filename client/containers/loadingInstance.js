@@ -342,7 +342,7 @@ stopChckDeployedInterval() {
          { this.state.Step_Five ? 
           <div>
           Grab some popcorn; here comes the good part!
-          <Clock time={10} size={100} callback={function(){window.location = 'http://localhost:9001/#/dashboard'}}/> 
+          <Clock time={10} size={100} callback={function(){window.location = window.location.origin + '/#/dashboard'}}/> 
            </div>   
                 : null} 
         </div>  

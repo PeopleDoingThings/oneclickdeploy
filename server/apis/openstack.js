@@ -9,7 +9,8 @@ exports.getNewToken = function() {
         reject(err);
         return;
       } 
-      else if(res.statusCode !== 200) {
+      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+        Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
       }
@@ -26,6 +27,11 @@ exports.getFlavors = function() {
         reject(err);
         return;
       }
+      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+        Global.tokenAge = undefined;
+        reject(res.statusMessage);
+        return;
+      }
 
       resolve(res);
     })
@@ -37,6 +43,11 @@ exports.getConsoleOutput = function(serverid) {
     req.post(Helpers.createConsoleOpts(serverid), function(err, res) {
       if(err) {
         reject(err);
+        return;
+      }
+      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+        Global.tokenAge = undefined;
+        reject(res.statusMessage);
         return;
       }
 
@@ -52,6 +63,11 @@ exports.createNewInstance = function(name, id, pass) {
         reject(err);
         return;
       }
+      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+        Global.tokenAge = undefined;
+        reject(res.statusMessage);
+        return;
+      }
 
       resolve(res.body);
     })
@@ -63,6 +79,11 @@ exports.createNoVNCConsole = function(id) {
     req.post(Helpers.createVNCOpts(id), function(err, res) {
       if(err) {
         reject(err);
+        return;
+      }
+      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+        Global.tokenAge = undefined;
+        reject(res.statusMessage);
         return;
       }
 

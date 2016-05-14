@@ -1,5 +1,7 @@
 var Global = {
-    io : { }
+    io : { },
+    tokenAge: { },
+    find: true
 };
 
 module.exports = Global;
