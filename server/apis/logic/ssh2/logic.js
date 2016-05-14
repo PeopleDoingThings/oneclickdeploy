@@ -41,31 +41,10 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
       })
     });
 
-      var previous = 0;
-      var execemit = 0;
       SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
-
-        console.log('Event Listener onCommandComplete # ', previous)
-        ++previous
-
-          process.env.cmdString = response
-
-          var ansi = 'echo $cmdString | ./ansi2html.sh --body-only'
-
-          exec(ansi, (err, stdout, stderr) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('emmiting from exec!', execemit)
-              console.log('emmiting from exec OUTPUT!', stdout)
-              stdout = stdout.replace(/class=\"/g, 'className="')
-              ++execemit
-              socketid.forEach(function(val) {
-                Global.io.sockets.connected[`/#${val}`].emit('sshresp', `<pre>\n${stdout}</pre>`);
-              })
-            }
-          })
-
+        socketid.forEach(function(val) {
+          Global.io.sockets.connected[`/#${val}`].emit('sshresp', response);
+        })
       })
 
       SSHClient.on("error", function onError(err, type, close, callback) {
