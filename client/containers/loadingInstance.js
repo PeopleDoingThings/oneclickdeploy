@@ -7,7 +7,8 @@ import  ReactCountdownClock from 'react-countdown-clock';
 import { Modal, Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
 import io from 'socket.io-client';
 import Clock from '../components/countClock';
-import ErrorHandler from '../components/errorHandler'
+import ErrorHandler from '../components/errorHandler';
+import Ansi from 'ansi-to-react';
 
 
 
@@ -50,7 +51,8 @@ this.divStyle = {'height':400}
 componentDidMount(){
     var component = this;
     var socket = io.connect('/');
-    var output = [];
+    var outputCmd = [];
+    var outputResp = [];
     socket.on('sshconn', function(ssh) {
       console.log('ssh connected!!!!!!!', ssh);
       socket.emit('sshstart');
@@ -59,13 +61,17 @@ componentDidMount(){
 
     socket.on('sshcmd', function(cmd) {
       console.log('SSH CMD: ', cmd)
-      component.setState({socketCmd: '$ '+ cmd}) 
+      outputCmd.push('$ '+ cmd)
+      component.setState({socketCmd: outputCmd}) 
     })
 
     socket.on('sshresp', function(resp) {
     console.log('SSH Resp: ', resp)
-    output.push('>> ' + resp)
-    component.setState({socketResp: output}) 
+      //outputResp[0]=resp.split('\n').map(line=>{'>> '+line+'\n'}).join('')
+    //resp.split('\n').map(line=>outputResp.push('>> '+line))
+
+    outputResp.push('>> ' + resp)
+    component.setState({socketResp: outputResp}) 
     })
 
     window.addEventListener('scroll', this.handleScroll);
@@ -201,12 +207,12 @@ var sshRan = 0 ;
         if(component.props.DeployedStatus === undefined){
           console.log('depl status undefiend ')
         }
-        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[0].deployerror !== 'none' && sshRan===0){
+        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[component.props.DeployedStatus.length-1].deployerror !== 'none' && sshRan===0){
            console.log('deployerror: rerunning sshPostInstall')
            sshRan++;
            this.props.sshPostInstall(window.localStorage.getItem('repoID'));
         }
-        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[0].deployerror !== 'none' && sshRan===1){
+        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[component.props.DeployedStatus.length-1].deployerror !== 'none' && sshRan===1){
           component.setState({ErrorHandler:true})
         }
         if(component.props.DeployedStatus === true){           
@@ -250,9 +256,10 @@ stopChckDeployedInterval() {
            We are creating your instance 
              {
              // <img width="360" height="215" src="images/githubScotch.gif"  frameborder="0" allowfullscreen></img> 
-             }
-             Estimated Time Remaining      
-            <Clock time={60} size={100}/>
+             
+            //  Estimated Time Remaining      
+            // <Clock time={60} size={100}/>
+          }
            </div>          
            : null}
         </div>   
@@ -305,9 +312,27 @@ stopChckDeployedInterval() {
         <div className="Steps Step_Four"> Step Four: sshPostInstall console output 
         { this.state.Step_Four && this.state.socketCmd !==[] ?
           <div className="fadein">
+          <div>
+          {
+           // <pre>
+           // {this.state.socketCmd}
+           // </pre>
+           // <pre>
+           // {this.state.socketResp}
+           // </pre>
+         }
+          {
+            // <Ansi>
+            // {this.state.socketCmd}
+            // </Ansi>
+            // {this.state.socketResp.map(line=><Ansi>{line}</Ansi>)}
+          }
+          </div>
+          {
           <div className="sshLog" style={this.divStyle}>
-            <div>{this.state.socketCmd}</div>{this.state.socketResp.map(line=><div>{line}</div>)}
+            <div><pre>{this.state.socketCmd}</pre></div>{this.state.socketResp.map(line=><div><pre>{line}</pre></div>)}
            </div>
+         }
            Estimated Time Remaining
            <Clock time={20} size={100}/>
            </div>          

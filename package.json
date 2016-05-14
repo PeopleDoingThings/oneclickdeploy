@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/PeopleDoingThings/oneclickdeploy#readme",
   "dependencies": {
+    "ansi-to-react": "0.0.4",
     "axios": "^0.10.0",
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
