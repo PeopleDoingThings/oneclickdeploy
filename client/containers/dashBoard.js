@@ -61,7 +61,6 @@ export default class DashBoard extends Component {
             <InstanceConsole response={this.props.instanceCtrls} />    
             { renderChart() }
           </div>
-          <div className="clearfix"></div>
         </div>        
         )
     } else {
