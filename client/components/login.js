@@ -61,29 +61,33 @@ export default class Login extends Component {
                 </div>
                 <div className="clearfix"></div>
                 <p className="login-intro">Everything sounds good? Get started by signing into Github</p>
-                <a href="http://localhost:9001/login/github" className="signIn">sign in</a>
+                <a href="http://localhost:9001/login/github" className="signIn">Sign in</a>
                 <h4>Feeling confused? See below</h4>
-                <button className="tooltips" onClick={this.showDetails}><span>find out more</span></button>
+                <button className="tooltips" onClick={this.showDetails}><span>Find out more</span></button>
               </div>
           </div>  
 
           <div id="homeDetails" className={ "home-details " + slideUp + slideDown }>
-            <div className="col-md-4"><h3>One virtual instance & one app at a time</h3>
+            <div className="col-md-4"><h3>How does this work?</h3>
               <div className="image"><span className="instance"></span></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
+              <p>We're trying to make it easier to put new projects online.</p>
             </div>
             <div className="col-md-4"><h3>Why Node & how about my database?</h3>
               <div className="image"><span className="node"></span></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
+              <p>All software has to start somewhere. Chrome wasn't built in a day. We like node.js.</p>
+              <p>As far as storage goes, there are a lot of great databases out there. We're supporting
+              MongoDB and PostgreSQL, because that's what the person at Starbucks with all the programming
+              stickers on their MacBook said we should do.</p>
             </div>
-            <div className="col-md-4"><h3>and what's a procfile?</h3>
+            <div className="col-md-4"><h3>What's a Procfile?</h3>
               <div className="image"><span className="procfile"></span></div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis quis augue cursus odio egestas elementum. Suspendisse pretium metus vel velit finibus luctus.</p>
+              <p>It's a file in the root directory of your app that tells us how to launch everything.
+                 We look through your github repos for a Procfile that uses node. If you want to
+                 read more about them, Heroku has <a href="https://devcenter.heroku.com/articles/procfile">the cannonical guide.</a></p>
             </div>
               <div className="clearfix"></div>
               <div className="controls">
-              <a href="http://localhost:9001/login/github" className="controlButton">Get Started</a>
-              <a href="#" className="controlButton" onClick={this.hideDetails}>back to the top</a>
+              <a href="#" className="controlButton" onClick={this.hideDetails}>Back to the top</a>
               </div>
           </div>
       </div>

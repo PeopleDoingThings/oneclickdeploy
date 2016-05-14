@@ -250,7 +250,7 @@ stopChckDeployedInterval() {
     return (
       <div>
        {this.state.ErrorHandler ? <ErrorHandler errorMsg="lets test this error"/> : <div>
-        <div className="Steps Step_One"> Step One: Explain What (Will) Happen  
+        <div className="Steps Step_One"> Step 1 - Creating an instance  
            { this.state.Step_One ?
            <div className="fadein">
            We are creating your instance 
@@ -264,28 +264,28 @@ stopChckDeployedInterval() {
            : null}
         </div>   
 
-        <div className="Steps Step_Two"> Step Two: LogOutput 
+        <div className="Steps Step_Two"> Step 2 - Installing a base system
            { this.state.Step_Two ?
            <div className="fadein">
            <div className="log" style={this.divStyle}>
               <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
            </div>
              Estimated Time Remaining
-           <Clock time={55} size={100}/>
+           <Clock time={90} size={100}/>
            </div>          
            : null}
         </div>   
         
-        <div className="Steps Step_Three"> Step Three: register domain (module)
+        <div className="Steps Step_Three"> Step 3 - Would you like a subdomain with that?
             <Modal show={this.state.Step_Three} onHide={this.closeModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Pick Your Subdomain</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <b>Select a personailized subdomain or hit cancel if you want to skip this part</b>
+                <p>Do you want to select a personailized subdomain, ie your-cool-app.hyperjs.io? (skip this part if you just need an IP address)</p>
               </Modal.Body>
                 <Modal.Footer>
-                  <Button onClick={this.closeModal}>Cancel</Button>
+                  <Button onClick={this.closeModal}>No, thank you</Button>
                    <Form inline>
                     <FormGroup controlId="formInlineName" validationState={this.getValidationState()}>             
                       {' '}
@@ -300,16 +300,14 @@ stopChckDeployedInterval() {
                     </FormGroup>
                       {' '}
                      <Button onClick={this.onFormSubmit}>
-                       Pick
+                       I'll go with that
                      </Button>
                    </Form>
                  </Modal.Footer>
               </Modal>
-        </div>                     
-          
-        
+        </div>
 
-        <div className="Steps Step_Four"> Step Four: sshPostInstall console output 
+        <div className="Steps Step_Four"> Step 4 - Installing your app
         { this.state.Step_Four && this.state.socketCmd !==[] ?
           <div className="fadein">
           <div>
@@ -334,16 +332,16 @@ stopChckDeployedInterval() {
            </div>
          }
            Estimated Time Remaining
-           <Clock time={20} size={100}/>
+           <Clock time={30} size={100}/>
            </div>          
           :null 
         }
         </div>
 
-        <div className="Steps Step_Five"> Step Five: Countdown 3-2-1 success animation 
+        <div className="Steps Step_Five"> Preparing for launch 
          { this.state.Step_Five ? 
           <div>
-         You Are almost there: 
+          Grab some popcorn; here comes the good part!
           <Clock time={10} size={100} callback={function(){window.location = 'http://localhost:9001/#/dashboard'}}/> 
            </div>   
                 : null} 
