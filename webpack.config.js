@@ -42,6 +42,18 @@ module.exports = {
         query: {
           presets: [ 'es2015', 'react']
         }
+      },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file?name=fonts/[name].[ext]'
+      },
+      {
+        test: /.*\.(gif|png|jpe?g|svg)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=images/[name].[ext]',
+          'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
+        ]
       }
     ]
   },
