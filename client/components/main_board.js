@@ -17,7 +17,7 @@ class MainBoard extends Component {
 
     return (
 
-      <div className="mainboard-wrapper">   
+      <div className="mainboard-wrapper clearfix">   
             <div className="sideBarPanel">   
               <Aside user={auth}/>
             </div>  
@@ -28,6 +28,7 @@ class MainBoard extends Component {
             </div>
             {this.props.children}
           </div>
+          
       </div>
     );
   }

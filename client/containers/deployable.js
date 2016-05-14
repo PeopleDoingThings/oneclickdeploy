@@ -74,7 +74,7 @@ renderList() {
   render() {
     return (
       <div>                
-        <PanelGroup accordion>
+        <PanelGroup accordion id="repo-list">
          {this.renderList()}   
         </PanelGroup>
             {''}

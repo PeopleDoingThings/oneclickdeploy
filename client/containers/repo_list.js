@@ -19,7 +19,6 @@ class RepoList extends Component {
   render() {
     return (
       <div>
-      <h3 className='repoInstance'>Some Random Text Here Later</h3>
            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
                 <Tab eventKey={1} title="Deployable Repos">
                   <Deployable />
