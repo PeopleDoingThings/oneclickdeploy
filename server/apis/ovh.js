@@ -19,6 +19,19 @@ exports.getInstanceUsage = function(inst, time, type) {
   })
 }
 
+exports.getInstanceList = function() {
+  return new Promise(function(resolve, reject) {
+    ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/instance?region=BHS1`, function (err, resp) {
+      if(err) {
+        reject(err);
+        return;
+      }
+      
+      resolve(resp);
+    });
+  })
+}
+
 exports.getServiceInformation = function(serviceid) {
   return new Promise(function(resolve, reject) {
     ovh.request('GET', `/cloud/project/${serviceid}`, function (err, resp) {
