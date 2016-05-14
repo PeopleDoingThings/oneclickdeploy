@@ -34,17 +34,46 @@ exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData
     Global.io.emit('sshconn', 'SSH Connceted: (cmd from server)!');
     console.log('recieved sshstart event on socket!');
 
+    // var prevCommand;
+    // SSHClient.on ("commandProcessing", function onCommandProcessing( command, response, sshObj, stream ) { 
+    //   if(prevCommand === command) {
+    //     prevCommand = command;
+    //   } else {
+    //     socketid.forEach(function(val) {
+    //       Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
+    //     })
 
-    SSHClient.on ("commandProcessing", function onCommandProcessing( command, response, sshObj, stream )  { 
-      socketid.forEach(function(val) {
-        Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
-      })
-    });
+    //     prevCommand = command;
+    //   }
+    // });
 
-      SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
-        socketid.forEach(function(val) {
-          Global.io.sockets.connected[`/#${val}`].emit('sshresp', response);
-        })
+      var execemit = 0;
+      SSHClient.on("commandComplete", function onCommandComplete( command, response ) {
+
+          process.env.cmdString = response
+
+          var ansi = 'echo $cmdString | ./ansi2html.sh  --body-only'
+
+          exec(ansi, (err, stdout, stderr) => {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log('emmiting from exec!', execemit)
+              console.log('emmiting from exec OUTPUT!', stdout)
+              //  stdout = stdout.replace(/class=\"/g, 'class="')
+              ++execemit
+
+              if(execemit < 3) { 
+                console.log('sending raw response without ansi2html!', response)
+                stdout = response;
+              }
+              socketid.forEach(function(val) {
+                Global.io.sockets.connected[`/#${val}`].emit('sshresp', stdout);
+                Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
+              })
+            }
+          })
+
       })
 
       SSHClient.on("error", function onError(err, type, close, callback) {
