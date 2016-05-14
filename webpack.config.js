@@ -1,10 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
-// Change index.html to use bundle.min.js instead of bundle.js
 // and `export NODE_ENV='production'` to run in prod
-//
-// TODO  - Add the above to webpack
 
 var PROD = process.env.NODE_ENV === 'production'
 if (PROD) console.log('in production')
