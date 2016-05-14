@@ -8,7 +8,7 @@ class MainBoard extends Component {
   constructor(props){
     super(props);
     this.props.isAuth();
-    console.log('props in mainboard constructor:' ,this.props);
+    console.log('props in mainboard constructor:', this.props);
   }
 
   render() {
@@ -24,8 +24,7 @@ class MainBoard extends Component {
          
           <div className="main col-lg-9 col-xs-12">
             <div className="welcome-banner">
-              <h2>Welcome Back, {auth.login}</h2>
-              <h4>Here's what's going on with your apps</h4>
+              <h2>Welcome back, {auth.name ? auth.name.split(' ')[0] : auth.login}</h2>
             </div>
             {this.props.children}
           </div>

@@ -17,7 +17,7 @@ export default class CountdownClock extends Component {
         <div>
           <ReactCountdownClock 
                      seconds={component.props.time}
-                     color="#EE9A00"
+                     color="#FF6600"
                      alpha={0.9}
                      size={component.props.size} 
                      onComplete={component.props.callback} /> 
