@@ -10,9 +10,9 @@ import InstanceConsole from '../components/instanceConsole';
 
 function renderChart() {
       if (this.props.memUsage.length === 0) {
-        return <h1>loading</h1>
+        return <h1>Loading</h1>
       } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
-        return <h4>sorry, no data is available yet, please come back later</h4>
+        return <h4>No data is available yet. Please check back in a bit.</h4>
       } else if(
         this.props.memUsage.values.length > 12 &&
         this.props.cpuUsage.values.length > 12 &&

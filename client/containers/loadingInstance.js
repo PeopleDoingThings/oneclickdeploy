@@ -338,7 +338,7 @@ stopChckDeployedInterval() {
         }
         </div>
 
-        <div className="Steps Step_Five"> Preparing for launch 
+        <div className="Steps Step_Five"> Preparing for launch!
          { this.state.Step_Five ? 
           <div>
           Grab some popcorn; here comes the good part!

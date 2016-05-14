@@ -70,7 +70,7 @@ class AppControl extends Component {
           this.open();
           this.setState({
             modalTitle: "Output Top", 
-            modalBody: "CPU Utilization",
+            modalBody: "What does CPU and memory usage look like right now?",
             action: this.outputTop,
           })
           return;  
@@ -78,7 +78,7 @@ class AppControl extends Component {
           this.open();
           this.setState({
             modalTitle: "Output Forever", 
-            modalBody: "Dont really know what this is and what the heck to say about it...lalala",
+            modalBody: "Run 'forever list' on your instance.",
             action: this.outputForever,
           })
           return;  
@@ -86,7 +86,7 @@ class AppControl extends Component {
           this.open();
           this.setState({
             modalTitle: "Output PrintEnv", 
-            modalBody: "Dont really know what this is and what the heck to say about it...lalala",
+            modalBody: "Print the environment variables on your instance.",
             action: this.outputPrintEnv,
           })
           return;   
@@ -95,7 +95,7 @@ class AppControl extends Component {
           this.open();
           this.setState({
             modalTitle: "Output Uptime", 
-            modalBody: "Dont really know what this is and what the heck to say about it...lalala",
+            modalBody: "How long has your instance been running?",
             action: this.outputUptime,
           })
           return;   

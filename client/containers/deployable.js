@@ -80,7 +80,7 @@ renderList() {
             {''}
             {''}
             {''}
-          <h5>Fetch My GitHub Repos</h5> 
+          <h5>Refresh my github repos</h5> 
           <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Refresh</button>
       </div>
     );
