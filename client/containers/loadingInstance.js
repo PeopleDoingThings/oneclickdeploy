@@ -240,13 +240,23 @@ stopChckDeployedInterval() {
   console.log('really stopped chkdeployed interval now')
 }
 
-
+createMarkup() { 
+  var text = this.state.socketCmd[0] + this.state.socketResp.join('');
+  console.log('text defined', text);
+  return {__html: text}
+};
 
 //////////////////
 
 
   render() {
-    console.log('logging height', this.state.height)
+    //console.log('logging height', this.state.height)
+     // var display = {
+     //            headerHTML:{
+     //                __html: (this.state.socketCmd + this.state.socketResp.join(''))
+     //            }
+     //          }
+     //          console.log('here is display', display)
     return (
       <div>
        {this.state.ErrorHandler ? <ErrorHandler errorMsg="lets test this error"/> : <div>
@@ -309,28 +319,15 @@ stopChckDeployedInterval() {
 
         <div className="Steps Step_Four"> Step 4 - Installing your app
         { this.state.Step_Four && this.state.socketCmd !==[] ?
-          <div className="fadein">
+          <div className="sshLog">
+          
           <div>
-          {
-           // <pre>
-           // {this.state.socketCmd}
-           // </pre>
-           // <pre>
-           // {this.state.socketResp}
-           // </pre>
-         }
-          {
-            // <Ansi>
-            // {this.state.socketCmd}
-            // </Ansi>
-            // {this.state.socketResp.map(line=><Ansi>{line}</Ansi>)}
+            {
+            //<pre><div dangerouslySetInnerHTML={this.createMarkup()} /></pre>
+            <pre dangerouslySetInnerHTML={this.createMarkup()} />
           }
-          </div>
-          {
-          <div className="sshLog" style={this.divStyle}>
-            <pre>{this.state.socketCmd + this.state.socketResp.join('')}</pre>
            </div>
-         }
+         
            Estimated Time Remaining
            <Clock time={30} size={100}/>
            </div>          
