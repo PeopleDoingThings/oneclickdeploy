@@ -8,31 +8,31 @@ var Logic = require('../logic/openstack/logic.js');
 router.get('/getflavors', function(req, res) {
   OpenStack.getFlavors()
     .then( data => res.send(data.body) )
-    .catch( err => res.send(err) )
+    .catch( err => res.send(err.message || err) )
 })
 
 router.get('/getnewtoken', function(req, res) {
   OpenStack.getNewToken()
     .then( data => res.send(data.body) )
-    .catch( err => res.send(err) )
+    .catch( err => res.send(err.message || err) )
 })
 
 router.get('/getconsoleoutput', function(req, res) {
   Logic.getConsoleOutput(req.user.gitid)
     .then( data => res.send(data) )
-    .catch( err => res.send(err) )
+    .catch( err => res.send(err.message || err) )
 })
 
 router.get('/createinstance', function(req, res) {
   Logic.callCreateNewInstance(req.user.gitid)
     .then( data => res.send(data) )
-    .catch( err => res.send(err.message) )
+    .catch( err => res.send(err.message || err) )
 })
 
 router.get('/createconsole', function(req, res) {
   Logic.createConsole(req.user.gitid)
     .then( data => res.send(data) )
-    .catch( err => res.send(err.message) )
+    .catch( err => res.send(err.message || err) )
 })
 
 

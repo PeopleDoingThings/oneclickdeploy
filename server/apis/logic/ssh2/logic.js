@@ -3,78 +3,18 @@ var Repo = require('../../../database/models/deployablerepos.js');
 var InstanceLogin = require('../../../database/models/instancelogin.js');
 var Helpers = require('./helpers.js');
 var Global = require('../../../globals/globals.js');
-var sshSocket = require('../../../globals/proxy.js');
 
 
 exports.runSSHPostInstall = function(instanceData, cmdArray, loginData, repoData, gitid) {
   return new Promise(function(resolve, reject) {
 
-    var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData);
+    var host = Helpers.postInstallHost(instanceData, cmdArray, loginData, repoData, gitid);
+
     host.debug = true;
     var SSHClient = new SSH2Shell(host);
     var retries = 0;
     var superError = undefined;
-    var socketid = [];
-    var exec = require('child_process').exec;
 
-    for(var prop in Global.io.sockets.connected) {
-      console.log('connected clients prop: ', prop)
-      console.log('client git id: ', Global.io.sockets.connected[prop].github)
-      console.log('github id = ', gitid)
-      console.log('github id = gitid: ', gitid === Global.io.sockets.connected[prop].github);
-      // do we need to emit on every socket associated with a user?
-      if(Global.io.sockets.connected[prop].github === gitid) {
-        console.log('found git id!')
-        socketid.push(prop.toString().slice(2));
-      }
-    }
-
-    console.log('socketid array = ', socketid)
-
-    Global.io.emit('sshconn', 'SSH Connceted: (cmd from server)!');
-    console.log('recieved sshstart event on socket!');
-
-    // var prevCommand;
-    // SSHClient.on ("commandProcessing", function onCommandProcessing( command, response, sshObj, stream ) { 
-    //   if(prevCommand === command) {
-    //     prevCommand = command;
-    //   } else {
-    //     socketid.forEach(function(val) {
-    //       Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
-    //     })
-
-    //     prevCommand = command;
-    //   }
-    // });
-
-      var execemit = 0;
-      SSHClient.on("commandComplete", function onCommandComplete( command, response ) {
-
-          process.env.cmdString = response
-
-          var ansi = 'echo $cmdString | ./ansi2html.sh  --body-only'
-
-          exec(ansi, (err, stdout, stderr) => {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log('emmiting from exec!', execemit)
-              console.log('emmiting from exec OUTPUT!', stdout)
-              //  stdout = stdout.replace(/class=\"/g, 'class="')
-              ++execemit
-
-              if(execemit < 3) { 
-                console.log('sending raw response without ansi2html!', response)
-                stdout = response;
-              }
-              socketid.forEach(function(val) {
-                Global.io.sockets.connected[`/#${val}`].emit('sshresp', stdout);
-                Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
-              })
-            }
-          })
-
-      })
 
       SSHClient.on("error", function onError(err, type, close, callback) {
         var authFailed = 'All configured authentication methods failed';

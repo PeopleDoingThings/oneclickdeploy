@@ -1,11 +1,25 @@
 var Logic = require('./logic.js');
 var SSH2 = require('../../ssh2.js');
+var Global = require('../../../globals/globals.js');
+var exec = require('child_process').exec;
 
 
-exports.postInstallHost = function(instanceData, cmdArray, data, repoData) {
-var count = 0;
+exports.postInstallHost = function(instanceData, cmdArray, data, repoData, gitid) {
+  var socketid = [];
+  var execemit = 0;
 
-var obj = {
+  for(var prop in Global.io.sockets.connected) {
+    console.log('connected clients prop: ', prop)
+    console.log('client git id: ', Global.io.sockets.connected[prop].github)
+    console.log('github id = ', gitid)
+    console.log('github id = gitid: ', gitid === Global.io.sockets.connected[prop].github);
+    // do we need to emit on every socket associated with a user? Yes.
+    if(Global.io.sockets.connected[prop].github === gitid) {
+      socketid.push(prop.toString().slice(2));
+    }
+  }
+
+  var obj = {
     server: {
       host: instanceData.publicip,
       port: 22,
@@ -16,8 +30,29 @@ var obj = {
     diableColorFilter:  false, //optional bollean 
     idleTimeOut: 30000,  // 30 second idle timeout. We can deal with timeout events below
     onCommandComplete: function( command, response, sshObj ) {
-      ++count
-      console.log('host onCommandComplete # ', count)
+
+      // Seems the is the best way to do this with bash. Can also declare new commands in js and pipe the string in.
+      process.env.cmdString = response.slice();
+
+        var ansi = 'echo $cmdString | ./ansi2html.sh  --body-only'
+
+        exec(ansi, (err, stdout, stderr) => {
+          if (err) {
+            console.log(err);
+          } else {
+            ++execemit
+
+            // Check if this can set colors. If not its null and we send raw resp.
+            if(!stdout.match(/<span class=/g)) {
+              stdout = response;
+            }
+
+            socketid.forEach(function(val) {
+              Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
+              Global.io.sockets.connected[`/#${val}`].emit('sshresp', stdout);
+            })
+          }
+        })
 
       var asciiFilter = "[^\r\n\x20-\x7e]"
       var textColorFilter = "(\x1b\[[0-9;]*m)"
@@ -106,6 +141,8 @@ var obj = {
         })
     }
   };
+
+  console.log('created host obj sshpost!')
 
   return obj;
 }

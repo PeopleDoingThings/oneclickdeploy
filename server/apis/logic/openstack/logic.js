@@ -33,12 +33,14 @@ exports.callCreateNewInstance = function(id) {
       return OpenStack.createNewInstance(name, id, pass);
     })
     .then(function(data) {
+      console.log('OpenStack create new ins data: ', data)
       if(!data.server) return Promise.reject( new Error(data) )
       serverid = data.server.id
       
       return Helper.insertInstanceLogin({ id: id, name: name, pass: pass });
     })
     .then(function(data) {
+      console.log('insertInstanceLogin: ', data)
       return OVH.getInstance(serverid);
     })
     .then(function(data) {
