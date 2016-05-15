@@ -66,6 +66,10 @@ iframe {
   Live VNC Console End
 */
 
+#log {
+  margin: auto;
+}
+
 .left {
     float: left;
 }

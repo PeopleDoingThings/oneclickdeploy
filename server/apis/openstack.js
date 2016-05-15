@@ -1,5 +1,6 @@
 var req = require('request');
 var Helpers = require('./logic/openstack/helpers.js');
+var Global = require('../globals/globals.js');
 
 exports.getNewToken = function() {
   return new Promise(function(resolve, reject) {
@@ -9,7 +10,7 @@ exports.getNewToken = function() {
         reject(err);
         return;
       } 
-      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+      else if(res.statusCode.toString()[0] !== '2') {
         Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
@@ -27,7 +28,7 @@ exports.getFlavors = function() {
         reject(err);
         return;
       }
-      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+      else if(res.statusCode.toString()[0] !== '2') {
         Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
@@ -45,7 +46,7 @@ exports.getConsoleOutput = function(serverid) {
         reject(err);
         return;
       }
-      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+      else if(res.statusCode.toString()[0] !== '2') {
         Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
@@ -63,7 +64,7 @@ exports.createNewInstance = function(name, id, pass) {
         reject(err);
         return;
       }
-      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+      else if(res.statusCode.toString()[0] !== '2') {
         Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
@@ -81,7 +82,7 @@ exports.createNoVNCConsole = function(id) {
         reject(err);
         return;
       }
-      else if(res.statusCode !== 200 && res.statusCode !== 201) {
+      else if(res.statusCode.toString()[0] !== '2') {
         Global.tokenAge = undefined;
         reject(res.statusMessage);
         return;
