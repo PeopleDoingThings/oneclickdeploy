@@ -38,7 +38,7 @@ renderList() {
   render() {
     return (
       <div>
-        <PanelGroup accordion>
+        <PanelGroup accordion className="repo-list">
           {this.renderList()} 
         </PanelGroup>       
       </div>        

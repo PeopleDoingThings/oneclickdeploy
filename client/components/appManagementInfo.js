@@ -20,8 +20,6 @@ class DeployedRepo extends Component {
   getValidationState() {
     const invalidRegexp =  /[^a-zA-Z0-9\-]/;
     const value = "" + this.state.value;
-    console.log('value:', value);
-    console.log('test:', invalidRegexp.test(value))
     if (invalidRegexp.test(value) === false && value.length < 62) {return 'success'}
     else if (invalidRegexp.test(value) === true || value.length > 62) {return 'error'}
   }
@@ -47,7 +45,8 @@ class DeployedRepo extends Component {
           <div className="col-md-6 col-xs-12">
             <ul>
               <li>Created On</li>
-              <li>{repo.age}</li>
+              
+              <li>{"" + new Date(repo.age)}</li>
             </ul>
             <ul>
               <li>Name</li>

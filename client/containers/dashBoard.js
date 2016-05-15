@@ -9,6 +9,8 @@ import InstanceButtons from '../components/instanceButtons';
 import InstanceConsole from '../components/instanceConsole';
 
 function renderChart() {
+      console.log('mem length:', this.props.memUsage.values.length)
+       console.log('rx length:', this.props.rxUsage.values.length)
       if (this.props.memUsage.length === 0) {
         return <h1>Loading</h1>
       } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
@@ -28,7 +30,9 @@ function renderChart() {
               />
           </div>    
         )
-      } 
+      } else {
+        return <h4>sorry, no data is available yet, please come back later</h4>
+      }
     }
 
 export default class DashBoard extends Component {

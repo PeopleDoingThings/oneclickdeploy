@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ClassNames from 'classnames';
-import { PanelGroup, Panel } from 'react-bootstrap'
+//import { PanelGroup, Panel } from 'react-bootstrap'
 import Logout from '../components/logout';
 
 export default class SidebarNav extends Component {
@@ -11,14 +11,14 @@ export default class SidebarNav extends Component {
   render() {
     let repoClass;
     let instanceDashClass;
-    let liveMonitorDashClass;
+    let appManagement;
     let liveConsole;
     if (this.props.url === "/repos") {
       repoClass = ClassNames({active: true});
     } else if (this.props.url === '/dashboard') {
       instanceDashClass = ClassNames({active: true});
-    } else if (this.props.url === '/live-monitor') {
-      liveMonitorDashClass = ClassNames({active: true});
+    } else if (this.props.url === '/app-management') {
+      appManagement = ClassNames({active: true});
     } else if (this.props.url === '/live-console') {
       liveConsole = ClassNames({active: true});
     }
@@ -26,20 +26,12 @@ export default class SidebarNav extends Component {
     return (
           <section className="sidebar-nav">
             <nav>
-              <PanelGroup defaultActiveKey="1" accordion>
-                <Panel header="Dashboards" eventKey="1">
                   <ul>
                     <li className={instanceDashClass}><a href='/#/dashboard'>Instance Dashboard</a></li>
-                    <li className={liveMonitorDashClass}><a href='/#/app-management'>App Management</a></li>
+                    <li className={appManagement}><a href='/#/app-management'>App Management</a></li>
                     <li className={liveConsole}><a href='/#/live-console'>Live Console</a></li>
-                  </ul>
-                </Panel>
-                <Panel header="Github Repos" eventKey="2">
-                  <ul>
                     <li className={repoClass}><a href='/#/repos'>Repo List</a></li>
                   </ul>
-                </Panel>
-              </PanelGroup>
                 <div className="sidebar-logout">
                   <Logout />
                 </div>

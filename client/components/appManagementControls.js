@@ -180,14 +180,16 @@ class AppControl extends Component {
             </NavDropdown>
         </Nav>
 
-        <Modal show={this.state.showModal} onHide={this.close}>
+        <Modal className="appModal" show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.modalBody}
-            <Button onClick={this.state.action}>Do it</Button>
-            <Button onClick={this.close}>Cancel</Button>
+            <div className="modal-controls">
+              <Button onClick={this.state.action}>Do it</Button>
+              <Button onClick={this.close}>Cancel</Button>
+            </div>  
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
