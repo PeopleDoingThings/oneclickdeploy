@@ -35,6 +35,7 @@ module.exports = function(req, res, next) {
 
               // Now we have a new token set our token age && set find to true so we can check in future.
               process.env.OPENSTACK_X_AUTH = data.body.access.token.id;
+              console.log('Set Openstack Token: ', process.env.OPENSTACK_X_AUTH)
               Global.tokenAge = Date.now();
               Global.find = true;
               next();
@@ -49,6 +50,7 @@ module.exports = function(req, res, next) {
           }
         }
         else {
+          console.log('Openstack Token Already Valid')
           next();
         }
 
