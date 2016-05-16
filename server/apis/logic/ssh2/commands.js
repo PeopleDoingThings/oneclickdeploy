@@ -53,7 +53,12 @@ exports.postInstallSetup = function(repoData, loginData) {
 
 exports.addNewVirtualHost = function(id, subDomain, ip) {
   var vHost = `server {
-      listen 80;
+      listen 443 ssl;
+
+      ssl on;
+      ssl_certificate /etc/nginx/ssl/hyperjs.crt;
+      ssl_certificate_key /etc/nginx/ssl/hyperjs.key;
+
       server_name ${subDomain}.hyperjs.io;
 
       resolver 8.8.8.8;

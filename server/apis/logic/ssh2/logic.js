@@ -236,16 +236,11 @@ exports.restartJS = function(host, gitid) {
       console.log('Connection Ready, Starting Install!')
     });
 
-    SSHClient.on ("commandProcessing", function onCommandProcessing( command, response, sshObj, stream )  { 
-      socketid.forEach(function(val) {
-        Global.io.sockets.connected[`/#${val}`].emit('sshcmd', command);
-      })
-    });
-
     SSHClient.on("commandComplete", function onCommandProcessing( command, response ) {
 
       console.log('SSH Command Complete, Emitting!');
       socketid.forEach(function(val) {
+        Global.io.sockets.connected[`/#${val}`].emit('sshresp', command);
         Global.io.sockets.connected[`/#${val}`].emit('sshresp', response);
       })
 
