@@ -268,7 +268,7 @@ createMarkup() {
               <div className="status-bubble">Instance<span>BUILD</span></div>
               <div className="build-bubble">App<span>WAIT</span></div>
             </div>  
-            <Clock time={60} size={100}/>
+            <Clock time={80} size={100}/>
             <p className="estimate-time right">Estimated Time Remaining</p>      
            </div>          
            : null}
@@ -279,7 +279,7 @@ createMarkup() {
            { this.state.Step_Two ?
            <div className="step-body fadein">
            <div className="load-bubbles">
-              <div className="status-bubble">Instance<span>CLOUD</span></div>
+              <div className="status-bubble">Instance<span>INIT</span></div>
               <div className="build-bubble">App<span>WAIT</span></div>
             </div> 
            <div className="log" style={this.divStyle}>
@@ -328,18 +328,20 @@ createMarkup() {
         <div className="Steps Step_Four"> 
           <h3>Step Four: Installing your app</h3>
         { this.state.Step_Four && this.state.socketCmd !==[] ?
-          <div className="sshLog">
+          <div>
+          <Clock time={50} size={100}/>
+
           
           <div>
             {
             //<pre><div dangerouslySetInnerHTML={this.createMarkup()} /></pre>
-            <pre dangerouslySetInnerHTML={this.createMarkup()} />
+            <pre style={{overflow: 'auto'}} dangerouslySetInnerHTML={this.createMarkup()} />
           }
            </div>
 
          
             <p className="estimate-time right">Estimated Time Remaining</p>  
-            <Clock time={30} size={100}/>
+            
           </div>          
           :null 
         }
