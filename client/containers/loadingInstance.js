@@ -268,25 +268,28 @@ createMarkup() {
               <div className="status-bubble">Instance<span>BUILD</span></div>
               <div className="build-bubble">App<span>WAIT</span></div>
             </div>  
-            <Clock time={80} size={100}/>
+            <Clock time={90} size={100}/>
             <p className="estimate-time right">Estimated Time Remaining</p>      
            </div>          
            : null}
         </div>   
 
         <div className="Steps Step_Two"> 
-          <h3>Step Two: Installing a base system</h3>
+          <h3>Step Two: Installing OS & Setting up network</h3>
            { this.state.Step_Two ?
            <div className="step-body fadein">
-           <div className="load-bubbles">
-              <div className="status-bubble">Instance<span>INIT</span></div>
-              <div className="build-bubble">App<span>WAIT</span></div>
-            </div> 
-           <div className="log" style={this.divStyle}>
-              <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
-           </div> 
-            <p className="estimate-time right">Estimated Time Remaining</p> 
-            <Clock time={90} size={100}/>
+             <div className="load-bubbles">
+                <div className="status-bubble">Instance<span>INIT</span></div>
+                <div className="build-bubble">App<span>WAIT</span></div>
+                
+                <div className="timer">
+                  <Clock time={90} size={100}/>
+                  <p className="estimate-time right">Estimated Time Remaining</p> 
+                </div>
+              </div> 
+             <div className="log" style={this.divStyle}>
+                <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
+             </div> 
            </div>          
            : null
         }
@@ -301,7 +304,7 @@ createMarkup() {
               <Modal.Body>
                 <p>Do you want to select a personailized subdomain, ie your-cool-app.hyperjs.io? (skip this part if you just need an IP address)</p>
                    <Form inline>
-                    <FormGroup controlId="formInlineName" validationState={this.getValidationState()}>             
+                    <FormGroup className="validation" controlId="formInlineName" validationState={this.getValidationState()}>             
                       {' '}
                       <FormControl.Feedback/>
                       <FormControl 
@@ -328,30 +331,35 @@ createMarkup() {
         <div className="Steps Step_Four"> 
           <h3>Step Four: Installing your app</h3>
         { this.state.Step_Four && this.state.socketCmd !==[] ?
-          <div>
-          <Clock time={50} size={100}/>
-
-          
-          <div>
-            {
-            //<pre><div dangerouslySetInnerHTML={this.createMarkup()} /></pre>
-            <pre style={{overflow: 'auto'}} dangerouslySetInnerHTML={this.createMarkup()} />
-          }
-           </div>
-
-         
-            <p className="estimate-time right">Estimated Time Remaining</p>  
-            
-          </div>          
+           <div className="step-body fadein">
+              <div className="load-bubbles">
+                <div className="status-bubble">Instance<span>ACTIVE</span></div>
+                <div className="build-bubble">App<span>INSTALL</span></div>
+                  <div className="timer">
+                    <Clock time={60} size={100}/>
+                    <p className="estimate-time right">Estimated Time Remaining</p> 
+                  </div>
+              </div>   
+              <pre className="log" style={this.divStyle} dangerouslySetInnerHTML={this.createMarkup()} /> 
+            </div>    
           :null 
         }
         </div>
+
         <div className="Steps Step_Five"> 
           <h3>Preparing for launch</h3> 
+
          { this.state.Step_Five ? 
           <div className="step-body fadein">
             <p>Grab some popcorn; here comes the good part!</p>
-          <Clock time={10} size={100} callback={function(){window.location = window.location.origin + '/#/dashboard'}}/> 
+            <div className="load-bubbles">
+              <div className="status-bubble">Instance<span>ACTIVE</span></div>
+              <div className="build-bubble">App<span>ACTIVE</span></div>
+              <div className="timer">
+                <Clock time={10} size={100}/>
+                <p className="estimate-time right">Estimated Time Remaining</p> 
+              </div>
+            </div> 
            </div>   
                 : null} 
         </div>  
@@ -362,6 +370,8 @@ createMarkup() {
     );
   }
 }
+
+
 
 
 
