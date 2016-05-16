@@ -24,7 +24,7 @@ module.exports = function(req, res, next) {
         if(data.length !== 0) req.user.AccessToken = data[0].token;  // We add this here so it skips the /login/isauth route so the client doesnt get the token.
 
         if( process.env.NODE_ENV === 'production' ) {
-          if(Global.find && (!Global.tokenAge || Moment.diff(Global.tokenAge, 'hours') > 4)) {
+          if(Global.find && (Global.tokenAge === 0 || Moment.diff(Global.tokenAge, 'hours') > 4)) {
           // Set global.find to false as this middleware is called many times.
           Global.find = false; 
 

@@ -50,6 +50,10 @@ exports.callCreateNewInstance = function(id) {
 
 exports.createConsole = function(id) {
   return Instance.find({ ownergitid: id })
-    .then( data => data[0].openstackid )
+    .then(function(data) {
+      console.log('OpenStack ID: ', process.env.OPENSTACK_X_AUTH)
+      if(data.length === 0) return Promise.reject( new Error('No Instance for Console Generation') )
+      return data[0].openstackid;
+    })
     .then( data => OpenStack.createNoVNCConsole(data) )
 }

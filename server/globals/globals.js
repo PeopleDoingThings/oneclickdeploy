@@ -1,6 +1,6 @@
 var Global = {
     io : { },
-    tokenAge: { },
+    tokenAge: 0,
     find: true
 };
 
