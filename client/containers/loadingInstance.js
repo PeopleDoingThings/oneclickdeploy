@@ -204,18 +204,18 @@ var component= this;
 var sshRan = 0 ;
     this.ckDep2 = setInterval(function () {
       console.log(' set timeout props deployed', component.props.DeployedStatus)    
-        if(component.props.DeployedStatus === undefined){
-          console.log('depl status undefiend ')
-        }
-        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[component.props.DeployedStatus.length-1].deployerror !== 'none' && sshRan===0){
-           console.log('deployerror: rerunning sshPostInstall')
+        // if(component.props.DeployedStatus.deployed === undefined){
+        //   console.log('depl status undefiend ')
+        // }
+        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.deployerror !== 'none' && sshRan <=1){
+           console.log('deployerror: rerunning sshPostInstall', component.props.DeployedStatus.deployerror)
            sshRan++;
-           this.props.sshPostInstall(window.localStorage.getItem('repoID'));
+           component.props.sshPostInstall(window.localStorage.getItem('repoID'));
         }
-        if(component.props.DeployedStatus !== null && component.props.DeployedStatus.length > 0 && component.props.DeployedStatus[component.props.DeployedStatus.length-1].deployerror !== 'none' && sshRan===1){
+        else if(component.props.DeployedStatus !== null && component.props.DeployedStatus.deployerror !== 'none' && sshRan===2){
           component.setState({ErrorHandler:true})
         }
-        if(component.props.DeployedStatus === true){           
+        else if(component.props.DeployedStatus !== null && component.props.DeployedStatus.deployed === true){           
           console.log('isDeployed statement is true')
           console.log('about to stop Interval 2 checkdeployed')
          //stop interval2 log output
@@ -227,7 +227,7 @@ var sshRan = 0 ;
         component.setState({Step_Five:true})
         // window.location = 'http://localhost:9001/#/dashboard';
         }
-        else if (component.props.DeployedStatus === null||component.props.DeployedStatus === false) {
+        else if (component.props.DeployedStatus === null||component.props.DeployedStatus.deployed === false) {
           //if still false call api again
           console.log('check isDeployed ready is still false')
           component.props.isDeployed(window.localStorage.getItem('repoID'));
@@ -258,10 +258,9 @@ createMarkup() {
      //          }
      //          console.log('here is display', display)
     return (
-      <div className="loading-container">
-       {this.state.ErrorHandler ? <ErrorHandler errorMsg="lets test this error"/> : <div>
-        <div className="Steps Step_One"> 
-          <h3>Step One: Creating an instance</h3>
+      <div>
+       {this.state.ErrorHandler ? <ErrorHandler errorMsg={this.props.DeployedStatus.deployerror}/> : <div>
+        <div className="Steps Step_One"> Step 1 - Creating an instance 
            { this.state.Step_One ?
            <div className="step-body fadein">
             <p className="left">We are creating your instance</p>
@@ -370,7 +369,7 @@ function mapStateToProps(state) {
     InstData: state.reducers.install,
     Data: state.reducers.instReady,
     InstStatus: state.reducers.instReady.isReady,
-    DeployedStatus: state.reducers.isDeployed[0] ? state.reducers.isDeployed[0].deployed : null,
+    DeployedStatus: state.reducers.isDeployed[0] ? state.reducers.isDeployed[state.reducers.isDeployed.length-1] : null,
     LogOutput: state.reducers.logOutput,
     SelectedRepoID: state.reducers.selRepoId
   };
