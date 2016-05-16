@@ -1,4 +1,4 @@
-import { GITHUB_UPDATE, RESTART_REPO, REINSTALL_REPO, DELETE_REPO, OUTPUT_TOP, OUTPUT_FOREVER, OUTPUT_PRINTENV, OUTPUT_UPTIME } from '../actions/index';
+import { GITHUB_UPDATE, RESTART_REPO, REINSTALL_REPO, DELETE_REPO, OUTPUT_TOP, OUTPUT_FOREVER, OUTPUT_PRINTENV, OUTPUT_UPTIME, APP_LOADING } from '../actions/index';
 
 export default function(state = [], action) {
   switch (action.type) {
@@ -26,6 +26,9 @@ export default function(state = [], action) {
 
     case OUTPUT_UPTIME:  
       return action.payload.data === undefined ? state : action.payload.data;
+
+    case APP_LOADING:
+      return true;  
       
     default: return state;
 

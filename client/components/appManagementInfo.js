@@ -107,10 +107,5 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-function mapStateToProps(state) {
-  return {
-   
-  };
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeployedRepo);
+export default connect(null, mapDispatchToProps)(DeployedRepo);

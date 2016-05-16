@@ -1,4 +1,4 @@
-import { REBOOT_INST, REINSTALL_INST, RESCUE_INSTANCE, CREATE_BACKUP, GETSNAPSHOT_STATUS, DELETE_BACKUP, LIST_BACKUPS, CREATE_SUBDOMAIN } from '../actions/index';
+import { REBOOT_INST, REINSTALL_INST, RESCUE_INSTANCE, CREATE_BACKUP, GETSNAPSHOT_STATUS, DELETE_BACKUP, LIST_BACKUPS, CREATE_SUBDOMAIN, LOADING  } from '../actions/index';
 
 export default function(state = [], action) {
   switch (action.type) {
@@ -26,6 +26,9 @@ export default function(state = [], action) {
 
     case CREATE_SUBDOMAIN:
       return action.payload.data === undefined ? state : action.payload.data;
+
+    case LOADING:
+      return true;
            
     default: return state;
 

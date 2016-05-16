@@ -43,15 +43,24 @@ export default class AppConsole extends Component {
 
 
   render() {
-    return (   
+    if (this.props.appManage === true) {
+      return (   
       <div className="console app-management-console">   
-        <ul>
-         { this.state.log.map((line, index) => {
-            return <li key={index}>{line}</li>
-          }) }
-        </ul>
+        <h4>this.props.appManage</h4>
       </div>
     );
+
+    } else {
+      return (   
+        <div className="console app-management-console">   
+          <ul>
+           { this.state.log.map((line, index) => {
+              return <li key={index}>{line}</li>
+            }) }
+          </ul>
+        </div>
+      );
+    }
   }
 
 }

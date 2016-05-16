@@ -235,8 +235,8 @@ export function reInstallInstance() {
 //ENABLE INSTANCE RESCUE
 //
 export const RESCUE_INSTANCE = 'RESCUE_INSTANCE'
-export function rescueInstance() {
-  let url = '/api/ovh/rescuemode'
+export function rescueInstance(status) {
+  let url = '/api/ovh/rescuemode/' + status 
   let request = axios.get(url);
 
   return {
@@ -292,6 +292,15 @@ export function listBackups() {
     payload: request,
   }
 }
+
+export const LOADING = 'LOADING'
+export function loading() {
+
+  return {
+    type: 'LOADING'
+  }
+}
+
 
 //
 // Live SSH Console
@@ -502,6 +511,15 @@ export function outputUptime() {
   return {
     type: OUTPUT_UPTIME,
     payload: request,
+  }
+}
+
+//app loading
+export const APP_LOADING = 'APP_LOADING'
+export function appLoading() {
+
+  return {
+    type: 'APP_LOADING'
   }
 }
 

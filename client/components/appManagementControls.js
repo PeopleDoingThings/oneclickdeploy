@@ -116,6 +116,7 @@ class AppControl extends Component {
   githubUpdate() {
     console.log('githubUpdate working')
     this.props.githubUpdate();
+    this.props.appLoading();
     this.close();
   }
 
@@ -123,6 +124,7 @@ class AppControl extends Component {
   restartRepo() {
     console.log('restartRepo action calling')
     this.props.restartRepo();
+    this.props.appLoading();
     this.close();
   }
 
@@ -130,6 +132,7 @@ class AppControl extends Component {
     console.log('reinstall repo action starting', this.props.deployed.repoid);
     const repoId = this.props.deployed.repoid; 
     this.props.reinstallRepo(repoId);
+    this.props.appLoading();
     this.close();
   }
 
@@ -137,30 +140,35 @@ class AppControl extends Component {
   deleteRepo() {
     console.log('delete repo action starting')
     this.props.deleteRepo();
+    this.props.appLoading();
     this.close();
   }
 
   outputTop() {
     console.log('outputTop action starting');
     this.props.outputTop();
+    this.props.appLoading();
     this.close();
   }
 
   outputForever() {
     console.log('outputForever action starting');
     this.props.outputForever();
+    this.props.appLoading();
     this.close();
   }
 
   outputPrintEnv() {
     console.log('outputPrintEnv action starting');
     this.props.outputprintEnv();
+    this.props.appLoading();
     this.close();
   }
 
   outputUptime() {
     console.log('outputUptime action starting');
     this.props.outputUptime();
+    this.props.appLoading();
     this.close();
   }
 

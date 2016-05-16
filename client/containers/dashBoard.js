@@ -68,7 +68,12 @@ export default class DashBoard extends Component {
         </div>        
         )
     } else {
-      return <h1>loading</h1>
+      return (
+        <div>
+        
+        <p>loading</p>
+        </div>
+      )
     }
   }
 }

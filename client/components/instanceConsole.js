@@ -29,11 +29,15 @@ export default class InstanceConsole extends Component {
       return (
         <div>
           {console.log('inside console:', this.props.response)}
-          { response.length > 0 ?
-          <div className="console dashboard-console">
-            <h4>{response}</h4>
-          </div>
-          : <div></div>
+          { response === true ?
+              <div className="console dashboard-console">
+                <h4>Starting...</h4>
+              </div>
+                  :response.length > 0 ?     
+                    <div className="console dashboard-console">
+                      <h4>{response}</h4>
+                    </div>
+                        : <div></div>
           }
         </div>
       )  

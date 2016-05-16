@@ -141,30 +141,35 @@ class InstanceButtons extends Component {
   softReboot() {
     console.log('softReboot working')
     this.props.rebootInstance('soft');
+    this.props.loading();
     this.close();
   }
 
   hardReboot() {
     console.log('hardReboot working')
     this.props.rebootInstance('hard');
+    this.props.loading();
     this.close();
   }
 
   startsRescue() {
     console.log('start rescue working')
     this.props.rescueInstance(true);
+    this.props.loading();
     this.close();
   }
 
   stopsRescue() {
     console.log('stops rescue working')
     this.props.rescueInstance(false);
+    this.props.loading();
     this.close();
   }
 
   reinstallInstance() {
     console.log('reinstall instance working')
     this.props.reInstallInstance();
+    this.props.loading();
     this.close();
   }
 
@@ -174,23 +179,27 @@ class InstanceButtons extends Component {
   createBackup() {
     console.log('create backup is working')
     this.props.createBackup();
+    this.props.loading();
     this.close();
   }
 
   getSnapshot() {
     console.log('get snapshot status working')
     this.props.getSnapshotStatus();
+    this.props.loading();
     this.close();
   }
   deleteBackup() {
     console.log('delete backup working')
     this.props.deleteBackup();
+    this.props.loading();
     this.close();
   }
 
   listBackups() {
     console.log('list backups working')
     this.props.listBackups();
+    this.props.loading();
     this.close();
   }
 

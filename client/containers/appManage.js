@@ -44,7 +44,8 @@ export default class AppManagement extends Component {
     if (this.props.AppManage === "socketIO") {
       appManage = this.state.log;
       console.log('appManage:', appManage)
-
+    } else if (this.props.AppManage === true) {
+      appManage = "Starting...";
     }
 
       return (
@@ -69,7 +70,7 @@ function mapStateToProps(state) {
   if (state.reducers.subdomain !== 'none') {
     subdomain = true;
   }
-  console.log('state app management: ', state.reducers.subdomain)
+
   if(state.reducers.appManage.body !== undefined) {
     appManage = JSON.parse(state.reducers.appManage.body);
   } else {

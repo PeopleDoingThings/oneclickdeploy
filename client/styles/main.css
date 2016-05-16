@@ -810,6 +810,12 @@ h4 {
     width: 150px;
 }
 
+.deployBtn {
+  background-color: #EE9A00;
+  color: #33332D;
+  float: right;
+}
+
 .refresh-button {
     margin: 0 30px 35px 30px;
     background-color: #008B8B;
@@ -993,6 +999,19 @@ h4 {
 }
 */
 
+<<<<<<< f21b5151d52bb119ac4494f1e166fb6bf6d1b542
+=======
+.dashboard-console {
+  background-color: #4A4A4A;
+  margin: 20px 20px 20px 0;
+  padding: 20px;
+  color: lightgray;
+  border: 2px solid darkblue;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.9);
+  height: 200px;
+  overflow: auto;
+}
+>>>>>>> more styling and added loading message for console
 
 /* Graphs Styles */
 
@@ -3642,6 +3661,7 @@ body.f9 > pre > .bold {
     border-color: #EE9A00;
 }
 
+<<<<<<< f21b5151d52bb119ac4494f1e166fb6bf6d1b542
 .subdomain-modal .modal-header {
     background-color: #008B8B;
     border-radius: 5px 5px 0 0;
@@ -3649,8 +3669,15 @@ body.f9 > pre > .bold {
     padding-top: 20px;
 }
 
-.subdomain-modal .modal-body .form-inline {
-    margin-top: 30px;
+.modal-header {
+  background-color: #008B8B;
+  border-radius: 5px 5px 0 0;
+  color: #FEF7E3;
+  padding-top: 20px;
+}
+
+.modal-body .form-inline {
+  margin-top: 30px;
 }
 
 .subdomain-modal .modal-body .has-feedback {
