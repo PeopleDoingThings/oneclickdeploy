@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import RepoItem from '../components/repo_list_item';
-import { PanelGroup, Panel } from 'react-bootstrap';
+import { Glyphicon, glyph, PanelGroup, Panel } from 'react-bootstrap';
 import Form from './envVarForm';
 import { getEnvVar, refreshRepo} from '../actions/index';
 
@@ -50,6 +50,7 @@ renderList() {
             id={repo.repoid} 
             repoName={repo.name} 
             eventKey={counter++} 
+            className="repo-item"
             onEnter={()=>{this.props.getEnvVar(repo.repoid); this.setState({showForm: false})}}
             >
               {!this.state.showForm ?
@@ -60,8 +61,9 @@ renderList() {
                 : null}
                  { this.state.showForm ?
                    <div>
-                   <Form key={repo._id} id={repo.repoid}/>
-                 <button className="btn btn-primary" onClick={()=>this.hideForm()}>Cancel</button>
+                    <h4>First, does the app have any environment variable?</h4>
+                    <Form key={repo._id} id={repo.repoid}/>
+                 <button className="cancel btn" onClick={()=>this.hideForm()}>Cancel</button>
                   </div>
                  : null }
             </Panel>
@@ -74,14 +76,16 @@ renderList() {
   render() {
     return (
       <div>                
-        <PanelGroup accordion>
+        <PanelGroup accordion className="repo-list">
          {this.renderList()}   
         </PanelGroup>
             {''}
             {''}
             {''}
-          <h5>Refresh my github repos</h5> 
-          <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Refresh</button>
+          <div className="refresh-button">  
+            <h4>Can't find your new repos here?</h4> 
+            <button onClick={()=>this.refreshBtn()}>Fetch My GitHub Repos</button>
+          </div>
       </div>
     );
   }

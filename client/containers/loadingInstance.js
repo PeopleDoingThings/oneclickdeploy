@@ -258,44 +258,49 @@ createMarkup() {
      //          }
      //          console.log('here is display', display)
     return (
-      <div>
+      <div className="loading-container">
        {this.state.ErrorHandler ? <ErrorHandler errorMsg="lets test this error"/> : <div>
-        <div className="Steps Step_One"> Step 1 - Creating an instance  
+        <div className="Steps Step_One"> 
+          <h3>Step One: Creating an instance</h3>
            { this.state.Step_One ?
-           <div className="fadein">
-           We are creating your instance 
-             {
-             // <img width="360" height="215" src="images/githubScotch.gif"  frameborder="0" allowfullscreen></img> 
-             
-            //  Estimated Time Remaining      
-            // <Clock time={60} size={100}/>
-          }
+           <div className="step-body fadein">
+            <p className="left">We are creating your instance</p>
+            <div className="load-bubbles">
+              <div className="status-bubble">Instance<span>BUILD</span></div>
+              <div className="build-bubble">App<span>WAIT</span></div>
+            </div>  
+            <Clock time={60} size={100}/>
+            <p className="estimate-time right">Estimated Time Remaining</p>      
            </div>          
            : null}
         </div>   
 
-        <div className="Steps Step_Two"> Step 2 - Installing a base system
+        <div className="Steps Step_Two"> 
+          <h3>Step Two: Installing a base system</h3>
            { this.state.Step_Two ?
-           <div className="fadein">
+           <div className="step-body fadein">
+           <div className="load-bubbles">
+              <div className="status-bubble">Instance<span>CLOUD</span></div>
+              <div className="build-bubble">App<span>WAIT</span></div>
+            </div> 
            <div className="log" style={this.divStyle}>
               <div> {this.props.LogOutput.map(line=><div>{line}</div>)} </div> 
-           </div>
-             Estimated Time Remaining
-           <Clock time={90} size={100}/>
+           </div> 
+            <p className="estimate-time right">Estimated Time Remaining</p> 
+            <Clock time={90} size={100}/>
            </div>          
-           : null}
+           : null
+        }
         </div>   
-        
-        <div className="Steps Step_Three"> Step 3 - Would you like a subdomain with that?
-            <Modal show={this.state.Step_Three} onHide={this.closeModal}>
+
+        <div className="Steps Step_Three"> 
+          <h3>Step Three: Would you like a subdomain with that?</h3>
+            <Modal className="subdomain-modal" show={this.state.Step_Three} onHide={this.closeModal}>
               <Modal.Header closeButton>
                 <Modal.Title>Pick Your Subdomain</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <p>Do you want to select a personailized subdomain, ie your-cool-app.hyperjs.io? (skip this part if you just need an IP address)</p>
-              </Modal.Body>
-                <Modal.Footer>
-                  <Button onClick={this.closeModal}>No, thank you</Button>
                    <Form inline>
                     <FormGroup controlId="formInlineName" validationState={this.getValidationState()}>             
                       {' '}
@@ -309,15 +314,20 @@ createMarkup() {
 
                     </FormGroup>
                       {' '}
+                    <Button onClick={this.closeModal}>No, thank you</Button>
                      <Button onClick={this.onFormSubmit}>
                        I'll go with that
                      </Button>
                    </Form>
+
+              </Modal.Body>
+                <Modal.Footer>
                  </Modal.Footer>
               </Modal>
         </div>
 
-        <div className="Steps Step_Four"> Step 4 - Installing your app
+        <div className="Steps Step_Four"> 
+          <h3>Step Four: Installing your app</h3>
         { this.state.Step_Four && this.state.socketCmd !==[] ?
           <div className="sshLog">
           
@@ -327,26 +337,27 @@ createMarkup() {
             <pre dangerouslySetInnerHTML={this.createMarkup()} />
           }
            </div>
+
          
-           Estimated Time Remaining
-           <Clock time={30} size={100}/>
-           </div>          
+            <p className="estimate-time right">Estimated Time Remaining</p>  
+            <Clock time={30} size={100}/>
+          </div>          
           :null 
         }
         </div>
-
-        <div className="Steps Step_Five"> Preparing for launch!
+        <div className="Steps Step_Five"> 
+          <h3>Preparing for launch</h3> 
          { this.state.Step_Five ? 
-          <div>
-          Grab some popcorn; here comes the good part!
+          <div className="step-body fadein">
+            <p>Grab some popcorn; here comes the good part!</p>
           <Clock time={10} size={100} callback={function(){window.location = window.location.origin + '/#/dashboard'}}/> 
            </div>   
                 : null} 
         </div>  
 
-        </div>}
+         </div>}
 
-      </div>
+       </div>
     );
   }
 }

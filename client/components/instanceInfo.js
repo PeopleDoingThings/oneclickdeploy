@@ -32,13 +32,15 @@ export default class InstanceInfo extends Component {
       <div className="col-xs-12 col-md-4 col-lg-5">  
         <div className="info-panel">
           <div>
-            <div className="ip">{instance.ip.ip}</div>
-            <Button bsStyle="warning" href={'http://' + instance.ip.ip} target="_blank">go to site</Button>
+            <div className="ip">{instance.ip.ip}
+            <Button className="go-to-site" href={'http://' + instance.ip.ip} target="_blank">go to site</Button>
+            </div>
             <div className="clearfix"></div>
           </div>  
-
-          <div className="status-bubble">STATUS <span>{ (instance.status === 'ACTIVE') ? "LIVE" : "OFF" }</span></div>
-          <div className="build-bubble">BUILD <span>{instance.status}</span></div>
+          <div className="dashboard-bubbles">
+            <div className="status-bubble"><p>STATUS <span>{ (instance.status === 'ACTIVE') ? "LIVE" : "OFF" }</span></p></div>
+            <div className="build-bubble"><p>BUILD <span>{instance.status}</span></p></div>
+          </div>
           <div className="clearfix visible-xs-block"></div>
           <div className="col-md-6 col-xs-12">
             <ul>

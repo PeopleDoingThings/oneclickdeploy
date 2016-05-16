@@ -49,10 +49,10 @@ export default class AppManagement extends Component {
 
       return (
         <div>
-          <div className="col-xs-12 col-md-4 col-lg-4">
+          <div className="col-xs-12 col-md-4 col-lg-5">
               <DeployedRepo deployed={this.props.deployed[0]} subdomain={this.props.subdomain}/>
           </div>
-          <div className="col-xs-12 col-md-6 col-lg-8">   
+          <div className="col-xs-12 col-md-6 col-lg-7">   
              <AppControl deployed={this.props.deployed[0]} />
              <AppConsole appManage={appManage} />
           </div>
