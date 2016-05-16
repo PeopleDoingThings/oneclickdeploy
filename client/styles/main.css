@@ -1066,7 +1066,6 @@ path {
 }
 
 .has-feedback label~.form-control-feedback {
-    top: 210px;
     font-size: 1.3em;
 }
 
@@ -1106,12 +1105,10 @@ path {
 
 .Steps {
     height: auto;
-    border-width: thin;
-    border-style: solid;
-    border-color: #EDEFF0;
     font-size: 20px;
     font-weight: bold;
     text-align: center;
+    border: none;
     /*    opacity: 0.5;   */
 }
 
@@ -1497,13 +1494,12 @@ path {
      depending on the default background */
   color: #000000;
   font-weight: bold;
-<<<<<<< ab3f8730916f3c6e5926bd57b6d2c7cd1689e0ee
 }
 .reverse {
   /* CSS does not support swapping fg and bg colours unfortunately,
      so just hardcode something that will look OK on all backgrounds. */
   color: #000000; background-color: #AAAAAA;
-=======
+
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;

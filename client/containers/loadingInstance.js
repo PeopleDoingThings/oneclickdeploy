@@ -338,7 +338,7 @@ createMarkup() {
           }
            </div>
 
-         }
+         
             <p className="estimate-time right">Estimated Time Remaining</p>  
             <Clock time={30} size={100}/>
           </div>          
@@ -350,7 +350,7 @@ createMarkup() {
          { this.state.Step_Five ? 
           <div className="step-body fadein">
             <p>Grab some popcorn; here comes the good part!</p>
-          <Clock time={10} size={100} callback={function(){window.location = 'http://localhost:9001/#/dashboard'}}/> 
+          <Clock time={10} size={100} callback={function(){window.location = window.location.origin + '/#/dashboard'}}/> 
            </div>   
                 : null} 
         </div>  
