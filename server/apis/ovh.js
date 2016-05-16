@@ -77,7 +77,14 @@ exports.rebootInstance = function(instanceid, type) {
     ovh.request('POST', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}/reboot`, 
       { type: type },
       function(err, resp) {
-      if(err) {
+        console.log('reboot ins err: ', err)
+        console.log('reboot ins resp: ', resp)
+        console.log('resp.statusCode: ', typeof err)
+
+      if(err === 409) {
+        reject('Cannot "Reboot" while instance is in rescued VM State');
+      }
+      else if(err) {
         reject(err);
         return;
       }

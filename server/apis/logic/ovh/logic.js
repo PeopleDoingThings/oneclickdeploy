@@ -96,6 +96,8 @@ exports.rebootInstance = function(userid, type) {
         SSH2.restartJS(userid);
       }, 15000);
 
+      console.log('rebootInstance data:', data)
+
       return data;
     })
 }
