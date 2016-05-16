@@ -636,7 +636,8 @@ h4 {
 */
 
 .main {
-    margin-left: 320px;
+  padding-bottom: 50px;
+  margin-left: 320px;
 }
 
 .welcome-banner {
