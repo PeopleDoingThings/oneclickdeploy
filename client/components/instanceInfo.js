@@ -32,9 +32,8 @@ export default class InstanceInfo extends Component {
       <div className="col-xs-12 col-md-4 col-lg-5">  
         <div className="info-panel">
           <div>
-            <div className="ip">{instance.ip.ip}
-            <Button className="go-to-site" href={'http://' + instance.ip.ip} target="_blank">go to site</Button>
-            </div>
+            <div className="ip">{instance.ip.ip}</div>
+            <Button bsStyle="warning" href={'http://' + instance.ip.ip} target="_blank">Visit Website</Button>
             <div className="clearfix"></div>
           </div>  
           <div className="dashboard-bubbles">
