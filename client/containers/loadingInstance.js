@@ -356,7 +356,7 @@ createMarkup() {
               <div className="status-bubble">Instance<span>ACTIVE</span></div>
               <div className="build-bubble">App<span>ACTIVE</span></div>
               <div className="timer">
-                <Clock time={10} size={100}/>
+               <Clock time={10} size={100} callback={function(){window.location = window.location.origin + '/#/dashboard'}}/> 
                 <p className="estimate-time right">Estimated Time Remaining</p> 
               </div>
             </div> 
