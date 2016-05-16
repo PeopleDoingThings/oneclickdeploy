@@ -48,7 +48,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Soft Reboot Instance", 
-            modalBody: "Are you sure you want to soft reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open session.",
+            modalBody: "Are you sure you want to soft reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open sessions.",
             action: this.softReboot,
           })
           return;
@@ -57,7 +57,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Hard Reboot Instance", 
-            modalBody: "Are you sure you want to hard reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open session.",
+            modalBody: "Are you sure you want to hard reboot your instance? Be aware that this will cause your site to go down for a few seconds and your users will lose any open sessions.",
             action: this.hardReboot,
           })
           return;
@@ -66,7 +66,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Start Rescue Mode", 
-            modalBody: "Are you sure you want to start rescue mode? Be aware that this will cause your site to go down before you terminate rescue mode",
+            modalBody: "Are you sure you want to start rescue mode? Be aware that this will cause your site to go down until you disable rescue mode",
             action: this.startsRescue,
           })
           return;
@@ -75,7 +75,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Stop Rescue Mode", 
-            modalBody: "Are you sure you want to stop rescue mode?",
+            modalBody: "Are you sure you want to disable rescue mode?",
             action: this.stopsRescue,
           })
           return;
@@ -84,7 +84,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Reinstall Instance", 
-            modalBody: "Are you sure you want to reinstall instance? Be aware that this will cause your site to go down and you will have redeploy your app when reinstall is complete",
+            modalBody: "Are you sure you want to reinstall your instance? Be aware that this will cause your site to go down and you will have redeploy your app when reinstall is complete",
             action: this.reinstallInstance,
           })
           return;
@@ -111,7 +111,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "List Backup", 
-            modalBody: "Are you sure you want to get a list a all the backups?",
+            modalBody: "Are you sure you want to get a list of all the backups?",
             action: this.listBackups,
           })
           return; 
@@ -120,7 +120,7 @@ class InstanceButtons extends Component {
           this.open();
           this.setState({
             modalTitle: "Delete Backups", 
-            modalBody: "Are you sure you want to delete the backup?",
+            modalBody: "Are you sure you want to delete your backup?",
             action: this.deleteBackup,
           })
           return;     
@@ -209,7 +209,7 @@ class InstanceButtons extends Component {
             <MenuItem eventKey="2.2">Disable Rescue</MenuItem>
           </NavDropdown>
             <NavItem eventKey={3}>Reinstall</NavItem>
-          <NavDropdown eventKey={4} title="Back up" id="nav-dropdown">
+          <NavDropdown eventKey={4} title="Backup" id="nav-dropdown">
             <MenuItem eventKey="4.1">Create Backup</MenuItem>
             <MenuItem eventKey="4.2">Get Snapshot Status</MenuItem>
             <MenuItem eventKey="4.3">List Backups</MenuItem>

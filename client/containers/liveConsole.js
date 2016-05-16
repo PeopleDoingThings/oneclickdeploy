@@ -31,8 +31,8 @@ export default class liveConsole extends Component {
       <div className="row row-centered">
         <div className="login col-md-4 col-centered">
           <h4>Live Console</h4>
-          <p>Do you want to ssh to your instance from within a web browser?</p>
-          <Button onClick={this.getConsole}>Yeah! Give me a console!</Button>
+          <p>Secure Shell into your Instance from within your Web Browser.</p>
+          <Button onClick={this.getConsole}>Activate Console</Button>
           <div>
           <Iframe style={{position:'relative'}} url={this.state.url} />
           </div>

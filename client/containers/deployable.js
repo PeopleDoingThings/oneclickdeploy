@@ -60,10 +60,10 @@ renderList() {
                  </div>
                 : null}
                  { this.state.showForm ?
-                   <div>
-                    <h4>First, does the app have any environment variable?</h4>
+                  <div>
+                    <h4>If this Application requires Environment Variables Enter them here!</h4>
                     <Form key={repo._id} id={repo.repoid}/>
-                 <button className="cancel btn" onClick={()=>this.hideForm()}>Cancel</button>
+                    <button className="btn btn-primary" onClick={()=>this.hideForm()}>Cancel</button>
                   </div>
                  : null }
             </Panel>
@@ -83,8 +83,8 @@ renderList() {
             {''}
             {''}
           <div className="refresh-button">  
-            <h4>Can't find your new repos here?</h4> 
-            <button onClick={()=>this.refreshBtn()}>Fetch My GitHub Repos</button>
+            <h4>Can't find your recently added Repos?</h4> 
+            <button className="btn btn-primary" onClick={()=>this.refreshBtn()}>Fetch New GitHub Repo Data</button>
           </div>
       </div>
     );

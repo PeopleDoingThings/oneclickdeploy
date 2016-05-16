@@ -41,7 +41,7 @@ class DeployedRepo extends Component {
     if (typeof repo === 'object') {
       return (
         <div className="info-panel">
-          <h3>About your deployed app</h3>
+          <h3>Deployed Application:</h3>
           <div className="col-md-6 col-xs-12">
             <ul>
               <li>Created On</li>
@@ -60,7 +60,7 @@ class DeployedRepo extends Component {
             </ul>
             <ul>
               <li>Github Repo</li>
-              <li><a href={repo.clone_url}>go to Github repo</a></li>
+              <li><a href={repo.clone_url}>View on Github</a></li>
             </ul>
           </div>
           <Form>
@@ -83,10 +83,10 @@ class DeployedRepo extends Component {
             <Button onClick={this.handleSubmit}>
               Use subdomain
             </Button>
-            <p>Current subdomain: {repo.subdomain}</p>
+            <p>Current Subdomain: {repo.subdomain}</p>
             <p>New Subdomain: {this.state.value}</p>
             { this.props.subdomain ?
-              <Button><a href={url} taget="_blank">Go to your new subdomain</a></Button>
+              <Button><a href={url} taget="_blank">Go to your new Subdomain</a></Button>
              : console.log('not working')
 
             }
