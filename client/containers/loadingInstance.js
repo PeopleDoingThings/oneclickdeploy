@@ -260,7 +260,8 @@ createMarkup() {
     return (
       <div>
        {this.state.ErrorHandler ? <ErrorHandler errorMsg={this.props.DeployedStatus.deployerror}/> : <div>
-        <div className="Steps Step_One"> Step 1 - Creating an instance 
+        <div className="Steps Step_One"> 
+          <h3>Step One: Creating an instance</h3> 
            { this.state.Step_One ?
            <div className="step-body fadein">
             <p className="left">We are creating your instance</p>

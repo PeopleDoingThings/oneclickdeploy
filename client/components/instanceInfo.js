@@ -33,7 +33,7 @@ export default class InstanceInfo extends Component {
         <div className="info-panel">
           <div>
             <div className="ip">{instance.ip.ip}</div>
-            <Button bsStyle="warning" href={'http://' + instance.ip.ip} target="_blank">Visit Website</Button>
+            <Button bsStyle="warning right" href={'http://' + instance.ip.ip} target="_blank">Visit Website</Button>
             <div className="clearfix"></div>
           </div>  
           <div className="dashboard-bubbles">

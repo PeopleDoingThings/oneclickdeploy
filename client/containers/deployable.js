@@ -63,7 +63,7 @@ renderList() {
                   <div>
                     <h4>If this Application requires Environment Variables Enter them here!</h4>
                     <Form key={repo._id} id={repo.repoid}/>
-                    <button className="btn btn-primary" onClick={()=>this.hideForm()}>Cancel</button>
+                    <button className="btn cancel" onClick={()=>this.hideForm()}>Cancel</button>
                   </div>
                  : null }
             </Panel>
