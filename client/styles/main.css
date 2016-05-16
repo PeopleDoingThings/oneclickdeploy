@@ -166,7 +166,22 @@ a:hover {
     color: #FEF7E3;
 }
 
+<<<<<<< 32af5814ed16f5e6a10594b4107c26f465c4d2a3
 
+=======
+.modal-cancel {
+  background-color: #008B8B;
+  margin-left: 10px;
+  float: right;
+}
+
+.modal-controls {
+  margin-right: 76%;
+}
+.modal-content .btn {
+  margin-left: 10px;
+}
+>>>>>>> before merge
 /**/
 
 
@@ -649,8 +664,17 @@ h4 {
 }
 
 .logout {
+<<<<<<< 32af5814ed16f5e6a10594b4107c26f465c4d2a3
     width: 100%;
     border-radius: 0;
+=======
+  width: 85%;
+  border-radius: 0;
+  padding: 20px 0;
+  margin: 160px 20px 0 20px;
+  vertical-align: middle;
+  font-size: 1.1em;
+>>>>>>> before merge
 }
 
 .logout:hover {
@@ -797,6 +821,7 @@ h4 {
 
 .repo-list.panel-group .panel-title a:hover,
 .repo-list.panel-group .panel-title a:active,
+<<<<<<< 32af5814ed16f5e6a10594b4107c26f465c4d2a3
 .repo-list .cancel:hover,
 .repo-list .cancel:focus {
     background-color: #EE9A00;
@@ -808,6 +833,19 @@ h4 {
     background-color: #008B8B;
     float: right;
     width: 150px;
+=======
+.cancel:hover,
+.cancel:focus {
+  background-color: #EE9A00;
+  color: #FEF7E3;
+}
+
+.cancel {
+  background-image: none;
+  background-color: #008B8B;
+  float: right;
+  width: 150px;
+>>>>>>> before merge
 }
 
 .deployBtn {
@@ -3569,7 +3607,7 @@ body.f9 > pre > .bold {
 
 
 .Steps .step-body .status-bubble {
-    padding: 20px 0 0 10px;
+  padding: 23px 0 0 18px;;
 }
 
 .Steps .step-body .status-bubble span,
@@ -3660,8 +3698,6 @@ body.f9 > pre > .bold {
 .Step_Five h3 {
     border-color: #EE9A00;
 }
-
-<<<<<<< f21b5151d52bb119ac4494f1e166fb6bf6d1b542
 .subdomain-modal .modal-header {
     background-color: #008B8B;
     border-radius: 5px 5px 0 0;

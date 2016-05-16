@@ -230,8 +230,10 @@ class InstanceButtons extends Component {
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
           <Modal.Body>{this.state.modalBody}</Modal.Body>
-            <Button onClick={this.state.action}>Do it</Button>
-            <Button onClick={this.close}>Cancel</Button>
+            <div className="modal-controls"> 
+              <Button onClick={this.state.action}>Do it</Button>
+              <Button onClick={this.close}>Cancel</Button>
+            </div>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>

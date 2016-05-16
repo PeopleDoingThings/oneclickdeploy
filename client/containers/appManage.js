@@ -40,6 +40,7 @@ export default class AppManagement extends Component {
   }
   render() {
     let appManage = this.props.AppManage;
+    let deployed = this.props.deployed;
 
     if (this.props.AppManage === "socketIO") {
       appManage = this.state.log;
@@ -48,10 +49,14 @@ export default class AppManagement extends Component {
       appManage = "Starting...";
     }
 
+    if (this.props.deployed.length > 0) {
+      deployed = this.props.deployed[0];
+    }
+
       return (
         <div>
           <div className="col-xs-12 col-md-4 col-lg-5">
-              <DeployedRepo deployed={this.props.deployed[0]} subdomain={this.props.subdomain}/>
+              <DeployedRepo deployed={deployed} subdomain={this.props.subdomain}/>
           </div>
           <div className="col-xs-12 col-md-6 col-lg-7">   
              <AppControl deployed={this.props.deployed[0]} />

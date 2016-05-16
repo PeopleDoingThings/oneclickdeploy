@@ -38,7 +38,11 @@ class DeployedRepo extends Component {
   render() {
     const repo = this.props.deployed;
     const url = "http://" + this.state.value + '.hyperjs.io';
-    if (typeof repo === 'object') {
+    if (typeof repo === 'string') {
+      return <h3>hold on, you have no app currently deployed right now</h3>
+    }
+
+    else if (typeof repo === 'object') {
       return (
         <div className="info-panel">
           <h3>Deployed Application:</h3>
@@ -96,7 +100,7 @@ class DeployedRepo extends Component {
       );
     } else {
       return (
-        <h2>loading</h2>
+        <h4>loading</h4>
       )
     }  
   }

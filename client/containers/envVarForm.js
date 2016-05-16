@@ -136,7 +136,7 @@ return (
             repo?</b>
           </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.closeModal}>Cancel</Button>
+              <Button className="modal-cancel" onClick={this.closeModal}>Cancel</Button>
               <Deploy id={repoID} /> 
              </Modal.Footer>
       </Modal>

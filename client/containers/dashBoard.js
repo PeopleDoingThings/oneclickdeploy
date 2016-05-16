@@ -12,7 +12,7 @@ function renderChart() {
      // console.log('mem length:', this.props.memUsage.values.length)
        //console.log('rx length:', this.props.rxUsage.values.length)
       if (this.props.memUsage.length === 0) {
-        return <h1>Loading</h1>
+        return <h4>Loading</h4>
       } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
         return <h4>No data is available yet. Please check back in a bit.</h4>
       } else if(
@@ -71,7 +71,7 @@ export default class DashBoard extends Component {
       return (
         <div>
         
-        <p>loading</p>
+        <h4>loading</h4>
         </div>
       )
     }
