@@ -60,22 +60,24 @@ exports.checkReady = function(userid) {
   var mongoInstanceId = '';
   return InstanceDB.getUserInstances(userid) // Making sure there is an instance connected with this user.
     .then(function(data) {
-      // console.log('instace data from db = ', data)
+      console.log('instace data from db = ', data)
       if(!data || data.length === 0) return Promise.reject( new Error('User has No Instance to Check!') )
       mongoInstanceId = data[0]._id;
-      // console.log('mongoInstanceId = ', mongoInstanceId)
+      console.log('mongoInstanceId = ', mongoInstanceId)
       return OVH.getInstance(data[0].openstackid); // finding from internet here in case state changed.
     })
     .then(function(data) {
-      // console.log('got ovh ins data on check ready! = ', data)
+      console.log('got ovh ins data on check ready! = ', data)
       if(!data) {
         return Promise.reject( new Error('Instance Still Provisioning, Please Try Again!') )
+      } else if(data.status === 'DELETED') {
+        return Promise.reject( new Error('Instance was Removed!') )
+      } else {
+        return Helper.checkInstanceState(data);
       }
-
-      return Helper.checkInstanceState(data);
     })
     .then(function(data) {
-      // console.log('DATA IP IS THIS UNDEFINED???? ==== ', data)
+      console.log('DATA IP IS THIS UNDEFINED???? ==== ', data)
       InstanceDB.updateInstanceState(data, mongoInstanceId) // We update instancelogin data with the ip to complete this dataset.
         .then( obj => InstanceLogin.findAndUpdateIP(userid, data.ip.ip) )
 

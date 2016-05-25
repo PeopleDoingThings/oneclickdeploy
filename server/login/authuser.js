@@ -1,5 +1,5 @@
 var UserToken = require('../database/models/usertoken.js');
-var Moment = require('moment')();
+var Moment = require('moment');
 var Global = require('../globals/globals.js');
 var Openstack = require('../apis/openstack.js');
 
@@ -17,14 +17,16 @@ module.exports = function(req, res, next) {
   }
   else if (req.isAuthenticated()) {
     console.log('AuthUser Valid!')
+    var timeNow = Moment();
     req.user.gitid = String(req.user.gitid);
+    console.log('tokenAge > 4 hours?', timeNow.diff(Global.tokenAge, 'hours') > 4)
 
     UserToken.find({ id: req.user.gitid })
       .then(function(data) {
         if(data.length !== 0) req.user.AccessToken = data[0].token;  // We add this here so it skips the /login/isauth route so the client doesnt get the token.
 
         if( process.env.NODE_ENV === 'production' ) {
-          if(Global.find && (Global.tokenAge === 0 || Moment.diff(Global.tokenAge, 'hours') > 4)) {
+          if(Global.find && (Global.tokenAge === 0 || timeNow.diff(Global.tokenAge, 'hours') > 4)) {
           // Set global.find to false as this middleware is called many times.
           Global.find = false; 
 
@@ -36,7 +38,7 @@ module.exports = function(req, res, next) {
               // Now we have a new token set our token age && set find to true so we can check in future.
               process.env.OPENSTACK_X_AUTH = data.body.access.token.id;
               console.log('Set Openstack Token: ', process.env.OPENSTACK_X_AUTH)
-              Global.tokenAge = Date.now();
+              Global.tokenAge = Moment();
               Global.find = true;
               next();
 

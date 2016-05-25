@@ -128,6 +128,7 @@ exports.getInstance = function(instanceid) {
   return new Promise(function(resolve, reject) {
     ovh.request('GET', `/cloud/project/${process.env.OVH_SERVICEID}/instance/${instanceid}`, function(err, resp) {
       if(err) {
+        console.log('get Instance err: ', err)
         reject(err);
         return;
       }
