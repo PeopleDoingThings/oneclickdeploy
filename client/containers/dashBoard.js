@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
 import InstanceInfo from '../components/instanceInfo';
-import InstanceCtrls from '../components/InstanceCtrls';
+import InstanceCtrls from '../components/instanceCtrls';
 
 function renderChart() {
      if (this.state.memUsage.length <= 12){

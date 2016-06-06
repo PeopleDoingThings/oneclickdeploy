@@ -7,6 +7,44 @@
 
 
 /*************************************************/
+/* large monitors */
+@media screen and (min-width: 1437px) {
+  .home-details,
+  .detail-panel {
+    height: 550px;
+  }
+
+  .home-details {
+    padding: 120px 4%;
+  }
+  .home-details > div {
+    padding: 0 2%;
+  }
+
+  .detail-panel .text {
+    margin: 190px 0 30px 10%;
+  }
+
+  .instance-control .text {
+    margin: 190px 10% 30px 40px;
+  }
+
+  .detail-panel > img {
+    width: 46%;
+    box-shadow: -2px -2px 3px black;
+    overflow: hidden;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    max-width: 802px;
+  }
+
+  .small-logo {
+    height: 8%;
+    width: 8%;
+    max-width: 123px;
+  }
+}
 
 /* md screens */
 @media screen and (min-width: 1085px) and (max-width: 1356px) {
@@ -95,6 +133,7 @@
 
     .detail-panel {
       padding-top: 0;
+      min-height: 400px;
     }
 
     .detail-panel .text {
