@@ -28,13 +28,13 @@ router.get('/github/callback',
       Repo.find({ ownerid: req.user.gitid, deployed: true })
         .then(function(data) {
           if(data.length === 0) {
-            res.redirect('/#/repos')
+            res.redirect('/#/first-launch')
           } else {
             res.redirect('/#/dashboard')
           }
         })
         .catch(function(err) {
-          res.redirect('/#/repos')
+          res.redirect('/#/first-launch')
         })
 
     });

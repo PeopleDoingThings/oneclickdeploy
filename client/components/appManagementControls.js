@@ -26,7 +26,7 @@ class AppControl extends Component {
       showModal: false,
       modalTitle: "",
       modalBody: "",
-      action: "",
+      action: null,
     }
 
   }
@@ -121,13 +121,11 @@ class AppControl extends Component {
 
 //function to call actions based on onclick event and close modal window
   restartRepo() {
-    console.log('restartRepo action calling')
     this.props.restartRepo();
     this.close();
   }
 
   reinstallRepo() {
-    console.log('reinstall repo action starting', this.props.deployed.repoid);
     const repoId = this.props.deployed.repoid; 
     this.props.reinstallRepo(repoId);
     this.close();
@@ -181,18 +179,18 @@ class AppControl extends Component {
         </Nav>
 
         <Modal className="appModal" show={this.state.showModal} onHide={this.close}>
-          <Modal.Header closeButton>
+          <Modal.Header>
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.modalBody}
             <div className="modal-controls">
-              <Button onClick={this.state.action}>Do it</Button>
-              <Button onClick={this.close}>Cancel</Button>
+              <Button className="btn-light" onClick={this.state.action}>Do it</Button>
+              <Button className="btn-light" onClick={this.close}>Cancel</Button>
             </div>  
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+            <Button onClick={this.close} className="btn-light">Close</Button>
           </Modal.Footer>
         </Modal>
 

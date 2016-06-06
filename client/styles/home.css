@@ -1,0 +1,318 @@
+/******************************************************/
+
+
+/*
+*** HOME and LAUNCH pages
+*/
+
+
+/******************************************************/
+
+.row-centered {
+    text-align: center;
+}
+
+.col-centered {
+    display: inline-block;
+    float: none;
+    /* reset the text-align */
+    text-align: left;
+    /* inline-block space fix */
+    margin-right: -4px;
+}
+
+.home-title {
+    padding: 0;
+    float: left;
+    left: 0;
+    right: 0;
+    margin: 30px auto 0 auto;
+    width: 100%;
+}
+
+.main-logo {
+    background: no-repeat center url("../images/logo.svg");
+    height: 86px;
+    width: 100%;
+    text-align: center;
+}
+
+h3.tagline {
+    font-family: Avenir;
+}
+
+.intro p {
+    font-family: Avenir-Regular;
+}
+
+.home-login {
+    background-color: #FFF8DC;
+    color: #33332D;
+    font-size: 1.2em;
+    width: 100%;
+    text-align: center;
+    padding: 0px 30px 120px 30px;
+    min-height: 750px;
+}
+
+.login {
+    overflow: hidden;
+    text-align: center;
+    min-height: 360px;
+}
+
+@keyframes login {
+    0% {
+        margin-top: -1000px;
+        opacity: 0;
+    }
+    100% {
+        margin-top: 30px;
+        opacity: 1;
+    }
+}
+
+[datatype^="1"]:before,
+[datatype^="2"]:before,
+[datatype^="3"]:before {
+  content: attr(datatype);
+  background: #33332D;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  color: #FFF8DC;
+  font-weight: bold;
+  display: inline-block;
+  position: absolute;
+  left: 30px;
+  top: 10px;
+  padding-top: 8px;
+  font-family: Avenir, sans-serif;
+} 
+
+.home-login .login [datatype^="1"] {
+    animation: login 1s ease forwards;
+}
+
+.home-login .login [datatype^="2"] {
+    animation: login 1.5s ease forwards;
+}
+
+.home-login .login [datatype^="3"] {
+    animation: login 1.75s ease forwards;
+}
+
+.intro img[src$="nodejs-logo.png"],
+.intro img[src$="Octocat.png"],
+.intro img[src$="gear.png"] {
+  max-width: 46%;
+  height: auto;
+  margin: 30px auto;
+}
+
+.intro img[src$="Octocat.png"] {
+  max-width: 60%;
+}
+
+.intro img[src$="gear.png"] {
+  max-width: 40%;
+}
+
+.intro h2 {
+  margin-left: 20%;
+}
+
+.intro h2 {
+    font-family: Avenir, sans-serif;
+    font-weight: bold;
+    text-align: left;
+}
+
+.intro p {
+  text-align: left;
+  margin-left: 12%;
+}
+
+
+.login-intro {
+    font-family: Avenir-Regular, sans-serif;
+    margin-top: 30px;
+}
+
+
+.signIn {
+    border: 3px solid #33332D;
+    padding: 10px;
+    width: 340px;
+    margin: 10px auto;
+    display: block;
+    color: #33332D;
+    font-weight: 700;
+}
+
+a .signIn {
+    color: #33332D;
+}
+
+.signIn:hover,
+.signIn:focus {
+    background-color: #33332D;
+    color: #FEF7E3;
+    outline: none;
+}
+
+.tooltips {
+  position: absolute;
+  width: 400px;
+  padding: 20px;
+  color: #FFF8DC;
+  background: #F16521;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 6px;
+  border: none;
+  min-width: 180px;
+  left: 0;
+  right: 0;
+  margin: 35px auto 0 auto;
+  z-index: 999;
+  outline: none;
+  cursor: default;
+}
+
+.tooltips:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid #F16521;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+
+.home-details {
+    background-color: #F16521;
+    color: #FFF8DC;
+    overflow: auto;
+    padding: 40px;
+    font-size: 1em;
+}
+
+.home-details .scroll-hide {
+  opacity: 0;
+}
+.home-details .scroll-show {
+  opacity: 1;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition:opacity 1s ease-in-out;
+  -o-transition:opacity 1s ease-in-out;
+  transition:opacity 1s ease-in-out;
+}
+
+.home-details .glyphicon-cloud-upload,
+.home-details .glyphicon-tasks,
+.home-details .glyphicon-folder-open {
+  margin: 20px auto;
+  font-size: 3em;
+  border-radius: 50%;
+  padding: 20px 0 15px 25px;
+  border: 2px solid;
+  display: block;
+  width: 102px;
+  height: 102px;
+ 
+}
+
+.home-details .glyphicon-tasks {
+  padding: 27px 0 15px 26px;
+}
+
+.home-details .glyphicon-folder-open {
+  padding: 23px 0 15px 23px;
+}
+
+.home-details h3 {
+    margin: 0;
+    padding: 20px 0;
+    text-align: left;
+}
+
+.detail-panel {
+  display: block;
+  background-color: #33332D;
+  color: #FFF8DC;
+  overflow: hidden;
+  position: relative;
+  padding-top: 100px
+}
+
+.detail-panel .text {
+  float: left;
+  width: 40%;
+  margin: 190px 0 30px 40px;
+  text-align: right;
+}
+
+.detail-panel h2 {
+  margin: 0 0 20px 0;
+}
+.repo-filtering > p {
+  padding: 20px 20px 20px 40px;
+}
+
+.detail-panel > img {
+  width: 53%;
+  box-shadow: -2px -2px 3px black;
+  overflow: hidden;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.instance-control {
+  overflow: auto;
+  background: #008B8B;
+}
+
+.instance-control .text {
+  float: right;
+  margin: 190px 30px 30px 0;
+  text-align: left;
+  padding: 0;
+}
+
+.instance-control > img {
+  position: absolute;
+  left: 0;
+  box-shadow: 2px 2px 3px black;
+}
+
+.app-control {
+  background-color: #EE9A00;
+}
+
+/******************************************************/
+
+
+/*
+*** LAUNCH Page
+*/
+
+
+/******************************************************/
+
+.first-launch {
+  margin: 0 auto;
+  padding: 7% 12%;
+  background: #FEF7E3;
+  height: 100%;
+  overflow: auto;
+}
+
+.first-launch .launch-title {
+    margin-bottom: 30px;
+    padding: 0 5%;
+}

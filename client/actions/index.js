@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+export const ERROR = 'ERROR'
+
 export const SIDEBAR_TOGGLE = 'SIDEBAR_TOGGLE';
 export function sideBarToggle() {
   return {
@@ -33,11 +35,22 @@ export function isAuth() {
 export const INSTANCE_READY = 'INSTANCE_READY'
 export function instanceReady() {
   let url = `/api/ovh/checkinstanceready`;
-  let request = axios.get(url);
-  return {
-    type: INSTANCE_READY,
-    payload: request
-  }
+  let request = axios.get(url)
+  .then(function (response) {
+      return {
+        type: INSTANCE_READY,
+        payload: response
+      }
+    })
+    .catch(function (err) {
+      console.error("InstanceReady Errr:", err);
+      return {
+        type: ERROR,
+        payload: err,
+      }
+    })
+
+  return request
 }
 
 export const LOGOUT = 'LOGOUT'
@@ -125,19 +138,36 @@ export function setSubdomain(subdomain) {
 export const USAGE_MEM = 'USAGE_MEM'
 export function usageMemory() {
   let url = '/api/ovh/usagestatistics/?time=lastday&type=mem:used'
-  let request = axios.get(url);
+  let request = axios.get(url)
+   .then(function (response) {
+      return {
+        type: USAGE_MEM,
+        payload: response
+      }
+    })
+    .catch(function (err) {
+      console.error("memGraph Errr:", err);
+      return {
+        type: ERROR,
+        payload: err,
+      }
+    })
 
-  return {
-    type: USAGE_MEM,
-    payload: request
-  }
+  return request
 
 }
 
 export const USAGE_CPU = 'USAGE_CPU'
 export function usageCPU() {
   let url = '/api/ovh/usagestatistics?time=lastday&type=cpu:used'
-  let request = axios.get(url);
+  let request = axios.get(url)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (err) {
+      console.error("CPUGraph Errr:", err);
+      return err;
+    })
 
   return {
     type: USAGE_CPU,
@@ -149,7 +179,14 @@ export function usageCPU() {
 export const USAGE_TX = 'USAGE_TX'
 export function usageTX() {
   let url = '/api/ovh/usagestatistics/?time=lastday&type=net:tx'
-  let request = axios.get(url);
+  let request = axios.get(url)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (err) {
+      console.error("TXGraph Errr:", err);
+      return err;
+    })
 
   return {
     type: USAGE_TX,
@@ -161,12 +198,22 @@ export function usageTX() {
 export const USAGE_RX = 'USAGE_RX'
 export function usageRX() {
   let url = '/api/ovh/usagestatistics/?time=lastday&type=net:rx'
-  let request = axios.get(url);
+  let request = axios.get(url)
+    .then(function (response) {
+      return {
+        type: USAGE_RX,
+        payload: response
+      }
+    })
+    .catch(function (err) {
+      console.error("RXGraph Errr:", err);
+      return {
+        type: ERROR,
+        payload: err,
+      }
+    })
 
-  return {
-    type: USAGE_RX,
-    payload: request
-  }
+  return request
 
 }
 
@@ -176,12 +223,22 @@ export function usageRX() {
 export const SSH_LOGIN = 'SSH_LOGIN'
 export function sshLogin() {
   let url = '/api/database/instancelogin'
-  let request = axios.get(url);
+  let request = axios.get(url)
+  .then(function (response) {
+      return {
+        type: SSH_LOGIN,
+        payload: response
+      }
+    })
+    .catch(function (err) {
+      console.error("ssh login Errr:", err);
+      return {
+        type: ERROR,
+        payload: err,
+      }
+    })
 
-  return {
-    type: SSH_LOGIN,
-    payload: request
-  }
+  return request
 
 }
 
@@ -323,16 +380,20 @@ export function deployedRepo() {
   let url = 'api/database/getdeployed'
   let request = axios.get(url)
   .then(function (response) {
-    return response;
-  })
-  .catch(function (err) {
-    console.error("Deployed Repo Error:", err);
-  })
+      return {
+        type: DEPLOYED_REPO,
+        payload: response
+      }
+    })
+    .catch(function (err) {
+      console.error("deployed repo Errr:", err);
+      return {
+        type: ERROR,
+        payload: err,
+      }
+    })
 
-  return {
-    type: DEPLOYED_REPO,
-    payload: request,
-  }
+  return request
 }
 
 // create new subdomain

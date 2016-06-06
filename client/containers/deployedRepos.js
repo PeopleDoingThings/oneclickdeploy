@@ -14,9 +14,8 @@ class DeployedApp extends Component {
 
 
 renderList() {
-    console.log('props in deployable ',this.props.repos.length)
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return "Loading....."
+      return <div className="loader">Loading...</div>
     } else {
       	var counter = 0;
         var now= Date.now();

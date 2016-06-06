@@ -5,37 +5,26 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../actions/index';
 import MemUsage from '../components/widget_usageGraphs';
 import InstanceInfo from '../components/instanceInfo';
-import InstanceButtons from '../components/instanceButtons';
-import InstanceConsole from '../components/instanceConsole';
+import InstanceCtrls from '../components/InstanceCtrls';
 
 function renderChart() {
-     // console.log('mem length:', this.props.memUsage.values.length)
-       //console.log('rx length:', this.props.rxUsage.values.length)
-      if (this.props.memUsage.length === 0) {
-        return <h1>Loading</h1>
-      } else if (typeof this.props.memUsage === 'object' && this.props.memUsage !== null && this.props.memUsage.values.length <= 12){
+     if (this.state.memUsage.length <= 12){
         return <h4>No data is available yet. Please check back in a bit.</h4>
-      } else if(
-        this.props.memUsage.values.length > 12 &&
-        this.props.cpuUsage.values.length > 12 &&
-        this.props.txUsage.values.length > 12 &&
-        this.props.rxUsage.values.length > 12) {
+      } else {
         return (
           <div>
             <MemUsage 
-              memUsage={this.props.memUsage} 
-              cpuUsage={this.props.cpuUsage} 
-              txUsage={this.props.txUsage}
-              rxUsage={this.props.rxUsage}
+              memUsage={this.state.memUsage} 
+              cpuUsage={this.state.cpuUsage} 
+              txUsage={this.state.txUsage}
+              rxUsage={this.state.rxUsage}
               />
           </div>    
         )
-      } else {
-        return <h4>sorry, no data is available yet, please come back later</h4>
       }
     }
 
-export default class DashBoard extends Component {
+class DashBoard extends Component {
   constructor(props) {
     super(props);
     this.props.instanceReady();
@@ -45,43 +34,86 @@ export default class DashBoard extends Component {
     this.props.usageRX();
     this.props.sshLogin();
 
-    
+    this.state = {
+      memUsage: [],
+      cpuUsage: [],
+      txUsage: [],
+      rxUsage: [],
+      instance: {},
+      graphLoading: true,
+      instanceLoading: true,
+      error: false,
+    }
 
     renderChart = renderChart.bind(this);
+  }
 
+  componentWillReceiveProps(nextProps) {
+    //instance data
+    let inst = nextProps.instance; 
+
+    //Setting up graph data after promises are resolved
+    let mem = nextProps.memUsage.values ? nextProps.memUsage.values : null;
+    let cpu = nextProps.cpuUsage.values ? nextProps.cpuUsage.values : null;
+    let tx = nextProps.txUsage.values ? nextProps.txUsage.values : null;
+    let rx = nextProps.rxUsage.values ? nextProps.rxUsage.values : null;
+    //this.setState({rxUsage: rx});
+
+    //error handling
+    if (nextProps.error) {
+      this.setState({error: nextProps.error, instanceLoading: false, graphLoading: false});
+    }
+    
+    // set instance info state once instance info is resolved
+    if (inst && inst.created) {
+      this.setState({instance: inst, instanceLoading: false});
+    }
+
+    //set Graphs states once all the graphs are resolved.
+    if (mem && mem.length > 0) { this.setState({memUsage: mem}); }
+    if (cpu && cpu.length > 0) { this.setState({cpuUsage: cpu}); }
+    if (tx && tx.length > 0) { this.setState({txUsage: tx}); } 
+    if (rx && rx.length > 0) { this.setState({rxUsage: rx}); }
+
+    //turn off graph loading once graphs are ready to load
+    if (mem && mem.length > 0 
+      && cpu && cpu.length > 0 
+      && tx && tx.length > 0 
+      && rx && rx.length > 0) {
+      this.setState({graphLoading: false});
+    }
   }
   
   render() {
-    if (this.props.instance.length !==0) {
-      return (
+    if (this.state.error !== false) {
+      console.log('error:', this.state.error);
+      return <div>Sorry, we encounter some server issues just now. Please try again in a couple minutes</div>
+    } else if (this.state.instanceLoading === true){
+      return <div className="loader">Loading...</div>
+    } else {
+       return (
         <div>
           <InstanceInfo 
-                instance={this.props.instance}
-                SSHLogin={this.props.SSHLogin}
+            instance={this.state.instance}
+            SSHLogin={this.props.SSHLogin}
           />
 
-          <div className="col-xs-12 col-md-7 col-lg-7">   
-            <InstanceButtons />   
-            <InstanceConsole response={this.props.instanceCtrls} />    
-            { renderChart() }
+          <div className="col-xs-12 col-sm-8 col-md-8 col-lg-8">   
+            <InstanceCtrls response={this.props.instanceCtrls}/>     
+            { this.state.graphLoading ? 
+              <div className="loader">Loading...</div>
+                : renderChart() }
           </div>
         </div>        
-        )
-    } else {
-      return <h1>loading</h1>
+      )
     }
   }
 }
-
-
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(Object.assign({}, ActionCreators), dispatch);
 }
 
 function mapStateToProps(state) {
-  console.log('state controls: ', state.reducers.instanceCtrls)
-  console.log('state memUsage: ', state.reducers.rxUsage)
-
  return {
     instance: state.reducers.instReady,
     memUsage: state.reducers.memUsage,
@@ -90,6 +122,7 @@ function mapStateToProps(state) {
     rxUsage:  state.reducers.rxUsage,
     SSHLogin: state.reducers.SSHLogin,
     instanceCtrls: state.reducers.instanceCtrls,
+    error: state.reducers.errorHandler,
   };
 }
 

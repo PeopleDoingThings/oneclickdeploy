@@ -18,6 +18,7 @@ import appManage from './reducer_appManagement';
 import deployedRepo from './reducer_appManagement_deployed';
 import liveConsole from './reducer_liveConsole';
 import subdomain from './reducer_subdomain';
+import ErrorHandler from './reducer_error';
 
 const rootReducer = combineReducers({
   sidebarToggle: sidebarToggle,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
   deployedRepo: deployedRepo,
   liveConsole: liveConsole,
   subdomain: subdomain,
+  errorHandler: ErrorHandler,
 });
 
 

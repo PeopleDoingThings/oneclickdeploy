@@ -41,8 +41,8 @@ class DeployedRepo extends Component {
     if (typeof repo === 'object') {
       return (
         <div className="info-panel">
-          <h3>Deployed Application:</h3>
-          <div className="col-md-6 col-xs-12">
+          <h3>Deployed <br/> Application</h3>
+          <div className="col-md-6 col-sm-6 col-xs-12">
             <ul>
               <li>Created On</li>
               
@@ -53,14 +53,14 @@ class DeployedRepo extends Component {
               <li>{repo.name}</li>
             </ul>
           </div>
-          <div className="col-md-6 col-xs-12">
+          <div className="col-md-6 col-sm-6 col-xs-12">
             <ul>
               <li>Owner Name</li>
               <li>{repo.ownername}</li>
             </ul>
             <ul>
               <li>Github Repo</li>
-              <li><a href={repo.clone_url}>View on Github</a></li>
+              <li><a href={repo.clone_url} taget="_blank">View on Github</a></li>
             </ul>
           </div>
           <Form>
@@ -83,10 +83,9 @@ class DeployedRepo extends Component {
             <Button onClick={this.handleSubmit}>
               Use subdomain
             </Button>
-            <p>Current Subdomain: {repo.subdomain}</p>
             <p>New Subdomain: {this.state.value}</p>
             { this.props.subdomain ?
-              <Button><a href={url} taget="_blank">Go to your new Subdomain</a></Button>
+              <Button className="btn-subdomain"><a href={url} taget="_blank">Go to your new Subdomain</a></Button>
              : console.log('not working')
 
             }
@@ -96,7 +95,7 @@ class DeployedRepo extends Component {
       );
     } else {
       return (
-        <h2>loading</h2>
+        <div className="loader">Loading...</div>
       )
     }  
   }

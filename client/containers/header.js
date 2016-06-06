@@ -16,14 +16,16 @@ export default class Header extends Component {
   }
   render() {
     let hideHeader;
-    if (this.props.url !== '/') {
+    //hiding the regular header for all pages other than home page and first-launch
+    if (this.props.url !== '/' && this.props.url !== '/first-launch') {
       hideHeader = ClassNames({hideHeader: true});
     } else {
       hideHeader = ClassNames({hideHeader: false});
     }
 
     let hideHamburger;
-    if (this.props.url === '/') {
+    //hiding the hamburger menu if it's home page for first-launch
+    if (this.props.url === '/' || this.props.url === '/first-launch') {
       hideHamburger = ClassNames({hideHamburger: true});
     } else {
       hideHamburger = ClassNames({hideHamburger: false});
@@ -33,7 +35,7 @@ export default class Header extends Component {
       <div>
         <header className={"header " + hideHeader}>
          <a href="#" onClick={asideToggle} className={hideHamburger}><Glyphicon glyph="menu-hamburger" /></a>
-           <div className="small-logo"></div>
+        { (this.props.url === '/' && window.innerWidth < 769) ? <div></div> : <div className="small-logo"></div>}
         </header>
       </div>
 
@@ -64,4 +66,3 @@ function mapStateToProps(state) {
 
 //take this component/mapStateToProps and return a container
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
-

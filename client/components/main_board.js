@@ -8,7 +8,6 @@ class MainBoard extends Component {
   constructor(props){
     super(props);
     this.props.isAuth();
-    console.log('props in mainboard constructor:', this.props);
   }
 
   render() {
@@ -22,7 +21,7 @@ class MainBoard extends Component {
               <Aside user={auth}/>
             </div>  
          
-          <div className="main col-lg-9 col-xs-12">
+          <div className="main col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <div className="welcome-banner">
               <h2>Welcome back, {auth.name ? auth.name.split(' ')[0] : auth.login}</h2>
             </div>
@@ -37,7 +36,6 @@ function authCheck (status) {
   console.log('status', status)
   if(status === 'Unauthorized') {
     window.location.href = ('/');
-  } else {
   }
 }
 
