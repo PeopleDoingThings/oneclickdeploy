@@ -9,6 +9,9 @@ import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 import './styles/abootstrap.css'
 import './styles/bootstrap-theme.css'
 import './styles/main.css'
+import './styles/home.css'
+import './styles/ssh-console.css'
+import './styles/media.css'
 
 import ReduxPromise from 'redux-promise'
 
@@ -20,6 +23,7 @@ import AppManagement from './containers/appManage'
 import Login from './components/login';
 import Loading from './containers/loadingInstance';
 import RepoList from './containers/repo_list';
+import Launch from './containers/launch';
 import liveConsole from './containers/liveConsole';
 
 const socket = io.connect('/');
@@ -46,6 +50,7 @@ ReactDOM.render(
           <Route path="/loading" component={Loading} />
           <Route path="/live-console" component={liveConsole} />
         </Route>
+        <Route path="/first-launch" component={Launch} />
       </Route>
     </Router>
     </div>

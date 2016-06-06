@@ -12,9 +12,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="full">
         <Header />
-        <div>{this.props.children}</div>     
+        <div className="full-inner">{this.props.children}</div>     
       </div>
 
     );

@@ -4,7 +4,7 @@ import tip from 'd3-tip';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import ReactFauxDOM from 'react-faux-dom';
-import ReactDom from 'react-dom';
+import ReactDOM from 'react-dom';
 
 const memGraph = new ReactFauxDOM.Element('div');
 const cpuGraph = new ReactFauxDOM.Element('div');
@@ -12,10 +12,15 @@ const txGraph = new ReactFauxDOM.Element('div');
 const rxGraph = new ReactFauxDOM.Element('div');
 
 function makeChart(data, container, y_Max, title, yLabel) {
-  //console.log('data', data)
+  let screenSize = window.innerWidth;
+  (screenSize && screenSize > 768) 
+    ? (screenSize > 1086) 
+      ? screenSize = screenSize * 0.45 
+        : screenSize = screenSize * 0.6 
+          : screenSize = screenSize * 0.9; 
 
   let margin = {top: 30, right: 20, bottom: 30, left: 50},
-      width = 600 - margin.left - margin.right,
+      width = screenSize - margin.left - margin.right,
       height = 150 - margin.top - margin.bottom
 
   let duration = 1500;
@@ -24,15 +29,14 @@ function makeChart(data, container, y_Max, title, yLabel) {
 
   let x = d3.time.scale().range([0, width]);
   let y = d3.scale.linear().range([height, 0]);
+  //calculating number of ticks on x axis based on number of records available
+  let xTicks = Math.ceil(data.length/24); 
 
   let xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom")
-      .ticks(12)
+      .ticks(xTicks)
       .tickFormat( function(d,i) {
-        // console.log('*********************')
-        // console.log('parsed d is:', d)
-        //return "" + i;
         return "" + parseDate(d);
       });
 
@@ -69,7 +73,7 @@ function makeChart(data, container, y_Max, title, yLabel) {
       return d3.svg.axis()
           .scale(x)
           .orient("bottom")
-          .ticks(12)
+          .ticks(xTicks)
   }
 
   // function for the y grid lines
@@ -177,31 +181,29 @@ function makeChart(data, container, y_Max, title, yLabel) {
 export default class MemUsage extends Component { 
   constructor(props){
     super(props);
+  }
 
-    let newRXtest = this.props.rxUsage.values.map((item) => {
-      console.log(item.value/1000000);
-    })
+  componentWillMount() {
+    let newMem = this.props.memUsage;
+    let newCPU = this.props.cpuUsage;
+    let newTX = this.props.txUsage;
+    let newRX = this.props.rxUsage;
 
-    console.log('memUsage: ', this.props.memUsage);
-    console.log('cpuUsage: ', this.props.cpuUsage);
-    console.log('rxUsage: ', this.props.rxUsage);
-    console.log('txUsage: ', this.props.txUsage);
-
-    const newMem = this.props.memUsage.values;
-    const newCPU = this.props.cpuUsage.values;
-    const newTX = this.props.txUsage.values;
-    const newRX = this.props.rxUsage.values;
-
-    if( this.props.txUsage.values.length !== 0 && 
-        this.props.rxUsage.values.length !== 0
-      ) {
-        console.log('start making charts yo')
+     // if( this.props.txUsage.length && this.props.txUsage.length !== 0 && 
+     //    this.props.rxUsage.length !== 0
+     //  ) {
         makeChart(newMem, memGraph, null, "RAM usage", 'RAM(mb)');
         makeChart(newCPU, cpuGraph, 100, "CPU usage", 'CPU(%)');
         makeChart(newTX, txGraph, null, "outgoing", 'TX(mb)');
         makeChart(newRX, rxGraph, null, "incoming", 'RX(mb)');
-      }
+      // }  
+  }
 
+  componentWillUnmount() {
+    memGraph.removeChild();
+    cpuGraph.removeChild();
+    txGraph.removeChild();
+    rxGraph.removeChild();
   }
 
   render() {      

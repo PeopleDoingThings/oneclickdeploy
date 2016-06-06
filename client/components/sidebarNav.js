@@ -31,10 +31,8 @@ export default class SidebarNav extends Component {
                     <li className={appManagement}><a href='/#/app-management'>App Management</a></li>
                     <li className={liveConsole}><a href='/#/live-console'>Live Console</a></li>
                     <li className={repoClass}><a href='/#/repos'>Repo List</a></li>
+                    <li><Logout /></li>
                   </ul>
-                <div className="sidebar-logout">
-                  <Logout />
-                </div>
             </nav>
           </section>
     )

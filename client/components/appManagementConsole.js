@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+//helper function to feed the console animation line by line
 function consoleLog(i, array, newArray) {
     let that = this;
     let arr = array.slice();
@@ -7,9 +8,9 @@ function consoleLog(i, array, newArray) {
       if(arr[i]) {
         newArray.push(arr[i]);
         that.setState({log: newArray});
-        console.log('reducer log:', newArray)
         setTimeout(() => {
           consoleAnimation(i+1);
+          //console.log('final state', that.state.loading)
         }, 1000);
       }
     }
@@ -21,35 +22,37 @@ export default class AppConsole extends Component {
     super(props);
     
     this.state = {
-      log: []
+      log: [],
     } 
     consoleLog = consoleLog.bind(this);
   
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('i mounted:', nextProps)
-      let newArray = [];
-      if (Array.isArray(nextProps.appManage) === true) {
-        consoleLog(0, nextProps.appManage, newArray);
-    } else if (typeof nextProps.appManage === 'string'){
-        newArray.push(nextProps.appManage);
-        this.setState({log: newArray});
-    } 
-    // else if (nextProps.appManage.body !== undefined) {
-    //   consoleLog(0, nextProps.appManage.body, newArray);
-    // }
+      const newArray = [];
+      const appManage = nextProps.appManage;
+  
+      console.log('this.state.loading', this.state);
+
+      if (Array.isArray(appManage) && appManage.length > 0) {
+          consoleLog(0, appManage, newArray);
+
+      } else if (typeof appManage === 'string'){
+          newArray.push(appManage);
+          this.setState({log: newArray});
+      }
+      
   }
 
-
   render() {
+
     return (   
-      <div className="console app-management-console">   
+      <div id="app-console" className="console app-management-console">  
         <ul>
-         { this.state.log.map((line, index) => {
+          {this.state.log.map((line, index) => {
             return <li key={index}>{line}</li>
           }) }
-        </ul>
+        </ul>   
       </div>
     );
   }

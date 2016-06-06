@@ -60,7 +60,7 @@ render() {
       //       <Modal.Footer>
       //         <Button onClick={this.closeModal}>Cancel</Button>
               }
-              <Link to="/loading"><button className="btn btn-primary deployBtn" onClick={()=>boundClick(repoID)} form="envForm" type="submit">Let's do it!</button></Link>
+              <Link to="/loading"><button className="btn deployBtn" onClick={()=>boundClick(repoID)} form="envForm" type="submit">Let's do it!</button></Link>
              {
       //        </Modal.Footer>
       // </Modal>

@@ -1,6 +1,6 @@
 import { REBOOT_INST, REINSTALL_INST, RESCUE_INSTANCE, CREATE_BACKUP, GETSNAPSHOT_STATUS, DELETE_BACKUP, LIST_BACKUPS, CREATE_SUBDOMAIN } from '../actions/index';
 
-export default function(state = [], action) {
+export default function(state = false, action) {
   switch (action.type) {
 
     case REBOOT_INST: 

@@ -34,7 +34,7 @@ hideForm (){
 
 renderList() {
     if (this.props.repos.length === 0 || this.props.repos === undefined || this.props.repos[0].length === 0){
-      return "Loading....."
+      return <div className="loader">Loading...</div>
     } else {
       var counter = 0;
       var now= Date.now();
@@ -56,14 +56,14 @@ renderList() {
               {!this.state.showForm ?
                 <div>
                 <RepoItem repoItem={repo} />
-                <button className="btn btn-primary deployBtn" onClick={()=>this.handleClick(repo.repoid)}>Get Started!</button>
+                <button className="btn" onClick={()=>this.handleClick(repo.repoid)}>Get Started!</button>
                  </div>
                 : null}
                  { this.state.showForm ?
                   <div>
                     <h4>If this Application requires Environment Variables Enter them here!</h4>
                     <Form key={repo._id} id={repo.repoid}/>
-                    <button className="btn btn-primary" onClick={()=>this.hideForm()}>Cancel</button>
+                    <button className="btn btn-primary cancel" onClick={()=>this.hideForm()}>Cancel</button>
                   </div>
                  : null }
             </Panel>

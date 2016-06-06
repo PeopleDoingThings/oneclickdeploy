@@ -20,6 +20,7 @@ class Aside extends Component {
     {console.log(this.props.sidebarToggle)}
     return (
       <div className={"side-bar aside col-md-2 col-sm-12 " + hide}>
+        <div className="small-logo"></div>}
         <User user={this.props.user}/>
         <SidebarNav url={this.props.url}/>  
       </div>

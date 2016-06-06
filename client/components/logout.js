@@ -9,7 +9,7 @@ class Logout extends Component {
 render() {
   //console.log('this.props in Logout', this);
     return (
-          <Link to="/#/" onClick={() => this.props.logout()} className="btn logout">Logout</Link>
+          <Link to="/#/" onClick={() => this.props.logout()}>Logout</Link>
     );
   }
 }

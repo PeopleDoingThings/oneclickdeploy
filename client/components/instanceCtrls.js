@@ -5,10 +5,11 @@ import {Nav, NavItem, NavDropdown, MenuItem, Modal, Button, OverlayTrigger} from
 
 import * as ActionCreators from '../actions/index';
 
-class InstanceButtons extends Component {
+class InstanceCtrls extends Component {
   constructor(props){
     super(props);
 
+   //binding for all the onclick functions / instance ctrls 
    this.handleSelect = this.handleSelect.bind(this);
    this.close = this.close.bind(this);
    this.open = this.open.bind(this);
@@ -26,21 +27,20 @@ class InstanceButtons extends Component {
       showModal: false,
       modalTitle: "",
       modalBody: "",
-      action: "",
+      action: null,
+      response: false,
+      loading: false,
     }
   }
 
-  timeoutSetState(title, body, delay) {
-    this.setState({modalTitle: title, modalBody: body});
-      setTimeout(() => {
-        this.setState(function(previousState, currentProps) {
-          const instance = currentProps.instanceButtons;
-          console.log('modalBody:', instance)  
-            return {modalBody: instance};
-        })         
-      }, delay);
-  }
+componentWillReceiveProps(nextProps) {
+  if (nextProps.response) { this.setState({loading: false}); };
+  this.setState({response: nextProps.response});
+}
 
+//
+//Modal content and function to be called for each of the instance controls 
+//  
   handleSelect(eventKey) {
       event.preventDefault();
       switch (eventKey) {
@@ -130,73 +130,88 @@ class InstanceButtons extends Component {
       }
   }
 
+//
+//helper functions to open/close the modal window
+//
   close() {
-    this.setState( {showModal: false} );
+    this.setState({showModal: false, response: false});
   }
 
   open() {
-    this.setState( {showModal: true} );
+    this.setState({showModal: true});
   }
-
+//
+//helper functions for all the instance controls
+//
   softReboot() {
-    console.log('softReboot working')
     this.props.rebootInstance('soft');
-    this.close();
+    this.setState({loading: true});
   }
 
   hardReboot() {
-    console.log('hardReboot working')
     this.props.rebootInstance('hard');
-    this.close();
+    this.setState({loading: true});
   }
 
   startsRescue() {
-    console.log('start rescue working')
     this.props.rescueInstance(true);
-    this.close();
+    this.setState({loading: true});
   }
 
   stopsRescue() {
-    console.log('stops rescue working')
     this.props.rescueInstance(false);
-    this.close();
+    this.setState({loading: true});
   }
 
   reinstallInstance() {
-    console.log('reinstall instance working')
     this.props.reInstallInstance();
-    this.close();
+    this.setState({loading: true});
   }
 
-  //
   //backup management functions
-  //
   createBackup() {
-    console.log('create backup is working')
+    this.setState({loading: true});
     this.props.createBackup();
-    this.close();
   }
 
   getSnapshot() {
-    console.log('get snapshot status working')
     this.props.getSnapshotStatus();
-    this.close();
+    this.setState({loading: true});
   }
   deleteBackup() {
-    console.log('delete backup working')
-    this.props.deleteBackup();
-    this.close();
+    this.setState({loading: true});
+    this.props.deleteBackup();   
   }
 
   listBackups() {
-    console.log('list backups working')
     this.props.listBackups();
-    this.close();
+    this.setState({loading: true});
+  }
+
+  //
+  //render function for the responses of the instance controls
+  //
+  renderResponse() {
+    let response = this.state.response;
+    return (
+      <Modal.Body>
+        { ( typeof response === 'object' && !Array.isArray(response) ) 
+          ? <ul>
+              {
+                Object.keys(response).map((key) => {
+                return <li key={key}>{key}: {response[key]}</li>
+                }) 
+              }
+            </ul>  
+            : <div><h4>{response}</h4></div>
+        }
+      </Modal.Body>
+    );
   }
 
   render() {
     const modalBody = this.state.modalBody;
-
+    let response = this.state.response;
     return (
       <div>
         <Nav bsStyle="tabs" activeKey={1} onSelect={this.handleSelect}>
@@ -215,16 +230,29 @@ class InstanceButtons extends Component {
             <MenuItem eventKey="4.3">List Backups</MenuItem>
             <MenuItem eventKey="4.4">Delete Backup</MenuItem>
           </NavDropdown>
-      </Nav>
-      <Modal show={this.state.showModal} onHide={this.close}>
+        </Nav>
+        <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>
             <Modal.Title>{this.state.modalTitle}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{this.state.modalBody}</Modal.Body>
-            <Button onClick={this.state.action}>Do it</Button>
-            <Button onClick={this.close}>Cancel</Button>
+
+            {
+              //Checking to see if the modal should display message to confirm if user wants to perform the action or the response instead if response is available.
+            }
+
+            {!response
+              ? this.state.loading 
+                ? <div className="loader">Loading...</div> 
+                  : <div>
+                      <Modal.Body>{this.state.modalBody}</Modal.Body>
+                      <Button className= "btn-light" onClick={this.state.action}>Do it</Button>
+                      <Button className= "btn-light" onClick={this.close}>Cancel</Button>
+                    </div>
+                    : this.renderResponse()
+            }
+          
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+            <Button className= "btn-light" onClick={this.close}>Close</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -239,12 +267,9 @@ function mapDispatchToProps(dispatch) {
 
 
 function mapStateToProps(state) {
-  // console.log('load state: ', state.reducers.load)
-  // console.log('install data in loading state', state.reducers.install)
-  console.log('state of all reducers in load now', state.reducers.instanceCtrls)
   return {
     instanceCtrls: state.reducers.instanceCtrls
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstanceButtons);
+export default connect(mapStateToProps, mapDispatchToProps)(InstanceCtrls);
